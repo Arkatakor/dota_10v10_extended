@@ -6,20 +6,20 @@ Current content:
 
 Heroes:
 
-Includes ALL heroes (even Arc Warden)
-Minor balance tweaks for certain heroes with global / insta-cast ults (zues / furion / atropos / spectre / silencer etc)
+- Includes ALL heroes (even Arc Warden)
+- Minor balance tweaks for certain heroes with global / insta-cast ults (zues / furion / atropos / spectre / silencer etc)
 
 General:
 
-Reduced Respawn time (particularly at higher levels)
-Faster courier movement speed
+- Reduced Respawn time (particularly at higher levels)
+- Faster courier movement speed
 
 Base:
 
-Much faster fountain regen rate
-Stronger towers - Increased HP and significantly more damage
-Fountain hits significantly harder 
-Stronger super and mega creeps
+- Much faster fountain regen rate
+- Stronger towers - Increased HP and significantly more damage
+- Fountain hits significantly harder 
+- Stronger super and mega creeps
 
 Future planned content:
 
@@ -254,7 +254,6 @@ FUTURE NERF LIST:
 *void
 
 
-NEXT RELEASE: make aganhims consumable.
 
 
 -	can keep silencers current int steal, but nerf his 2nd ability so it does not take the same percentage
