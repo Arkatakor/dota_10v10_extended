@@ -302,12 +302,12 @@
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage"				"195 300 405"
+				"damage"				"205 315 430"
 			}
 			"07"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage_scepter"		"380 460 545"
+				"damage_scepter"		"395 485 575"
 			}
 		}
 	}	
@@ -561,7 +561,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage"				"120 150 190"	//	was 140 180 225
+				"damage"				"125 160 200"	//	was 140 180 225
 			}
 			"03"
 			{
@@ -581,7 +581,7 @@
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage_scepter"		"135 180 235"	//	was 155 210 275
+				"damage_scepter"		"140 190 250"	//	was 155 210 275
 			}
 			"07"
 			{
@@ -690,7 +690,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"spirits"				"8 14 21"	//	was 8 16 24
+				"spirits"				"7 14 21"	//	was 8 16 24
 			}
 			"03"
 			{
@@ -758,12 +758,12 @@
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_movement_speed"		"5 10 15 20"	//	Was 10 20 30 40
+				"bonus_movement_speed"		"6 12 18 24"	//	Was 10 20 30 40
 			}			
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_damage"				"5 10 15 20"	//	Was 10 20 30 40
+				"bonus_damage"				"6 12 18 24"	//	Was 10 20 30 40
 			}		
 			"04"
 			{
