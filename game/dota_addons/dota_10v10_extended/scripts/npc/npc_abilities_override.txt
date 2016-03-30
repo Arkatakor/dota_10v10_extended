@@ -435,7 +435,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"duration"					"4.5 5.5 6.0"	//	was "5.0 6.0 7.0"
+				"duration"					"4.0 5.0 6.0"	//	was "5.0 6.0 7.0"
 			}
 			"02"
 			{
@@ -868,6 +868,86 @@
 			{	
 				"var_type"				"FIELD_FLOAT"
 				"frostbite_duration_scepter"	"15"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Visage: Summon Familiars
+	//=================================================================================================================
+	"visage_summon_familiars"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"5483"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0 0 0"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"180.0 160.0 140.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"150 150 150"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"familiar_hp"				"300 450 600"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"familiar_armor"			"0 1 2"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"familiar_speed"			"380 390 400"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"familiar_max_damage"		"56 98 154"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_charge_time"		"15.0"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage_per_charge"			"8 14 22"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"max_damage_charges"		"7"
+			}
+			"08"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"familiar_attacks_to_destroy_tooltip"				"4"
+			}
+			"09"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"familiar_attacks_to_destroy_creeps_tooltip"				"6"
+			}
+			"10"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"familiar_attacks_to_destroy_tower_tooltip"				"12"
 			}
 		}
 	}
