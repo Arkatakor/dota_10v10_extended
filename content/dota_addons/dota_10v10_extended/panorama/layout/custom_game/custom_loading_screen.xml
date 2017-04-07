@@ -1,10 +1,12 @@
 <root>
 	<styles>
-		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
-		<include src="s2r://panorama/styles/custom_game/custom_loading_screen.vcss_c" />
+		<include src="file://{resources}/styles/custom_game/custom_loading_screen.css" />
+		<include src="file://{resources}/styles/dotastyles.css" />
 	</styles>
-	<Panel class="MegaDotaRoot">
-		<Image id="mega_bg" src="s2r://panorama/images/custom_game/manyplayer_dota_psd.vtex" />
-	</Panel>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/simple_panel_animation.js" /> 
+		<include src="file://{resources}/scripts/custom_game/game_mode.js" />
+	</scripts>
+
 </root>
  
