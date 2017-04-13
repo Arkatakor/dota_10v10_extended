@@ -9,4 +9,4 @@
 	<Panel class="TimerContainer">
 		<Label id="Timer" text="--:--" />
 	</Panel>
-</root> 
+</root>

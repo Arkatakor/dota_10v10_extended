@@ -15,6 +15,7 @@ end
 -- Required .lua files
 ---------------------------------------------------------------------------
 require( "events" )
+require('imba')
 
 function Activate()
 	CMegaDotaGameMode:InitGameMode()

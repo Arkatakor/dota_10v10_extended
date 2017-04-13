@@ -32,26 +32,12 @@ function InitializeUI() {
 
 		// Update other elements according to the current map
 		var map_info = Game.GetMapInfo();
-		if (map_info.map_display_name == "imba_standard") {
+		if (map_info.map_display_name == "dota") {
 			
-		} else if (map_info.map_display_name == "imba_random_omg") {
-			$('#game_options_game_mode_title').text = $.Localize( "#imba_gamemode_name_random_omg" );
+		} else if (map_info.map_display_name == "dota_10v10") {
+			$('#game_options_game_mode_title').text = $.Localize( "#dota_gamemode_name_10v10" );
 			$('#AllRandomToggle').SetSelected(true);
-		} else if (map_info.map_display_name == "imba_10v10") {
-			$('#game_options_game_mode_title').text = $.Localize( "#imba_gamemode_name_10v10" );
-			$('#TowerUpgradesToggle').SetSelected(true);
-		} else if (map_info.map_display_name == "imba_custom") {
-			$('#TowerUpgradesToggle').SetSelected(true);
-			$('#FranticToggle').style.visibility = 'visible';
-		} else if (map_info.map_display_name == "imba_arena") {
-			$('#game_options_game_mode_title').text = $.Localize( "#imba_gamemode_name_arena_mode" );
-			$('#KillsToEndOptionsPanel').style.visibility = 'visible';
-			$('#QuickOptionsPanel').style.visibility = 'collapse';
-			$('#CreepPowerOptionsPanel').style.visibility = 'collapse';
-			$('#TowerPowerOptionsPanel').style.visibility = 'collapse';
-			$('#RespawnTimeOptionsPanel').style.visibility = 'collapse';
-			$('#TowerUpgradesToggle').style.visibility = 'collapse';
-		}
+		} 
 	}
 }
 
