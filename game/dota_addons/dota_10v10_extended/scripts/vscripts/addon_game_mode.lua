@@ -1,25 +1,3 @@
--- Rebalance the distribution of gold and XP to make for a better 10v10 game
-local GOLD_SCALE_FACTOR_INITIAL = 1
-local GOLD_SCALE_FACTOR_FINAL = 2.5
-local GOLD_SCALE_FACTOR_FADEIN_SECONDS = (60 * 60) -- 60 minutes
-local XP_SCALE_FACTOR_INITIAL = 2
-local XP_SCALE_FACTOR_FINAL = 2
-local XP_SCALE_FACTOR_FADEIN_SECONDS = (60 * 60) -- 60 minutes
-local POST_GAME_TIME = 60.0						-- How long should we let people look at the scoreboard before closing the server automatically?
-local STRATEGY_TIME = 0.0							-- How long should strategy time last?
-
-local HERO_SELECTION_TIME = 45.0					-- How long should we let people select their hero?
-local PRE_GAME_TIME = 90.0 + HERO_SELECTION_TIME + 10.0	-- How long after people select their heroes should the horn blow and the game start?
-
-local MINIMAP_ICON_SIZE = 1						-- What icon size should we use for our heroes?
-local MINIMAP_CREEP_ICON_SIZE = 1					-- What icon size should we use for creeps?
-local MINIMAP_RUNE_ICON_SIZE = 1					-- What icon size should we use for runes?
-
-local START_GAME_AUTOMATICALLY = true				-- Should the game start automatically
-local AUTO_LAUNCH_DELAY = 20.0					-- How long should we wait for the host to setup the game, after all players have loaded in?
-
-
-
 if CMegaDotaGameMode == nil then
 	_G.CMegaDotaGameMode = class({}) -- put CMegaDotaGameMode in the global scope
 	--refer to: http://stackoverflow.com/questions/6586145/lua-require-with-global-local
