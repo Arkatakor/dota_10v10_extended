@@ -5,6 +5,20 @@ local GOLD_SCALE_FACTOR_FADEIN_SECONDS = (60 * 60) -- 60 minutes
 local XP_SCALE_FACTOR_INITIAL = 2
 local XP_SCALE_FACTOR_FINAL = 2
 local XP_SCALE_FACTOR_FADEIN_SECONDS = (60 * 60) -- 60 minutes
+local POST_GAME_TIME = 60.0						-- How long should we let people look at the scoreboard before closing the server automatically?
+local STRATEGY_TIME = 0.0							-- How long should strategy time last?
+
+local HERO_SELECTION_TIME = 45.0					-- How long should we let people select their hero?
+local PRE_GAME_TIME = 90.0 + HERO_SELECTION_TIME + 10.0	-- How long after people select their heroes should the horn blow and the game start?
+
+local MINIMAP_ICON_SIZE = 1						-- What icon size should we use for our heroes?
+local MINIMAP_CREEP_ICON_SIZE = 1					-- What icon size should we use for creeps?
+local MINIMAP_RUNE_ICON_SIZE = 1					-- What icon size should we use for runes?
+
+local START_GAME_AUTOMATICALLY = true				-- Should the game start automatically
+local AUTO_LAUNCH_DELAY = 20.0					-- How long should we wait for the host to setup the game, after all players have loaded in?
+
+
 
 if CMegaDotaGameMode == nil then
 	_G.CMegaDotaGameMode = class({}) -- put CMegaDotaGameMode in the global scope
@@ -15,7 +29,7 @@ end
 -- Required .lua files
 ---------------------------------------------------------------------------
 require( "events" )
-require('imba')
+require('settings')
 
 function Activate()
 	CMegaDotaGameMode:InitGameMode()
@@ -46,6 +60,47 @@ function CMegaDotaGameMode:InitGameMode()
 	ListenToGameEvent( "entity_killed", Dynamic_Wrap( CMegaDotaGameMode, 'OnEntityKilled' ), self )
 	
 	CMegaDotaGameMode:SetUpFountains()		
+		
+	-- Setup rules
+	GameRules:SetPreGameTime( PRE_GAME_TIME)
+	GameRules:SetPostGameTime( POST_GAME_TIME )
+	GameRules:SetShowcaseTime( SHOWCASE_TIME )
+	GameRules:SetStrategyTime( STRATEGY_TIME )
+	GameRules:SetHeroMinimapIconScale( MINIMAP_ICON_SIZE )
+	GameRules:SetCreepMinimapIconScale( MINIMAP_CREEP_ICON_SIZE )
+	GameRules:SetRuneMinimapIconScale( MINIMAP_RUNE_ICON_SIZE )
+	GameRules:EnableCustomGameSetupAutoLaunch( START_GAME_AUTOMATICALLY )
+	GameRules:SetCustomGameSetupAutoLaunchDelay( AUTO_LAUNCH_DELAY )	
+
+	-- This is multiteam configuration stuff
+	local count = 0
+	for team,number in pairs(CUSTOM_TEAM_PLAYER_COUNT) do
+		if count >= MAX_NUMBER_OF_TEAMS then
+			GameRules:SetCustomGameTeamMaxPlayers(team, 0)
+		else
+			GameRules:SetCustomGameTeamMaxPlayers(team, number)
+		end
+		count = count + 1
+	end
+
+	if USE_CUSTOM_TEAM_COLORS then
+		for team,color in pairs(TEAM_COLORS) do
+			SetTeamCustomHealthbarColor(team, color[1], color[2], color[3])
+		end
+	end
+
+	local spew = 0
+	if BAREBONES_DEBUG_SPEW then
+		spew = 1
+	end
+	Convars:RegisterConvar('barebones_spew', tostring(spew), 'Set to 1 to start spewing barebones debug info.  Set to 0 to disable.', 0)
+
+	-- Change random seed
+	local timeTxt = string.gsub(string.gsub(GetSystemTime(), ':', ''), '0','')
+	math.randomseed(tonumber(timeTxt))
+
+	-- Initialized tables for tracking state
+	self.bSeenWaitForPlayers = false	
 end
 
 --	Arkatakor Insert
