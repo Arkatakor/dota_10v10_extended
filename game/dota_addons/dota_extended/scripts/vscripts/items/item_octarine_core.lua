@@ -1,4 +1,4 @@
---	Author		 -	d2imba
+--	Author		 -	d2extended
 --	Date Created -	15.08.2015	<-- Shits' ancient yo
 --	Date Updated -	04.03.2017
 --	Converted to Lua by zimberzimber
@@ -6,19 +6,19 @@
 -----------------------------------------------------------------------------------------------------------
 --	Item Definition
 -----------------------------------------------------------------------------------------------------------
-if item_imba_octarine_core == nil then item_imba_octarine_core = class({}) end
-LinkLuaModifier( "modifier_imba_octarine_core_basic", "items/item_octarine_core.lua", LUA_MODIFIER_MOTION_NONE )	-- Item stats
-LinkLuaModifier( "modifier_imba_octarine_core_unique", "items/item_octarine_core.lua", LUA_MODIFIER_MOTION_NONE )	-- Lifesteal + magus presence handler
+if item_extended_octarine_core == nil then item_extended_octarine_core = class({}) end
+LinkLuaModifier( "modifier_extended_octarine_core_basic", "items/item_octarine_core.lua", LUA_MODIFIER_MOTION_NONE )	-- Item stats
+LinkLuaModifier( "modifier_extended_octarine_core_unique", "items/item_octarine_core.lua", LUA_MODIFIER_MOTION_NONE )	-- Lifesteal + magus presence handler
 
-function item_imba_octarine_core:GetBehavior()
+function item_extended_octarine_core:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_IMMEDIATE + DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL + DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE + DOTA_ABILITY_BEHAVIOR_ITEM end
 	
-function item_imba_octarine_core:GetIntrinsicModifierName()
-	return "modifier_imba_octarine_core_basic" end
+function item_extended_octarine_core:GetIntrinsicModifierName()
+	return "modifier_extended_octarine_core_basic" end
 
-function item_imba_octarine_core:OnSpellStart()
+function item_extended_octarine_core:OnSpellStart()
 	if IsServer() then
-		local uniqueModifier = self:GetCaster():FindModifierByName("modifier_imba_octarine_core_unique")
+		local uniqueModifier = self:GetCaster():FindModifierByName("modifier_extended_octarine_core_unique")
 		if not uniqueModifier then return end -- If this happens, something is terribly wrong
 		
 		-- Get, and toggle state [ 1 = disabled | 2 = enabled ]
@@ -37,91 +37,91 @@ function item_imba_octarine_core:OnSpellStart()
 	end
 end
 
-function item_imba_octarine_core:GetAbilityTextureName()
+function item_extended_octarine_core:GetAbilityTextureName()
 	local caster = self:GetCaster()
-	if caster:HasModifier("modifier_imba_octarine_core_unique") then
-		local state = caster:GetModifierStackCount("modifier_imba_octarine_core_unique", caster)
-		if state == 1 then return "custom/imba_octarine_core_off" end
+	if caster:HasModifier("modifier_extended_octarine_core_unique") then
+		local state = caster:GetModifierStackCount("modifier_extended_octarine_core_unique", caster)
+		if state == 1 then return "custom/extended_octarine_core_off" end
 	end
 	
-	return "custom/imba_octarine_core"
+	return "custom/extended_octarine_core"
 end
 
 -----------------------------------------------------------------------------------------------------------
 --	Basic modifier definition
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_octarine_core_basic == nil then modifier_imba_octarine_core_basic = class({}) end
-function modifier_imba_octarine_core_basic:IsHidden() return true end
-function modifier_imba_octarine_core_basic:IsDebuff() return false end
-function modifier_imba_octarine_core_basic:IsPurgable() return false end
-function modifier_imba_octarine_core_basic:IsPermanent() return true end
-function modifier_imba_octarine_core_basic:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_octarine_core_basic == nil then modifier_extended_octarine_core_basic = class({}) end
+function modifier_extended_octarine_core_basic:IsHidden() return true end
+function modifier_extended_octarine_core_basic:IsDebuff() return false end
+function modifier_extended_octarine_core_basic:IsPurgable() return false end
+function modifier_extended_octarine_core_basic:IsPermanent() return true end
+function modifier_extended_octarine_core_basic:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_imba_octarine_core_basic:OnCreated()
+function modifier_extended_octarine_core_basic:OnCreated()
 	if IsServer() then
 		local parent = self:GetParent()
-		local uniqueModifier = parent:FindModifierByName("modifier_imba_octarine_core_unique")
+		local uniqueModifier = parent:FindModifierByName("modifier_extended_octarine_core_unique")
 		
 		-- If the parent doesn't have the unique modifier, apply it and set its state to enabled
 		if not uniqueModifier then
-			uniqueModifier = parent:AddNewModifier(parent, self:GetAbility(), "modifier_imba_octarine_core_unique", {})
+			uniqueModifier = parent:AddNewModifier(parent, self:GetAbility(), "modifier_extended_octarine_core_unique", {})
 			uniqueModifier:SetStackCount(2)
 		end
 	end
 end
 
-function modifier_imba_octarine_core_basic:OnDestroy()
+function modifier_extended_octarine_core_basic:OnDestroy()
 	if IsServer() then
 		local parent = self:GetParent()
 		
 		-- See if the parent has another core
 		for i = 0,5 do
 			local item = parent:GetItemInSlot(i)
-			if item and item:GetName() == "item_imba_octarine_core" then return end
+			if item and item:GetName() == "item_extended_octarine_core" then return end
 		end
 		
 		-- Remove the unique modifier if no other core was found
-		parent:RemoveModifierByName("modifier_imba_octarine_core_unique")
+		parent:RemoveModifierByName("modifier_extended_octarine_core_unique")
 	end
 end
 
-function modifier_imba_octarine_core_basic:DeclareFunctions()
+function modifier_extended_octarine_core_basic:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_MANA_BONUS,
 					MODIFIER_PROPERTY_HEALTH_BONUS,	
 					MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,	}
 	return funcs
 end
 	
-function modifier_imba_octarine_core_basic:GetModifierManaBonus()
+function modifier_extended_octarine_core_basic:GetModifierManaBonus()
 	return self:GetAbility():GetSpecialValueFor("bonus_mana") end
 	
-function modifier_imba_octarine_core_basic:GetModifierHealthBonus()
+function modifier_extended_octarine_core_basic:GetModifierHealthBonus()
 	return self:GetAbility():GetSpecialValueFor("bonus_health") end
 
-function modifier_imba_octarine_core_basic:GetModifierBonusStats_Intellect()
+function modifier_extended_octarine_core_basic:GetModifierBonusStats_Intellect()
 	return self:GetAbility():GetSpecialValueFor("bonus_intelligence") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Unique modifier definition
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_octarine_core_unique == nil then modifier_imba_octarine_core_unique = class({}) end
-function modifier_imba_octarine_core_unique:IsHidden() return true end
-function modifier_imba_octarine_core_unique:IsDebuff() return false end
-function modifier_imba_octarine_core_unique:IsPurgable() return false end
+if modifier_extended_octarine_core_unique == nil then modifier_extended_octarine_core_unique = class({}) end
+function modifier_extended_octarine_core_unique:IsHidden() return true end
+function modifier_extended_octarine_core_unique:IsDebuff() return false end
+function modifier_extended_octarine_core_unique:IsPurgable() return false end
 
-function modifier_imba_octarine_core_unique:DeclareFunctions()
+function modifier_extended_octarine_core_unique:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE_STACKING,
 					MODIFIER_EVENT_ON_SPENT_MANA	}
 	return funcs
 end
 
-function modifier_imba_octarine_core_unique:GetModifierSpellLifesteal()
+function modifier_extended_octarine_core_unique:GetModifierSpellLifesteal()
 	return self:GetAbility():GetSpecialValueFor("spell_lifesteal") end
 
-function modifier_imba_octarine_core_unique:GetModifierPercentageCooldownStacking()
+function modifier_extended_octarine_core_unique:GetModifierPercentageCooldownStacking()
 	return self:GetAbility():GetSpecialValueFor("bonus_cooldown") end
 
-function modifier_imba_octarine_core_unique:OnSpentMana( keys )
+function modifier_extended_octarine_core_unique:OnSpentMana( keys )
 	if IsServer() then
 		local state = self:GetStackCount()
 		if state == 2 then	-- [ 1 = disabled | 2 = enabled ]

@@ -7,26 +7,26 @@
 --	Maelstrom definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_maelstrom == nil then item_imba_maelstrom = class({}) end
-LinkLuaModifier( "modifier_item_imba_maelstrom", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_maelstrom_counter", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )	-- Proc attack counter
+if item_extended_maelstrom == nil then item_extended_maelstrom = class({}) end
+LinkLuaModifier( "modifier_item_extended_maelstrom", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_maelstrom_counter", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )	-- Proc attack counter
 
-function item_imba_maelstrom:GetIntrinsicModifierName()
-	return "modifier_item_imba_maelstrom" end
+function item_extended_maelstrom:GetIntrinsicModifierName()
+	return "modifier_item_extended_maelstrom" end
 
 -----------------------------------------------------------------------------------------------------------
 --	Maelstrom passive modifier (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_maelstrom == nil then modifier_item_imba_maelstrom = class({}) end
-function modifier_item_imba_maelstrom:IsHidden() return true end
-function modifier_item_imba_maelstrom:IsDebuff() return false end
-function modifier_item_imba_maelstrom:IsPurgable() return false end
-function modifier_item_imba_maelstrom:IsPermanent() return true end
-function modifier_item_imba_maelstrom:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_maelstrom == nil then modifier_item_extended_maelstrom = class({}) end
+function modifier_item_extended_maelstrom:IsHidden() return true end
+function modifier_item_extended_maelstrom:IsDebuff() return false end
+function modifier_item_extended_maelstrom:IsPurgable() return false end
+function modifier_item_extended_maelstrom:IsPermanent() return true end
+function modifier_item_extended_maelstrom:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Declare modifier events/properties
-function modifier_item_imba_maelstrom:DeclareFunctions()
+function modifier_item_extended_maelstrom:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
@@ -35,14 +35,14 @@ function modifier_item_imba_maelstrom:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_maelstrom:GetModifierPreAttack_BonusDamage()
+function modifier_item_extended_maelstrom:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") end
 
-function modifier_item_imba_maelstrom:GetModifierAttackSpeedBonus_Constant()
+function modifier_item_extended_maelstrom:GetModifierAttackSpeedBonus_Constant()
 	return self:GetAbility():GetSpecialValueFor("bonus_as") end
 
 -- On attack landed, roll for proc and apply stacks
-function modifier_item_imba_maelstrom:OnAttackLanded( keys )
+function modifier_item_extended_maelstrom:OnAttackLanded( keys )
 	if IsServer() then
 		local attacker = self:GetParent()
 
@@ -61,7 +61,7 @@ function modifier_item_imba_maelstrom:OnAttackLanded( keys )
 
 		-- All conditions met, stack the proc counter up
 		local ability = self:GetAbility()
-		local proc_modifier = attacker:AddNewModifier(attacker, ability, "modifier_item_imba_maelstrom_counter", {})
+		local proc_modifier = attacker:AddNewModifier(attacker, ability, "modifier_item_extended_maelstrom_counter", {})
 		if proc_modifier then
 			proc_modifier:SetStackCount(proc_modifier:GetStackCount() + 1)
 
@@ -79,31 +79,31 @@ end
 --	Maelstrom proc counter
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_maelstrom_counter == nil then modifier_item_imba_maelstrom_counter = class({}) end
-function modifier_item_imba_maelstrom_counter:IsHidden() return true end
-function modifier_item_imba_maelstrom_counter:IsDebuff() return false end
-function modifier_item_imba_maelstrom_counter:IsPurgable() return false end
+if modifier_item_extended_maelstrom_counter == nil then modifier_item_extended_maelstrom_counter = class({}) end
+function modifier_item_extended_maelstrom_counter:IsHidden() return true end
+function modifier_item_extended_maelstrom_counter:IsDebuff() return false end
+function modifier_item_extended_maelstrom_counter:IsPurgable() return false end
 
 -----------------------------------------------------------------------------------------------------------
 --	Mjollnir definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_mjollnir == nil then item_imba_mjollnir = class({}) end
-LinkLuaModifier( "modifier_item_imba_mjollnir", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )					-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_mjollnir_counter", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )			-- Attack proc counter
-LinkLuaModifier( "modifier_item_imba_mjollnir_static", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )			-- Static shield
-LinkLuaModifier( "modifier_item_imba_mjollnir_static_counter", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )	-- Shield proc counter
-LinkLuaModifier( "modifier_item_imba_mjollnir_slow", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )				-- Shield slow
+if item_extended_mjollnir == nil then item_extended_mjollnir = class({}) end
+LinkLuaModifier( "modifier_item_extended_mjollnir", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )					-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_mjollnir_counter", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )			-- Attack proc counter
+LinkLuaModifier( "modifier_item_extended_mjollnir_static", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )			-- Static shield
+LinkLuaModifier( "modifier_item_extended_mjollnir_static_counter", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )	-- Shield proc counter
+LinkLuaModifier( "modifier_item_extended_mjollnir_slow", "items/item_maelstrom.lua", LUA_MODIFIER_MOTION_NONE )				-- Shield slow
 
-function item_imba_mjollnir:GetIntrinsicModifierName()
-	return "modifier_item_imba_mjollnir" end
+function item_extended_mjollnir:GetIntrinsicModifierName()
+	return "modifier_item_extended_mjollnir" end
 
-function item_imba_mjollnir:OnSpellStart()
+function item_extended_mjollnir:OnSpellStart()
 	if IsServer() then
 
 		-- Apply the modifier to the target
 		local target = self:GetCursorTarget()
-		target:AddNewModifier(target, self, "modifier_item_imba_mjollnir_static", {duration = self:GetSpecialValueFor("static_duration")})
+		target:AddNewModifier(target, self, "modifier_item_extended_mjollnir_static", {duration = self:GetSpecialValueFor("static_duration")})
 
 		-- Play cast sound
 		target:EmitSound("DOTA_Item.Mjollnir.Activate")
@@ -114,15 +114,15 @@ end
 --	Mjollnir passive modifier (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mjollnir == nil then modifier_item_imba_mjollnir = class({}) end
-function modifier_item_imba_mjollnir:IsHidden() return true end
-function modifier_item_imba_mjollnir:IsDebuff() return false end
-function modifier_item_imba_mjollnir:IsPurgable() return false end
-function modifier_item_imba_mjollnir:IsPermanent() return true end
-function modifier_item_imba_mjollnir:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_mjollnir == nil then modifier_item_extended_mjollnir = class({}) end
+function modifier_item_extended_mjollnir:IsHidden() return true end
+function modifier_item_extended_mjollnir:IsDebuff() return false end
+function modifier_item_extended_mjollnir:IsPurgable() return false end
+function modifier_item_extended_mjollnir:IsPermanent() return true end
+function modifier_item_extended_mjollnir:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Declare modifier events/properties
-function modifier_item_imba_mjollnir:DeclareFunctions()
+function modifier_item_extended_mjollnir:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
@@ -131,14 +131,14 @@ function modifier_item_imba_mjollnir:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_mjollnir:GetModifierPreAttack_BonusDamage()
+function modifier_item_extended_mjollnir:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") end
 
-function modifier_item_imba_mjollnir:GetModifierAttackSpeedBonus_Constant()
+function modifier_item_extended_mjollnir:GetModifierAttackSpeedBonus_Constant()
 	return self:GetAbility():GetSpecialValueFor("bonus_as") end
 
 -- On attack landed, roll for proc and apply stacks
-function modifier_item_imba_mjollnir:OnAttackLanded( keys )
+function modifier_item_extended_mjollnir:OnAttackLanded( keys )
 	if IsServer() then
 		local attacker = self:GetParent()
 
@@ -157,7 +157,7 @@ function modifier_item_imba_mjollnir:OnAttackLanded( keys )
 
 		-- All conditions met, stack the proc counter up
 		local ability = self:GetAbility()
-		local proc_modifier = attacker:AddNewModifier(attacker, ability, "modifier_item_imba_mjollnir_counter", {})
+		local proc_modifier = attacker:AddNewModifier(attacker, ability, "modifier_item_extended_mjollnir_counter", {})
 		if proc_modifier then
 			proc_modifier:SetStackCount(proc_modifier:GetStackCount() + 1)
 
@@ -175,44 +175,44 @@ end
 --	Mjollnir proc counter
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mjollnir_counter == nil then modifier_item_imba_mjollnir_counter = class({}) end
-function modifier_item_imba_mjollnir_counter:IsHidden() return true end
-function modifier_item_imba_mjollnir_counter:IsDebuff() return false end
-function modifier_item_imba_mjollnir_counter:IsPurgable() return false end
+if modifier_item_extended_mjollnir_counter == nil then modifier_item_extended_mjollnir_counter = class({}) end
+function modifier_item_extended_mjollnir_counter:IsHidden() return true end
+function modifier_item_extended_mjollnir_counter:IsDebuff() return false end
+function modifier_item_extended_mjollnir_counter:IsPurgable() return false end
 
 -----------------------------------------------------------------------------------------------------------
 --	Mjollnir static shield
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mjollnir_static == nil then modifier_item_imba_mjollnir_static = class({}) end
-function modifier_item_imba_mjollnir_static:IsHidden() return false end
-function modifier_item_imba_mjollnir_static:IsDebuff() return false end
-function modifier_item_imba_mjollnir_static:IsPurgable() return true end
+if modifier_item_extended_mjollnir_static == nil then modifier_item_extended_mjollnir_static = class({}) end
+function modifier_item_extended_mjollnir_static:IsHidden() return false end
+function modifier_item_extended_mjollnir_static:IsDebuff() return false end
+function modifier_item_extended_mjollnir_static:IsPurgable() return true end
 
 -- Modifier particle
-function modifier_item_imba_mjollnir_static:GetEffectName()
+function modifier_item_extended_mjollnir_static:GetEffectName()
 	return "particles/items2_fx/mjollnir_shield.vpcf" end
 
-function modifier_item_imba_mjollnir_static:GetEffectAttachType()
+function modifier_item_extended_mjollnir_static:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW end
 
 -- Start playing sound and store ability parameters
-function modifier_item_imba_mjollnir_static:OnCreated()
+function modifier_item_extended_mjollnir_static:OnCreated()
 	if IsServer() then
 		self:GetParent():EmitSound("DOTA_Item.Mjollnir.Loop")
 	end
 end
 
 -- Stop playing sound and destroy the proc counter
-function modifier_item_imba_mjollnir_static:OnDestroy()
+function modifier_item_extended_mjollnir_static:OnDestroy()
 	if IsServer() then
 		StopSoundEvent("DOTA_Item.Mjollnir.Loop", self:GetParent())
-		self:GetParent():RemoveModifierByName("modifier_item_imba_mjollnir_static_counter")
+		self:GetParent():RemoveModifierByName("modifier_item_extended_mjollnir_static_counter")
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_mjollnir_static:DeclareFunctions()
+function modifier_item_extended_mjollnir_static:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
@@ -220,7 +220,7 @@ function modifier_item_imba_mjollnir_static:DeclareFunctions()
 end
 
 -- On damage taken, count stacks and proc the static shield
-function modifier_item_imba_mjollnir_static:OnTakeDamage( keys )
+function modifier_item_extended_mjollnir_static:OnTakeDamage( keys )
 	if IsServer() then
 		local shield_owner = self:GetParent()
 
@@ -234,7 +234,7 @@ function modifier_item_imba_mjollnir_static:OnTakeDamage( keys )
 
 		-- All conditions met, stack the proc counter up
 		local ability = self:GetAbility()
-		local proc_modifier = shield_owner:AddNewModifier(shield_owner, ability, "modifier_item_imba_mjollnir_static_counter", {})
+		local proc_modifier = shield_owner:AddNewModifier(shield_owner, ability, "modifier_item_extended_mjollnir_static_counter", {})
 		if proc_modifier then
 			proc_modifier:SetStackCount(proc_modifier:GetStackCount() + 1)
 
@@ -261,7 +261,7 @@ function modifier_item_imba_mjollnir_static:OnTakeDamage( keys )
 					ApplyDamage({attacker = shield_owner, victim = enemy, ability = ability, damage = static_damage, damage_type = DAMAGE_TYPE_MAGICAL})
 
 					-- Apply slow modifier
-					enemy:AddNewModifier(shield_owner, ability, "modifier_item_imba_mjollnir_slow", {duration = static_slow_duration})
+					enemy:AddNewModifier(shield_owner, ability, "modifier_item_extended_mjollnir_slow", {duration = static_slow_duration})
 				end
 
 				-- Play hit sound if at least one enemy was hit
@@ -277,22 +277,22 @@ end
 --	Mjollnir static proc counter
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mjollnir_static_counter == nil then modifier_item_imba_mjollnir_static_counter = class({}) end
-function modifier_item_imba_mjollnir_static_counter:IsHidden() return true end
-function modifier_item_imba_mjollnir_static_counter:IsDebuff() return false end
-function modifier_item_imba_mjollnir_static_counter:IsPurgable() return false end
+if modifier_item_extended_mjollnir_static_counter == nil then modifier_item_extended_mjollnir_static_counter = class({}) end
+function modifier_item_extended_mjollnir_static_counter:IsHidden() return true end
+function modifier_item_extended_mjollnir_static_counter:IsDebuff() return false end
+function modifier_item_extended_mjollnir_static_counter:IsPurgable() return false end
 
 -----------------------------------------------------------------------------------------------------------
 --	Mjollnir passive modifier (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mjollnir_slow == nil then modifier_item_imba_mjollnir_slow = class({}) end
-function modifier_item_imba_mjollnir_slow:IsHidden() return false end
-function modifier_item_imba_mjollnir_slow:IsDebuff() return true end
-function modifier_item_imba_mjollnir_slow:IsPurgable() return true end
+if modifier_item_extended_mjollnir_slow == nil then modifier_item_extended_mjollnir_slow = class({}) end
+function modifier_item_extended_mjollnir_slow:IsHidden() return false end
+function modifier_item_extended_mjollnir_slow:IsDebuff() return true end
+function modifier_item_extended_mjollnir_slow:IsPurgable() return true end
 
 -- Declare modifier events/properties
-function modifier_item_imba_mjollnir_slow:DeclareFunctions()
+function modifier_item_extended_mjollnir_slow:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
@@ -300,10 +300,10 @@ function modifier_item_imba_mjollnir_slow:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_mjollnir_slow:GetModifierMoveSpeedBonus_Percentage()
+function modifier_item_extended_mjollnir_slow:GetModifierMoveSpeedBonus_Percentage()
 	return self:GetAbility():GetSpecialValueFor("static_slow") end
 
-function modifier_item_imba_mjollnir_slow:GetModifierAttackSpeedBonus_Constant()
+function modifier_item_extended_mjollnir_slow:GetModifierAttackSpeedBonus_Constant()
 	return self:GetAbility():GetSpecialValueFor("static_slow") end
 
 

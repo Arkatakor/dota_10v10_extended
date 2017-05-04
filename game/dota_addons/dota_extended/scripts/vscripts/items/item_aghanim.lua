@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	19.11.2016	]]
 
 function AghanimsSynthCast( keys )

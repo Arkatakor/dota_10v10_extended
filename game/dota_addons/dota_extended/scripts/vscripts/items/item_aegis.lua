@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	13.08.2015	]]
 
 function AegisHeal( keys )

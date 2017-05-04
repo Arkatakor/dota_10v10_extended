@@ -84,7 +84,7 @@ function Frostbite( keys )
 
 	-- If this is Rubick and Frostbite is no longer present, do nothing and kill the modifier
 	if IsStolenSpell(caster) then
-		if not caster:FindAbilityByName("imba_crystal_maiden_frostbite") then
+		if not caster:FindAbilityByName("extended_crystal_maiden_frostbite") then
 			caster:RemoveModifierByName(modifier_passive)
 			return nil
 		end

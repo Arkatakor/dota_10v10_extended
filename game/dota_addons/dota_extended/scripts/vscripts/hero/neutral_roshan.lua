@@ -97,11 +97,11 @@ function RoshanSummon( keys )
 	local summon_duration = ability:GetSpecialValueFor("summon_duration")
 	local caster_loc = caster:GetAbsOrigin()
 	local caster_direction = caster:GetForwardVector()
-	local summon_name = "npc_imba_roshling"
+	local summon_name = "npc_extended_roshling"
 	local summon_amount = 1 + GAME_ROSHAN_KILLS
 	local summon_abilities = {
-		"imba_roshling_bash",
-		"imba_roshling_aura"
+		"extended_roshling_bash",
+		"extended_roshling_aura"
 	}
 
 	-- Play cast sound
@@ -305,14 +305,14 @@ function RoshanDeath( keys )
 	_G.GAME_ROSHAN_KILLS = _G.GAME_ROSHAN_KILLS + 1
 
 	-- Drop the Aegis
-	local drop_aegis = CreateItem("item_imba_aegis", nil, nil)
+	local drop_aegis = CreateItem("item_extended_aegis", nil, nil)
 	CreateItemOnPositionSync(caster:GetAbsOrigin(), drop_aegis)
 	drop_aegis:LaunchLoot(false, 100, 0.5, caster:GetAbsOrigin())
 
 	-- On each sucessive death, grant extra chesse
 	if _G.GAME_ROSHAN_KILLS > 1 then
 		for i = 2, _G.GAME_ROSHAN_KILLS do
-			local drop_cheese = CreateItem("item_imba_cheese", nil, nil)
+			local drop_cheese = CreateItem("item_extended_cheese", nil, nil)
 			CreateItemOnPositionSync(caster:GetAbsOrigin(), drop_cheese)
 			drop_cheese:LaunchLoot(false, 100, 0.5, caster:GetAbsOrigin() + RandomVector(100))
 		end
@@ -321,7 +321,7 @@ function RoshanDeath( keys )
 	-- After the respawn timer elapses, spawn another Roshan
 	Timers:CreateTimer(respawn_time, function()
 		local roshan_spawn_loc = Entities:FindByName(nil, "roshan_spawn_point"):GetAbsOrigin()
-		local roshan = CreateUnitByName("npc_imba_roshan", roshan_spawn_loc, true, nil, nil, DOTA_TEAM_NEUTRALS)
+		local roshan = CreateUnitByName("npc_extended_roshan", roshan_spawn_loc, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	end)
 end
 
@@ -366,9 +366,9 @@ function RoshanAIthink( keys )
 	local super_leash_time = ability:GetSpecialValueFor("super_leash_time")
 	local leash_margin = ability:GetSpecialValueFor("leash_margin")
 	local spawn_loc = Entities:FindByName(nil, "roshan_spawn_point"):GetAbsOrigin()
-	local ability_slam = caster:FindAbilityByName("imba_roshan_slam")
-	local ability_roshling = caster:FindAbilityByName("imba_roshan_summon")
-	local ability_fury = caster:FindAbilityByName("imba_roshan_fury")
+	local ability_slam = caster:FindAbilityByName("extended_roshan_slam")
+	local ability_roshling = caster:FindAbilityByName("extended_roshan_summon")
+	local ability_fury = caster:FindAbilityByName("extended_roshan_fury")
 
 	-- Condition variables
 	local roshan_hp = caster:GetHealth() / caster:GetMaxHealth()

@@ -5,7 +5,7 @@ function customSchema:init()
 	-- Check the schema_examples folder for different implementations
 
 	-- Tracks game version
-	statCollection:setFlags({version = IMBA_VERSION})
+	statCollection:setFlags({version = EXTENDED_VERSION})
 
 	-- Listen for changes in the current state
 	ListenToGameEvent('game_rules_state_change', function(keys)
@@ -147,14 +147,14 @@ end
 -- MY CUSTOM FUNCTIONS
 -------------------------------------
 
--- String of item name, without the item_imba_ prefix
+-- String of item name, without the item_extended_ prefix
 function GetItemSlotImba(hero, slot)
 	local item = hero:GetItemInSlot(slot)
 	local itemName = "empty"
 
 	if item then
-		if string.find(item:GetAbilityName(), "imba") then
-			itemName = string.gsub(item:GetAbilityName(), "item_imba_", "")
+		if string.find(item:GetAbilityName(), "extended") then
+			itemName = string.gsub(item:GetAbilityName(), "item_extended_", "")
 		else
 			itemName = string.gsub(item:GetAbilityName(), "item_", "")
 		end

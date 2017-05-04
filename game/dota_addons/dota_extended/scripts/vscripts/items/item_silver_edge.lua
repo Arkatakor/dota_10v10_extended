@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	15.08.2015	]]
 
 function SilverEdgeFade( keys )

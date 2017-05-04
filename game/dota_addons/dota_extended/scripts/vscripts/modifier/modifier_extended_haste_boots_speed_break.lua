@@ -1,16 +1,16 @@
 --[[	Author: Firetoad
 		Date: 08.07.2016	]]
 
-if modifier_imba_haste_boots_speed_break == nil then
-	modifier_imba_haste_boots_speed_break = class({})
+if modifier_extended_haste_boots_speed_break == nil then
+	modifier_extended_haste_boots_speed_break = class({})
 end
 
-function modifier_imba_haste_boots_speed_break:OnCreated( kv )	
+function modifier_extended_haste_boots_speed_break:OnCreated( kv )	
 	if IsServer() then
 	end
 end
 
-function modifier_imba_haste_boots_speed_break:DeclareFunctions()
+function modifier_extended_haste_boots_speed_break:DeclareFunctions()
 	local funcs = {
 	MODIFIER_PROPERTY_MOVESPEED_MAX
 	}
@@ -18,10 +18,10 @@ function modifier_imba_haste_boots_speed_break:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_haste_boots_speed_break:GetModifierMoveSpeed_Max()
+function modifier_extended_haste_boots_speed_break:GetModifierMoveSpeed_Max()
 	return 700
 end
 
-function modifier_imba_haste_boots_speed_break:IsHidden()
+function modifier_extended_haste_boots_speed_break:IsHidden()
 	return true
 end

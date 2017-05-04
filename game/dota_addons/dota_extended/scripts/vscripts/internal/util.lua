@@ -92,12 +92,12 @@ function RandomFromTable(table)
 end
 
 -------------------------------------------------------------------------------------------------
--- IMBA: custom utility functions
+-- EXTENDED: custom utility functions
 -------------------------------------------------------------------------------------------------
 
 -- Checks if a hero is wielding Aghanim's Scepter
 function HasScepter(hero)
-	if hero:HasModifier("modifier_item_ultimate_scepter_consumed") or hero:HasModifier("modifier_item_imba_ultimate_scepter_synth") then
+	if hero:HasModifier("modifier_item_ultimate_scepter_consumed") or hero:HasModifier("modifier_item_extended_ultimate_scepter_synth") then
 		return true
 	end
 
@@ -203,7 +203,7 @@ function SwapToItem(caster, removed_item, added_item)
 	for i=0, 5, 1 do  --Fill all empty slots in the player's inventory with "dummy" items.
 		local current_item = caster:GetItemInSlot(i)
 		if current_item == nil then
-			caster:AddItem(CreateItem("item_imba_dummy", caster, caster))
+			caster:AddItem(CreateItem("item_extended_dummy", caster, caster))
 		end
 	end
 	
@@ -213,7 +213,7 @@ function SwapToItem(caster, removed_item, added_item)
 	for i=0, 5, 1 do  --Remove all dummy items from the player's inventory.
 		local current_item = caster:GetItemInSlot(i)
 		if current_item ~= nil then
-			if current_item:GetName() == "item_imba_dummy" then
+			if current_item:GetName() == "item_extended_dummy" then
 				caster:RemoveItem(current_item)
 			end
 		end
@@ -222,7 +222,7 @@ end
 
 -- Checks if a given unit is Roshan
 function IsRoshan(unit)
-	if unit:GetName() == "npc_imba_roshan" or unit:GetName() == "npc_dota_roshan" then
+	if unit:GetName() == "npc_extended_roshan" or unit:GetName() == "npc_dota_roshan" then
 		return true
 	else
 		return false
@@ -236,8 +236,8 @@ function IsWardOrBomb(unit)
 	local valid_unit_names = {
 		"npc_dota_observer_wards",
 		"npc_dota_sentry_wards",
-		"npc_imba_techies_land_mine",
-		"npc_imba_techies_stasis_trap",
+		"npc_extended_techies_land_mine",
+		"npc_extended_techies_stasis_trap",
 		"npc_dota_techies_remote_mine"
 	}
 
@@ -255,36 +255,36 @@ function TrueKill(caster, target, ability)
 
 	-- Extremely specific blademail interaction because fuck everything
 	if caster:HasModifier("modifier_item_blade_mail_reflect") then
-		target:RemoveModifierByName("modifier_imba_purification_passive")
+		target:RemoveModifierByName("modifier_extended_purification_passive")
 	end
 
-	local nothlProtection = target:FindModifierByName("modifier_imba_dazzle_nothl_protection")
+	local nothlProtection = target:FindModifierByName("modifier_extended_dazzle_nothl_protection")
 	if nothlProtection and nothlProtection:GetStackCount() < 1 then
 		nothlProtection:SetStackCount(1)
 		nothlProtection:StartIntervalThink(1)
 	end
 
 	-- Deals lethal damage in order to trigger death-preventing abilities... Except for Reincarnation
-	if not ( target:HasModifier("modifier_imba_reincarnation") or target:HasModifier("modifier_imba_reincarnation_scepter") ) then
+	if not ( target:HasModifier("modifier_extended_reincarnation") or target:HasModifier("modifier_extended_reincarnation_scepter") ) then
 		target:Kill(ability, caster)
 	end
 
 	-- Removes the relevant modifiers
 	target:RemoveModifierByName("modifier_invulnerable")
-	target:RemoveModifierByName("modifier_imba_dazzle_shallow_grave")
+	target:RemoveModifierByName("modifier_extended_dazzle_shallow_grave")
 	target:RemoveModifierByName("modifier_aphotic_shield")
-	target:RemoveModifierByName("modifier_imba_spiked_carapace")
+	target:RemoveModifierByName("modifier_extended_spiked_carapace")
 	target:RemoveModifierByName("modifier_borrowed_time")
-	target:RemoveModifierByName("modifier_imba_centaur_return")
+	target:RemoveModifierByName("modifier_extended_centaur_return")
 	target:RemoveModifierByName("modifier_item_greatwyrm_plate_unique")
 	target:RemoveModifierByName("modifier_item_greatwyrm_plate_active")
 	target:RemoveModifierByName("modifier_item_crimson_guard_unique")
 	target:RemoveModifierByName("modifier_item_crimson_guard_active")
 	target:RemoveModifierByName("modifier_item_greatwyrm_plate_unique")
 	target:RemoveModifierByName("modifier_item_vanguard_unique")
-	target:RemoveModifierByName("modifier_item_imba_initiate_robe_stacks")
-	target:RemoveModifierByName("modifier_imba_cheese_death_prevention")
-	target:RemoveModifierByName("modifier_item_imba_rapier_cursed_unique")
+	target:RemoveModifierByName("modifier_item_extended_initiate_robe_stacks")
+	target:RemoveModifierByName("modifier_extended_cheese_death_prevention")
+	target:RemoveModifierByName("modifier_item_extended_rapier_cursed_unique")
 
 	-- Kills the target
 	target:Kill(ability, caster)
@@ -355,7 +355,7 @@ function IsPlayerOwnedSummon( unit )
 	end
 
 	local summon_names = {
-		"npc_imba_warlock_golem_extra"
+		"npc_extended_warlock_golem_extra"
 	}
 
 	unit_name = unit:GetUnitName()
@@ -455,11 +455,11 @@ function ApplyAllRandomOmgAbilities( hero )
 	end
 
 	-- Check if the high level power-up ability is present
-	local ability_powerup = hero:FindAbilityByName("imba_unlimited_level_powerup")
+	local ability_powerup = hero:FindAbilityByName("extended_unlimited_level_powerup")
 	local powerup_stacks
 	if ability_powerup then
-		powerup_stacks = hero:GetModifierStackCount("modifier_imba_unlimited_level_powerup", hero)
-		hero:RemoveModifierByName("modifier_imba_unlimited_level_powerup")
+		powerup_stacks = hero:GetModifierStackCount("modifier_extended_unlimited_level_powerup", hero)
+		hero:RemoveModifierByName("modifier_extended_unlimited_level_powerup")
 		ability_powerup = true
 	end
 
@@ -483,7 +483,7 @@ function ApplyAllRandomOmgAbilities( hero )
 
 	-- Add new regular abilities
 	local i = 1
-	while i <= IMBA_RANDOM_OMG_NORMAL_ABILITY_COUNT do
+	while i <= EXTENDED_RANDOM_OMG_NORMAL_ABILITY_COUNT do
 
 		-- Randoms an ability from the list of legal random omg abilities
 		local randomed_ability
@@ -517,7 +517,7 @@ function ApplyAllRandomOmgAbilities( hero )
 	end
 
 	-- Add new ultimate abilities
-	while i <= ( IMBA_RANDOM_OMG_NORMAL_ABILITY_COUNT + IMBA_RANDOM_OMG_ULTIMATE_ABILITY_COUNT ) do
+	while i <= ( EXTENDED_RANDOM_OMG_NORMAL_ABILITY_COUNT + EXTENDED_RANDOM_OMG_ULTIMATE_ABILITY_COUNT ) do
 
 		-- Randoms an ability from the list of legal random omg ultimates
 		local randomed_ultimate
@@ -552,10 +552,10 @@ function ApplyAllRandomOmgAbilities( hero )
 
 	-- Apply high level powerup ability, if previously existing
 	if ability_powerup then
-		hero:AddAbility("imba_unlimited_level_powerup")
-		ability_powerup = hero:FindAbilityByName("imba_unlimited_level_powerup")
+		hero:AddAbility("extended_unlimited_level_powerup")
+		ability_powerup = hero:FindAbilityByName("extended_unlimited_level_powerup")
 		ability_powerup:SetLevel(1)
-		AddStacks(ability_powerup, hero, hero, "modifier_imba_unlimited_level_powerup", powerup_stacks, true)
+		AddStacks(ability_powerup, hero, hero, "modifier_extended_unlimited_level_powerup", powerup_stacks, true)
 	end
 
 end
@@ -686,40 +686,40 @@ end
 
 -- Removes undesired permanent modifiers in Random OMG mode
 function RemovePermanentModifiersRandomOMG( hero )
-	hero:RemoveModifierByName("modifier_imba_tidebringer_cooldown")
-	hero:RemoveModifierByName("modifier_imba_hunter_in_the_night")
-	hero:RemoveModifierByName("modifier_imba_dazzle_shallow_grave")
-	hero:RemoveModifierByName("modifier_imba_dazzle_nothl_protection")
-	hero:RemoveModifierByName("modifier_imba_shallow_grave_passive_cooldown")
-	hero:RemoveModifierByName("modifier_imba_shallow_grave_passive_check")
-	hero:RemoveModifierByName("modifier_imba_vendetta_damage_stacks")
-	hero:RemoveModifierByName("modifier_imba_heartstopper_aura")
-	hero:RemoveModifierByName("modifier_imba_antimage_spell_shield_passive")
-	hero:RemoveModifierByName("modifier_imba_brilliance_aura")
-	hero:RemoveModifierByName("modifier_imba_trueshot_aura_owner_hero")
-	hero:RemoveModifierByName("modifier_imba_trueshot_aura_owner_creep")
-	hero:RemoveModifierByName("modifier_imba_frost_nova_aura")
-	hero:RemoveModifierByName("modifier_imba_moonlight_scepter_aura")
-	hero:RemoveModifierByName("modifier_imba_sadist_aura")
-	hero:RemoveModifierByName("modifier_imba_impale_aura")
-	hero:RemoveModifierByName("modifier_imba_essence_aura")
-	hero:RemoveModifierByName("modifier_imba_degen_aura")
-	hero:RemoveModifierByName("modifier_imba_flesh_heap_aura")
+	hero:RemoveModifierByName("modifier_extended_tidebringer_cooldown")
+	hero:RemoveModifierByName("modifier_extended_hunter_in_the_night")
+	hero:RemoveModifierByName("modifier_extended_dazzle_shallow_grave")
+	hero:RemoveModifierByName("modifier_extended_dazzle_nothl_protection")
+	hero:RemoveModifierByName("modifier_extended_shallow_grave_passive_cooldown")
+	hero:RemoveModifierByName("modifier_extended_shallow_grave_passive_check")
+	hero:RemoveModifierByName("modifier_extended_vendetta_damage_stacks")
+	hero:RemoveModifierByName("modifier_extended_heartstopper_aura")
+	hero:RemoveModifierByName("modifier_extended_antimage_spell_shield_passive")
+	hero:RemoveModifierByName("modifier_extended_brilliance_aura")
+	hero:RemoveModifierByName("modifier_extended_trueshot_aura_owner_hero")
+	hero:RemoveModifierByName("modifier_extended_trueshot_aura_owner_creep")
+	hero:RemoveModifierByName("modifier_extended_frost_nova_aura")
+	hero:RemoveModifierByName("modifier_extended_moonlight_scepter_aura")
+	hero:RemoveModifierByName("modifier_extended_sadist_aura")
+	hero:RemoveModifierByName("modifier_extended_impale_aura")
+	hero:RemoveModifierByName("modifier_extended_essence_aura")
+	hero:RemoveModifierByName("modifier_extended_degen_aura")
+	hero:RemoveModifierByName("modifier_extended_flesh_heap_aura")
 	hero:RemoveModifierByName("modifier_borrowed_time")
 	hero:RemoveModifierByName("attribute_bonus_str")
 	hero:RemoveModifierByName("attribute_bonus_agi")
 	hero:RemoveModifierByName("attribute_bonus_int")
-	hero:RemoveModifierByName("modifier_imba_hook_sharp_stack")
-	hero:RemoveModifierByName("modifier_imba_hook_light_stack")
-	hero:RemoveModifierByName("modifier_imba_hook_caster")
-	hero:RemoveModifierByName("modifier_imba_god_strength")
-	hero:RemoveModifierByName("modifier_imba_god_strength_aura")
-	hero:RemoveModifierByName("modifier_imba_god_strength_aura_scepter")
-	hero:RemoveModifierByName("modifier_imba_warcry_passive_aura")
-	hero:RemoveModifierByName("modifier_imba_great_cleave")
-	hero:RemoveModifierByName("modifier_imba_blur")
-	hero:RemoveModifierByName("modifier_imba_flesh_heap_aura")
-	hero:RemoveModifierByName("modifier_imba_flesh_heap_stacks")
+	hero:RemoveModifierByName("modifier_extended_hook_sharp_stack")
+	hero:RemoveModifierByName("modifier_extended_hook_light_stack")
+	hero:RemoveModifierByName("modifier_extended_hook_caster")
+	hero:RemoveModifierByName("modifier_extended_god_strength")
+	hero:RemoveModifierByName("modifier_extended_god_strength_aura")
+	hero:RemoveModifierByName("modifier_extended_god_strength_aura_scepter")
+	hero:RemoveModifierByName("modifier_extended_warcry_passive_aura")
+	hero:RemoveModifierByName("modifier_extended_great_cleave")
+	hero:RemoveModifierByName("modifier_extended_blur")
+	hero:RemoveModifierByName("modifier_extended_flesh_heap_aura")
+	hero:RemoveModifierByName("modifier_extended_flesh_heap_stacks")
 	hero:RemoveModifierByName("modifier_medusa_split_shot")
 	hero:RemoveModifierByName("modifier_luna_lunar_blessing")
 	hero:RemoveModifierByName("modifier_luna_lunar_blessing_aura")
@@ -728,18 +728,18 @@ function RemovePermanentModifiersRandomOMG( hero )
 	hero:RemoveModifierByName("modifier_dragon_knight_dragon_blood")
 	hero:RemoveModifierByName("modifier_zuus_static_field")
 	hero:RemoveModifierByName("modifier_witchdoctor_voodoorestoration")
-	hero:RemoveModifierByName("modifier_imba_land_mines_caster")
-	hero:RemoveModifierByName("modifier_imba_purification_passive")
-	hero:RemoveModifierByName("modifier_imba_purification_passive_cooldown")
-	hero:RemoveModifierByName("modifier_imba_double_edge_prevent_deny")
-	hero:RemoveModifierByName("modifier_imba_vampiric_aura")
-	hero:RemoveModifierByName("modifier_imba_reincarnation_detector")
-	hero:RemoveModifierByName("modifier_imba_time_walk_damage_counter")
+	hero:RemoveModifierByName("modifier_extended_land_mines_caster")
+	hero:RemoveModifierByName("modifier_extended_purification_passive")
+	hero:RemoveModifierByName("modifier_extended_purification_passive_cooldown")
+	hero:RemoveModifierByName("modifier_extended_double_edge_prevent_deny")
+	hero:RemoveModifierByName("modifier_extended_vampiric_aura")
+	hero:RemoveModifierByName("modifier_extended_reincarnation_detector")
+	hero:RemoveModifierByName("modifier_extended_time_walk_damage_counter")
 	hero:RemoveModifierByName("modifier_charges")
-	hero:RemoveModifierByName("modifier_imba_reincarnation")
+	hero:RemoveModifierByName("modifier_extended_reincarnation")
 
-	while hero:HasModifier("modifier_imba_flesh_heap_bonus") do
-		hero:RemoveModifierByName("modifier_imba_flesh_heap_bonus")
+	while hero:HasModifier("modifier_extended_flesh_heap_bonus") do
+		hero:RemoveModifierByName("modifier_extended_flesh_heap_bonus")
 	end
 end
 
@@ -796,24 +796,24 @@ function InitializeInnateAbilities( hero )
 
 	-- List of innate abilities
 	local innate_abilities = {
-		"imba_faceless_void_timelord",
-		"imba_queenofpain_delightful_torment",
-		"imba_techies_minefield_sign",
-		"imba_vengeful_rancor",
+		"extended_faceless_void_timelord",
+		"extended_queenofpain_delightful_torment",
+		"extended_techies_minefield_sign",
+		"extended_vengeful_rancor",
 		"vengefulspirit_nether_swap",
-		"imba_venomancer_toxicity",
-		"imba_magnus_magnetize",
-		"imba_enigma_gravity",
-		"imba_troll_warlord_berserkers_rage",
-		"imba_antimage_magehunter",
-		"imba_necrolyte_death_pulse_aux",
-		"imba_sandking_treacherous_sands",
-		"imba_rubick_telekinesis_land",
-		"imba_skywrath_mage_concussive_shot_ghastly",
-		"imba_silencer_arcane_supremacy",
-		"imba_tiny_rolling_stone",
-		"imba_centaur_thick_hide",
-		"imba_kunkka_ebb_and_flow"
+		"extended_venomancer_toxicity",
+		"extended_magnus_magnetize",
+		"extended_enigma_gravity",
+		"extended_troll_warlord_berserkers_rage",
+		"extended_antimage_magehunter",
+		"extended_necrolyte_death_pulse_aux",
+		"extended_sandking_treacherous_sands",
+		"extended_rubick_telekinesis_land",
+		"extended_skywrath_mage_concussive_shot_ghastly",
+		"extended_silencer_arcane_supremacy",
+		"extended_tiny_rolling_stone",
+		"extended_centaur_thick_hide",
+		"extended_kunkka_ebb_and_flow"
 	}
 
 	-- Cycle through any innate abilities found, then upgrade them
@@ -833,7 +833,7 @@ function StickProcCheck( ability )
 	local forbidden_skills = {
 		"storm_spirit_ball_lightning",
 		"witch_doctor_voodoo_restoration",
-		"imba_necrolyte_death_pulse",
+		"extended_necrolyte_death_pulse",
 		"shredder_chakram",
 		"shredder_chakram_2"
 	}
@@ -855,7 +855,7 @@ function UpgradeTower( tower )
 	-- Fetch tower abilities
 	for i = 0, 15 do
 		local current_ability = tower:GetAbilityByIndex(i)
-		if current_ability and current_ability:GetName() ~= "backdoor_protection" and current_ability:GetName() ~= "backdoor_protection_in_base" and current_ability:GetName() ~= "imba_tower_buffs" then
+		if current_ability and current_ability:GetName() ~= "backdoor_protection" and current_ability:GetName() ~= "backdoor_protection_in_base" and current_ability:GetName() ~= "extended_tower_buffs" then
 			abilities[#abilities+1] = current_ability
 		end
 	end
@@ -997,7 +997,7 @@ function GetCooldownReduction( unit )
 	local reduction = 1.0
 
 	-- Octarine Core
-	if unit:HasModifier("modifier_imba_octarine_core_unique") then
+	if unit:HasModifier("modifier_extended_octarine_core_unique") then
 		reduction = reduction * 0.75
 	end
 	local talent_mult = 1 - unit:HighestTalentTypeValue("cooldown_reduction") * 0.01
@@ -1018,11 +1018,11 @@ function IsWardTypeUnit( unit )
 
 	local unit_name = unit:GetUnitName()
 	local ward_type_units = {
-		"npc_imba_pugna_nether_ward_1",
-		"npc_imba_pugna_nether_ward_2",
-		"npc_imba_pugna_nether_ward_3",
-		"npc_imba_pugna_nether_ward_4",
-		"npc_imba_warlock_upheaval_tower"
+		"npc_extended_pugna_nether_ward_1",
+		"npc_extended_pugna_nether_ward_2",
+		"npc_extended_pugna_nether_ward_3",
+		"npc_extended_pugna_nether_ward_4",
+		"npc_extended_warlock_upheaval_tower"
 	}
 
 	for _, ward_unit in pairs(ward_type_units) do
@@ -1071,7 +1071,7 @@ end
 
 function GetBaseRangedProjectileName( unit )
 	local unit_name = unit:GetUnitName()
-	unit_name = string.gsub(unit_name, "dota", "imba")
+	unit_name = string.gsub(unit_name, "dota", "extended")
 	local unit_table = unit:IsHero() and GameRules.HeroKV[unit_name] or GameRules.UnitKV[unit_name]
 	return unit_table and unit_table["ProjectileModel"] or ""
 end
@@ -1081,12 +1081,12 @@ function ChangeAttackProjectileImba( unit )
 	-- Check for lifesteal modifiers
 	local has_lifesteal = false
 	local lifesteal_modifiers = {
-		"modifier_item_imba_vladmir_aura",
-		"modifier_item_imba_vladmir_blood_aura",
-		"modifier_imba_morbid_mask",
-		"modifier_imba_mask_of_madness",
-		"modifier_imba_satanic",
-		"modifier_imba_vampiric_aura_effect_hero"
+		"modifier_item_extended_vladmir_aura",
+		"modifier_item_extended_vladmir_blood_aura",
+		"modifier_extended_morbid_mask",
+		"modifier_extended_mask_of_madness",
+		"modifier_extended_satanic",
+		"modifier_extended_vampiric_aura_effect_hero"
 	}
 	for _, modifier in pairs(lifesteal_modifiers) do
 		if unit:HasModifier(modifier) then
@@ -1098,9 +1098,9 @@ function ChangeAttackProjectileImba( unit )
 	-- Check for desolator modifiers
 	local has_deso = false
 	local deso_modifiers = {
-		"modifier_item_imba_blight_stone",
-		"modifier_item_imba_desolator",
-		"modifier_item_imba_desolator_2"
+		"modifier_item_extended_blight_stone",
+		"modifier_item_extended_desolator",
+		"modifier_item_extended_desolator_2"
 	}
 	for _, modifier in pairs(deso_modifiers) do
 		if unit:HasModifier(modifier) then
@@ -1112,7 +1112,7 @@ function ChangeAttackProjectileImba( unit )
 	-- Check for skadi modifier
 	local has_skadi = false
 	local skadi_modifiers = {
-		"modifier_item_imba_skadi_unique"
+		"modifier_item_extended_skadi_unique"
 	}
 	for _, modifier in pairs(skadi_modifiers) do
 		if unit:HasModifier(modifier) then
@@ -1150,7 +1150,7 @@ function ChangeAttackProjectileImba( unit )
 		unit:SetRangedProjectileName("particles/item/lifesteal_mask/lifesteal_particle.vpcf")
 
 	-- If it's a Clinkz with Searing Arrows, use its attack projectile instead
-	elseif unit:HasModifier("modifier_imba_searing_arrows_passive") then
+	elseif unit:HasModifier("modifier_extended_searing_arrows_passive") then
 		unit:SetRangedProjectileName("particles/units/heroes/hero_clinkz/clinkz_searing_arrow.vpcf")
 
 	-- If it's one of Dragon Knight's forms, use its attack projectile instead
@@ -1182,7 +1182,7 @@ function IsUninterruptableForcedMovement( unit )
 		"modifier_item_forcestaff_active",
 		"modifier_shredder_timber_chain",
 		"modifier_batrider_flaming_lasso",
-		"modifier_imba_leap_self_root",
+		"modifier_extended_leap_self_root",
 		"modifier_faceless_void_chronosphere_freeze",
 		"modifier_storm_spirit_ball_lightning",
 		"modifier_morphling_waveform"
@@ -1203,9 +1203,9 @@ function GetCastRangeIncrease( unit )
 	local cast_range_increase = 0
 	
 	-- From items
-	if unit:HasModifier("modifier_item_imba_elder_staff_range") then
+	if unit:HasModifier("modifier_item_extended_elder_staff_range") then
 		cast_range_increase = cast_range_increase + 300
-	elseif unit:HasModifier("modifier_item_imba_aether_lens_range") then
+	elseif unit:HasModifier("modifier_item_extended_aether_lens_range") then
 		cast_range_increase = cast_range_increase + 225
 	end
 
@@ -1412,7 +1412,7 @@ end
 function TriggerNecrolyteReaperScytheDeath(target, caster)
 
 	-- Find the Reaper's Scythe ability
-	local ability = caster:FindAbilityByName("imba_necrolyte_reapers_scythe")
+	local ability = caster:FindAbilityByName("extended_necrolyte_reapers_scythe")
 	if not ability then return nil end
 
 	-- Attempt to kill the target
@@ -1424,9 +1424,9 @@ function TriggerWraithKingReincarnation(caster, ability)
 
 	-- Keyvalues
 	local ability_level = ability:GetLevel() - 1
-	local modifier_death = "modifier_imba_reincarnation_death"
-	local modifier_slow = "modifier_imba_reincarnation_slow"
-	local modifier_kingdom_ms = "modifier_imba_reincarnation_kingdom_ms"
+	local modifier_death = "modifier_extended_reincarnation_death"
+	local modifier_slow = "modifier_extended_reincarnation_slow"
+	local modifier_kingdom_ms = "modifier_extended_reincarnation_kingdom_ms"
 	local particle_wait = "particles/units/heroes/hero_skeletonking/wraith_king_reincarnate.vpcf"
 	local particle_kingdom = "particles/hero/skeleton_king/wraith_king_hellfire_eruption_tell.vpcf"
 	local sound_death = "Hero_SkeletonKing.Reincarnate"
@@ -1447,7 +1447,7 @@ function TriggerWraithKingReincarnation(caster, ability)
 
 	-- Play initial sound
 	local heroes = FindUnitsInRadius(caster:GetTeamNumber(), caster_loc, nil, slow_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS, FIND_ANY_ORDER, false)
-	if USE_MEME_SOUNDS and #heroes >= IMBA_PLAYERS_ON_GAME * 0.35 then
+	if USE_MEME_SOUNDS and #heroes >= EXTENDED_PLAYERS_ON_GAME * 0.35 then
 		caster:EmitSound("Hero_WraithKing.IllBeBack")
 	else
 		caster:EmitSound(sound_death)
@@ -1534,11 +1534,11 @@ end
 function TriggerWraithKingWraithForm(target, attacker)
 
 	-- Keyvalues
-	local reincarnation_modifier = target:FindModifierByName("modifier_imba_reincarnation_scepter")
+	local reincarnation_modifier = target:FindModifierByName("modifier_extended_reincarnation_scepter")
 	local caster = reincarnation_modifier:GetCaster()
 	local ability = reincarnation_modifier:GetAbility()
-	local modifier_scepter = "modifier_imba_reincarnation_scepter"
-	local modifier_wraith = "modifier_imba_reincarnation_scepter_wraith"
+	local modifier_scepter = "modifier_extended_reincarnation_scepter"
+	local modifier_wraith = "modifier_extended_reincarnation_scepter_wraith"
 	local sound_wraith = "Hero_SkeletonKing.Reincarnate.Ghost"
 
 	-- Store the attacker which killed this unit's ID
@@ -1579,10 +1579,10 @@ end
 function TriggerAegisReincarnation(caster)
 
 	-- Keyvalues
-	local aegis_modifier = caster:FindModifierByName("modifier_item_imba_aegis")
+	local aegis_modifier = caster:FindModifierByName("modifier_item_extended_aegis")
 	local ability = aegis_modifier:GetAbility()
-	local modifier_aegis = "modifier_item_imba_aegis"
-	local modifier_death = "modifier_item_imba_aegis_death"
+	local modifier_aegis = "modifier_item_extended_aegis"
+	local modifier_death = "modifier_item_extended_aegis_death"
 	local particle_wait = "particles/items_fx/aegis_timer.vpcf"
 	local particle_respawn = "particles/items_fx/aegis_respawn_timer.vpcf"
 	local sound_aegis = "Imba.AegisStinger"
@@ -1716,7 +1716,7 @@ function SpawnImbaRunes()
 	-- Spawn bounty runes
 	local game_time = GameRules:GetDOTATime(false, false)
 	for _, bounty_loc in pairs(bounty_rune_locations) do
-		local bounty_rune = CreateItem("item_imba_rune_bounty", nil, nil)
+		local bounty_rune = CreateItem("item_extended_rune_bounty", nil, nil)
 		CreateItemOnPositionForLaunch(bounty_loc, bounty_rune)
 
 		-- If these are the 00:00 runes, double their worth
@@ -1727,9 +1727,9 @@ function SpawnImbaRunes()
 
 	-- List of powerup rune types
 	local powerup_rune_types = {
-		"item_imba_rune_double_damage",
-		"item_imba_rune_haste",
-		"item_imba_rune_regeneration"
+		"item_extended_rune_double_damage",
+		"item_extended_rune_haste",
+		"item_extended_rune_regeneration"
 	}
 
 	-- Spawn a random powerup rune in a random powerup location
@@ -1754,7 +1754,7 @@ function SpawnArenaRunes()
 	-- Spawn bounty rune
 	if ARENA_RUNE_COUNTER < 4 then
 	
-		local bounty_rune = CreateItem("item_imba_rune_bounty_arena", nil, nil)
+		local bounty_rune = CreateItem("item_extended_rune_bounty_arena", nil, nil)
 		CreateItemOnPositionForLaunch(powerup_rune_spawner, bounty_rune)
 		bounty_rune:LaunchLoot(false, 200, 0.4, powerup_rune_spawner + RandomVector(1) * RandomInt(200, 400))
 
@@ -1763,9 +1763,9 @@ function SpawnArenaRunes()
 
 		-- List of powerup rune types
 		local powerup_rune_types = {
-			"item_imba_rune_double_damage",
-			"item_imba_rune_haste",
-			"item_imba_rune_regeneration"
+			"item_extended_rune_double_damage",
+			"item_extended_rune_haste",
+			"item_extended_rune_regeneration"
 		}
 
 		-- Spawn a random powerup rune
@@ -1813,11 +1813,11 @@ end
 function PickupHasteRune(item, unit)
 
 	-- Apply the aura modifier to the owner
-	item:ApplyDataDrivenModifier(unit, unit, "modifier_imba_rune_haste_owner", {})
+	item:ApplyDataDrivenModifier(unit, unit, "modifier_extended_rune_haste_owner", {})
 
 	-- Apply the movement speed increase modifier to the owner
 	local duration = item:GetSpecialValueFor("duration")
-	unit:AddNewModifier(unit, item, "modifier_imba_haste_rune_speed_limit_break", {duration = duration})
+	unit:AddNewModifier(unit, item, "modifier_extended_haste_rune_speed_limit_break", {duration = duration})
 
 	-- Play the haste rune activation sound to the unit's team
 	EmitSoundOnLocationForAllies(unit:GetAbsOrigin(), "Rune.Haste", unit)
@@ -1827,7 +1827,7 @@ end
 function PickupDoubleDamageRune(item, unit)
 
 	-- Apply the aura modifier to the owner
-	item:ApplyDataDrivenModifier(unit, unit, "modifier_imba_rune_double_damage_owner", {})
+	item:ApplyDataDrivenModifier(unit, unit, "modifier_extended_rune_double_damage_owner", {})
 
 	-- Play the double damage rune activation sound to the unit's team
 	EmitSoundOnLocationForAllies(unit:GetAbsOrigin(), "Rune.DD", unit)
@@ -1837,7 +1837,7 @@ end
 function PickupRegenerationRune(item, unit)
 
 	-- Apply the aura modifier to the owner
-	item:ApplyDataDrivenModifier(unit, unit, "modifier_imba_rune_regeneration_owner", {})
+	item:ApplyDataDrivenModifier(unit, unit, "modifier_extended_rune_regeneration_owner", {})
 
 	-- Play the double damage rune activation sound to the unit's team
 	EmitSoundOnLocationForAllies(unit:GetAbsOrigin(), "Rune.Regen", unit)
@@ -1902,8 +1902,8 @@ function ApplyAllTalentModifiers()
 		for k,v in pairs(current_hero_list) do
 			local hero_name = string.match(v:GetName(),"npc_dota_hero_(.*)")
 			for i = 1, 8 do
-				local talent_name = "special_bonus_imba_"..hero_name.."_"..i
-				local modifier_name = "modifier_special_bonus_imba_"..hero_name.."_"..i
+				local talent_name = "special_bonus_extended_"..hero_name.."_"..i
+				local modifier_name = "modifier_special_bonus_extended_"..hero_name.."_"..i
 				if v:HasTalent(talent_name) and not v:HasModifier(modifier_name) then
 					v:AddNewModifier(v,v,modifier_name,{})
 				end
@@ -1915,8 +1915,8 @@ end
 
 function CreateEmptyTalents(hero)
 	for i=1,8 do
-		LinkLuaModifier("modifier_special_bonus_imba_"..hero.."_"..i, "hero/hero_"..hero, LUA_MODIFIER_MOTION_NONE)  
-		local class = "modifier_special_bonus_imba_"..hero.."_"..i.." = class({IsHidden = function(self) return true end, RemoveOnDeath = function(self) return false end})"    
+		LinkLuaModifier("modifier_special_bonus_extended_"..hero.."_"..i, "hero/hero_"..hero, LUA_MODIFIER_MOTION_NONE)  
+		local class = "modifier_special_bonus_extended_"..hero.."_"..i.." = class({IsHidden = function(self) return true end, RemoveOnDeath = function(self) return false end})"    
 		load(class)()
 	end
 end
@@ -2210,7 +2210,7 @@ function CDOTA_BaseNPC:GetSpellPower()
 	local spell_power = self:GetIntellect() * 0.1
 
 	-- Mega Treads increase spell power from intelligence by 30%
-	if self:HasModifier("modifier_imba_mega_treads_stat_multiplier_02") then
+	if self:HasModifier("modifier_extended_mega_treads_stat_multiplier_02") then
 		spell_power = self:GetIntellect() * 0.13
 	end
 

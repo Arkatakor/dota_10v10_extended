@@ -1,4 +1,4 @@
---	Author		 -	d2imba
+--	Author		 -	d2extended
 --	DateCreated	 -	25.03.2015	<-- It owes Jesus money
 --	Date Updated -	05.03.2017
 --	Converted to Lua by zimberzimber
@@ -8,93 +8,93 @@
 -----------------------------------------------------------------------------------------------------------
 --	Item Definition
 -----------------------------------------------------------------------------------------------------------
-if item_imba_radiance == nil then item_imba_radiance = class({}) end
-LinkLuaModifier( "modifier_imba_radiance_basic", "items/item_radiance.lua", LUA_MODIFIER_MOTION_NONE )			-- Item stats
-LinkLuaModifier( "modifier_imba_radiance_aura", "items/item_radiance.lua", LUA_MODIFIER_MOTION_NONE )			-- Aura
-LinkLuaModifier( "modifier_imba_radiance_burn", "items/item_radiance.lua", LUA_MODIFIER_MOTION_NONE )			-- Damage + blind effect
-LinkLuaModifier( "modifier_imba_radiance_afterburn", "items/item_radiance.lua", LUA_MODIFIER_MOTION_NONE )		-- Sticky effect after leaving the Radiance AoE
+if item_extended_radiance == nil then item_extended_radiance = class({}) end
+LinkLuaModifier( "modifier_extended_radiance_basic", "items/item_radiance.lua", LUA_MODIFIER_MOTION_NONE )			-- Item stats
+LinkLuaModifier( "modifier_extended_radiance_aura", "items/item_radiance.lua", LUA_MODIFIER_MOTION_NONE )			-- Aura
+LinkLuaModifier( "modifier_extended_radiance_burn", "items/item_radiance.lua", LUA_MODIFIER_MOTION_NONE )			-- Damage + blind effect
+LinkLuaModifier( "modifier_extended_radiance_afterburn", "items/item_radiance.lua", LUA_MODIFIER_MOTION_NONE )		-- Sticky effect after leaving the Radiance AoE
 
-function item_imba_radiance:GetIntrinsicModifierName()
-	return "modifier_imba_radiance_basic" end
+function item_extended_radiance:GetIntrinsicModifierName()
+	return "modifier_extended_radiance_basic" end
 
-function item_imba_radiance:OnSpellStart()
+function item_extended_radiance:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
-		if caster:HasModifier("modifier_imba_radiance_aura") then
-			caster:RemoveModifierByName("modifier_imba_radiance_aura")
+		if caster:HasModifier("modifier_extended_radiance_aura") then
+			caster:RemoveModifierByName("modifier_extended_radiance_aura")
 		else
-			caster:AddNewModifier(caster, self, "modifier_imba_radiance_aura", {}) 
+			caster:AddNewModifier(caster, self, "modifier_extended_radiance_aura", {}) 
 		end
 	end
 end
 
-function item_imba_radiance:GetAbilityTextureName()
-	if self:GetCaster():HasModifier("modifier_imba_radiance_aura") then
-		return "custom/imba_radiance" end
+function item_extended_radiance:GetAbilityTextureName()
+	if self:GetCaster():HasModifier("modifier_extended_radiance_aura") then
+		return "custom/extended_radiance" end
 	
-	return "custom/imba_radiance_inactive"
+	return "custom/extended_radiance_inactive"
 end
 
 -----------------------------------------------------------------------------------------------------------
 --	Basic modifier definition
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_radiance_basic == nil then modifier_imba_radiance_basic = class({}) end
-function modifier_imba_radiance_basic:IsHidden() return true end
-function modifier_imba_radiance_basic:IsDebuff() return false end
-function modifier_imba_radiance_basic:IsPurgable() return false end
-function modifier_imba_radiance_basic:IsPermanent() return true end
-function modifier_imba_radiance_basic:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_radiance_basic == nil then modifier_extended_radiance_basic = class({}) end
+function modifier_extended_radiance_basic:IsHidden() return true end
+function modifier_extended_radiance_basic:IsDebuff() return false end
+function modifier_extended_radiance_basic:IsPurgable() return false end
+function modifier_extended_radiance_basic:IsPermanent() return true end
+function modifier_extended_radiance_basic:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Adds the unique modifier to the owner when created
-function modifier_imba_radiance_basic:OnCreated(keys)
+function modifier_extended_radiance_basic:OnCreated(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_imba_radiance_aura") then
-			parent:AddNewModifier(parent, self:GetAbility(), "modifier_imba_radiance_aura", {})
+		if not parent:HasModifier("modifier_extended_radiance_aura") then
+			parent:AddNewModifier(parent, self:GetAbility(), "modifier_extended_radiance_aura", {})
 		end
 	end
 end
 
 -- Removes the unique modifier from the owner if this is the last Radiance in its inventory
-function modifier_imba_radiance_basic:OnDestroy(keys)
+function modifier_extended_radiance_basic:OnDestroy(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_imba_radiance_basic") then
-			parent:RemoveModifierByName("modifier_imba_radiance_aura")
+		if not parent:HasModifier("modifier_extended_radiance_basic") then
+			parent:RemoveModifierByName("modifier_extended_radiance_aura")
 		end
 	end
 end
 
-function modifier_imba_radiance_basic:DeclareFunctions()
+function modifier_extended_radiance_basic:DeclareFunctions()
 	return { MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE, }
 end
 
-function modifier_imba_radiance_basic:GetModifierPreAttack_BonusDamage()
+function modifier_extended_radiance_basic:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Aura definition
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_radiance_aura == nil then modifier_imba_radiance_aura = class({}) end
-function modifier_imba_radiance_aura:IsAura() return true end
-function modifier_imba_radiance_aura:IsHidden() return true end
-function modifier_imba_radiance_aura:IsDebuff() return false end
-function modifier_imba_radiance_aura:IsPurgable() return false end
+if modifier_extended_radiance_aura == nil then modifier_extended_radiance_aura = class({}) end
+function modifier_extended_radiance_aura:IsAura() return true end
+function modifier_extended_radiance_aura:IsHidden() return true end
+function modifier_extended_radiance_aura:IsDebuff() return false end
+function modifier_extended_radiance_aura:IsPurgable() return false end
 
-function modifier_imba_radiance_aura:GetAuraSearchTeam()
+function modifier_extended_radiance_aura:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_ENEMY end
 	
-function modifier_imba_radiance_aura:GetAuraSearchType()
+function modifier_extended_radiance_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO end
 	
-function modifier_imba_radiance_aura:GetModifierAura()
-	return "modifier_imba_radiance_burn" end
+function modifier_extended_radiance_aura:GetModifierAura()
+	return "modifier_extended_radiance_burn" end
 	
-function modifier_imba_radiance_aura:GetAuraRadius()
+function modifier_extended_radiance_aura:GetAuraRadius()
 	return self:GetAbility():GetSpecialValueFor("aura_radius") end
 
 -- Create the glow particle and start thinking
-function modifier_imba_radiance_aura:OnCreated()
+function modifier_extended_radiance_aura:OnCreated()
 	if IsServer() then
 		local parent = self:GetParent()
 		self.particle = ParticleManager:CreateParticle("particles/item/radiance/radiance_owner.vpcf", PATTACH_ABSORIGIN_FOLLOW, parent)
@@ -104,7 +104,7 @@ function modifier_imba_radiance_aura:OnCreated()
 end
 
 -- Destroy the glow particle
-function modifier_imba_radiance_aura:OnDestroy()
+function modifier_extended_radiance_aura:OnDestroy()
 	if IsServer() then
 		ParticleManager:DestroyParticle(self.particle, false)
 		ParticleManager:ReleaseParticleIndex(self.particle)
@@ -112,7 +112,7 @@ function modifier_imba_radiance_aura:OnDestroy()
 end
 
 -- Set color of the radiance glow based on its carrier
-function modifier_imba_radiance_aura:OnIntervalThink()
+function modifier_extended_radiance_aura:OnIntervalThink()
 	if IsServer() then
 		ParticleManager:SetParticleControl(self.particle, 2, GetRadianceColor(self:GetParent()))
 	end
@@ -121,15 +121,15 @@ end
 -----------------------------------------------------------------------------------------------------------
 --	Aura effects (damage + blind)
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_radiance_burn == nil then modifier_imba_radiance_burn = class({}) end
-function modifier_imba_radiance_burn:IsHidden() return true end
-function modifier_imba_radiance_burn:IsDebuff() return true end
-function modifier_imba_radiance_burn:IsPurgable() return false end
+if modifier_extended_radiance_burn == nil then modifier_extended_radiance_burn = class({}) end
+function modifier_extended_radiance_burn:IsHidden() return true end
+function modifier_extended_radiance_burn:IsDebuff() return true end
+function modifier_extended_radiance_burn:IsPurgable() return false end
 
-function modifier_imba_radiance_burn:DeclareFunctions()
+function modifier_extended_radiance_burn:DeclareFunctions()
 	return { MODIFIER_PROPERTY_MISS_PERCENTAGE, } end
 
-function modifier_imba_radiance_burn:OnCreated()
+function modifier_extended_radiance_burn:OnCreated()
 	if IsServer() then
 
 		-- Particle creation
@@ -150,7 +150,7 @@ function modifier_imba_radiance_burn:OnCreated()
 	end
 end
 
-function modifier_imba_radiance_burn:OnDestroy()
+function modifier_extended_radiance_burn:OnDestroy()
 	if IsServer() then
 
 		-- Destroy particle
@@ -161,16 +161,16 @@ function modifier_imba_radiance_burn:OnDestroy()
 		local stacks = self:GetStackCount()
 		if stacks > 0 then
 			local parent = self:GetParent()
-			local modifier_afterburn = parent:FindModifierByName("modifier_imba_radiance_afterburn")
+			local modifier_afterburn = parent:FindModifierByName("modifier_extended_radiance_afterburn")
 			if not modifier_afterburn then
-				modifier_afterburn = parent:AddNewModifier(self:GetAbility():GetCaster(), self:GetAbility(), "modifier_imba_radiance_afterburn", {})
+				modifier_afterburn = parent:AddNewModifier(self:GetAbility():GetCaster(), self:GetAbility(), "modifier_extended_radiance_afterburn", {})
 			end
 			modifier_afterburn:SetStackCount(modifier_afterburn:GetStackCount() + stacks)
 		end
 	end
 end
 
-function modifier_imba_radiance_burn:OnIntervalThink()
+function modifier_extended_radiance_burn:OnIntervalThink()
 	if IsServer() then
 
 		-- Parameters
@@ -186,7 +186,7 @@ function modifier_imba_radiance_burn:OnIntervalThink()
 		else
 			local real_hero_finder = FindUnitsInRadius(parent:GetTeamNumber(), parent:GetAbsOrigin(), nil, self.aura_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD , FIND_ANY_ORDER , false) 
 			for _,hero in pairs(real_hero_finder) do
-				if hero:FindModifierByName("modifier_imba_radiance_aura") and (not hero:IsIllusion()) then
+				if hero:FindModifierByName("modifier_extended_radiance_aura") and (not hero:IsIllusion()) then
 					real_hero_nearby = true
 					break
 				end
@@ -214,18 +214,18 @@ function modifier_imba_radiance_burn:OnIntervalThink()
 	end
 end
 
-function modifier_imba_radiance_burn:GetModifierMiss_Percentage()
+function modifier_extended_radiance_burn:GetModifierMiss_Percentage()
 	return self.miss_chance end
 
 -----------------------------------------------------------------------------------------------------------
 --	Afterburn modifier definition
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_radiance_afterburn == nil then modifier_imba_radiance_afterburn = class({}) end
-function modifier_imba_radiance_afterburn:IsHidden() return false end
-function modifier_imba_radiance_afterburn:IsDebuff() return true end
-function modifier_imba_radiance_afterburn:IsPurgable() return false end
+if modifier_extended_radiance_afterburn == nil then modifier_extended_radiance_afterburn = class({}) end
+function modifier_extended_radiance_afterburn:IsHidden() return false end
+function modifier_extended_radiance_afterburn:IsDebuff() return true end
+function modifier_extended_radiance_afterburn:IsPurgable() return false end
 
-function modifier_imba_radiance_afterburn:OnCreated()
+function modifier_extended_radiance_afterburn:OnCreated()
 	if IsServer() then
 
 		-- Parameter storage
@@ -244,19 +244,19 @@ function modifier_imba_radiance_afterburn:OnCreated()
 	end
 end
 
-function modifier_imba_radiance_afterburn:OnDestroy()
+function modifier_extended_radiance_afterburn:OnDestroy()
 	if IsServer() then
 		ParticleManager:DestroyParticle(self.particle, false)
 		ParticleManager:ReleaseParticleIndex(self.particle)
 	end
 end
 
-function modifier_imba_radiance_afterburn:OnIntervalThink()
+function modifier_extended_radiance_afterburn:OnIntervalThink()
 	if IsServer() then
 		local parent = self:GetParent()
 
 		-- If the parent has the radiance burn modifier, do nothing
-		if not parent:HasModifier("modifier_imba_radiance_burn") then
+		if not parent:HasModifier("modifier_extended_radiance_burn") then
 
 			-- If the original item is gone, do nothing and destroy the modifier
 			local ability = self:GetAbility()
@@ -283,10 +283,10 @@ function modifier_imba_radiance_afterburn:OnIntervalThink()
 	end
 end
 
-function modifier_imba_radiance_afterburn:DeclareFunctions()
+function modifier_extended_radiance_afterburn:DeclareFunctions()
 	return { MODIFIER_PROPERTY_MISS_PERCENTAGE, } end
 
-function modifier_imba_radiance_afterburn:GetModifierMiss_Percentage()
+function modifier_extended_radiance_afterburn:GetModifierMiss_Percentage()
 	return self.miss_chance end
 
 -----------------------------------------------------------------------------------------------------------
@@ -295,11 +295,11 @@ function modifier_imba_radiance_afterburn:GetModifierMiss_Percentage()
 function GetRadianceColor(unit)
 
 	-- Specially colored item modifiers have priority, in this order
-	if unit:FindModifierByName("modifier_item_imba_rapier_cursed") then
+	if unit:FindModifierByName("modifier_item_extended_rapier_cursed") then
 		return Vector(1,1,1)
-	elseif unit:FindModifierByName("modifier_item_imba_skadi") then
+	elseif unit:FindModifierByName("modifier_item_extended_skadi") then
 		return Vector(50,255,255)
-	elseif unit:FindModifierByName("modifier_item_imba_nether_wand") or unit:FindModifierByName("modifier_item_imba_elder_staff") then
+	elseif unit:FindModifierByName("modifier_item_extended_nether_wand") or unit:FindModifierByName("modifier_item_extended_elder_staff") then
 		return Vector(0,255,0)
 	
 	-- Heroes' color is based on attributes

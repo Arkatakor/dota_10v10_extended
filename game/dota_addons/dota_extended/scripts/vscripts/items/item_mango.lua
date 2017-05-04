@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	09.05.2015	]]
 
 function Mango( keys )

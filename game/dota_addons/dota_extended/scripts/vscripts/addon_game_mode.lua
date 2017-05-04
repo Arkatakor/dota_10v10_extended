@@ -3,7 +3,7 @@
 require('statcollection/init')
 require('internal/util')
 require('player_resource')
-require('imba')
+require('extended')
 require('hero_selection')
 
 function Precache( context )
@@ -17,33 +17,33 @@ function Precache( context )
 	See GameMode:PostLoadPrecache() in gamemode.lua for more information
 	]]
 
-	DebugPrint("[IMBA] Performing pre-load precache")
+	DebugPrint("[EXTENDED] Performing pre-load precache")
 
 	-- Particles can be precached individually or by folder
 	-- It it likely that precaching a single particle system will precache all of its children, but this may not be guaranteed
 
 	-- Lua modifiers activation
-	LinkLuaModifier("modifier_imba_speed_limit_break", "modifier/modifier_imba_speed_limit_break.lua", LUA_MODIFIER_MOTION_NONE )
-	LinkLuaModifier("modifier_imba_haste_rune_speed_limit_break", "modifier/modifier_imba_haste_rune_speed_limit_break.lua", LUA_MODIFIER_MOTION_NONE )
-	LinkLuaModifier("modifier_imba_haste_boots_speed_break", "modifier/modifier_imba_haste_boots_speed_break.lua", LUA_MODIFIER_MOTION_NONE )
-	LinkLuaModifier("modifier_imba_chronosphere_ally_slow", "modifier/modifier_imba_chronosphere_ally_slow.lua", LUA_MODIFIER_MOTION_NONE )
-	LinkLuaModifier("modifier_imba_prevent_actions_game_start", "modifier/modifier_imba_prevent_actions_game_start.lua", LUA_MODIFIER_MOTION_NONE )
-	LinkLuaModifier("modifier_imba_arena_passive_gold_thinker", "modifier/modifier_imba_arena_passive_gold_thinker.lua", LUA_MODIFIER_MOTION_NONE )
-	LinkLuaModifier("modifier_imba_frantic", "modifier/modifier_imba_frantic.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_speed_limit_break", "modifier/modifier_extended_speed_limit_break.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_haste_rune_speed_limit_break", "modifier/modifier_extended_haste_rune_speed_limit_break.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_haste_boots_speed_break", "modifier/modifier_extended_haste_boots_speed_break.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_chronosphere_ally_slow", "modifier/modifier_extended_chronosphere_ally_slow.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_prevent_actions_game_start", "modifier/modifier_extended_prevent_actions_game_start.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_arena_passive_gold_thinker", "modifier/modifier_extended_arena_passive_gold_thinker.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_frantic", "modifier/modifier_extended_frantic.lua", LUA_MODIFIER_MOTION_NONE )
 
 	-- Generic talent modifiers
-	LinkLuaModifier("modifier_imba_generic_talents_handler", "modifier/generic_talents/modifier_imba_generic_talents_handler.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_generic_talents_handler", "modifier/generic_talents/modifier_extended_generic_talents_handler.lua", LUA_MODIFIER_MOTION_NONE )
 
 	-- Silencer lua modifiers
-	LinkLuaModifier("modifier_imba_arcane_curse_debuff", "modifier/modifier_imba_arcane_curse_debuff.lua", LUA_MODIFIER_MOTION_NONE )
-	LinkLuaModifier("modifier_imba_silencer_int_steal", "modifier/modifier_imba_silencer_int_steal.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_arcane_curse_debuff", "modifier/modifier_extended_arcane_curse_debuff.lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier("modifier_extended_silencer_int_steal", "modifier/modifier_extended_silencer_int_steal.lua", LUA_MODIFIER_MOTION_NONE )
 
 	-- Items
 	PrecacheResource("particle", "particles/econ/items/effigies/status_fx_effigies/gold_effigy_ambient_dire_lvl2.vpcf", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_mirana.vsndevts", context)
 	PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_ember_spirit.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/imba_soundevents.vsndevts", context)
-	PrecacheResource("soundfile", "soundevents/imba_item_soundevents.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/extended_soundevents.vsndevts", context)
+	PrecacheResource("soundfile", "soundevents/extended_item_soundevents.vsndevts", context)
 
 	-- Roshan
 	PrecacheResource("particle", "particles/units/heroes/hero_invoker/invoker_deafening_blast.vpcf", context)

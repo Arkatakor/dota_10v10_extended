@@ -8,7 +8,7 @@
 CreateEmptyTalents("kunkka")
 
 -- #1 Talent - Giving gold on lasthits
-function modifier_special_bonus_imba_kunkka_1:DeclareFunctions()
+function modifier_special_bonus_extended_kunkka_1:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_EVENT_ON_DEATH
@@ -16,9 +16,9 @@ function modifier_special_bonus_imba_kunkka_1:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_special_bonus_imba_kunkka_1:OnDeath( params )
-	if (params.attacker:GetTeam() == self:GetCaster():GetTeam()) and (params.attacker == self:GetParent()) and (params.attacker ~= params.unit) and (params.attacker:HasTalent("special_bonus_imba_kunkka_1")) then
-		local gold = params.attacker:FindTalentValue("special_bonus_imba_kunkka_1") * (1 + CUSTOM_GOLD_BONUS * 0.01)
+function modifier_special_bonus_extended_kunkka_1:OnDeath( params )
+	if (params.attacker:GetTeam() == self:GetCaster():GetTeam()) and (params.attacker == self:GetParent()) and (params.attacker ~= params.unit) and (params.attacker:HasTalent("special_bonus_extended_kunkka_1")) then
+		local gold = params.attacker:FindTalentValue("special_bonus_extended_kunkka_1") * (1 + CUSTOM_GOLD_BONUS * 0.01)
 		SendOverheadEventMessage( self:GetCaster():GetOwner(),  OVERHEAD_ALERT_GOLD , self:GetParent(), gold, self:GetCaster() )
 		params.attacker:ModifyGold(gold, false, 0)
 	end
@@ -28,92 +28,92 @@ end
 --			EBB & FLOW
 -------------------------------------------
 
-imba_kunkka_ebb_and_flow = class({})
-LinkLuaModifier("modifier_imba_ebb_and_flow_thinker", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_ebb_and_flow_tide_low", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_ebb_and_flow_tide_red", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_ebb_and_flow_tide_flood", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_ebb_and_flow_tide_high", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_ebb_and_flow_tide_wave", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_ebb_and_flow_tsunami", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+extended_kunkka_ebb_and_flow = class({})
+LinkLuaModifier("modifier_extended_ebb_and_flow_thinker", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_ebb_and_flow_tide_low", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_ebb_and_flow_tide_red", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_ebb_and_flow_tide_flood", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_ebb_and_flow_tide_high", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_ebb_and_flow_tide_wave", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_ebb_and_flow_tsunami", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
 
-function imba_kunkka_ebb_and_flow:GetIntrinsicModifierName()
-    return "modifier_imba_ebb_and_flow_thinker"
+function extended_kunkka_ebb_and_flow:GetIntrinsicModifierName()
+    return "modifier_extended_ebb_and_flow_thinker"
 end
 
-function imba_kunkka_ebb_and_flow:IsStealable()
+function extended_kunkka_ebb_and_flow:IsStealable()
 	return false
 end
 
 -- Remove current Tide
-function imba_kunkka_ebb_and_flow:RemoveTide()
+function extended_kunkka_ebb_and_flow:RemoveTide()
 	local caster = self:GetCaster()
-	if caster:HasModifier("modifier_imba_ebb_and_flow_tsunami")  	then caster:RemoveModifierByName("modifier_imba_ebb_and_flow_tsunami") end
-	if caster:HasModifier("modifier_imba_ebb_and_flow_tide_low")	then caster:RemoveModifierByName("modifier_imba_ebb_and_flow_tide_low") end
-    if caster:HasModifier("modifier_imba_ebb_and_flow_tide_red")	then caster:RemoveModifierByName("modifier_imba_ebb_and_flow_tide_red") end
-    if caster:HasModifier("modifier_imba_ebb_and_flow_tide_flood")	then caster:RemoveModifierByName("modifier_imba_ebb_and_flow_tide_flood") end
-    if caster:HasModifier("modifier_imba_ebb_and_flow_tide_high")	then caster:RemoveModifierByName("modifier_imba_ebb_and_flow_tide_high") end
-    if caster:HasModifier("modifier_imba_ebb_and_flow_tide_wave")	then caster:RemoveModifierByName("modifier_imba_ebb_and_flow_tide_wave") end
+	if caster:HasModifier("modifier_extended_ebb_and_flow_tsunami")  	then caster:RemoveModifierByName("modifier_extended_ebb_and_flow_tsunami") end
+	if caster:HasModifier("modifier_extended_ebb_and_flow_tide_low")	then caster:RemoveModifierByName("modifier_extended_ebb_and_flow_tide_low") end
+    if caster:HasModifier("modifier_extended_ebb_and_flow_tide_red")	then caster:RemoveModifierByName("modifier_extended_ebb_and_flow_tide_red") end
+    if caster:HasModifier("modifier_extended_ebb_and_flow_tide_flood")	then caster:RemoveModifierByName("modifier_extended_ebb_and_flow_tide_flood") end
+    if caster:HasModifier("modifier_extended_ebb_and_flow_tide_high")	then caster:RemoveModifierByName("modifier_extended_ebb_and_flow_tide_high") end
+    if caster:HasModifier("modifier_extended_ebb_and_flow_tide_wave")	then caster:RemoveModifierByName("modifier_extended_ebb_and_flow_tide_wave") end
 end
 
-function imba_kunkka_ebb_and_flow:GetCooldown( nLevel )
+function extended_kunkka_ebb_and_flow:GetCooldown( nLevel )
 	local cooldown = self.BaseClass.GetCooldown( self, nLevel )
 	local caster = self:GetCaster()
-	if caster:HasTalent("special_bonus_imba_kunkka_2") then
-		cooldown = cooldown - caster:FindTalentValue("special_bonus_imba_kunkka_2")
+	if caster:HasTalent("special_bonus_extended_kunkka_2") then
+		cooldown = cooldown - caster:FindTalentValue("special_bonus_extended_kunkka_2")
 	end
 	return cooldown
 end
 
 -- Re-roll buff
-function imba_kunkka_ebb_and_flow:OnSpellStart()
+function extended_kunkka_ebb_and_flow:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
-		local modifier = caster:FindModifierByName("modifier_imba_ebb_and_flow_thinker")
+		local modifier = caster:FindModifierByName("modifier_extended_ebb_and_flow_thinker")
 		self:RemoveTide()
 		modifier.tsunami_check = 0
     end
 end
 
-function imba_kunkka_ebb_and_flow:GetAbilityTextureName()
+function extended_kunkka_ebb_and_flow:GetAbilityTextureName()
     local caster = self:GetCaster()
-	if caster:HasModifier("modifier_imba_ebb_and_flow_tsunami")    then return "custom/kunnka_tide_tsunami" end
-	if caster:HasModifier("modifier_imba_ebb_and_flow_tide_low")   then return "custom/kunnka_tide_low"     end
-    if caster:HasModifier("modifier_imba_ebb_and_flow_tide_red")   then return "custom/kunnka_tide_red"     end
-    if caster:HasModifier("modifier_imba_ebb_and_flow_tide_flood") then return "custom/kunnka_tide_flood"   end
-    if caster:HasModifier("modifier_imba_ebb_and_flow_tide_high")  then return "custom/kunnka_tide_high"    end
-    if caster:HasModifier("modifier_imba_ebb_and_flow_tide_wave")  then return "custom/kunnka_tide_wave"    end
+	if caster:HasModifier("modifier_extended_ebb_and_flow_tsunami")    then return "custom/kunnka_tide_tsunami" end
+	if caster:HasModifier("modifier_extended_ebb_and_flow_tide_low")   then return "custom/kunnka_tide_low"     end
+    if caster:HasModifier("modifier_extended_ebb_and_flow_tide_red")   then return "custom/kunnka_tide_red"     end
+    if caster:HasModifier("modifier_extended_ebb_and_flow_tide_flood") then return "custom/kunnka_tide_flood"   end
+    if caster:HasModifier("modifier_extended_ebb_and_flow_tide_high")  then return "custom/kunnka_tide_high"    end
+    if caster:HasModifier("modifier_extended_ebb_and_flow_tide_wave")  then return "custom/kunnka_tide_wave"    end
     return "custom/kunkka_ebb_and_flow"
 end
 
-modifier_imba_ebb_and_flow_thinker = class({})
+modifier_extended_ebb_and_flow_thinker = class({})
 
 -- State defining
-function modifier_imba_ebb_and_flow_thinker:RemoveOnDeath()
+function modifier_extended_ebb_and_flow_thinker:RemoveOnDeath()
     return false
 end
 
-function modifier_imba_ebb_and_flow_thinker:IsPermanent()
+function modifier_extended_ebb_and_flow_thinker:IsPermanent()
     return true
 end
 
-function modifier_imba_ebb_and_flow_thinker:IsPurgeable()
+function modifier_extended_ebb_and_flow_thinker:IsPurgeable()
     return false
 end
 
-function modifier_imba_ebb_and_flow_thinker:IsHidden()
+function modifier_extended_ebb_and_flow_thinker:IsHidden()
     return true
 end
 
 -- Cooldown checker
-function modifier_imba_ebb_and_flow_thinker:OnCreated()
+function modifier_extended_ebb_and_flow_thinker:OnCreated()
     if IsServer() then
         self.tide_counter = 1
         self:StartIntervalThink(0.1)
     end
 end
 
-function modifier_imba_ebb_and_flow_thinker:OnIntervalThink()
+function modifier_extended_ebb_and_flow_thinker:OnIntervalThink()
     if IsServer() then
 		local caster = self:GetCaster()
         local ability = self:GetAbility()
@@ -133,7 +133,7 @@ function modifier_imba_ebb_and_flow_thinker:OnIntervalThink()
 
         local current_tide_modifier
         if self.tsunami_check == 1 then
-            current_tide_modifier = "modifier_imba_ebb_and_flow_tsunami"
+            current_tide_modifier = "modifier_extended_ebb_and_flow_tsunami"
         else
             current_tide_modifier = self:GetCurrentTide(self.tide_counter)
         end
@@ -145,99 +145,99 @@ function modifier_imba_ebb_and_flow_thinker:OnIntervalThink()
     end
 end
 
-modifier_imba_ebb_and_flow_tide_low = class({})
+modifier_extended_ebb_and_flow_tide_low = class({})
 
-function modifier_imba_ebb_and_flow_tide_low:IsHidden()
+function modifier_extended_ebb_and_flow_tide_low:IsHidden()
     return false
 end
-function modifier_imba_ebb_and_flow_tide_low:IsDebuff()
+function modifier_extended_ebb_and_flow_tide_low:IsDebuff()
     return false
 end
 
-function modifier_imba_ebb_and_flow_tide_low:GetTexture()
+function modifier_extended_ebb_and_flow_tide_low:GetTexture()
     return "custom/kunnka_tide_low"
 end
 
-modifier_imba_ebb_and_flow_tide_red = class({})
+modifier_extended_ebb_and_flow_tide_red = class({})
 
-function modifier_imba_ebb_and_flow_tide_red:IsHidden()
+function modifier_extended_ebb_and_flow_tide_red:IsHidden()
     return false
 end
-function modifier_imba_ebb_and_flow_tide_red:IsDebuff()
+function modifier_extended_ebb_and_flow_tide_red:IsDebuff()
     return false
 end
 
-function modifier_imba_ebb_and_flow_tide_red:GetTexture()
+function modifier_extended_ebb_and_flow_tide_red:GetTexture()
     return "custom/kunnka_tide_red"
 end
 
-modifier_imba_ebb_and_flow_tide_flood = class({})
+modifier_extended_ebb_and_flow_tide_flood = class({})
 
-function modifier_imba_ebb_and_flow_tide_flood:IsHidden()
+function modifier_extended_ebb_and_flow_tide_flood:IsHidden()
     return false
 end
-function modifier_imba_ebb_and_flow_tide_flood:IsDebuff()
+function modifier_extended_ebb_and_flow_tide_flood:IsDebuff()
     return false
 end
 
-function modifier_imba_ebb_and_flow_tide_flood:GetTexture()
+function modifier_extended_ebb_and_flow_tide_flood:GetTexture()
     return "custom/kunnka_tide_flood"
 end
 
-modifier_imba_ebb_and_flow_tide_high = class({})
+modifier_extended_ebb_and_flow_tide_high = class({})
 
-function modifier_imba_ebb_and_flow_tide_high:IsHidden()
+function modifier_extended_ebb_and_flow_tide_high:IsHidden()
     return false
 end
-function modifier_imba_ebb_and_flow_tide_high:IsDebuff()
+function modifier_extended_ebb_and_flow_tide_high:IsDebuff()
     return false
 end
 
-function modifier_imba_ebb_and_flow_tide_high:GetTexture()
+function modifier_extended_ebb_and_flow_tide_high:GetTexture()
     return "custom/kunnka_tide_high"
 end
 
-modifier_imba_ebb_and_flow_tide_wave = class({})
+modifier_extended_ebb_and_flow_tide_wave = class({})
 
-function modifier_imba_ebb_and_flow_tide_wave:IsHidden()
+function modifier_extended_ebb_and_flow_tide_wave:IsHidden()
     return false
 end
-function modifier_imba_ebb_and_flow_tide_wave:IsDebuff()
+function modifier_extended_ebb_and_flow_tide_wave:IsDebuff()
     return false
 end
 
-function modifier_imba_ebb_and_flow_tide_wave:GetTexture()
+function modifier_extended_ebb_and_flow_tide_wave:GetTexture()
     return "custom/kunnka_tide_wave"
 end
 
-modifier_imba_ebb_and_flow_tsunami = class({})
+modifier_extended_ebb_and_flow_tsunami = class({})
 
-function modifier_imba_ebb_and_flow_tsunami:IsHidden()
+function modifier_extended_ebb_and_flow_tsunami:IsHidden()
     return false
 end
-function modifier_imba_ebb_and_flow_tsunami:IsDebuff()
+function modifier_extended_ebb_and_flow_tsunami:IsDebuff()
     return false
 end
 
-function modifier_imba_ebb_and_flow_tsunami:GetTexture()
+function modifier_extended_ebb_and_flow_tsunami:GetTexture()
     return "custom/kunnka_tide_tsunami"
 end
 
 -- Flexible list of all possible tides (excluding tsunami)
-function modifier_imba_ebb_and_flow_thinker:GetCurrentTide( index )
+function modifier_extended_ebb_and_flow_thinker:GetCurrentTide( index )
     local tide_list = {
-        "modifier_imba_ebb_and_flow_tide_low",
-        "modifier_imba_ebb_and_flow_tide_red",
-        "modifier_imba_ebb_and_flow_tide_flood",
-        "modifier_imba_ebb_and_flow_tide_high",
-        "modifier_imba_ebb_and_flow_tide_wave"
+        "modifier_extended_ebb_and_flow_tide_low",
+        "modifier_extended_ebb_and_flow_tide_red",
+        "modifier_extended_ebb_and_flow_tide_flood",
+        "modifier_extended_ebb_and_flow_tide_high",
+        "modifier_extended_ebb_and_flow_tide_wave"
     }
     tide_list['tide_count'] = #tide_list
     return tide_list[index]
 end
 
 -- Sets the current Tide-counter
-function modifier_imba_ebb_and_flow_thinker:NextTide()
+function modifier_extended_ebb_and_flow_thinker:NextTide()
     if ( self.tide_counter >= self:GetCurrentTide('tide_count') ) then
         self.tide_counter = 1
     else
@@ -249,14 +249,14 @@ end
 --			  TORRENT
 -------------------------------------------
 
-imba_kunkka_torrent = class({})
-LinkLuaModifier("modifier_imba_torrent_cast", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_torrent_slow_tide", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_torrent_slow", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_sec_torrent_slow", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_torrent_phase", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+extended_kunkka_torrent = class({})
+LinkLuaModifier("modifier_extended_torrent_cast", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_torrent_slow_tide", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_torrent_slow", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_sec_torrent_slow", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_torrent_phase", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
 
-function imba_kunkka_torrent:OnSpellStart()
+function extended_kunkka_torrent:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target = self:GetCursorPosition()
@@ -277,23 +277,23 @@ function imba_kunkka_torrent:OnSpellStart()
 		local torrent_height = self:GetSpecialValueFor("torrent_height")
 
 		-- Check buffs by Ebb and Flow, and set on Cooldown after cast to give a new buff
-		local tsunami = caster:HasModifier("modifier_imba_ebb_and_flow_tsunami")
-		if caster:HasModifier("modifier_imba_ebb_and_flow_tide_flood") or tsunami then
+		local tsunami = caster:HasModifier("modifier_extended_ebb_and_flow_tsunami")
+		if caster:HasModifier("modifier_extended_ebb_and_flow_tide_flood") or tsunami then
 			damage = damage + self:GetSpecialValueFor("tide_flood_damage")
 		end
-		if caster:HasModifier("modifier_imba_ebb_and_flow_tide_high") or tsunami then
+		if caster:HasModifier("modifier_extended_ebb_and_flow_tide_high") or tsunami then
 			radius = radius + self:GetSpecialValueFor("tide_high_radius")
 		end
-		if caster:HasModifier("modifier_imba_ebb_and_flow_tide_wave") or tsunami then
+		if caster:HasModifier("modifier_extended_ebb_and_flow_tide_wave") or tsunami then
 			first_delay = 0
 		end
 		local extra_slow = false
-		if caster:HasModifier("modifier_imba_ebb_and_flow_tide_red") or tsunami then
+		if caster:HasModifier("modifier_extended_ebb_and_flow_tide_red") or tsunami then
 			extra_slow = true
 		end
 		-- In case the ability is stolen don't cast the next tide
-		if caster:HasAbility("imba_kunkka_ebb_and_flow") then
-			local ability_tide = caster:FindAbilityByName("imba_kunkka_ebb_and_flow")
+		if caster:HasAbility("extended_kunkka_ebb_and_flow") then
+			local ability_tide = caster:FindAbilityByName("extended_kunkka_ebb_and_flow")
 			ability_tide:CastAbility()
 		end
 
@@ -390,7 +390,7 @@ function imba_kunkka_torrent:OnSpellStart()
 					-- Apply knockback on enemies hit
 					enemy:RemoveModifierByName("modifier_knockback")
 					enemy:AddNewModifier(caster, self, "modifier_knockback", knockback)
-					enemy:AddNewModifier(caster, self, "modifier_imba_torrent_phase", {duration = stun_duration})
+					enemy:AddNewModifier(caster, self, "modifier_extended_torrent_phase", {duration = stun_duration})
 
 					-- Deals tick damage tick_count times
 					Timers:CreateTimer(function()
@@ -403,12 +403,12 @@ function imba_kunkka_torrent:OnSpellStart()
 
 					-- Applies the slow
 					if torrent_count == 0 then
-						enemy:AddNewModifier(caster, self, "modifier_imba_torrent_slow", {duration = slow_duration})
+						enemy:AddNewModifier(caster, self, "modifier_extended_torrent_slow", {duration = slow_duration})
 						if extra_slow then
-							enemy:AddNewModifier(caster, self, "modifier_imba_torrent_slow_tide", {duration = slow_duration})
+							enemy:AddNewModifier(caster, self, "modifier_extended_torrent_slow_tide", {duration = slow_duration})
 						end
 					else
-						enemy:AddNewModifier(caster, self, "modifier_imba_sec_torrent_slow", {duration = sec_torrent_slow_duration})
+						enemy:AddNewModifier(caster, self, "modifier_extended_sec_torrent_slow", {duration = sec_torrent_slow_duration})
 					end
 				end
 
@@ -454,60 +454,60 @@ function imba_kunkka_torrent:OnSpellStart()
 	end
 end
 
-function imba_kunkka_torrent:IsHiddenWhenStolen()
+function extended_kunkka_torrent:IsHiddenWhenStolen()
 	return false
 end
 
-function imba_kunkka_torrent:GetAOERadius()
+function extended_kunkka_torrent:GetAOERadius()
 	local caster = self:GetCaster()
 	local radius = self:GetTalentSpecialValueFor("radius")
-	if caster:HasModifier("modifier_imba_ebb_and_flow_tide_high") or caster:HasModifier("modifier_imba_ebb_and_flow_tsunami") then
+	if caster:HasModifier("modifier_extended_ebb_and_flow_tide_high") or caster:HasModifier("modifier_extended_ebb_and_flow_tsunami") then
 		radius = radius + self:GetSpecialValueFor("tide_high_radius")
 	end
 	return radius
 end
 
-function imba_kunkka_torrent:GetCastRange( location , target)
+function extended_kunkka_torrent:GetCastRange( location , target)
 	local caster = self:GetCaster()
 	local range = self.BaseClass.GetCastRange(self,location,target)
-	if caster:HasModifier("modifier_imba_ebb_and_flow_tide_low") or caster:HasModifier("modifier_imba_ebb_and_flow_tsunami") then
+	if caster:HasModifier("modifier_extended_ebb_and_flow_tide_low") or caster:HasModifier("modifier_extended_ebb_and_flow_tsunami") then
 		range = range + self:GetSpecialValueFor("tide_low_range")
 	end
 	return range
 end
 
-modifier_imba_torrent_phase = class({})
+modifier_extended_torrent_phase = class({})
 
-function modifier_imba_torrent_phase:CheckState()
+function modifier_extended_torrent_phase:CheckState()
 	local state = {[MODIFIER_STATE_NO_UNIT_COLLISION] = true}
 	return state
 end
 
-function modifier_imba_torrent_phase:IsHidden()
+function modifier_extended_torrent_phase:IsHidden()
 	return true
 end
 
-function modifier_imba_torrent_phase:IsDebuff()
+function modifier_extended_torrent_phase:IsDebuff()
 	return true
 end
 
-modifier_imba_torrent_slow_tide = class({})
+modifier_extended_torrent_slow_tide = class({})
 
-function modifier_imba_torrent_slow_tide:IsHidden()
+function modifier_extended_torrent_slow_tide:IsHidden()
 	return true
 end
 
-function modifier_imba_torrent_slow_tide:IsDebuff()
+function modifier_extended_torrent_slow_tide:IsDebuff()
 	return true
 end
 
-function modifier_imba_torrent_slow_tide:IsPurgable()
+function modifier_extended_torrent_slow_tide:IsPurgable()
 	return true
 end
 
-modifier_imba_torrent_slow = class({})
+modifier_extended_torrent_slow = class({})
 
-function modifier_imba_torrent_slow:DeclareFunctions()
+function modifier_extended_torrent_slow:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
@@ -515,30 +515,30 @@ function modifier_imba_torrent_slow:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_imba_torrent_slow:GetModifierMoveSpeedBonus_Percentage( )
+function modifier_extended_torrent_slow:GetModifierMoveSpeedBonus_Percentage( )
 	local ability = self:GetAbility()
 	local slow = ability:GetSpecialValueFor("main_slow")
-	if self:GetParent():HasModifier("modifier_imba_torrent_slow_tide")then
+	if self:GetParent():HasModifier("modifier_extended_torrent_slow_tide")then
 		slow = slow + ability:GetSpecialValueFor("tide_red_slow")
 	end
 	return slow * (-1)
 end
 
-function modifier_imba_torrent_slow:IsHidden()
+function modifier_extended_torrent_slow:IsHidden()
 	return false
 end
 
-function modifier_imba_torrent_slow:IsDebuff()
+function modifier_extended_torrent_slow:IsDebuff()
 	return true
 end
 
-function modifier_imba_torrent_slow:IsPurgable()
+function modifier_extended_torrent_slow:IsPurgable()
 	return true
 end
 
-modifier_imba_sec_torrent_slow = class({})
+modifier_extended_sec_torrent_slow = class({})
 
-function modifier_imba_sec_torrent_slow:DeclareFunctions()
+function modifier_extended_sec_torrent_slow:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
@@ -546,27 +546,27 @@ function modifier_imba_sec_torrent_slow:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_imba_sec_torrent_slow:GetModifierMoveSpeedBonus_Percentage( )
+function modifier_extended_sec_torrent_slow:GetModifierMoveSpeedBonus_Percentage( )
 	return ( self:GetAbility():GetSpecialValueFor("sec_torrent_slow") * (-1) )
 end
 
-function modifier_imba_sec_torrent_slow:IsHidden()
+function modifier_extended_sec_torrent_slow:IsHidden()
 	return false
 end
 
-function modifier_imba_sec_torrent_slow:IsDebuff()
+function modifier_extended_sec_torrent_slow:IsDebuff()
 	return true
 end
 
-function modifier_imba_sec_torrent_slow:IsPurgable()
+function modifier_extended_sec_torrent_slow:IsPurgable()
 	return true
 end
 
 -- Modifier for casting torrent without showing cast direction
--- Modifier is added in the OrderFilter in imba.lua !
-modifier_imba_torrent_cast = class({})
+-- Modifier is added in the OrderFilter in extended.lua !
+modifier_extended_torrent_cast = class({})
 
-function modifier_imba_torrent_cast:DeclareFunctions()
+function modifier_extended_torrent_cast:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_PROPERTY_IGNORE_CAST_ANGLE,
@@ -575,20 +575,20 @@ function modifier_imba_torrent_cast:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_imba_torrent_cast:GetModifierIgnoreCastAngle( params )
+function modifier_extended_torrent_cast:GetModifierIgnoreCastAngle( params )
 	return 1
 end
 
-function modifier_imba_torrent_cast:GetModifierDisableTurning( params )
+function modifier_extended_torrent_cast:GetModifierDisableTurning( params )
 	return 1
 end
 
-function modifier_imba_torrent_cast:IsHidden()
+function modifier_extended_torrent_cast:IsHidden()
 	return false
 end
 
 -- Do a stop order after finish casting to prevent turning to the destination point
-function modifier_imba_torrent_cast:OnDestroy( params )
+function modifier_extended_torrent_cast:OnDestroy( params )
 	if IsServer() then
 		local stopOrder =
 		{
@@ -603,70 +603,70 @@ end
 --			  TIDEBRINGER
 -------------------------------------------
 
-imba_kunkka_tidebringer = class({})
-LinkLuaModifier("modifier_imba_tidebringer", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_tidebringer_sword_particle", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_tidebringer_manual", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_tidebringer_slow", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+extended_kunkka_tidebringer = class({})
+LinkLuaModifier("modifier_extended_tidebringer", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_tidebringer_sword_particle", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_tidebringer_manual", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_tidebringer_slow", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
 
-function imba_kunkka_tidebringer:GetIntrinsicModifierName()
-    return "modifier_imba_tidebringer"
+function extended_kunkka_tidebringer:GetIntrinsicModifierName()
+    return "modifier_extended_tidebringer"
 end
 
-function imba_kunkka_tidebringer:GetCastRange(location, target)
+function extended_kunkka_tidebringer:GetCastRange(location, target)
 	return self:GetCaster():GetAttackRange()
 end
 
-function imba_kunkka_tidebringer:IsStealable()
+function extended_kunkka_tidebringer:IsStealable()
 	return false
 end
 
-function imba_kunkka_tidebringer:OnSpellStart()
+function extended_kunkka_tidebringer:OnSpellStart()
 	if IsServer() then
 		-- Force attack the target
 		local caster = self:GetCaster()
 		caster:MoveToTargetToAttack(self:GetCursorTarget())
-		caster:AddNewModifier(caster, self, "modifier_imba_tidebringer_manual", {})
+		caster:AddNewModifier(caster, self, "modifier_extended_tidebringer_manual", {})
 		-- If manually casted, reset CD, CD getting applied on hit
 		self:EndCooldown()
 	end
 end
 
-function imba_kunkka_tidebringer:OnUpgrade()
+function extended_kunkka_tidebringer:OnUpgrade()
 	if IsServer() then
-		self:GetCaster():RemoveModifierByName("modifier_imba_tidebringer")
-		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_imba_tidebringer", {})
+		self:GetCaster():RemoveModifierByName("modifier_extended_tidebringer")
+		self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_extended_tidebringer", {})
 	end
 end
 
-function imba_kunkka_tidebringer:GetCooldown( nLevel )
+function extended_kunkka_tidebringer:GetCooldown( nLevel )
 	local cooldown = self.BaseClass.GetCooldown( self, nLevel )
 	local caster = self:GetCaster()
-	if caster:HasTalent("special_bonus_imba_kunkka_7") then
-		cooldown = cooldown - caster:FindTalentValue("special_bonus_imba_kunkka_7")
+	if caster:HasTalent("special_bonus_extended_kunkka_7") then
+		cooldown = cooldown - caster:FindTalentValue("special_bonus_extended_kunkka_7")
 	end
 
-	if caster:HasModifier("modifier_imba_ebb_and_flow_tide_wave") or caster:HasModifier("modifier_imba_ebb_and_flow_tsunami") then
+	if caster:HasModifier("modifier_extended_ebb_and_flow_tide_wave") or caster:HasModifier("modifier_extended_ebb_and_flow_tsunami") then
 		cooldown = 0
 	end
 	return cooldown
 end
 
-modifier_imba_tidebringer_sword_particle = class({})
+modifier_extended_tidebringer_sword_particle = class({})
 
-function modifier_imba_tidebringer_sword_particle:IsHidden()
+function modifier_extended_tidebringer_sword_particle:IsHidden()
 	return true
 end
 
-function modifier_imba_tidebringer_sword_particle:RemoveOnDeath()
+function modifier_extended_tidebringer_sword_particle:RemoveOnDeath()
 	return false
 end
 
-function modifier_imba_tidebringer_sword_particle:IsPurgable()
+function modifier_extended_tidebringer_sword_particle:IsPurgable()
 	return false
 end
 
-function modifier_imba_tidebringer_sword_particle:OnDestroy()
+function modifier_extended_tidebringer_sword_particle:OnDestroy()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()
@@ -679,7 +679,7 @@ function modifier_imba_tidebringer_sword_particle:OnDestroy()
 	end
 end
 
-function modifier_imba_tidebringer_sword_particle:OnCreated()
+function modifier_extended_tidebringer_sword_particle:OnCreated()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()
@@ -693,15 +693,15 @@ function modifier_imba_tidebringer_sword_particle:OnCreated()
 	end
 end
 
-modifier_imba_tidebringer_manual = class({})
+modifier_extended_tidebringer_manual = class({})
 
-function modifier_imba_tidebringer_manual:IsHidden()
+function modifier_extended_tidebringer_manual:IsHidden()
 	return false
 end
 
-modifier_imba_tidebringer = class({})
+modifier_extended_tidebringer = class({})
 
-function modifier_imba_tidebringer:DeclareFunctions()
+function modifier_extended_tidebringer:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
@@ -712,33 +712,33 @@ function modifier_imba_tidebringer:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_imba_tidebringer:OnCreated()
+function modifier_extended_tidebringer:OnCreated()
 	self.range = self:GetAbility():GetSpecialValueFor("range")
 	self.radius_start = self:GetAbility():GetSpecialValueFor("radius_start")
 	self.radius_end = self:GetAbility():GetSpecialValueFor("radius_end")
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
 	if IsServer() then
-		if (not caster:HasModifier("modifier_imba_tidebringer_sword_particle")) and ability:IsCooldownReady() then
-			caster:AddNewModifier(caster, ability, "modifier_imba_tidebringer_sword_particle", {})
+		if (not caster:HasModifier("modifier_extended_tidebringer_sword_particle")) and ability:IsCooldownReady() then
+			caster:AddNewModifier(caster, ability, "modifier_extended_tidebringer_sword_particle", {})
 		end
 	end
 end
 
-function modifier_imba_tidebringer:OnRefresh()
+function modifier_extended_tidebringer:OnRefresh()
 	self.range = self:GetAbility():GetSpecialValueFor("range")
 	self.radius_start = self:GetAbility():GetSpecialValueFor("radius_start")
 	self.radius_end = self:GetAbility():GetSpecialValueFor("radius_end")
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
 	if IsServer() then
-		if ( not caster:HasModifier("modifier_imba_tidebringer_sword_particle")) and ability:IsCooldownReady() then
-			caster:AddNewModifier(caster, ability, "modifier_imba_tidebringer_sword_particle", {})
+		if ( not caster:HasModifier("modifier_extended_tidebringer_sword_particle")) and ability:IsCooldownReady() then
+			caster:AddNewModifier(caster, ability, "modifier_extended_tidebringer_sword_particle", {})
 		end
 	end
 end
 
-function modifier_imba_tidebringer:OnAttackStart( params )
+function modifier_extended_tidebringer:OnAttackStart( params )
 	if IsServer() then
 		local parent = self:GetParent()
 		local target = params.target
@@ -747,15 +747,15 @@ function modifier_imba_tidebringer:OnAttackStart( params )
 			self.sound_triggered = false
 			-- Check buffs by Ebb and Flow, and set on Cooldown after cast to give a new buff
 			self.tide_index = 0
-			if parent:HasModifier("modifier_imba_ebb_and_flow_tsunami") 	then self.tide_index = 1 end
-			if parent:HasModifier("modifier_imba_ebb_and_flow_tide_low") 	then self.tide_index = 2 end
-			if parent:HasModifier("modifier_imba_ebb_and_flow_tide_red") 	then self.tide_index = 3 end
-			if parent:HasModifier("modifier_imba_ebb_and_flow_tide_flood")	then self.tide_index = 4 end
-			if parent:HasModifier("modifier_imba_ebb_and_flow_tide_high") 	then self.tide_index = 5 end
-			if parent:HasModifier("modifier_imba_ebb_and_flow_tide_wave") 	then self.tide_index = 6 end
+			if parent:HasModifier("modifier_extended_ebb_and_flow_tsunami") 	then self.tide_index = 1 end
+			if parent:HasModifier("modifier_extended_ebb_and_flow_tide_low") 	then self.tide_index = 2 end
+			if parent:HasModifier("modifier_extended_ebb_and_flow_tide_red") 	then self.tide_index = 3 end
+			if parent:HasModifier("modifier_extended_ebb_and_flow_tide_flood")	then self.tide_index = 4 end
+			if parent:HasModifier("modifier_extended_ebb_and_flow_tide_high") 	then self.tide_index = 5 end
+			if parent:HasModifier("modifier_extended_ebb_and_flow_tide_wave") 	then self.tide_index = 6 end
 
 			if ability:IsCooldownReady() and not (parent:PassivesDisabled()) then
-				if ability:GetAutoCastState() or parent:HasModifier("modifier_imba_tidebringer_manual") then
+				if ability:GetAutoCastState() or parent:HasModifier("modifier_extended_tidebringer_manual") then
 					self.pass_attack = true
 					self.bonus_damage = ability:GetSpecialValueFor("bonus_damage")
 					if (self.tide_index == 4) or (self.tide_index == 1) then
@@ -770,7 +770,7 @@ function modifier_imba_tidebringer:OnAttackStart( params )
 	end
 end
 
-function modifier_imba_tidebringer:OnAttackLanded( params )
+function modifier_extended_tidebringer:OnAttackLanded( params )
 	local ability = self:GetAbility()
 	if IsServer() then
 		local parent = self:GetParent()
@@ -787,7 +787,7 @@ function modifier_imba_tidebringer:OnAttackLanded( params )
 			local radius_start = self.radius_start
 			local radius_end = self.radius_end
 
-			parent:RemoveModifierByName("modifier_imba_tidebringer_sword_particle")
+			parent:RemoveModifierByName("modifier_extended_tidebringer_sword_particle")
 
 			if (self.tide_index == 2) or (self.tide_index == 1) then
 				range = range + ability:GetSpecialValueFor("tide_low_range")
@@ -819,8 +819,8 @@ function modifier_imba_tidebringer:OnAttackLanded( params )
 					if cooldown > 0 then
 						ability:StartCooldown( cooldown )
 						Timers:CreateTimer( cooldown, function()
-							if not parent:HasModifier("modifier_imba_tidebringer_sword_particle") then
-								parent:AddNewModifier(parent, ability, "modifier_imba_tidebringer_sword_particle", {})
+							if not parent:HasModifier("modifier_extended_tidebringer_sword_particle") then
+								parent:AddNewModifier(parent, ability, "modifier_extended_tidebringer_sword_particle", {})
 							end
 						return nil
 						end)
@@ -828,11 +828,11 @@ function modifier_imba_tidebringer:OnAttackLanded( params )
 
 				end
 				self.hitCounter = nil
-				if parent:HasModifier("modifier_imba_tidebringer_manual") then
-					parent:RemoveModifierByName("modifier_imba_tidebringer_manual")
+				if parent:HasModifier("modifier_extended_tidebringer_manual") then
+					parent:RemoveModifierByName("modifier_extended_tidebringer_manual")
 				end
-				if parent:HasAbility("imba_kunkka_ebb_and_flow") then
-					local ability_tide = parent:FindAbilityByName("imba_kunkka_ebb_and_flow")
+				if parent:HasAbility("extended_kunkka_ebb_and_flow") then
+					local ability_tide = parent:FindAbilityByName("extended_kunkka_ebb_and_flow")
 					if self.tide_index >= 1 then
 						ability_tide:CastAbility()
 					end
@@ -843,26 +843,26 @@ function modifier_imba_tidebringer:OnAttackLanded( params )
 	return 0
 end
 
-function modifier_imba_tidebringer:GetModifierPreAttack_BonusDamage(params)
+function modifier_extended_tidebringer:GetModifierPreAttack_BonusDamage(params)
 	self.bonus_damage = self.bonus_damage or 0
 	return self.bonus_damage
 end
 
-function modifier_imba_tidebringer:OnTakeDamage( params )
+function modifier_extended_tidebringer:OnTakeDamage( params )
 	if IsServer() then
-		if params.attacker == self:GetParent() and ( bit.band( params.damage_flags , DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR) == DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR) and params.inflictor:GetAbilityName() == "imba_kunkka_tidebringer" then
+		if params.attacker == self:GetParent() and ( bit.band( params.damage_flags , DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR) == DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR) and params.inflictor:GetAbilityName() == "extended_kunkka_tidebringer" then
 			self:TidebringerEffects( params.unit, params.inflictor )
 		end
 	end
 end
 
-function modifier_imba_tidebringer:TidebringerEffects( target, ability )
+function modifier_extended_tidebringer:TidebringerEffects( target, ability )
 	local sound_height = 1000
 	self.hitCounter = self.hitCounter or 0
 	self.hitCounter = self.hitCounter + 1
 	local attacker = self:GetCaster()
 	if ( self.tide_index == 1 or self.tide_index == 3 ) and not target:IsMagicImmune() then
-		target:AddNewModifier(attacker, ability, "modifier_imba_tidebringer_slow", {duration = ability:GetSpecialValueFor("tide_red_slow_duration")})
+		target:AddNewModifier(attacker, ability, "modifier_extended_tidebringer_slow", {duration = ability:GetSpecialValueFor("tide_red_slow_duration")})
 	end
 
 	if self.tide_index == 1 then
@@ -895,21 +895,21 @@ function modifier_imba_tidebringer:TidebringerEffects( target, ability )
 	end
 end
 
-function modifier_imba_tidebringer:IsHidden()
+function modifier_extended_tidebringer:IsHidden()
 	return true
 end
 
-function modifier_imba_tidebringer:RemoveOnDeath()
+function modifier_extended_tidebringer:RemoveOnDeath()
 	return false
 end
 
-function modifier_imba_tidebringer:IsPurgable()
+function modifier_extended_tidebringer:IsPurgable()
 	return false
 end
 
-modifier_imba_tidebringer_slow = class({})
+modifier_extended_tidebringer_slow = class({})
 
-function modifier_imba_tidebringer_slow:DeclareFunctions()
+function modifier_extended_tidebringer_slow:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
@@ -917,25 +917,25 @@ function modifier_imba_tidebringer_slow:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_imba_tidebringer_slow:GetModifierMoveSpeedBonus_Percentage( )
+function modifier_extended_tidebringer_slow:GetModifierMoveSpeedBonus_Percentage( )
 	return ( self:GetAbility():GetSpecialValueFor("tide_red_slow") * (-1) )
 end
 
 
 
-function modifier_imba_tidebringer_slow:IsDebuff()
+function modifier_extended_tidebringer_slow:IsDebuff()
 	return true
 end
 
-function modifier_imba_tidebringer_slow:IsPurgable()
+function modifier_extended_tidebringer_slow:IsPurgable()
 	return true
 end
 
-function modifier_imba_tidebringer_slow:IsHidden()
+function modifier_extended_tidebringer_slow:IsHidden()
 	return false
 end
 
-function modifier_imba_tidebringer_slow:RemoveOnDeath()
+function modifier_extended_tidebringer_slow:RemoveOnDeath()
 	return true
 end
 
@@ -943,11 +943,11 @@ end
 --			X MARKS THE SPOT
 -------------------------------------------
 
-imba_kunkka_x_marks_the_spot = class({})
-LinkLuaModifier("modifier_imba_x_marks_the_spot", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_x_marks_the_spot_return", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+extended_kunkka_x_marks_the_spot = class({})
+LinkLuaModifier("modifier_extended_x_marks_the_spot", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_x_marks_the_spot_return", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
 
-function imba_kunkka_x_marks_the_spot:OnSpellStart()
+function extended_kunkka_x_marks_the_spot:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target = self:GetCursorTarget()
@@ -955,14 +955,14 @@ function imba_kunkka_x_marks_the_spot:OnSpellStart()
 		local sec_duration = self:GetSpecialValueFor("sec_duration")
 		local talent_hits = false
 
-		if caster:HasTalent("special_bonus_imba_kunkka_5") then
-			local radius = caster:FindTalentValue("special_bonus_imba_kunkka_5")
+		if caster:HasTalent("special_bonus_extended_kunkka_5") then
+			local radius = caster:FindTalentValue("special_bonus_extended_kunkka_5")
 			-- Finds affected enemies
 			local enemies = FindUnitsInRadius(caster:GetTeam(), target:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, 0, 0, false)
 			for _,enemy in pairs(enemies) do
 				if enemy ~= target then
 					talent_hits = true
-					enemy:AddNewModifier(caster, self, "modifier_imba_x_marks_the_spot", {duration = duration, sec_duration = sec_duration})
+					enemy:AddNewModifier(caster, self, "modifier_extended_x_marks_the_spot", {duration = duration, sec_duration = sec_duration})
 					self:CreateVisibilityNode(enemy:GetAbsOrigin(), 300, 8)
 				end
 			end
@@ -974,24 +974,24 @@ function imba_kunkka_x_marks_the_spot:OnSpellStart()
 		end
 		self:CreateVisibilityNode(target:GetAbsOrigin(), 300, 8)
 		if target:TriggerSpellAbsorb(self) then
-			if talent_hits then caster:AddNewModifier(caster, self, "modifier_imba_x_marks_the_spot_return", {duration = duration}) end
+			if talent_hits then caster:AddNewModifier(caster, self, "modifier_extended_x_marks_the_spot_return", {duration = duration}) end
 			return nil
 		end
-		caster:AddNewModifier(caster, self, "modifier_imba_x_marks_the_spot_return", {duration = duration})
-		target:AddNewModifier(caster, self, "modifier_imba_x_marks_the_spot", {duration = duration, sec_duration = sec_duration})
+		caster:AddNewModifier(caster, self, "modifier_extended_x_marks_the_spot_return", {duration = duration})
+		target:AddNewModifier(caster, self, "modifier_extended_x_marks_the_spot", {duration = duration, sec_duration = sec_duration})
 	end
 end
 
-function imba_kunkka_x_marks_the_spot:GetAOERadius()
+function extended_kunkka_x_marks_the_spot:GetAOERadius()
 	local caster = self:GetCaster()
-	if caster:HasTalent("special_bonus_imba_kunkka_5") then
-		return caster:FindTalentValue("special_bonus_imba_kunkka_5")
+	if caster:HasTalent("special_bonus_extended_kunkka_5") then
+		return caster:FindTalentValue("special_bonus_extended_kunkka_5")
 	end
 	return 0
 end
 
-function imba_kunkka_x_marks_the_spot:OnUpgrade()
-	local ability_handle = self:GetCaster():FindAbilityByName("imba_kunkka_return")
+function extended_kunkka_x_marks_the_spot:OnUpgrade()
+	local ability_handle = self:GetCaster():FindAbilityByName("extended_kunkka_return")
 	self.positions = self.positions or {}
 
 	if ability_handle then
@@ -1003,17 +1003,17 @@ function imba_kunkka_x_marks_the_spot:OnUpgrade()
 	end
 end
 
-function imba_kunkka_x_marks_the_spot:GetAssociatedSecondaryAbilities()
-	return "imba_kunkka_return"
+function extended_kunkka_x_marks_the_spot:GetAssociatedSecondaryAbilities()
+	return "extended_kunkka_return"
 end
 
-function imba_kunkka_x_marks_the_spot:IsHiddenWhenStolen()
+function extended_kunkka_x_marks_the_spot:IsHiddenWhenStolen()
 	return false
 end
 
-modifier_imba_x_marks_the_spot = class({})
+modifier_extended_x_marks_the_spot = class({})
 
-function modifier_imba_x_marks_the_spot:OnCreated( params )
+function modifier_extended_x_marks_the_spot:OnCreated( params )
 	if IsServer() then
 		local parent = self:GetParent()
 		local caster = self:GetCaster()
@@ -1039,7 +1039,7 @@ function modifier_imba_x_marks_the_spot:OnCreated( params )
 	end
 end
 
-function modifier_imba_x_marks_the_spot:OnDestroy( params )
+function modifier_extended_x_marks_the_spot:OnDestroy( params )
 	if IsServer() then
 		local caster = self:GetCaster()
 		local parent = self:GetParent()
@@ -1069,7 +1069,7 @@ function modifier_imba_x_marks_the_spot:OnDestroy( params )
 
 			FindClearSpaceForUnit(parent, self.position, true)
 			if duration > 0 then
-				parent:AddNewModifier(caster, ability, "modifier_imba_x_marks_the_spot", {duration = duration, sec_duration = 0, position_id = self.position_id})
+				parent:AddNewModifier(caster, ability, "modifier_extended_x_marks_the_spot", {duration = duration, sec_duration = 0, position_id = self.position_id})
 			else
 				ability.positions[self.position_id] = nil
 			end
@@ -1077,7 +1077,7 @@ function modifier_imba_x_marks_the_spot:OnDestroy( params )
 	end
 end
 
-function modifier_imba_x_marks_the_spot:IsDebuff()
+function modifier_extended_x_marks_the_spot:IsDebuff()
 	local caster = self:GetCaster()
 	local parent = self:GetParent()
 	if caster:GetTeamNumber() ~= parent:GetTeamNumber() then
@@ -1086,54 +1086,54 @@ function modifier_imba_x_marks_the_spot:IsDebuff()
 	return false
 end
 
-function modifier_imba_x_marks_the_spot:IsHidden()
+function modifier_extended_x_marks_the_spot:IsHidden()
 	return false
 end
 
-function modifier_imba_x_marks_the_spot:GetTexture()
+function modifier_extended_x_marks_the_spot:GetTexture()
 	return "kunkka_x_marks_the_spot"
 end
 
-function modifier_imba_x_marks_the_spot:IsPurgable()
+function modifier_extended_x_marks_the_spot:IsPurgable()
 	return false
 end
 
-function modifier_imba_x_marks_the_spot:GetAttributes()
+function modifier_extended_x_marks_the_spot:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-modifier_imba_x_marks_the_spot_return = class({})
+modifier_extended_x_marks_the_spot_return = class({})
 
-function modifier_imba_x_marks_the_spot_return:IsHidden()
+function modifier_extended_x_marks_the_spot_return:IsHidden()
 	return true
 end
 
-function modifier_imba_x_marks_the_spot_return:GetTexture()
+function modifier_extended_x_marks_the_spot_return:GetTexture()
 	return "kunkka_x_marks_the_spot"
 end
 
-function modifier_imba_x_marks_the_spot_return:IsPurgable()
+function modifier_extended_x_marks_the_spot_return:IsPurgable()
 	return false
 end
 
-function modifier_imba_x_marks_the_spot_return:GetAttributes()
+function modifier_extended_x_marks_the_spot_return:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-function modifier_imba_x_marks_the_spot_return:OnCreated( params )
+function modifier_extended_x_marks_the_spot_return:OnCreated( params )
 	if IsServer() then
-		local ability_handle = self:GetCaster():FindAbilityByName("imba_kunkka_return")
+		local ability_handle = self:GetCaster():FindAbilityByName("extended_kunkka_return")
 		if ability_handle then
 			ability_handle:SetActivated(true)
 		end
 	end
 end
 
-function modifier_imba_x_marks_the_spot_return:OnDestroy( params )
+function modifier_extended_x_marks_the_spot_return:OnDestroy( params )
 	if IsServer() then
 		local caster = self:GetCaster()
-		if not caster:HasModifier("modifier_imba_x_marks_the_spot_return") and caster:HasAbility("imba_kunkka_return") then
-			caster:FindAbilityByName("imba_kunkka_return"):SetActivated(false)
+		if not caster:HasModifier("modifier_extended_x_marks_the_spot_return") and caster:HasAbility("extended_kunkka_return") then
+			caster:FindAbilityByName("extended_kunkka_return"):SetActivated(false)
 		end
 	end
 end
@@ -1142,15 +1142,15 @@ end
 --			   RETURN
 -------------------------------------------
 
-imba_kunkka_return = class({})
+extended_kunkka_return = class({})
 
-function imba_kunkka_return:OnSpellStart()
+function extended_kunkka_return:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local targets = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS + DOTA_UNIT_TARGET_FLAG_DEAD + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, 0, false)
 		for _,target in pairs(targets) do
-			if target:HasModifier("modifier_imba_x_marks_the_spot") then
-				local modifiers = target:FindAllModifiersByName("modifier_imba_x_marks_the_spot")
+			if target:HasModifier("modifier_extended_x_marks_the_spot") then
+				local modifiers = target:FindAllModifiersByName("modifier_extended_x_marks_the_spot")
 				for _, modifier in pairs( modifiers ) do
 					if (( modifier:GetCaster() == self:GetCaster() ) and ( (modifier.sec_duration > 0) or (modifier:IsDebuff() == false))) then
 						modifier:Destroy()
@@ -1158,34 +1158,34 @@ function imba_kunkka_return:OnSpellStart()
 				end
 			end
 		end
-		for _, modifier in pairs( caster:FindAllModifiersByName("modifier_imba_x_marks_the_spot_return") ) do
+		for _, modifier in pairs( caster:FindAllModifiersByName("modifier_extended_x_marks_the_spot_return") ) do
 			modifier:Destroy()
 		end
 	end
 end
 
-function imba_kunkka_return:IsHiddenWhenStolen()
+function extended_kunkka_return:IsHiddenWhenStolen()
 	return false
 end
 
-function imba_kunkka_return:IsStealable()
+function extended_kunkka_return:IsStealable()
 	return false
 end
 
-function imba_kunkka_return:GetAssociatedPrimaryAbilities()
-	return "imba_kunkka_x_marks_the_spot"
+function extended_kunkka_return:GetAssociatedPrimaryAbilities()
+	return "extended_kunkka_x_marks_the_spot"
 end
 
 -------------------------------------------
 --			GHOSTSHIP
 -------------------------------------------
 
-imba_kunkka_ghostship = class({})
-LinkLuaModifier("modifier_imba_ghostship_rum", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_ghostship_rum_damage", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_ghostship_tide_slow", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+extended_kunkka_ghostship = class({})
+LinkLuaModifier("modifier_extended_ghostship_rum", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_ghostship_rum_damage", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_ghostship_tide_slow", "hero/hero_kunkka", LUA_MODIFIER_MOTION_NONE)
 
-function imba_kunkka_ghostship:OnSpellStart()
+function extended_kunkka_ghostship:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target = self:GetCursorPosition()
@@ -1203,25 +1203,25 @@ function imba_kunkka_ghostship:OnSpellStart()
 		local caster_pos = caster:GetAbsOrigin()
 
 		-- Check buffs by Ebb and Flow
-		local tsunami = caster:HasModifier("modifier_imba_ebb_and_flow_tsunami")
+		local tsunami = caster:HasModifier("modifier_extended_ebb_and_flow_tsunami")
 		-- Flood Tide
-		if caster:HasModifier("modifier_imba_ebb_and_flow_tide_flood") or tsunami then
+		if caster:HasModifier("modifier_extended_ebb_and_flow_tide_flood") or tsunami then
 			damage = damage + self:GetSpecialValueFor("tide_flood_damage")
 		end
 		-- High Tide
-		if caster:HasModifier("modifier_imba_ebb_and_flow_tide_high") or tsunami then
+		if caster:HasModifier("modifier_extended_ebb_and_flow_tide_high") or tsunami then
 			if scepter then
 				radius = radius + self:GetSpecialValueFor("scepter_tide_high_radius")
 			end
 			radius = radius + self:GetSpecialValueFor("tide_high_radius")
 		end
 		-- Wave Tide
-		if caster:HasModifier("modifier_imba_ebb_and_flow_tide_wave") or tsunami then
+		if caster:HasModifier("modifier_extended_ebb_and_flow_tide_wave") or tsunami then
 			speed = speed + self:GetSpecialValueFor("tide_wave_speed")
 		end
 		-- Red Tide
 		local extra_slow = false
-		if caster:HasModifier("modifier_imba_ebb_and_flow_tide_red") or tsunami then
+		if caster:HasModifier("modifier_extended_ebb_and_flow_tide_red") or tsunami then
 			extra_slow = true
 		end
 		-- Tsunami exclusive
@@ -1245,7 +1245,7 @@ function imba_kunkka_ghostship:OnSpellStart()
 		if scepter then
 			local scepter_damage = damage * (self:GetSpecialValueFor("buff_duration") / 100)
 			-- Wave Tide
-			if caster:HasModifier("modifier_imba_ebb_and_flow_tide_wave") or tsunami then
+			if caster:HasModifier("modifier_extended_ebb_and_flow_tide_wave") or tsunami then
 				crash_delay = self:GetSpecialValueFor("scepter_tide_wave_delay")
 			else
 				crash_delay = self:GetSpecialValueFor("scepter_crash_delay")
@@ -1254,8 +1254,8 @@ function imba_kunkka_ghostship:OnSpellStart()
 			spawn_pos = target
 
 			-- X-Mark nearest target
-			if caster:HasAbility("imba_kunkka_x_marks_the_spot") then
-				local ability_x = caster:FindAbilityByName("imba_kunkka_x_marks_the_spot")
+			if caster:HasAbility("extended_kunkka_x_marks_the_spot") then
+				local ability_x = caster:FindAbilityByName("extended_kunkka_x_marks_the_spot")
 				if ability_x:GetLevel() == 0 then
 					boat_direction = ( target - caster_pos ):Normalized()
 					crash_pos = spawn_pos + boat_direction * ( crash_distance + start_distance)
@@ -1284,8 +1284,8 @@ function imba_kunkka_ghostship:OnSpellStart()
 		end
 
 		-- In case the ability is stolen don't cast the next tide
-		if caster:HasAbility("imba_kunkka_ebb_and_flow") and not ( caster:HasModifier("modifier_imba_ebb_and_flow_tide_low") and not scepter ) then
-			local ability_tide = caster:FindAbilityByName("imba_kunkka_ebb_and_flow")
+		if caster:HasAbility("extended_kunkka_ebb_and_flow") and not ( caster:HasModifier("modifier_extended_ebb_and_flow_tide_low") and not scepter ) then
+			local ability_tide = caster:FindAbilityByName("extended_kunkka_ebb_and_flow")
 			ability_tide:CastAbility()
 		end
 
@@ -1410,7 +1410,7 @@ function imba_kunkka_ghostship:OnSpellStart()
 				for k, enemy in pairs(enemies) do
 					ApplyDamage({victim = enemy, attacker = caster, ability = self, damage = damage, damage_type = self:GetAbilityDamageType()})
 					if extra_slow then
-						enemy:AddNewModifier(caster, self, "modifier_imba_ghostship_tide_slow", { duration = stun_duration + self:GetSpecialValueFor("tide_red_slow_duration") })
+						enemy:AddNewModifier(caster, self, "modifier_extended_ghostship_tide_slow", { duration = stun_duration + self:GetSpecialValueFor("tide_red_slow_duration") })
 					end
 					enemy:AddNewModifier(caster, self, "modifier_stunned", { duration = stun_duration })
 				end
@@ -1419,35 +1419,35 @@ function imba_kunkka_ghostship:OnSpellStart()
 	end
 end
 
-function imba_kunkka_ghostship:IsHiddenWhenStolen()
+function extended_kunkka_ghostship:IsHiddenWhenStolen()
 	return false
 end
 
-function imba_kunkka_ghostship:GetCastRange( location , target)
+function extended_kunkka_ghostship:GetCastRange( location , target)
 	local caster = self:GetCaster()
 	local range = self.BaseClass.GetCastRange(self,location,target)
-	if (caster:HasModifier("modifier_imba_ebb_and_flow_tide_low") or caster:HasModifier("modifier_imba_ebb_and_flow_tsunami")) and caster:HasScepter() then
+	if (caster:HasModifier("modifier_extended_ebb_and_flow_tide_low") or caster:HasModifier("modifier_extended_ebb_and_flow_tsunami")) and caster:HasScepter() then
 		range = range + self:GetSpecialValueFor("scepter_tide_low_range")
 	end
 	return range
 end
 
-function imba_kunkka_ghostship:GetAOERadius()
+function extended_kunkka_ghostship:GetAOERadius()
 	local caster = self:GetCaster()
 	if (not caster:HasScepter()) then return 0 end
 	local radius = self:GetSpecialValueFor("ghostship_width")
-	if caster:HasModifier("modifier_imba_ebb_and_flow_tide_high") or caster:HasModifier("modifier_imba_ebb_and_flow_tsunami") then
+	if caster:HasModifier("modifier_extended_ebb_and_flow_tide_high") or caster:HasModifier("modifier_extended_ebb_and_flow_tsunami") then
 		radius = radius + self:GetSpecialValueFor("scepter_high_tide_radius")
 	end
 	return radius
 end
 
-function imba_kunkka_ghostship:OnProjectileHit_ExtraData(target, location, ExtraData)
+function extended_kunkka_ghostship:OnProjectileHit_ExtraData(target, location, ExtraData)
 	if target then
 		local caster = self:GetCaster()
 		if caster:GetTeam() == target:GetTeam() then
 			local duration = self:GetSpecialValueFor("buff_duration")
-			target:AddNewModifier(caster, self, "modifier_imba_ghostship_rum", { duration = duration })
+			target:AddNewModifier(caster, self, "modifier_extended_ghostship_rum", { duration = duration })
 			return false
 		end
 		local crash_pos =  Vector(ExtraData.crash_x,ExtraData.crash_y,ExtraData.crash_z)
@@ -1472,24 +1472,24 @@ function imba_kunkka_ghostship:OnProjectileHit_ExtraData(target, location, Extra
 	return false
 end
 
-modifier_imba_ghostship_rum = class({})
+modifier_extended_ghostship_rum = class({})
 
-function modifier_imba_ghostship_rum:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_ghostship_rum:GetModifierMoveSpeedBonus_Percentage()
 	return self:GetAbility():GetSpecialValueFor("rum_speed")
 end
 
 -- Setting up the damage counter
-function modifier_imba_ghostship_rum:OnCreated()
+function modifier_extended_ghostship_rum:OnCreated()
 	if IsServer() then
 		self.damage_counter = 0
 	end
 end
 
-function modifier_imba_ghostship_rum:GetCustomIncomingDamagePct()
+function modifier_extended_ghostship_rum:GetCustomIncomingDamagePct()
 	return self:GetAbility():GetSpecialValueFor("rum_reduce_pct") * (-1)
 end
 
-function modifier_imba_ghostship_rum:DeclareFunctions()
+function modifier_extended_ghostship_rum:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
@@ -1498,7 +1498,7 @@ function modifier_imba_ghostship_rum:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_imba_ghostship_rum:OnTakeDamage( params )
+function modifier_extended_ghostship_rum:OnTakeDamage( params )
 	if IsServer() then
 		if params.unit == self:GetParent() then
 			local rum_reduction = (100 - self:GetAbility():GetSpecialValueFor("rum_reduce_pct"))/100
@@ -1510,68 +1510,68 @@ function modifier_imba_ghostship_rum:OnTakeDamage( params )
 	end
 end
 
-function modifier_imba_ghostship_rum:OnDestroy()
+function modifier_extended_ghostship_rum:OnDestroy()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()
-		if not caster:HasTalent("special_bonus_imba_kunkka_8") then
-			self:GetParent():AddNewModifier(caster, ability, "modifier_imba_ghostship_rum_damage", { duration = ability:GetSpecialValueFor("damage_duration"), stored_damage = self.damage_counter })
+		if not caster:HasTalent("special_bonus_extended_kunkka_8") then
+			self:GetParent():AddNewModifier(caster, ability, "modifier_extended_ghostship_rum_damage", { duration = ability:GetSpecialValueFor("damage_duration"), stored_damage = self.damage_counter })
 		end
 		self.damage_counter = 0
 	end
 end
 
-function modifier_imba_ghostship_rum:GetStatusEffectName()
+function modifier_extended_ghostship_rum:GetStatusEffectName()
 	return "particles/status_fx/status_effect_rum.vpcf"
 end
 
-function modifier_imba_ghostship_rum:StatusEffectPriority()
+function modifier_extended_ghostship_rum:StatusEffectPriority()
 	return 10
 end
 
-function modifier_imba_ghostship_rum:GetTexture()
+function modifier_extended_ghostship_rum:GetTexture()
 	return "kunkka_ghostship"
 end
 
-function modifier_imba_ghostship_rum:IsHidden()
+function modifier_extended_ghostship_rum:IsHidden()
 	return false
 end
 
-function modifier_imba_ghostship_rum:IsPurgable()
+function modifier_extended_ghostship_rum:IsPurgable()
 	return false
 end
 
-function modifier_imba_ghostship_rum:IsDebuff( )
+function modifier_extended_ghostship_rum:IsDebuff( )
 	return false
 end
 
-modifier_imba_ghostship_rum_damage = class({})
+modifier_extended_ghostship_rum_damage = class({})
 
-function modifier_imba_ghostship_rum_damage:GetCustomIncomingDamagePct()
+function modifier_extended_ghostship_rum_damage:GetCustomIncomingDamagePct()
 	return self:GetAbility():GetSpecialValueFor("rum_reduce_pct")
 end
 
-function modifier_imba_ghostship_rum_damage:IsHidden()
+function modifier_extended_ghostship_rum_damage:IsHidden()
 	return false
 end
 
-function modifier_imba_ghostship_rum_damage:GetTexture()
+function modifier_extended_ghostship_rum_damage:GetTexture()
 	return "kunkka_ghostship"
 end
 
-function modifier_imba_ghostship_rum_damage:IsPurgable()
+function modifier_extended_ghostship_rum_damage:IsPurgable()
 	return false
 end
 
-function modifier_imba_ghostship_rum_damage:GetAttributes()
+function modifier_extended_ghostship_rum_damage:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-function modifier_imba_ghostship_rum_damage:IsDebuff( )
+function modifier_extended_ghostship_rum_damage:IsDebuff( )
 	return true
 end
 
-function modifier_imba_ghostship_rum_damage:OnCreated( params )
+function modifier_extended_ghostship_rum_damage:OnCreated( params )
 	if IsServer() then
 		local ability = self:GetAbility()
 		local parent = self:GetParent()
@@ -1607,9 +1607,9 @@ function modifier_imba_ghostship_rum_damage:OnCreated( params )
 	end
 end
 
-modifier_imba_ghostship_tide_slow = class({})
+modifier_extended_ghostship_tide_slow = class({})
 
-function modifier_imba_ghostship_tide_slow:DeclareFunctions()
+function modifier_extended_ghostship_tide_slow:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
@@ -1617,22 +1617,22 @@ function modifier_imba_ghostship_tide_slow:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_imba_ghostship_tide_slow:GetModifierMoveSpeedBonus_Percentage( )
+function modifier_extended_ghostship_tide_slow:GetModifierMoveSpeedBonus_Percentage( )
 	return ( self:GetAbility():GetSpecialValueFor("tide_red_slow") * (-1) )
 end
 
-function modifier_imba_ghostship_tide_slow:IsDebuff()
+function modifier_extended_ghostship_tide_slow:IsDebuff()
 	return true
 end
 
-function modifier_imba_ghostship_tide_slow:IsPurgable()
+function modifier_extended_ghostship_tide_slow:IsPurgable()
 	return true
 end
 
-function modifier_imba_ghostship_tide_slow:IsHidden()
+function modifier_extended_ghostship_tide_slow:IsHidden()
 	return false
 end
 
-function modifier_imba_ghostship_tide_slow:RemoveOnDeath()
+function modifier_extended_ghostship_tide_slow:RemoveOnDeath()
 	return true
 end

@@ -6,15 +6,15 @@
 --	Sheepstick definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_sheepstick == nil then item_imba_sheepstick = class({}) end
-LinkLuaModifier( "modifier_item_imba_sheepstick", "items/item_sheepstick.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_sheepstick_debuff", "items/item_sheepstick.lua", LUA_MODIFIER_MOTION_NONE )	-- Enemy debuff
-LinkLuaModifier( "modifier_item_imba_sheepstick_buff", "items/item_sheepstick.lua", LUA_MODIFIER_MOTION_NONE )		-- Self-use buff
+if item_extended_sheepstick == nil then item_extended_sheepstick = class({}) end
+LinkLuaModifier( "modifier_item_extended_sheepstick", "items/item_sheepstick.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_sheepstick_debuff", "items/item_sheepstick.lua", LUA_MODIFIER_MOTION_NONE )	-- Enemy debuff
+LinkLuaModifier( "modifier_item_extended_sheepstick_buff", "items/item_sheepstick.lua", LUA_MODIFIER_MOTION_NONE )		-- Self-use buff
 
-function item_imba_sheepstick:GetIntrinsicModifierName()
-	return "modifier_item_imba_sheepstick" end
+function item_extended_sheepstick:GetIntrinsicModifierName()
+	return "modifier_item_extended_sheepstick" end
 
-function item_imba_sheepstick:CastFilterResultTarget(target)
+function item_extended_sheepstick:CastFilterResultTarget(target)
 	if IsServer() then
 		local caster = self:GetCaster()
 		
@@ -23,25 +23,25 @@ function item_imba_sheepstick:CastFilterResultTarget(target)
 			return UF_FAIL_CUSTOM
 		elseif target:IsBuilding() then
 			return UF_FAIL_CUSTOM
-		elseif target:HasModifier("modifier_item_imba_sheepstick_buff") or target:HasModifier("modifier_imba_lion_hex") or target:HasModifier("modifier_shadow_shaman_voodoo") then
+		elseif target:HasModifier("modifier_item_extended_sheepstick_buff") or target:HasModifier("modifier_extended_lion_hex") or target:HasModifier("modifier_shadow_shaman_voodoo") then
 			return UF_FAIL_CUSTOM
 		end
 		return UF_SUCCESS
 	end
 end
 
-function item_imba_sheepstick:GetCustomCastErrorTarget(target)
+function item_extended_sheepstick:GetCustomCastErrorTarget(target)
 	local caster = self:GetCaster()
 	if caster:GetTeam() == target:GetTeam() and caster ~= target then
 		return "#dota_hud_error_only_cast_on_self"
 	elseif target:IsBuilding() then
 		return "#dota_hud_error_cant_cast_on_building"
-	elseif target:HasModifier("modifier_item_imba_sheepstick_buff") or target:HasModifier("modifier_imba_lion_hex") or target:HasModifier("modifier_shadow_shaman_voodoo") then
+	elseif target:HasModifier("modifier_item_extended_sheepstick_buff") or target:HasModifier("modifier_extended_lion_hex") or target:HasModifier("modifier_shadow_shaman_voodoo") then
 		return "#dota_hud_error_cant_use_already_hexed"
 	end
 end
 
-function item_imba_sheepstick:OnSpellStart()
+function item_extended_sheepstick:OnSpellStart()
 	if IsServer() then
 		-- Parameters
 		local caster = self:GetCaster()
@@ -71,10 +71,10 @@ function item_imba_sheepstick:OnSpellStart()
 
 		-- If the target is yourself, apply the buff and purge, else, the debuff
 		if caster == target then
-			target:AddNewModifier(caster, self, "modifier_item_imba_sheepstick_buff", {duration = hex_duration})
+			target:AddNewModifier(caster, self, "modifier_item_extended_sheepstick_buff", {duration = hex_duration})
 			target:Purge(false, true, false, false, false)
 		else
-			target:AddNewModifier(caster, self, "modifier_item_imba_sheepstick_debuff", {duration = hex_duration})
+			target:AddNewModifier(caster, self, "modifier_item_extended_sheepstick_debuff", {duration = hex_duration})
 		end
 	end
 end
@@ -83,15 +83,15 @@ end
 --	Sheepstick owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_sheepstick == nil then modifier_item_imba_sheepstick = class({}) end
-function modifier_item_imba_sheepstick:IsHidden() return true end
-function modifier_item_imba_sheepstick:IsDebuff() return false end
-function modifier_item_imba_sheepstick:IsPurgable() return false end
-function modifier_item_imba_sheepstick:IsPermanent() return true end
-function modifier_item_imba_sheepstick:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_sheepstick == nil then modifier_item_extended_sheepstick = class({}) end
+function modifier_item_extended_sheepstick:IsHidden() return true end
+function modifier_item_extended_sheepstick:IsDebuff() return false end
+function modifier_item_extended_sheepstick:IsPurgable() return false end
+function modifier_item_extended_sheepstick:IsPermanent() return true end
+function modifier_item_extended_sheepstick:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Attribute bonuses
-function modifier_item_imba_sheepstick:DeclareFunctions()
+function modifier_item_extended_sheepstick:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
@@ -101,29 +101,29 @@ function modifier_item_imba_sheepstick:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_sheepstick:GetModifierBonusStats_Strength()
+function modifier_item_extended_sheepstick:GetModifierBonusStats_Strength()
 	return self:GetAbility():GetSpecialValueFor("bonus_strength") end
 
-function modifier_item_imba_sheepstick:GetModifierBonusStats_Agility()
+function modifier_item_extended_sheepstick:GetModifierBonusStats_Agility()
 	return self:GetAbility():GetSpecialValueFor("bonus_agility") end
 
-function modifier_item_imba_sheepstick:GetModifierBonusStats_Intellect()
+function modifier_item_extended_sheepstick:GetModifierBonusStats_Intellect()
 	return self:GetAbility():GetSpecialValueFor("bonus_intellect") end
 
-function modifier_item_imba_sheepstick:GetModifierPercentageManaRegen()
+function modifier_item_extended_sheepstick:GetModifierPercentageManaRegen()
 	return self:GetAbility():GetSpecialValueFor("bonus_mana_regen") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Sheepstick enemy debuff
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_sheepstick_debuff == nil then modifier_item_imba_sheepstick_debuff = class({}) end
-function modifier_item_imba_sheepstick_debuff:IsHidden() return false end
-function modifier_item_imba_sheepstick_debuff:IsDebuff() return true end
-function modifier_item_imba_sheepstick_debuff:IsPurgable() return true end
+if modifier_item_extended_sheepstick_debuff == nil then modifier_item_extended_sheepstick_debuff = class({}) end
+function modifier_item_extended_sheepstick_debuff:IsHidden() return false end
+function modifier_item_extended_sheepstick_debuff:IsDebuff() return true end
+function modifier_item_extended_sheepstick_debuff:IsPurgable() return true end
 
 -- Declare modifier events/properties
-function modifier_item_imba_sheepstick_debuff:DeclareFunctions()
+function modifier_item_extended_sheepstick_debuff:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE,
 		MODIFIER_PROPERTY_MODEL_CHANGE,
@@ -131,14 +131,14 @@ function modifier_item_imba_sheepstick_debuff:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_sheepstick_debuff:GetModifierMoveSpeedOverride()
+function modifier_item_extended_sheepstick_debuff:GetModifierMoveSpeedOverride()
 	return self:GetAbility():GetSpecialValueFor("enemy_move_speed") end
 
-function modifier_item_imba_sheepstick_debuff:GetModifierModelChange()
+function modifier_item_extended_sheepstick_debuff:GetModifierModelChange()
 	return "models/props_gameplay/pig.vmdl" end
 
 -- Hexed state
-function modifier_item_imba_sheepstick_debuff:CheckState()
+function modifier_item_extended_sheepstick_debuff:CheckState()
 	local states = {
 		[MODIFIER_STATE_HEXED] = true,
 		[MODIFIER_STATE_DISARMED] = true,
@@ -152,13 +152,13 @@ end
 --	Sheepstick self-buff
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_sheepstick_buff == nil then modifier_item_imba_sheepstick_buff = class({}) end
-function modifier_item_imba_sheepstick_buff:IsHidden() return false end
-function modifier_item_imba_sheepstick_buff:IsDebuff() return false end
-function modifier_item_imba_sheepstick_buff:IsPurgable() return true end
+if modifier_item_extended_sheepstick_buff == nil then modifier_item_extended_sheepstick_buff = class({}) end
+function modifier_item_extended_sheepstick_buff:IsHidden() return false end
+function modifier_item_extended_sheepstick_buff:IsDebuff() return false end
+function modifier_item_extended_sheepstick_buff:IsPurgable() return true end
 
 -- Destroy trees at the end of the self-buff's duration
-function modifier_item_imba_sheepstick_buff:OnDestroy()
+function modifier_item_extended_sheepstick_buff:OnDestroy()
 	if IsServer() then
 		local owner = self:GetParent()
 		GridNav:DestroyTreesAroundPoint(owner:GetAbsOrigin(), self:GetAbility():GetSpecialValueFor("tree_radius"), false)
@@ -166,7 +166,7 @@ function modifier_item_imba_sheepstick_buff:OnDestroy()
 end
 
 -- Base movement speed override
-function modifier_item_imba_sheepstick_buff:DeclareFunctions()
+function modifier_item_extended_sheepstick_buff:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE,
 		MODIFIER_PROPERTY_MODEL_CHANGE,
@@ -174,14 +174,14 @@ function modifier_item_imba_sheepstick_buff:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_sheepstick_buff:GetModifierMoveSpeedOverride()
+function modifier_item_extended_sheepstick_buff:GetModifierMoveSpeedOverride()
 	return self:GetAbility():GetSpecialValueFor("self_move_speed") end
 
-function modifier_item_imba_sheepstick_buff:GetModifierModelChange()
+function modifier_item_extended_sheepstick_buff:GetModifierModelChange()
 	return "models/items/courier/mighty_chicken/mighty_chicken_flying.vmdl" end
 
 -- Hexed state
-function modifier_item_imba_sheepstick_buff:CheckState()
+function modifier_item_extended_sheepstick_buff:CheckState()
 	local states = {
 		[MODIFIER_STATE_HEXED] = true,
 		[MODIFIER_STATE_FLYING] = true,

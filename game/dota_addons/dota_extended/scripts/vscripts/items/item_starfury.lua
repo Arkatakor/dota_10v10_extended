@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	03.10.2015	]]
 
 function Starfury( keys )

@@ -5,21 +5,21 @@
 --    SATANIC        --
 -----------------------
 
-item_imba_satanic = class({})
-LinkLuaModifier("modifier_imba_satanic", "items/item_satanic.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_satanic_active", "items/item_satanic.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_satanic_soul_slaughter", "items/item_satanic.lua", LUA_MODIFIER_MOTION_NONE)
+item_extended_satanic = class({})
+LinkLuaModifier("modifier_extended_satanic", "items/item_satanic.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_satanic_active", "items/item_satanic.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_satanic_soul_slaughter", "items/item_satanic.lua", LUA_MODIFIER_MOTION_NONE)
 
 
-function item_imba_satanic:GetIntrinsicModifierName()
-    return "modifier_imba_satanic"
+function item_extended_satanic:GetIntrinsicModifierName()
+    return "modifier_extended_satanic"
 end
 
-function item_imba_satanic:OnSpellStart()
+function item_extended_satanic:OnSpellStart()
     -- Ability properties    
     local caster = self:GetCaster()
     local ability = self
-    local modifier_unholy = "modifier_imba_satanic_active"
+    local modifier_unholy = "modifier_extended_satanic_active"
 
     -- Ability specials
     local unholy_rage_duration = ability:GetSpecialValueFor("unholy_rage_duration")
@@ -29,15 +29,15 @@ function item_imba_satanic:OnSpellStart()
 end
 
 -- morbid mask modifier
-modifier_imba_satanic = class({})
+modifier_extended_satanic = class({})
 
-function modifier_imba_satanic:OnCreated()        
+function modifier_extended_satanic:OnCreated()        
         -- Ability properties
         self.caster = self:GetCaster()
         self.ability = self:GetAbility()    
         self.particle_lifesteal = "particles/generic_gameplay/generic_lifesteal.vpcf"
-        self.modifier_unholy = "modifier_imba_satanic_active"
-        self.modifier_soul = "modifier_imba_satanic_soul_slaughter"
+        self.modifier_unholy = "modifier_extended_satanic_active"
+        self.modifier_soul = "modifier_extended_satanic_soul_slaughter"
 
         -- Ability specials
         self.damage_bonus = self.ability:GetSpecialValueFor("damage_bonus")
@@ -54,7 +54,7 @@ function modifier_imba_satanic:OnCreated()
     end
 end
 
-function modifier_imba_satanic:DeclareFunctions()
+function modifier_extended_satanic:DeclareFunctions()
     local decFunc = {MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
                      MODIFIER_EVENT_ON_ATTACK_LANDED,
                      MODIFIER_PROPERTY_STATS_STRENGTH_BONUS}
@@ -62,15 +62,15 @@ function modifier_imba_satanic:DeclareFunctions()
     return decFunc
 end
 
-function modifier_imba_satanic:GetModifierPreAttack_BonusDamage()
+function modifier_extended_satanic:GetModifierPreAttack_BonusDamage()
     return self.damage_bonus
 end
 
-function modifier_imba_satanic:GetModifierBonusStats_Strength()
+function modifier_extended_satanic:GetModifierBonusStats_Strength()
     return self.strength_bonus
 end
 
-function modifier_imba_satanic:OnAttackLanded(keys)
+function modifier_extended_satanic:OnAttackLanded(keys)
     if IsServer() then
         local attacker = keys.attacker
         local target = keys.target
@@ -156,83 +156,83 @@ function modifier_imba_satanic:OnAttackLanded(keys)
     end
 end
 
-function modifier_imba_satanic:OnDestroy()
+function modifier_extended_satanic:OnDestroy()
     if IsServer() then
         -- Remove lifesteal projectile
         ChangeAttackProjectileImba(self.caster) 
     end
 end
 
-function modifier_imba_satanic:IsHidden()
+function modifier_extended_satanic:IsHidden()
     return true
 end
 
-function modifier_imba_satanic:IsPurgable()
+function modifier_extended_satanic:IsPurgable()
     return false
 end
 
-function modifier_imba_satanic:IsDebuff()
+function modifier_extended_satanic:IsDebuff()
     return false
 end
 
 -- Active Satanic modifier
-modifier_imba_satanic_active = class({})
+modifier_extended_satanic_active = class({})
 
-function modifier_imba_satanic_active:IsHidden()
+function modifier_extended_satanic_active:IsHidden()
     return false
 end
 
-function modifier_imba_satanic_active:IsPurgable()
+function modifier_extended_satanic_active:IsPurgable()
     return true
 end
 
-function modifier_imba_satanic_active:IsDebuff()
+function modifier_extended_satanic_active:IsDebuff()
     return false
 end
 
-function modifier_imba_satanic_active:GetEffectName()
+function modifier_extended_satanic_active:GetEffectName()
     return "particles/items2_fx/satanic_buff.vpcf"
 end
 
-function modifier_imba_satanic_active:GetEffectAttachType()
+function modifier_extended_satanic_active:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
 
 -- Soul Slaughter modifier
-modifier_imba_satanic_soul_slaughter = class({})
+modifier_extended_satanic_soul_slaughter = class({})
 
-function modifier_imba_satanic_soul_slaughter:OnCreated()
+function modifier_extended_satanic_soul_slaughter:OnCreated()
     self.ability = self:GetAbility()
     self.soul_slaughter_damage_per_stack = self.ability:GetSpecialValueFor("soul_slaughter_damage_per_stack")
     self.soul_slaughter_hp_per_stack = self.ability:GetSpecialValueFor("soul_slaughter_hp_per_stack")
 end
 
-function modifier_imba_satanic_soul_slaughter:IsHidden()
+function modifier_extended_satanic_soul_slaughter:IsHidden()
     return false
 end
 
-function modifier_imba_satanic_soul_slaughter:IsPurgable()
+function modifier_extended_satanic_soul_slaughter:IsPurgable()
     return true
 end
 
-function modifier_imba_satanic_soul_slaughter:IsDebuff()
+function modifier_extended_satanic_soul_slaughter:IsDebuff()
     return false
 end
 
-function modifier_imba_satanic_soul_slaughter:DeclareFunctions()
+function modifier_extended_satanic_soul_slaughter:DeclareFunctions()
     local decFunc = {MODIFIER_PROPERTY_HEALTH_BONUS,
                     MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE}
 
     return decFunc
 end
 
-function modifier_imba_satanic_soul_slaughter:GetModifierHealthBonus()
+function modifier_extended_satanic_soul_slaughter:GetModifierHealthBonus()
     local stacks = self:GetStackCount()
     return (stacks * self.soul_slaughter_hp_per_stack)
 end
 
-function modifier_imba_satanic_soul_slaughter:GetModifierPreAttack_BonusDamage()
+function modifier_extended_satanic_soul_slaughter:GetModifierPreAttack_BonusDamage()
     local stacks = self:GetStackCount()
     return (stacks * self.soul_slaughter_damage_per_stack)
 end

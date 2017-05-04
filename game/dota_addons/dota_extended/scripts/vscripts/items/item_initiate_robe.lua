@@ -5,7 +5,7 @@ function InitiateRobeThink( keys )
 	local caster = keys.caster
 
 	-- If a higher-level version of the ability is present, do nothing
-	if caster:HasModifier("modifier_item_imba_arcane_nexus_unique") then
+	if caster:HasModifier("modifier_item_extended_arcane_nexus_unique") then
 		return nil
 	end
 

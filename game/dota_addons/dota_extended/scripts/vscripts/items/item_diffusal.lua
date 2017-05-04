@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	07.01.2015	]]
 
 function DiffusalCast( keys )
@@ -62,7 +62,7 @@ function DiffusalHit( keys )
 	local particle_hit = keys.particle_hit
 
 	-- If a higher-level diffusal version is present, do nothing
-	if caster:HasModifier("modifier_item_imba_diffusal_2_unique") or caster:HasModifier("modifier_item_imba_diffusal_3_unique") then
+	if caster:HasModifier("modifier_item_extended_diffusal_2_unique") or caster:HasModifier("modifier_item_extended_diffusal_3_unique") then
 		return nil
 	end
 
@@ -111,7 +111,7 @@ function Diffusal2Hit( keys )
 	local particle_hit = keys.particle_hit
 
 	-- If a higher-level diffusal version is present, do nothing
-	if caster:HasModifier("modifier_item_imba_diffusal_3_unique") then
+	if caster:HasModifier("modifier_item_extended_diffusal_3_unique") then
 		return nil
 	end
 
@@ -192,7 +192,7 @@ function Diffusal3Hit( keys )
 					local source_ability = modifier:GetAbility()
 					local source_caster = modifier:GetCaster()
 					local remaining_duration = modifier:GetRemainingTime()
-					if string.find(modifier_name, "imba") then
+					if string.find(modifier_name, "extended") then
 						source_ability:ApplyDataDrivenModifier(source_caster, caster, modifier_name, {duration = remaining_duration})
 					else
 						if modifier_name ~= "modifier_dark_seer_ion_shell" then

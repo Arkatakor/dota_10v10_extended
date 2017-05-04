@@ -5,17 +5,17 @@
 --    MORBID MASK    --
 -----------------------
 
-item_imba_morbid_mask = class({})
-LinkLuaModifier("modifier_imba_morbid_mask", "items/item_lifesteal.lua", LUA_MODIFIER_MOTION_NONE)
+item_extended_morbid_mask = class({})
+LinkLuaModifier("modifier_extended_morbid_mask", "items/item_lifesteal.lua", LUA_MODIFIER_MOTION_NONE)
 
-function item_imba_morbid_mask:GetIntrinsicModifierName()
-    return "modifier_imba_morbid_mask"
+function item_extended_morbid_mask:GetIntrinsicModifierName()
+    return "modifier_extended_morbid_mask"
 end
 
 -- morbid mask modifier
-modifier_imba_morbid_mask = class({})
+modifier_extended_morbid_mask = class({})
 
-function modifier_imba_morbid_mask:OnCreated()        
+function modifier_extended_morbid_mask:OnCreated()        
         -- Ability properties
         self.caster = self:GetCaster()
         self.ability = self:GetAbility()    
@@ -30,18 +30,18 @@ function modifier_imba_morbid_mask:OnCreated()
     end
 end
 
-function modifier_imba_morbid_mask:DeclareFunctions()
+function modifier_extended_morbid_mask:DeclareFunctions()
     local decFunc = {MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
                      MODIFIER_EVENT_ON_ATTACK_LANDED}
 
     return decFunc
 end
 
-function modifier_imba_morbid_mask:GetModifierPreAttack_BonusDamage()
+function modifier_extended_morbid_mask:GetModifierPreAttack_BonusDamage()
     return self.damage_bonus
 end
 
-function modifier_imba_morbid_mask:OnAttackLanded(keys)
+function modifier_extended_morbid_mask:OnAttackLanded(keys)
     if IsServer() then
         local attacker = keys.attacker
         local target = keys.target
@@ -73,21 +73,21 @@ function modifier_imba_morbid_mask:OnAttackLanded(keys)
     end
 end
 
-function modifier_imba_morbid_mask:OnDestroy()
+function modifier_extended_morbid_mask:OnDestroy()
     if IsServer() then
         -- Remove lifesteal projectile
         ChangeAttackProjectileImba(self.caster) 
     end
 end
 
-function modifier_imba_morbid_mask:IsHidden()
+function modifier_extended_morbid_mask:IsHidden()
     return true
 end
 
-function modifier_imba_morbid_mask:IsPurgable()
+function modifier_extended_morbid_mask:IsPurgable()
     return false
 end
 
-function modifier_imba_morbid_mask:IsDebuff()
+function modifier_extended_morbid_mask:IsDebuff()
     return false
 end

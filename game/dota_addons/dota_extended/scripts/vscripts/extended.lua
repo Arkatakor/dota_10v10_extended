@@ -7,7 +7,7 @@
 BAREBONES_DEBUG_SPEW = false
 
 if GameMode == nil then
-	DebugPrint( '[IMBA] creating game mode' )
+	DebugPrint( '[EXTENDED] creating game mode' )
 	_G.GameMode = class({})
 end
 
@@ -71,23 +71,23 @@ end
 function GameMode:OnFirstPlayerLoaded()
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Roshan initialization
+	-- EXTENDED: Roshan initialization
 	-------------------------------------------------------------------------------------------------
 
-	if GetMapName() ~= "imba_arena" then
+	if GetMapName() ~= "extended_arena" then
 		local roshan_spawn_loc = Entities:FindByName(nil, "roshan_spawn_point"):GetAbsOrigin()
-		local roshan = CreateUnitByName("npc_imba_roshan", roshan_spawn_loc, true, nil, nil, DOTA_TEAM_NEUTRALS)
+		local roshan = CreateUnitByName("npc_extended_roshan", roshan_spawn_loc, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Pre-pick forced hero selection
+	-- EXTENDED: Pre-pick forced hero selection
 	-------------------------------------------------------------------------------------------------
 
 	GameRules:SetSameHeroSelectionEnabled(true)
 	GameRules:GetGameModeEntity():SetCustomGameForceHero("npc_dota_hero_wisp")
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Contributor models
+	-- EXTENDED: Contributor models
 	-------------------------------------------------------------------------------------------------
 
 	--local contributor_locations = {}
@@ -100,61 +100,61 @@ function GameMode:OnFirstPlayerLoaded()
 
 	-- Martyn Garcia
 	--local current_position = table.remove(contributor_locations, RandomInt(1, 30))
-	--local martyn_model = CreateUnitByName("npc_imba_contributor_martyn", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local martyn_model = CreateUnitByName("npc_extended_contributor_martyn", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--martyn_model:SetForwardVector(RandomVector(100))
 
 	-- Mikkel Garcia
 	--current_position = table.remove(contributor_locations, RandomInt(1, 29))
-	--local mikkel_model = CreateUnitByName("npc_imba_contributor_mikkel", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local mikkel_model = CreateUnitByName("npc_extended_contributor_mikkel", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--mikkel_model:SetForwardVector(RandomVector(100))
 
 	-- Hjort
 	--current_position = table.remove(contributor_locations, RandomInt(1, 28))
-	--local hjort_model = CreateUnitByName("npc_imba_contributor_hjort", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local hjort_model = CreateUnitByName("npc_extended_contributor_hjort", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--hjort_model:SetForwardVector(RandomVector(100))
 
 	-- Anees
 	--current_position = table.remove(contributor_locations, RandomInt(1, 27))
-	--local anees_model = CreateUnitByName("npc_imba_contributor_anees", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local anees_model = CreateUnitByName("npc_extended_contributor_anees", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--anees_model:SetForwardVector(RandomVector(100))
 
 	-- Swizard
 	--current_position = table.remove(contributor_locations, RandomInt(1, 26))
-	--local swizard_model = CreateUnitByName("npc_imba_contributor_swizard", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local swizard_model = CreateUnitByName("npc_extended_contributor_swizard", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--swizard_model:SetForwardVector(RandomVector(100))
 
 	-- Phroureo
 	--current_position = table.remove(contributor_locations, RandomInt(1, 25))
-	--local phroureo_model = CreateUnitByName("npc_imba_contributor_phroureo", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local phroureo_model = CreateUnitByName("npc_extended_contributor_phroureo", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--phroureo_model:SetForwardVector(RandomVector(100))
 
 	-- Catchy
 	--current_position = table.remove(contributor_locations, RandomInt(1, 24))
-	--local catchy_model = CreateUnitByName("npc_imba_contributor_catchy", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local catchy_model = CreateUnitByName("npc_extended_contributor_catchy", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--catchy_model:SetForwardVector(RandomVector(100))
 
 	-- Hewdraw
 	--current_position = table.remove(contributor_locations, RandomInt(1, 23))
-	--local hewdraw_model = CreateUnitByName("npc_imba_contributor_hewdraw", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local hewdraw_model = CreateUnitByName("npc_extended_contributor_hewdraw", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--hewdraw_model:SetForwardVector(RandomVector(100))
 
 	-- Zimber
 	--current_position = table.remove(contributor_locations, RandomInt(1, 22))
-	--local zimber_model = CreateUnitByName("npc_imba_contributor_zimber", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local zimber_model = CreateUnitByName("npc_extended_contributor_zimber", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--zimber_model:SetForwardVector(RandomVector(100))
 
 	-- Matt
 	--current_position = table.remove(contributor_locations, RandomInt(1, 21))
-	--local matt_model = CreateUnitByName("npc_imba_contributor_matt", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local matt_model = CreateUnitByName("npc_extended_contributor_matt", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--matt_model:SetForwardVector(RandomVector(100))
 
 	-- Maxime
 	--current_position = table.remove(contributor_locations, RandomInt(1, 20))
-	--local maxime_model = CreateUnitByName("npc_imba_contributor_maxime", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
+	--local maxime_model = CreateUnitByName("npc_extended_contributor_maxime", current_position, true, nil, nil, DOTA_TEAM_NEUTRALS)
 	--maxime_model:SetForwardVector(RandomVector(100))
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Arena mode score initialization
+	-- EXTENDED: Arena mode score initialization
 	-------------------------------------------------------------------------------------------------
 
 	CustomNetTables:SetTableValue("arena_capture", "radiant_score", {0})
@@ -190,7 +190,7 @@ function GameMode:GoldFilter( keys )
 	local hero = PlayerResource:GetPickedHero(keys.player_id_const)
 
 	-- Hand of Midas gold bonus
-	if hero and hero:HasModifier("modifier_item_imba_hand_of_midas") and keys.gold > 0 then
+	if hero and hero:HasModifier("modifier_item_extended_hand_of_midas") and keys.gold > 0 then
 		keys.gold = keys.gold * 1.1
 	end
 
@@ -237,15 +237,15 @@ end
 ---------------------------------------------------------------------
 arcane_supremacy_eligible_debuffs = {
 	["modifier_silence"] = true,
-	["modifier_item_imba_orchid_debuff"] = true,
-	["modifier_item_imba_bloodthorn_debuff"] = true,
-	["modifier_imba_gust_silence"] = true,
-	["modifier_imba_crippling_fear_day"] = true,
-	["modifier_imba_crippling_fear_night"] = true,
-	["modifier_imba_stifling_dagger_silence"] = true,
-	["modifier_imba_ancient_seal_silence"] = true,
-	["modifier_imba_silencer_last_word_repeat_thinker"] = true,
-	["modifier_imba_silencer_global_silence"] = true,
+	["modifier_item_extended_orchid_debuff"] = true,
+	["modifier_item_extended_bloodthorn_debuff"] = true,
+	["modifier_extended_gust_silence"] = true,
+	["modifier_extended_crippling_fear_day"] = true,
+	["modifier_extended_crippling_fear_night"] = true,
+	["modifier_extended_stifling_dagger_silence"] = true,
+	["modifier_extended_ancient_seal_silence"] = true,
+	["modifier_extended_silencer_last_word_repeat_thinker"] = true,
+	["modifier_extended_silencer_global_silence"] = true,
 }
 
 -- Modifier gained filter function
@@ -254,7 +254,7 @@ function GameMode:ModifierFilter( keys )
 	-- entindex_ability_const	610
 	-- duration					-1
 	-- entindex_caster_const	215
-	-- name_const				modifier_imba_roshan_rage_stack
+	-- name_const				modifier_extended_roshan_rage_stack
 	if IsServer() then
 		local modifier_owner = EntIndexToHScript(keys.entindex_parent_const)
 		local modifier_name = keys.name_const
@@ -269,7 +269,7 @@ function GameMode:ModifierFilter( keys )
 	-- Frantic mode duration adjustment
 	-------------------------------------------------------------------------------------------------
 
-		if IMBA_FRANTIC_MODE_ON then
+		if EXTENDED_FRANTIC_MODE_ON then
 			if modifier_owner:GetTeam() ~= modifier_caster:GetTeam() and keys.duration > 0 then
 				keys.duration = keys.duration * 0.3
 			end
@@ -312,7 +312,7 @@ function GameMode:ModifierFilter( keys )
 	-- Cursed Rapier debuff duration reduction
 	-------------------------------------------------------------------------------------------------
 
-		if modifier_owner:HasModifier("modifier_item_imba_rapier_cursed_unique") then
+		if modifier_owner:HasModifier("modifier_item_extended_rapier_cursed_unique") then
 			if modifier_owner:GetTeam() ~= modifier_caster:GetTeam() and keys.duration > 0 then
 				keys.duration = keys.duration * 0.5
 			end
@@ -322,12 +322,12 @@ function GameMode:ModifierFilter( keys )
 	-- Centaur Thick Hide debuff duration decrease
 	-------------------------------------------------------------------------------------------------	
 
-		if modifier_owner:HasModifier("modifier_imba_thick_hide") then
+		if modifier_owner:HasModifier("modifier_extended_thick_hide") then
 			if modifier_owner:GetTeam() ~= modifier_caster:GetTeam() and keys.duration > 0 then
 
 				-- Check for break
 				if not modifier_owner:PassivesDisabled() then
-					local thick_hide_ability = modifier_owner:FindAbilityByName("imba_centaur_thick_hide")
+					local thick_hide_ability = modifier_owner:FindAbilityByName("extended_centaur_thick_hide")
 					local debuff_duration_red_pct = thick_hide_ability:GetSpecialValueFor("debuff_duration_red_pct")
 	
 					keys.duration = keys.duration * (1 - debuff_duration_red_pct * 0.01)
@@ -339,9 +339,9 @@ function GameMode:ModifierFilter( keys )
 	-- Silencer Arcane Supremacy silence duration reduction
 	-------------------------------------------------------------------------------------------------
 
-		if modifier_owner:HasModifier("modifier_imba_silencer_arcane_supremacy") then
+		if modifier_owner:HasModifier("modifier_extended_silencer_arcane_supremacy") then
 			if not modifier_owner:PassivesDisabled() then
-				local arcane_supremacy = modifier_owner:FindModifierByName("modifier_imba_silencer_arcane_supremacy")
+				local arcane_supremacy = modifier_owner:FindModifierByName("modifier_extended_silencer_arcane_supremacy")
 				local silence_reduction_pct = arcane_supremacy:GetSilenceReductionPct()
 				if modifier_owner:GetTeam() ~= modifier_caster:GetTeam() and keys.duration > 0 and arcane_supremacy_eligible_debuffs[modifier_name] then
 					-- if more than 100 reduction, don't even apply the modifier
@@ -376,26 +376,26 @@ function GameMode:ItemAddedFilter( keys )
 	-- Rune pickup logic
 	-------------------------------------------------------------------------------------------------
 
-	if item_name == "item_imba_rune_bounty" or item_name == "item_imba_rune_bounty_arena" or item_name == "item_imba_rune_double_damage" or item_name == "item_imba_rune_haste" or item_name == "item_imba_rune_regeneration" then
+	if item_name == "item_extended_rune_bounty" or item_name == "item_extended_rune_bounty_arena" or item_name == "item_extended_rune_double_damage" or item_name == "item_extended_rune_haste" or item_name == "item_extended_rune_regeneration" then
 
 		-- Only real heroes can pick up runes
 		--if unit:IsRealHero() then
-			if item_name == "item_imba_rune_bounty" or item_name == "item_imba_rune_bounty_arena" then
+			if item_name == "item_extended_rune_bounty" or item_name == "item_extended_rune_bounty_arena" then
 				PickupBountyRune(item, unit)
 				return false
 			end
 
-			if item_name == "item_imba_rune_double_damage" then
+			if item_name == "item_extended_rune_double_damage" then
 				PickupDoubleDamageRune(item, unit)
 				return false
 			end
 
-			if item_name == "item_imba_rune_haste" then
+			if item_name == "item_extended_rune_haste" then
 				PickupHasteRune(item, unit)
 				return false
 			end
 
-			if item_name == "item_imba_rune_regeneration" then
+			if item_name == "item_extended_rune_regeneration" then
 				PickupRegenerationRune(item, unit)
 				return false
 			end
@@ -412,13 +412,13 @@ function GameMode:ItemAddedFilter( keys )
 	-- Aegis of the Immortal pickup logic
 	-------------------------------------------------------------------------------------------------
 
-	if item_name == "item_imba_aegis" then
+	if item_name == "item_extended_aegis" then
 		
 		-- If this is a player, do Aegis stuff
 		if unit:GetPlayerOwnerID() and PlayerResource:IsImbaPlayer(unit:GetPlayerOwnerID()) then
 			
 			-- Apply.refresh the Aegis reincarnation modifier
-			item:ApplyDataDrivenModifier(unit, unit, "modifier_item_imba_aegis", {})
+			item:ApplyDataDrivenModifier(unit, unit, "modifier_item_extended_aegis", {})
 
 			-- Flag unit as an aegis holder
 			unit.has_aegis = true
@@ -427,14 +427,14 @@ function GameMode:ItemAddedFilter( keys )
 			local line_duration = 7
 			Notifications:BottomToAll({hero = unit:GetName(), duration = line_duration})
 			Notifications:BottomToAll({text = PlayerResource:GetPlayerName(unit:GetPlayerID()).." ", duration = line_duration, continue = true})
-			Notifications:BottomToAll({text = "#imba_player_aegis_message", duration = line_duration, style = {color = "DodgerBlue"}, continue = true})
+			Notifications:BottomToAll({text = "#extended_player_aegis_message", duration = line_duration, style = {color = "DodgerBlue"}, continue = true})
 
 			-- Destroy the item
 			return false
 
 		-- If this is not a player, do nothing and drop another Aegis
 		else
-			local drop = CreateItem("item_imba_aegis", nil, nil)
+			local drop = CreateItem("item_extended_aegis", nil, nil)
 			CreateItemOnPositionSync(unit:GetAbsOrigin(), drop)
 			drop:LaunchLoot(false, 250, 0.5, unit:GetAbsOrigin() + RandomVector(100))
 
@@ -447,7 +447,7 @@ function GameMode:ItemAddedFilter( keys )
 	-- Rapier pickup logic
 	-------------------------------------------------------------------------------------------------
 
-	if item_name == "item_imba_rapier_dummy" or item_name == "item_imba_rapier_2_dummy" or item_name == "item_imba_rapier_magic_dummy" or item_name == "item_imba_rapier_magic_2_dummy" then
+	if item_name == "item_extended_rapier_dummy" or item_name == "item_extended_rapier_2_dummy" or item_name == "item_extended_rapier_magic_dummy" or item_name == "item_extended_rapier_magic_2_dummy" then
 		
 		-- Only real heroes can pick up rapiers
 		if unit:IsRealHero() then
@@ -462,26 +462,26 @@ function GameMode:ItemAddedFilter( keys )
 				local current_item = unit:GetItemInSlot(i)
 				if not current_item then
 					free_slot = true
-				elseif current_item and current_item:GetName() == "item_imba_rapier" then
+				elseif current_item and current_item:GetName() == "item_extended_rapier" then
 					rapier_amount = rapier_amount + 1
-				elseif current_item and current_item:GetName() == "item_imba_rapier_2" then
+				elseif current_item and current_item:GetName() == "item_extended_rapier_2" then
 					rapier_2_amount = rapier_2_amount + 1
-				elseif current_item and current_item:GetName() == "item_imba_rapier_magic" then
+				elseif current_item and current_item:GetName() == "item_extended_rapier_magic" then
 					rapier_magic_amount = rapier_magic_amount + 1
-				elseif current_item and current_item:GetName() == "item_imba_rapier_magic_2" then
+				elseif current_item and current_item:GetName() == "item_extended_rapier_magic_2" then
 					rapier_magic_2_amount = rapier_magic_2_amount + 1
 				end
 			end
 
 			-- If the conditions are just right, add a rapier
-			if item_name == "item_imba_rapier_dummy" and (free_slot or rapier_amount >= 2) then
-				unit:AddItem(CreateItem("item_imba_rapier", unit, unit))
-			elseif item_name == "item_imba_rapier_2_dummy" and (free_slot or rapier_magic_2_amount >= 1) then
-				unit:AddItem(CreateItem("item_imba_rapier_2", unit, unit))
-			elseif item_name == "item_imba_rapier_magic_dummy" and (free_slot or rapier_magic_amount >= 2) then
-				unit:AddItem(CreateItem("item_imba_rapier_magic", unit, unit))
-			elseif item_name == "item_imba_rapier_magic_2_dummy" and (free_slot or rapier_2_amount >= 1) then
-				unit:AddItem(CreateItem("item_imba_rapier_magic_2", unit, unit))
+			if item_name == "item_extended_rapier_dummy" and (free_slot or rapier_amount >= 2) then
+				unit:AddItem(CreateItem("item_extended_rapier", unit, unit))
+			elseif item_name == "item_extended_rapier_2_dummy" and (free_slot or rapier_magic_2_amount >= 1) then
+				unit:AddItem(CreateItem("item_extended_rapier_2", unit, unit))
+			elseif item_name == "item_extended_rapier_magic_dummy" and (free_slot or rapier_magic_amount >= 2) then
+				unit:AddItem(CreateItem("item_extended_rapier_magic", unit, unit))
+			elseif item_name == "item_extended_rapier_magic_2_dummy" and (free_slot or rapier_2_amount >= 1) then
+				unit:AddItem(CreateItem("item_extended_rapier_magic_2", unit, unit))
 
 			-- Else, launch another dummy
 			else
@@ -506,21 +506,21 @@ function GameMode:ItemAddedFilter( keys )
 	-- Courier Rapier prohibition
 	-------------------------------------------------------------------------------------------------
 
-	if item_name == "item_imba_rapier" or item_name == "item_imba_rapier_2" or item_name == "item_imba_rapier_magic" or item_name == "item_imba_rapier_magic_2" or item_name == "item_imba_rapier_cursed" then
+	if item_name == "item_extended_rapier" or item_name == "item_extended_rapier_2" or item_name == "item_extended_rapier_magic" or item_name == "item_extended_rapier_magic_2" or item_name == "item_extended_rapier_cursed" then
 		
 		-- Launch a dummy rapier if this is not a real hero
 		if not unit:IsHero() then
 
 			-- Fetch appropriate dummy name
 
-			if item_name == "item_imba_rapier" then
-				item_name = "item_imba_rapier_dummy"
-			elseif item_name == "item_imba_rapier_2" then
-				item_name = "item_imba_rapier_2_dummy"
-			elseif item_name == "item_imba_rapier_magic" then
-				item_name = "item_imba_rapier_magic_dummy"
-			elseif item_name == "item_imba_rapier_magic_2" then
-				item_name = "item_imba_rapier_magic_2_dummy"
+			if item_name == "item_extended_rapier" then
+				item_name = "item_extended_rapier_dummy"
+			elseif item_name == "item_extended_rapier_2" then
+				item_name = "item_extended_rapier_2_dummy"
+			elseif item_name == "item_extended_rapier_magic" then
+				item_name = "item_extended_rapier_magic_dummy"
+			elseif item_name == "item_extended_rapier_magic_2" then
+				item_name = "item_extended_rapier_magic_2_dummy"
 			end
 
 			-- Launch dummy
@@ -540,20 +540,20 @@ function GameMode:ItemAddedFilter( keys )
 
 		-- List of items the clone can't carry
 		local clone_forbidden_items = {
-			"item_imba_rapier",
-			"item_imba_rapier_2",
-			"item_imba_rapier_magic",
-			"item_imba_rapier_magic_2",
-			"item_imba_rapier_dummy",
-			"item_imba_rapier_2_dummy",
-			"item_imba_rapier_magic_dummy",
-			"item_imba_rapier_magic_2_dummy",
-			"item_imba_rapier_cursed",
-			"item_imba_moon_shard",
-			"item_imba_soul_of_truth",
-			"item_imba_mango",
-			"item_imba_refresher",
-			"item_imba_ultimate_scepter_synth"
+			"item_extended_rapier",
+			"item_extended_rapier_2",
+			"item_extended_rapier_magic",
+			"item_extended_rapier_magic_2",
+			"item_extended_rapier_dummy",
+			"item_extended_rapier_2_dummy",
+			"item_extended_rapier_magic_dummy",
+			"item_extended_rapier_magic_2_dummy",
+			"item_extended_rapier_cursed",
+			"item_extended_moon_shard",
+			"item_extended_soul_of_truth",
+			"item_extended_mango",
+			"item_extended_refresher",
+			"item_extended_ultimate_scepter_synth"
 		}
 
 		-- If this item is forbidden, delete it
@@ -588,7 +588,7 @@ function GameMode:OrderFilter( keys )
 	-- Queen of Pain's Sonic Wave confusion
 	------------------------------------------------------------------------------------
 
-	if unit:HasModifier("modifier_imba_sonic_wave_daze") then
+	if unit:HasModifier("modifier_extended_sonic_wave_daze") then
 
 		-- Determine order type
 		local rand = math.random
@@ -656,26 +656,26 @@ function GameMode:OrderFilter( keys )
 	-- Kunkka Torrent & Tidebringer cast-handling
 	if keys.order_type == DOTA_UNIT_ORDER_CAST_POSITION then
 		local ability = EntIndexToHScript(keys.entindex_ability)
-		if ability:GetAbilityName() == "imba_kunkka_torrent" then
+		if ability:GetAbilityName() == "extended_kunkka_torrent" then
 			local range = ability.BaseClass.GetCastRange(ability,ability:GetCursorPosition(),unit) + GetCastRangeIncrease(unit)
-			if unit:HasModifier("modifier_imba_ebb_and_flow_tide_low") or unit:HasModifier("modifier_imba_ebb_and_flow_tsunami") then
+			if unit:HasModifier("modifier_extended_ebb_and_flow_tide_low") or unit:HasModifier("modifier_extended_ebb_and_flow_tsunami") then
 				range = range + ability:GetSpecialValueFor("tide_low_range")
 			end
 			local distance = (unit:GetAbsOrigin() - Vector(keys.position_x,keys.position_y,keys.position_z)):Length2D()
 		
 			if ( range >= distance) then
-				unit:AddNewModifier(unit, ability, "modifier_imba_torrent_cast", {duration = 0.41} )
+				unit:AddNewModifier(unit, ability, "modifier_extended_torrent_cast", {duration = 0.41} )
 			end
 		end
-		if ability:GetAbilityName() == "imba_kunkka_tidebringer" then
+		if ability:GetAbilityName() == "extended_kunkka_tidebringer" then
 			ability.manual_cast = true
 		end
-	elseif unit:HasModifier("modifier_imba_torrent_cast") and keys.order_type ==  DOTA_UNIT_ORDER_HOLD_POSITION then
-		unit:RemoveModifierByName("modifier_imba_torrent_cast")
+	elseif unit:HasModifier("modifier_extended_torrent_cast") and keys.order_type ==  DOTA_UNIT_ORDER_HOLD_POSITION then
+		unit:RemoveModifierByName("modifier_extended_torrent_cast")
 	end
 	-- Tidebringer manual cast
-	if unit:HasModifier("modifier_imba_tidebringer_manual") then
-		unit:RemoveModifierByName("modifier_imba_tidebringer_manual")
+	if unit:HasModifier("modifier_extended_tidebringer_manual") then
+		unit:RemoveModifierByName("modifier_extended_tidebringer_manual")
 	end
 
 	return true
@@ -708,12 +708,12 @@ function GameMode:DamageFilter( keys )
 		end
 
 		-- Cursed Rapier damage reduction
-		if victim:HasModifier("modifier_item_imba_rapier_cursed_unique") and keys.damage > 0 and victim:GetTeam() ~= attacker:GetTeam() then
+		if victim:HasModifier("modifier_item_extended_rapier_cursed_unique") and keys.damage > 0 and victim:GetTeam() ~= attacker:GetTeam() then
 			keys.damage = keys.damage * 0.25
 		end
 
 		-- Spiked Carapace damage prevention
-		if victim:HasModifier("modifier_imba_spiked_carapace") and keys.damage > 0 then
+		if victim:HasModifier("modifier_extended_spiked_carapace") and keys.damage > 0 then
 
 			-- Nullify damage
 			keys.damage = 0
@@ -825,19 +825,19 @@ function GameMode:DamageFilter( keys )
 		end
 
 		-- Magic shield damage prevention
-		if victim:HasModifier("modifier_item_imba_initiate_robe_stacks") and victim:GetTeam() ~= attacker:GetTeam() then
+		if victim:HasModifier("modifier_item_extended_initiate_robe_stacks") and victim:GetTeam() ~= attacker:GetTeam() then
 
 			-- Parameters
-			local shield_stacks = victim:GetModifierStackCount("modifier_item_imba_initiate_robe_stacks", nil)
+			local shield_stacks = victim:GetModifierStackCount("modifier_item_extended_initiate_robe_stacks", nil)
 
 			-- Ignore part of incoming damage
 			if keys.damage > shield_stacks then
 				SendOverheadEventMessage(nil, OVERHEAD_ALERT_MAGICAL_BLOCK, victim, shield_stacks, nil)
-				victim:RemoveModifierByName("modifier_item_imba_initiate_robe_stacks")
+				victim:RemoveModifierByName("modifier_item_extended_initiate_robe_stacks")
 				keys.damage = keys.damage - shield_stacks
 			else
 				SendOverheadEventMessage(nil, OVERHEAD_ALERT_MAGICAL_BLOCK, victim, keys.damage, nil)
-				victim:SetModifierStackCount("modifier_item_imba_initiate_robe_stacks", victim, math.floor(shield_stacks - keys.damage))
+				victim:SetModifierStackCount("modifier_item_extended_initiate_robe_stacks", victim, math.floor(shield_stacks - keys.damage))
 				keys.damage = 0
 			end
 		end
@@ -855,14 +855,14 @@ function GameMode:DamageFilter( keys )
 		end
 
 		-- Reaper's Scythe kill credit logic
-		if victim:HasModifier("modifier_imba_reapers_scythe") then
+		if victim:HasModifier("modifier_extended_reapers_scythe") then
 			
 			-- Check if this is the killing blow
 			local victim_health = victim:GetHealth()
 			if keys.damage >= victim_health then
 
 				-- Prevent death and trigger Reaper's Scythe's on-kill effects
-				local scythe_modifier = victim:FindModifierByName("modifier_imba_reapers_scythe")
+				local scythe_modifier = victim:FindModifierByName("modifier_extended_reapers_scythe")
 				local scythe_caster = false
 				if scythe_modifier then
 					scythe_caster = scythe_modifier:GetCaster()
@@ -875,14 +875,14 @@ function GameMode:DamageFilter( keys )
 		end
 
 		-- Cheese auto-healing
-		if victim:HasModifier("modifier_imba_cheese_death_prevention") then
+		if victim:HasModifier("modifier_extended_cheese_death_prevention") then
 			
 			-- Check if death is imminent
 			local victim_health = victim:GetHealth()
-			if keys.damage >= victim_health and not ( victim:HasModifier("modifier_imba_dazzle_shallow_grave") or victim:HasModifier("modifier_imba_dazzle_nothl_protection") ) then
+			if keys.damage >= victim_health and not ( victim:HasModifier("modifier_extended_dazzle_shallow_grave") or victim:HasModifier("modifier_extended_dazzle_nothl_protection") ) then
 
 				-- Find the cheese item handle
-				local cheese_modifier = victim:FindModifierByName("modifier_imba_cheese_death_prevention")
+				local cheese_modifier = victim:FindModifierByName("modifier_extended_cheese_death_prevention")
 				local item = cheese_modifier:GetAbility()
 
 				-- Spend a charge of Cheese if the cooldown is ready
@@ -913,15 +913,15 @@ function GameMode:DamageFilter( keys )
 		end
 
 		-- Reincarnation death prevention
-		if victim:HasModifier("modifier_imba_reincarnation") or victim:HasModifier("modifier_imba_reincarnation_scepter") then
+		if victim:HasModifier("modifier_extended_reincarnation") or victim:HasModifier("modifier_extended_reincarnation_scepter") then
 
 			-- Check if death is imminent
 			local victim_health = victim:GetHealth()
-			if keys.damage >= victim_health and not ( victim:HasModifier("modifier_imba_dazzle_shallow_grave") or victim:HasModifier("modifier_imba_dazzle_nothl_protection") ) then
+			if keys.damage >= victim_health and not ( victim:HasModifier("modifier_extended_dazzle_shallow_grave") or victim:HasModifier("modifier_extended_dazzle_nothl_protection") ) then
 
 				-- If this unit is reincarnation's owner and it is off cooldown, and there is enough mana, trigger reincarnation sequence
-				if victim:HasModifier("modifier_imba_reincarnation") and victim:GetMana() >= 160 then
-					local reincarnation_ability = victim:FindAbilityByName("imba_wraith_king_reincarnation")
+				if victim:HasModifier("modifier_extended_reincarnation") and victim:GetMana() >= 160 then
+					local reincarnation_ability = victim:FindAbilityByName("extended_wraith_king_reincarnation")
 					if reincarnation_ability and reincarnation_ability:IsCooldownReady() then
 
 						-- Prevent death
@@ -936,7 +936,7 @@ function GameMode:DamageFilter( keys )
 				end
 				
 				-- Else, trigger Wraith Form
-				if victim:HasModifier("modifier_imba_reincarnation_scepter") then
+				if victim:HasModifier("modifier_extended_reincarnation_scepter") then
 					keys.damage = 0
 					TriggerWraithKingWraithForm(victim, attacker)
 					return true
@@ -945,11 +945,11 @@ function GameMode:DamageFilter( keys )
 		end
 
 		-- Aegis death prevention
-		if victim:HasModifier("modifier_item_imba_aegis") then
+		if victim:HasModifier("modifier_item_extended_aegis") then
 
 			-- Check if death is imminent
 			local victim_health = victim:GetHealth()
-			if keys.damage >= victim_health and not (victim:HasModifier("modifier_imba_dazzle_shallow_grave") or victim:HasModifier("modifier_imba_dazzle_nothl_protection")) then
+			if keys.damage >= victim_health and not (victim:HasModifier("modifier_extended_dazzle_shallow_grave") or victim:HasModifier("modifier_extended_dazzle_nothl_protection")) then
 				
 				-- Prevent death
 				keys.damage = 0
@@ -972,10 +972,10 @@ end
 ]]
 
 function GameMode:OnAllPlayersLoaded()
-	DebugPrint("[IMBA] All Players have loaded into the game")
+	DebugPrint("[EXTENDED] All Players have loaded into the game")
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Game filters setup
+	-- EXTENDED: Game filters setup
 	-------------------------------------------------------------------------------------------------
 
 	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap(GameMode, "BountyRuneFilter"), self )
@@ -987,7 +987,7 @@ function GameMode:OnAllPlayersLoaded()
 	GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter( Dynamic_Wrap(GameMode, "ItemAddedFilter"), self )
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Fountain abilities setup
+	-- EXTENDED: Fountain abilities setup
 	-------------------------------------------------------------------------------------------------
 
 	-- Find all buildings on the map
@@ -1003,10 +1003,10 @@ function GameMode:OnAllPlayersLoaded()
 		if string.find(building_name, "fountain") then
 
 			-- Add fountain passive abilities
-			building:AddAbility("imba_fountain_buffs")
-			building:AddAbility("imba_tower_grievous_wounds")
-			local fountain_ability = building:FindAbilityByName("imba_fountain_buffs")
-			local swipes_ability = building:FindAbilityByName("imba_tower_grievous_wounds")
+			building:AddAbility("extended_fountain_buffs")
+			building:AddAbility("extended_tower_grievous_wounds")
+			local fountain_ability = building:FindAbilityByName("extended_fountain_buffs")
+			local swipes_ability = building:FindAbilityByName("extended_tower_grievous_wounds")
 			fountain_ability:SetLevel(1)
 			swipes_ability:SetLevel(1)
 		elseif string.find(building_name, "tower") then
@@ -1016,12 +1016,12 @@ function GameMode:OnAllPlayersLoaded()
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Banned player message
+	-- EXTENDED: Banned player message
 	-------------------------------------------------------------------------------------------------
 
 	if IS_BANNED_PLAYER then
 		Timers:CreateTimer(1, function()
-			Say(nil, "You are banned from playing IMBA. Game will not start.", false)
+			Say(nil, "You are banned from playing EXTENDED. Game will not start.", false)
 		end)
 	end
 end
@@ -1043,17 +1043,17 @@ end
 function GameMode:OnGameInProgress()
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Passive gold adjustment
+	-- EXTENDED: Passive gold adjustment
 	-------------------------------------------------------------------------------------------------
 	
 	local adjusted_gold_tick_time = GOLD_TICK_TIME / ( 1 + CUSTOM_GOLD_BONUS * 0.01 )
 	GameRules:SetGoldTickTime( adjusted_gold_tick_time )
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Arena mode initialization
+	-- EXTENDED: Arena mode initialization
 	-------------------------------------------------------------------------------------------------
 
-	if GetMapName() == "imba_arena" then
+	if GetMapName() == "extended_arena" then
 
 		-- Define the bonus gold positions
 		local bonus_gold_positions = {}
@@ -1079,17 +1079,17 @@ function GameMode:OnGameInProgress()
 			-- Apply the modifier
 			local nearby_heroes = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, Vector(0, 0, 0), nil, 6000, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)
 			for _, hero in pairs(nearby_heroes) do
-				if not hero:HasModifier("modifier_imba_arena_passive_gold_thinker") then
-					hero:AddNewModifier(hero, nil, "modifier_imba_arena_passive_gold_thinker", {})
+				if not hero:HasModifier("modifier_extended_arena_passive_gold_thinker") then
+					hero:AddNewModifier(hero, nil, "modifier_extended_arena_passive_gold_thinker", {})
 				end
-				hero:FindModifierByName("modifier_imba_arena_passive_gold_thinker"):SetStackCount(12)
+				hero:FindModifierByName("modifier_extended_arena_passive_gold_thinker"):SetStackCount(12)
 			end
 
 			-- Update stack amount, when relevant
 			for _, position in pairs(bonus_gold_positions) do
 				nearby_heroes = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, position.center, nil, position.radius, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD, FIND_ANY_ORDER, false)
 				for _, hero in pairs(nearby_heroes) do
-					hero:FindModifierByName("modifier_imba_arena_passive_gold_thinker"):SetStackCount(position.stacks)
+					hero:FindModifierByName("modifier_extended_arena_passive_gold_thinker"):SetStackCount(position.stacks)
 				end
 			end
 
@@ -1118,7 +1118,7 @@ function GameMode:OnGameInProgress()
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Custom maximum level EXP tables adjustment
+	-- EXTENDED: Custom maximum level EXP tables adjustment
 	-------------------------------------------------------------------------------------------------
 	
 	if MAX_LEVEL > 35 then
@@ -1129,11 +1129,11 @@ function GameMode:OnGameInProgress()
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Rune timers setup
+	-- EXTENDED: Rune timers setup
 	-------------------------------------------------------------------------------------------------
 
 	Timers:CreateTimer(0, function()
-		if GetMapName() == "imba_arena" then
+		if GetMapName() == "extended_arena" then
 			SpawnArenaRunes()
 		else
 			SpawnImbaRunes()
@@ -1142,11 +1142,11 @@ function GameMode:OnGameInProgress()
 	end)
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Structure stats setup
+	-- EXTENDED: Structure stats setup
 	-------------------------------------------------------------------------------------------------
 
 	-- Roll the random ancient abilities for this game
-	local ancient_ability_2 = "imba_ancient_stalwart_defense"
+	local ancient_ability_2 = "extended_ancient_stalwart_defense"
 	local ancient_ability_3 = GetAncientAbility(1)
 	local ancient_ability_4 = GetAncientAbility(2)
 	local ancient_ability_5 = GetAncientAbility(3)
@@ -1163,15 +1163,15 @@ function GameMode:OnGameInProgress()
 		-- Identify the building type
 		if string.find(building_name, "tower") then
 
-			building:AddAbility("imba_tower_buffs")
-			local tower_ability = building:FindAbilityByName("imba_tower_buffs")
+			building:AddAbility("extended_tower_buffs")
+			local tower_ability = building:FindAbilityByName("extended_tower_buffs")
 			tower_ability:SetLevel(1)
 
 		elseif string.find(building_name, "fort") then
 
 			-- Add passive buff
-			building:AddAbility("imba_ancient_buffs")
-			local ancient_ability = building:FindAbilityByName("imba_ancient_buffs")
+			building:AddAbility("extended_ancient_buffs")
+			local ancient_ability = building:FindAbilityByName("extended_ancient_buffs")
 			ancient_ability:SetLevel(1)
 
 			if TOWER_ABILITY_MODE then
@@ -1179,11 +1179,11 @@ function GameMode:OnGameInProgress()
 				-- Add Spawn Behemoth ability, if appropriate
 				if SPAWN_ANCIENT_BEHEMOTHS then
 					if string.find(building_name, "goodguys") then
-						building:AddAbility("imba_ancient_radiant_spawn_behemoth")
-						ancient_ability = building:FindAbilityByName("imba_ancient_radiant_spawn_behemoth")
+						building:AddAbility("extended_ancient_radiant_spawn_behemoth")
+						ancient_ability = building:FindAbilityByName("extended_ancient_radiant_spawn_behemoth")
 					elseif string.find(building_name, "badguys") then
-						building:AddAbility("imba_ancient_dire_spawn_behemoth")
-						ancient_ability = building:FindAbilityByName("imba_ancient_dire_spawn_behemoth")
+						building:AddAbility("extended_ancient_dire_spawn_behemoth")
+						ancient_ability = building:FindAbilityByName("extended_ancient_dire_spawn_behemoth")
 					end
 					ancient_ability:SetLevel(1)
 				end
@@ -1217,7 +1217,7 @@ function GameMode:OnGameInProgress()
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Tower abilities setup
+	-- EXTENDED: Tower abilities setup
 	-------------------------------------------------------------------------------------------------
 
 	if TOWER_ABILITY_MODE then

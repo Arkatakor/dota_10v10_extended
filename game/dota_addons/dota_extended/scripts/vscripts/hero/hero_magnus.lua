@@ -213,10 +213,10 @@ function EmpowerAura( keys )
 
 	-- If this is Rubick and Empower is no longer present, do nothing and kill the modifiers
 	if IsStolenSpell(caster) then
-		if not caster:FindAbilityByName("imba_magnus_empower") then
-			caster:RemoveModifierByName("modifier_imba_empower_scepter_check")
-			caster:RemoveModifierByName("modifier_imba_empower")
-			caster:RemoveModifierByName("modifier_imba_supercharged")
+		if not caster:FindAbilityByName("extended_magnus_empower") then
+			caster:RemoveModifierByName("modifier_extended_empower_scepter_check")
+			caster:RemoveModifierByName("modifier_extended_empower")
+			caster:RemoveModifierByName("modifier_extended_supercharged")
 			return nil
 		end
 	end
@@ -272,7 +272,7 @@ function Empower( keys )
 	target:EmitSound(sound_target)
 
 	-- Apply limited-duration empower modifier if the target doesn't have the empower ability
-	if not target:FindAbilityByName("imba_magnus_empower") then
+	if not target:FindAbilityByName("extended_magnus_empower") then
 		ability:ApplyDataDrivenModifier(caster, target, modifier_empower, {duration = empower_duration})
 	else
 		ability:ApplyDataDrivenModifier(caster, target, modifier_empower, {})

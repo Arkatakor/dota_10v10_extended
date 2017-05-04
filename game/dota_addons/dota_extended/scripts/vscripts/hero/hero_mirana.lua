@@ -8,12 +8,12 @@ CreateEmptyTalents("mirana")
 --        STARSTORM          --
 -------------------------------
 
-imba_mirana_starfall = class({})
-LinkLuaModifier("modifier_imba_starfall_scepter_thinker", "hero/hero_mirana", LUA_MODIFIER_MOTION_NONE)
+extended_mirana_starfall = class({})
+LinkLuaModifier("modifier_extended_starfall_scepter_thinker", "hero/hero_mirana", LUA_MODIFIER_MOTION_NONE)
 
-function imba_mirana_starfall:OnUpgrade()
+function extended_mirana_starfall:OnUpgrade()
     local caster = self:GetCaster()
-    local modifier_agh_starfall = "modifier_imba_starfall_scepter_thinker"
+    local modifier_agh_starfall = "modifier_extended_starfall_scepter_thinker"
 
     -- Add it only once, when Starfall is first gained (no need to make it reapply)
     if not caster:HasModifier(modifier_agh_starfall) then
@@ -21,13 +21,13 @@ function imba_mirana_starfall:OnUpgrade()
     end
 end
 
-function imba_mirana_starfall:IsHiddenWhenStolen()
+function extended_mirana_starfall:IsHiddenWhenStolen()
     return false
 end
 
-function imba_mirana_starfall:OnUnStolen()
+function extended_mirana_starfall:OnUnStolen()
     local caster = self:GetCaster()
-    local modifier_agh_starfall = "modifier_imba_starfall_scepter_thinker"
+    local modifier_agh_starfall = "modifier_extended_starfall_scepter_thinker"
 
     -- Remove modifier from Rubick when he loses the spell
     if caster:HasModifier(modifier_agh_starfall) then
@@ -35,7 +35,7 @@ function imba_mirana_starfall:OnUnStolen()
     end
 end
 
-function imba_mirana_starfall:OnSpellStart()
+function extended_mirana_starfall:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self            
@@ -66,7 +66,7 @@ function imba_mirana_starfall:OnSpellStart()
     EmitSoundOn(sound_cast, caster)
 
     -- #7 Talent: Starfall wave interval decrease (value is negative)
-    additional_waves_interval = additional_waves_interval + caster:FindTalentValue("special_bonus_imba_mirana_7")
+    additional_waves_interval = additional_waves_interval + caster:FindTalentValue("special_bonus_extended_mirana_7")
 
     -- Assign caster's location on cast, since the waves do not move with Mirana
     local caster_position = caster:GetAbsOrigin()
@@ -134,7 +134,7 @@ function StarfallWave(caster, ability, caster_position, radius, damage)
     local sound_impact = "Ability.StarfallImpact"
 
     -- #1 Talent: Increase Starfall search radius
-    radius = radius + caster:FindTalentValue("special_bonus_imba_mirana_1")
+    radius = radius + caster:FindTalentValue("special_bonus_extended_mirana_1")
 
     -- Find enemies in radius
     local enemies = FindUnitsInRadius(caster:GetTeamNumber(),
@@ -189,7 +189,7 @@ function SecondaryStarfall(caster, ability, caster_position, radius, damage)
     local sound_impact = "Ability.StarfallImpact"
 
     -- #1 Talent: Increase Starfall search radius
-    radius = radius + caster:FindTalentValue("special_bonus_imba_mirana_1")
+    radius = radius + caster:FindTalentValue("special_bonus_extended_mirana_1")
 
     -- Find the closest enemy in the secondary radius
     local enemies = FindUnitsInRadius(caster:GetTeamNumber(),
@@ -238,9 +238,9 @@ function SecondaryStarfall(caster, ability, caster_position, radius, damage)
 end
 
 -- Aghnaim's Scepter thinker modifier
-modifier_imba_starfall_scepter_thinker = class({})
+modifier_extended_starfall_scepter_thinker = class({})
 
-function modifier_imba_starfall_scepter_thinker:OnCreated()
+function modifier_extended_starfall_scepter_thinker:OnCreated()
     if IsServer() then
         -- Ability properties
         self.caster = self:GetCaster()
@@ -251,7 +251,7 @@ function modifier_imba_starfall_scepter_thinker:OnCreated()
     end
 end
 
-function modifier_imba_starfall_scepter_thinker:IsHidden()
+function modifier_extended_starfall_scepter_thinker:IsHidden()
     if self:GetCaster():HasScepter() then
         return false
     end        
@@ -259,10 +259,10 @@ function modifier_imba_starfall_scepter_thinker:IsHidden()
     return true 
 end
 
-function modifier_imba_starfall_scepter_thinker:IsPurgable() return false end
-function modifier_imba_starfall_scepter_thinker:IsDebuff() return false end
+function modifier_extended_starfall_scepter_thinker:IsPurgable() return false end
+function modifier_extended_starfall_scepter_thinker:IsDebuff() return false end
 
-function modifier_imba_starfall_scepter_thinker:OnIntervalThink()
+function modifier_extended_starfall_scepter_thinker:OnIntervalThink()
     if IsServer() then        
         -- Ability specials
         self.radius = self.ability:GetSpecialValueFor("radius")
@@ -311,7 +311,7 @@ function modifier_imba_starfall_scepter_thinker:OnIntervalThink()
     end
 end
 
-function modifier_imba_starfall_scepter_thinker:DestroyOnExpire()
+function modifier_extended_starfall_scepter_thinker:DestroyOnExpire()
     return false
 end
 
@@ -321,15 +321,15 @@ end
 --        SACRED ARROW       --
 -------------------------------
 
-imba_mirana_arrow = class({})
-LinkLuaModifier("modifier_imba_sacred_arrow_stun", "hero/hero_mirana", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_sacred_arrow_haste", "hero/hero_mirana", LUA_MODIFIER_MOTION_NONE)
+extended_mirana_arrow = class({})
+LinkLuaModifier("modifier_extended_sacred_arrow_stun", "hero/hero_mirana", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_sacred_arrow_haste", "hero/hero_mirana", LUA_MODIFIER_MOTION_NONE)
 
-function imba_mirana_arrow:IsHiddenWhenStolen()
+function extended_mirana_arrow:IsHiddenWhenStolen()
     return false
 end
 
-function imba_mirana_arrow:OnSpellStart()
+function extended_mirana_arrow:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self        
@@ -352,7 +352,7 @@ function imba_mirana_arrow:OnSpellStart()
     FireSacredArrow(caster, ability, spawn_point, direction)    
 
     -- #4 Talent: Two additional Sacred Arrows to the sides
-    if caster:HasTalent("special_bonus_imba_mirana_4") then
+    if caster:HasTalent("special_bonus_extended_mirana_4") then
 
         -- Set QAngles
         local left_QAngle = QAngle(0, 30, 0)
@@ -419,7 +419,7 @@ function FireSacredArrow(caster, ability, spawn_point, direction)
     ProjectileManager:CreateLinearProjectile(arrow_projectile)
 end
 
-function imba_mirana_arrow:OnProjectileHit_ExtraData(target, location, extra_data)    
+function extended_mirana_arrow:OnProjectileHit_ExtraData(target, location, extra_data)    
     -- If no target was hit, do nothing
     if not target then
         return nil
@@ -433,7 +433,7 @@ function imba_mirana_arrow:OnProjectileHit_ExtraData(target, location, extra_dat
     local cast_response_creep = {"mirana_mir_ability_arrow_03", "mirana_mir_ability_arrow_04", "mirana_mir_ability_arrow_05", "mirana_mir_ability_arrow_06", "mirana_mir_ability_arrow_08"}
     local cast_response_roshan = {"mirana_mir_ability_arrow_09", "mirana_mir_ability_arrow_10", "mirana_mir_ability_arrow_11", "mirana_mir_ability_arrow_12"}
     local sound_impact = "Hero_Mirana.ArrowImpact"
-    local modifier_stun = "modifier_imba_sacred_arrow_stun"
+    local modifier_stun = "modifier_extended_sacred_arrow_stun"
 
     -- Ability specials
     local base_damage = ability:GetSpecialValueFor("base_damage")
@@ -509,7 +509,7 @@ function imba_mirana_arrow:OnProjectileHit_ExtraData(target, location, extra_dat
     end   
 
     -- #3 Talent: Sacred Arrow's stun duration increase
-    stun_duration = stun_duration + caster:FindTalentValue("special_bonus_imba_mirana_3")    
+    stun_duration = stun_duration + caster:FindTalentValue("special_bonus_extended_mirana_3")    
 
     -- Cast response for heroes
     if target:IsRealHero() then
@@ -534,16 +534,16 @@ end
 
 
 -- Arrow stun modifier
-modifier_imba_sacred_arrow_stun = class({})
+modifier_extended_sacred_arrow_stun = class({})
 
-function modifier_imba_sacred_arrow_stun:OnCreated()
+function modifier_extended_sacred_arrow_stun:OnCreated()
     if IsServer() then
         -- Ability properties
         self.caster = self:GetCaster()
         self.ability = self:GetAbility()
         self.parent = self:GetParent()
-        self.modifier_arrow_stun = "modifier_imba_sacred_arrow_stun"
-        self.modifier_haste = "modifier_imba_sacred_arrow_haste"
+        self.modifier_arrow_stun = "modifier_extended_sacred_arrow_stun"
+        self.modifier_haste = "modifier_extended_sacred_arrow_haste"
         self.attackers_table = {}
 
         -- Ability specials
@@ -551,31 +551,31 @@ function modifier_imba_sacred_arrow_stun:OnCreated()
     end
  end 
 
-function modifier_imba_sacred_arrow_stun:IsHidden() return false end
-function modifier_imba_sacred_arrow_stun:IsStunDebuff() return true end
-function modifier_imba_sacred_arrow_stun:IsPurgeException() return true end
+function modifier_extended_sacred_arrow_stun:IsHidden() return false end
+function modifier_extended_sacred_arrow_stun:IsStunDebuff() return true end
+function modifier_extended_sacred_arrow_stun:IsPurgeException() return true end
 
-function modifier_imba_sacred_arrow_stun:CheckState()
+function modifier_extended_sacred_arrow_stun:CheckState()
     local state = {[MODIFIER_STATE_STUNNED] = true}
     return state
 end
 
-function modifier_imba_sacred_arrow_stun:GetEffectName()
+function modifier_extended_sacred_arrow_stun:GetEffectName()
     return "particles/generic_gameplay/generic_stunned.vpcf"
 end
 
-function modifier_imba_sacred_arrow_stun:GetEffectAttachType()
+function modifier_extended_sacred_arrow_stun:GetEffectAttachType()
     return PATTACH_OVERHEAD_FOLLOW
 end
 
-function modifier_imba_sacred_arrow_stun:DeclareFunctions()
+function modifier_extended_sacred_arrow_stun:DeclareFunctions()
     local decFuncs = {MODIFIER_EVENT_ON_ORDER,
                       MODIFIER_EVENT_ON_TAKEDAMAGE}
 
     return decFuncs
 end
 
-function modifier_imba_sacred_arrow_stun:OnOrder(keys)    
+function modifier_extended_sacred_arrow_stun:OnOrder(keys)    
     if IsServer() then
         local unit = keys.unit
         local order_type = keys.order_type
@@ -596,7 +596,7 @@ function modifier_imba_sacred_arrow_stun:OnOrder(keys)
     end
 end
 
-function modifier_imba_sacred_arrow_stun:OnTakeDamage(keys)
+function modifier_extended_sacred_arrow_stun:OnTakeDamage(keys)
     if IsServer() then        
         local attacker = keys.attacker
         local target = keys.unit
@@ -619,7 +619,7 @@ function modifier_imba_sacred_arrow_stun:OnTakeDamage(keys)
     end
 end
 
-function modifier_imba_sacred_arrow_stun:OnDestroy()
+function modifier_extended_sacred_arrow_stun:OnDestroy()
     if IsServer() then
         -- Find all enemies
         local enemies = FindUnitsInRadius(self.parent:GetTeamNumber(),
@@ -646,13 +646,13 @@ end
 
 
 -- Allies haste modifier
-modifier_imba_sacred_arrow_haste = class({})
+modifier_extended_sacred_arrow_haste = class({})
 
-function modifier_imba_sacred_arrow_haste:IsHidden() return false end
-function modifier_imba_sacred_arrow_haste:IsPurgable() return true end
-function modifier_imba_sacred_arrow_haste:IsDebuff() return false end
+function modifier_extended_sacred_arrow_haste:IsHidden() return false end
+function modifier_extended_sacred_arrow_haste:IsPurgable() return true end
+function modifier_extended_sacred_arrow_haste:IsDebuff() return false end
 
-function modifier_imba_sacred_arrow_haste:OnCreated()
+function modifier_extended_sacred_arrow_haste:OnCreated()
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
     self.parent = self:GetParent()
@@ -660,26 +660,26 @@ function modifier_imba_sacred_arrow_haste:OnCreated()
     self.on_prowl_movespeed = self.ability:GetSpecialValueFor("on_prowl_movespeed")
 end
 
-function modifier_imba_sacred_arrow_haste:DeclareFunctions()
+function modifier_extended_sacred_arrow_haste:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE,
                       MODIFIER_PROPERTY_MOVESPEED_MAX}
 
     return decFuncs
 end
 
-function modifier_imba_sacred_arrow_haste:GetModifierMoveSpeedOverride()
+function modifier_extended_sacred_arrow_haste:GetModifierMoveSpeedOverride()
     return self.on_prowl_movespeed
 end
 
-function modifier_imba_sacred_arrow_haste:GetModifierMoveSpeed_Max()
+function modifier_extended_sacred_arrow_haste:GetModifierMoveSpeed_Max()
     return self.on_prowl_movespeed
 end
 
-function modifier_imba_sacred_arrow_haste:GetEffectName()
+function modifier_extended_sacred_arrow_haste:GetEffectName()
     return "particles/hero/mirana/mirana_sacred_boost.vpcf"
 end
 
-function modifier_imba_sacred_arrow_haste:GetEffectAttachType()
+function modifier_extended_sacred_arrow_haste:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
@@ -688,12 +688,12 @@ end
 --           LEAP            --
 -------------------------------
 
-imba_mirana_leap = class({})
-LinkLuaModifier("modifier_imba_leap_movement", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
-LinkLuaModifier("modifier_imba_leap_aura", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
-LinkLuaModifier("modifier_imba_leap_speed_boost", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
+extended_mirana_leap = class({})
+LinkLuaModifier("modifier_extended_leap_movement", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
+LinkLuaModifier("modifier_extended_leap_aura", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
+LinkLuaModifier("modifier_extended_leap_speed_boost", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
 
-function imba_mirana_leap:GetCastRange(location, target)        
+function extended_mirana_leap:GetCastRange(location, target)        
     local ability = self
     local leap_range = ability:GetSpecialValueFor("leap_range")
     local night_leap_range_bonus = ability:GetSpecialValueFor("night_leap_range_bonus")
@@ -705,16 +705,16 @@ function imba_mirana_leap:GetCastRange(location, target)
     end            
 end
 
-function imba_mirana_leap:IsHiddenWhenStolen()
+function extended_mirana_leap:IsHiddenWhenStolen()
     return false
 end
 
-function imba_mirana_leap:OnSpellStart()
+function extended_mirana_leap:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
     local target_point = self:GetCursorPosition()    
-    local modifier_movement = "modifier_imba_leap_movement"
+    local modifier_movement = "modifier_extended_leap_movement"
     local sound_cast = "Ability.Leap"
 
     -- Ability specials
@@ -738,7 +738,7 @@ function imba_mirana_leap:OnSpellStart()
     end
 
     -- #6 Talent: Free Sacred Arrow after Leap ends
-    if caster:HasTalent("special_bonus_imba_mirana_6") then
+    if caster:HasTalent("special_bonus_extended_mirana_6") then
 
         -- Calculate the landing time
         local distance = (caster:GetAbsOrigin() - target_point):Length2D()
@@ -754,7 +754,7 @@ function imba_mirana_leap:OnSpellStart()
         Timers:CreateTimer(jump_time, function()
 
             -- Get the Sacred Arrow ability definition and distance
-            local sacred_arrow_ability = caster:FindAbilityByName("imba_mirana_arrow")            
+            local sacred_arrow_ability = caster:FindAbilityByName("extended_mirana_arrow")            
 
             -- Get values for at least level 1 arrow            
             local spawn_distance
@@ -776,14 +776,14 @@ end
 
 
 -- Leap movement modifier
-modifier_imba_leap_movement = class({})
+modifier_extended_leap_movement = class({})
 
-function modifier_imba_leap_movement:OnCreated()
+function modifier_extended_leap_movement:OnCreated()
     if IsServer() then
         -- Ability properties
         self.caster = self:GetCaster()
         self.ability = self:GetAbility()                
-        self.modifier_aura = "modifier_imba_leap_aura"
+        self.modifier_aura = "modifier_extended_leap_aura"
 
         -- Ability specials
         self.jump_speed = self.ability:GetSpecialValueFor("jump_speed")
@@ -809,11 +809,11 @@ function modifier_imba_leap_movement:OnCreated()
     end
 end
 
-function modifier_imba_leap_movement:IsHidden() return true end
-function modifier_imba_leap_movement:IsPurgable() return false end
-function modifier_imba_leap_movement:IsDebuff() return false end
+function modifier_extended_leap_movement:IsHidden() return true end
+function modifier_extended_leap_movement:IsPurgable() return false end
+function modifier_extended_leap_movement:IsDebuff() return false end
 
-function modifier_imba_leap_movement:UpdateVerticalMotion(me, dt)
+function modifier_extended_leap_movement:UpdateVerticalMotion(me, dt)
     if IsServer() then
         -- Check if we're still jumping
         if self.time_elapsed < self.jump_time then
@@ -837,7 +837,7 @@ function modifier_imba_leap_movement:UpdateVerticalMotion(me, dt)
     end
 end
 
-function modifier_imba_leap_movement:UpdateHorizontalMotion(me, dt)
+function modifier_extended_leap_movement:UpdateHorizontalMotion(me, dt)
    if IsServer() then
         -- Check if we're still jumping
         self.time_elapsed = self.time_elapsed + dt
@@ -853,16 +853,16 @@ function modifier_imba_leap_movement:UpdateHorizontalMotion(me, dt)
    end 
 end
 
-function modifier_imba_leap_movement:OnRemoved()    
+function modifier_extended_leap_movement:OnRemoved()    
     if IsServer() then
         self.caster:AddNewModifier(self.caster, self.ability, self.modifier_aura, {duration = self.aura_duration})
     end
 end
 
 -- Leap aura modifier
-modifier_imba_leap_aura = class({})
+modifier_extended_leap_aura = class({})
 
-function modifier_imba_leap_aura:OnCreated()
+function modifier_extended_leap_aura:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()        
@@ -872,45 +872,45 @@ function modifier_imba_leap_aura:OnCreated()
     self.aura_linger_duration = self.ability:GetSpecialValueFor("aura_linger_duration")
 
     -- #2 Talent: Leap Aura linger duration increase
-    self.aura_linger_duration = self.aura_linger_duration + self.caster:FindTalentValue("special_bonus_imba_mirana_2")
+    self.aura_linger_duration = self.aura_linger_duration + self.caster:FindTalentValue("special_bonus_extended_mirana_2")
 end
 
-function modifier_imba_leap_aura:IsHidden() return false end
-function modifier_imba_leap_aura:IsPurgable() return false end
-function modifier_imba_leap_aura:IsDebuff() return false end
+function modifier_extended_leap_aura:IsHidden() return false end
+function modifier_extended_leap_aura:IsPurgable() return false end
+function modifier_extended_leap_aura:IsDebuff() return false end
 
-function modifier_imba_leap_aura:GetAuraDuration()
+function modifier_extended_leap_aura:GetAuraDuration()
     return self.aura_linger_duration
 end
 
-function modifier_imba_leap_aura:GetAuraRadius()
+function modifier_extended_leap_aura:GetAuraRadius()
     return self.aura_aoe
 end
 
-function modifier_imba_leap_aura:GetAuraSearchFlags()
+function modifier_extended_leap_aura:GetAuraSearchFlags()
     return DOTA_UNIT_TARGET_FLAG_NONE
 end
 
-function modifier_imba_leap_aura:GetAuraSearchTeam()
+function modifier_extended_leap_aura:GetAuraSearchTeam()
     return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
-function modifier_imba_leap_aura:GetAuraSearchType()
+function modifier_extended_leap_aura:GetAuraSearchType()
     return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
-function modifier_imba_leap_aura:GetModifierAura()
-    return "modifier_imba_leap_speed_boost"
+function modifier_extended_leap_aura:GetModifierAura()
+    return "modifier_extended_leap_speed_boost"
 end
 
-function modifier_imba_leap_aura:IsAura()
+function modifier_extended_leap_aura:IsAura()
     return true
 end
 
 -- Leap speed boost modifier
-modifier_imba_leap_speed_boost = class({})
+modifier_extended_leap_speed_boost = class({})
 
-function modifier_imba_leap_speed_boost:OnCreated()
+function modifier_extended_leap_speed_boost:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()    
@@ -921,32 +921,32 @@ function modifier_imba_leap_speed_boost:OnCreated()
     self.attack_speed = self.ability:GetSpecialValueFor("attack_speed")
 
     -- #5 Talent: Leap Aura attack speed increase
-    self.attack_speed = self.attack_speed + self.caster:FindTalentValue("special_bonus_imba_mirana_5")
+    self.attack_speed = self.attack_speed + self.caster:FindTalentValue("special_bonus_extended_mirana_5")
 end
 
-function modifier_imba_leap_speed_boost:IsHidden() 
-    if self.parent == self.caster and self.caster:HasModifier("modifier_imba_leap_aura") then
+function modifier_extended_leap_speed_boost:IsHidden() 
+    if self.parent == self.caster and self.caster:HasModifier("modifier_extended_leap_aura") then
         return true
     end
 
     return false 
 end
 
-function modifier_imba_leap_speed_boost:IsPurgable() return false end
-function modifier_imba_leap_speed_boost:IsDebuff() return false end
+function modifier_extended_leap_speed_boost:IsPurgable() return false end
+function modifier_extended_leap_speed_boost:IsDebuff() return false end
 
-function modifier_imba_leap_speed_boost:DeclareFunctions()
+function modifier_extended_leap_speed_boost:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
                       MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
 
     return decFuncs
 end
 
-function modifier_imba_leap_speed_boost:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_leap_speed_boost:GetModifierMoveSpeedBonus_Percentage()
     return self.move_speed_pct
 end
 
-function modifier_imba_leap_speed_boost:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_leap_speed_boost:GetModifierAttackSpeedBonus_Constant()
     return self.attack_speed
 end
 
@@ -954,28 +954,28 @@ end
 --     MOONLIGHT SHADOW      --
 -------------------------------
 
-imba_mirana_moonlight_shadow = class({})
-LinkLuaModifier("modifier_imba_moonlight_shadow", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
-LinkLuaModifier("modifier_imba_moonlight_shadow_invis", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
-LinkLuaModifier("modifier_imba_moonlight_shadow_invis_dummy", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
+extended_mirana_moonlight_shadow = class({})
+LinkLuaModifier("modifier_extended_moonlight_shadow", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
+LinkLuaModifier("modifier_extended_moonlight_shadow_invis", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
+LinkLuaModifier("modifier_extended_moonlight_shadow_invis_dummy", "hero/hero_mirana", LUA_MODIFIER_MOTION_BOTH)
 
-function imba_mirana_moonlight_shadow:GetCooldown(level)
+function extended_mirana_moonlight_shadow:GetCooldown(level)
     local caster = self:GetCaster()
     local base_cd = self.BaseClass.GetCooldown(self, level)
 
     -- #8 Talent: 
-    return (base_cd - caster:FindTalentValue("special_bonus_imba_mirana_8"))
+    return (base_cd - caster:FindTalentValue("special_bonus_extended_mirana_8"))
 end
 
-function imba_mirana_moonlight_shadow:IsHiddenWhenStolen()
+function extended_mirana_moonlight_shadow:IsHiddenWhenStolen()
     return false
 end
 
-function imba_mirana_moonlight_shadow:OnSpellStart()
+function extended_mirana_moonlight_shadow:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
-    local modifier_main = "modifier_imba_moonlight_shadow"
+    local modifier_main = "modifier_extended_moonlight_shadow"
     local cast_response = {"mirana_mir_ability_moon_02", "mirana_mir_ability_moon_03", "mirana_mir_ability_moon_04", "mirana_mir_ability_moon_07", "mirana_mir_ability_moon_08"}
     local sound_cast = "Ability.MoonlightShadow"
     local particle_moon = "particles/units/heroes/hero_mirana/mirana_moonlight_cast.vpcf"
@@ -999,25 +999,25 @@ function imba_mirana_moonlight_shadow:OnSpellStart()
 end
 
 -- Main modifier (Mirana)
-modifier_imba_moonlight_shadow = class({})
+modifier_extended_moonlight_shadow = class({})
 
-function modifier_imba_moonlight_shadow:OnCreated()
+function modifier_extended_moonlight_shadow:OnCreated()
     if IsServer() then
         self.caster = self:GetCaster()
         self.ability = self:GetAbility()
-        self.modifier_invis = "modifier_imba_moonlight_shadow_invis"
-        self.modifier_dummy = "modifier_imba_moonlight_shadow_invis_dummy"
+        self.modifier_invis = "modifier_extended_moonlight_shadow_invis"
+        self.modifier_dummy = "modifier_extended_moonlight_shadow_invis_dummy"
 
         -- Start interval think
         self:StartIntervalThink(0.1)
     end
 end
 
-function modifier_imba_moonlight_shadow:IsHidden() return false end
-function modifier_imba_moonlight_shadow:IsPurgable() return false end
-function modifier_imba_moonlight_shadow:IsDebuff() return false end
+function modifier_extended_moonlight_shadow:IsHidden() return false end
+function modifier_extended_moonlight_shadow:IsPurgable() return false end
+function modifier_extended_moonlight_shadow:IsDebuff() return false end
 
-function modifier_imba_moonlight_shadow:OnIntervalThink()
+function modifier_extended_moonlight_shadow:OnIntervalThink()
     if IsServer() then
         local duration = self:GetRemainingTime()
 
@@ -1042,7 +1042,7 @@ function modifier_imba_moonlight_shadow:OnIntervalThink()
     end
 end
 
-function modifier_imba_moonlight_shadow:OnDestroy()
+function modifier_extended_moonlight_shadow:OnDestroy()
     if IsServer() then
         -- Find all allied heroes
         local allies = FindUnitsInRadius(self.caster:GetTeamNumber(),
@@ -1068,9 +1068,9 @@ end
 
 
 -- Invisibility modifier (hidden)
-modifier_imba_moonlight_shadow_invis = class({})
+modifier_extended_moonlight_shadow_invis = class({})
  
-function modifier_imba_moonlight_shadow_invis:OnCreated()
+function modifier_extended_moonlight_shadow_invis:OnCreated()
     -- this stacks is the actual invisibility, but since it has a on/off triggers, it's counted with stacks
     -- 0 stacks means the hero is not invisible
     -- 1 stack means the hero is invisible, but can be detected
@@ -1081,8 +1081,8 @@ function modifier_imba_moonlight_shadow_invis:OnCreated()
         self.caster = self:GetCaster()
         self.ability = self:GetAbility()
         self.parent = self:GetParent() 
-        self.modifier_dummy_name = "modifier_imba_moonlight_shadow_invis_dummy"
-        self.modifier_dummy = self.parent:FindModifierByName("modifier_imba_moonlight_shadow_invis_dummy")
+        self.modifier_dummy_name = "modifier_extended_moonlight_shadow_invis_dummy"
+        self.modifier_dummy = self.parent:FindModifierByName("modifier_extended_moonlight_shadow_invis_dummy")
 
         -- Ability specials
         self.fade_delay = self.ability:GetSpecialValueFor("fade_delay")
@@ -1096,11 +1096,11 @@ function modifier_imba_moonlight_shadow_invis:OnCreated()
     end
 end 
 
-function modifier_imba_moonlight_shadow_invis:IsHidden() return true end
-function modifier_imba_moonlight_shadow_invis:IsPurgable() return false end
-function modifier_imba_moonlight_shadow_invis:IsDebuff() return false end
+function modifier_extended_moonlight_shadow_invis:IsHidden() return true end
+function modifier_extended_moonlight_shadow_invis:IsPurgable() return false end
+function modifier_extended_moonlight_shadow_invis:IsDebuff() return false end
 
-function modifier_imba_moonlight_shadow_invis:OnIntervalThink()
+function modifier_extended_moonlight_shadow_invis:OnIntervalThink()
     if IsServer() then
         -- Look around for enemy heroes in the immunity radius
         local enemies = FindUnitsInRadius(self.parent:GetTeamNumber(),
@@ -1128,7 +1128,7 @@ function modifier_imba_moonlight_shadow_invis:OnIntervalThink()
     end
 end
 
-function modifier_imba_moonlight_shadow_invis:DeclareFunctions()
+function modifier_extended_moonlight_shadow_invis:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
                       MODIFIER_EVENT_ON_ABILITY_EXECUTED,
                       MODIFIER_EVENT_ON_ATTACK}
@@ -1136,7 +1136,7 @@ function modifier_imba_moonlight_shadow_invis:DeclareFunctions()
     return decFuncs                      
 end
 
-function modifier_imba_moonlight_shadow_invis:GetModifierInvisibilityLevel()    
+function modifier_extended_moonlight_shadow_invis:GetModifierInvisibilityLevel()    
     local stacks = self:GetStackCount()
 
     if stacks == 2 or stacks == 1 then
@@ -1146,7 +1146,7 @@ function modifier_imba_moonlight_shadow_invis:GetModifierInvisibilityLevel()
     end    
 end
 
-function modifier_imba_moonlight_shadow_invis:OnAbilityExecuted(keys)
+function modifier_extended_moonlight_shadow_invis:OnAbilityExecuted(keys)
     if IsServer() then
         local unit = keys.unit
 
@@ -1163,7 +1163,7 @@ function modifier_imba_moonlight_shadow_invis:OnAbilityExecuted(keys)
     end
 end
 
-function modifier_imba_moonlight_shadow_invis:OnAttack(keys)
+function modifier_extended_moonlight_shadow_invis:OnAttack(keys)
     if IsServer() then
         local attacker = keys.attacker    
 
@@ -1180,7 +1180,7 @@ function modifier_imba_moonlight_shadow_invis:OnAttack(keys)
     end
 end
 
-function modifier_imba_moonlight_shadow_invis:CheckState()
+function modifier_extended_moonlight_shadow_invis:CheckState()
     if IsServer() then
         local state
         local stacks = self:GetStackCount()
@@ -1203,16 +1203,16 @@ function modifier_imba_moonlight_shadow_invis:CheckState()
 end
 
 -- Dummy invisibility modifier (shown)
-modifier_imba_moonlight_shadow_invis_dummy = class({})
+modifier_extended_moonlight_shadow_invis_dummy = class({})
 
-function modifier_imba_moonlight_shadow_invis_dummy:IsHidden() return false end
-function modifier_imba_moonlight_shadow_invis_dummy:IsPurgable() return false end
-function modifier_imba_moonlight_shadow_invis_dummy:IsDebuff() return false end
+function modifier_extended_moonlight_shadow_invis_dummy:IsHidden() return false end
+function modifier_extended_moonlight_shadow_invis_dummy:IsPurgable() return false end
+function modifier_extended_moonlight_shadow_invis_dummy:IsDebuff() return false end
 
-function modifier_imba_moonlight_shadow_invis_dummy:GetEffectName()
+function modifier_extended_moonlight_shadow_invis_dummy:GetEffectName()
     return "particles/units/heroes/hero_mirana/mirana_moonlight_owner.vpcf"
 end
 
-function modifier_imba_moonlight_shadow_invis_dummy:GetEffectAttachType()
+function modifier_extended_moonlight_shadow_invis_dummy:GetEffectAttachType()
     return PATTACH_OVERHEAD_FOLLOW
 end

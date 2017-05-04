@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	20.09.2015
 		Last updated: 18.03.2017	]]
 
@@ -30,11 +30,11 @@ function Dagon( keys )
 
 	-- Determine dagon color
 	local dagon_colors = {}
-	dagon_colors["item_imba_dagon_6"] = Vector(0.4, 0.0, 0.0)
-	dagon_colors["item_imba_dagon_7"] = Vector(0.2, 0.0, 0.2)
-	dagon_colors["item_imba_dagon_8"] = Vector(0.0, 0.15, 0.25)
-	dagon_colors["item_imba_dagon_9"] = Vector(0.3, 0.3, 0.0)
-	dagon_colors["item_imba_dagon_10"] = Vector(0.0, 0.4, 0.0)
+	dagon_colors["item_extended_dagon_6"] = Vector(0.4, 0.0, 0.0)
+	dagon_colors["item_extended_dagon_7"] = Vector(0.2, 0.0, 0.2)
+	dagon_colors["item_extended_dagon_8"] = Vector(0.0, 0.15, 0.25)
+	dagon_colors["item_extended_dagon_9"] = Vector(0.3, 0.3, 0.0)
+	dagon_colors["item_extended_dagon_10"] = Vector(0.0, 0.4, 0.0)
 
 	-- Play cast sound
 	caster:EmitSound(sound_cast)

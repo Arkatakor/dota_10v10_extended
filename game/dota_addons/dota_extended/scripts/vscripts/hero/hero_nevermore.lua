@@ -580,7 +580,7 @@ function RequiemCast(keys)
 	end
 
 	-- Get number of souls. Uses Necromastery's maximum soul amount instead of current souls for nonstandard heroes, like Rubick, pugna ward, or in Random OMG. (yeah, hardcoded, blah blah sue me)
-	if not caster:FindAbilityByName("imba_nevermore_necromastery") then
+	if not caster:FindAbilityByName("extended_nevermore_necromastery") then
 		if scepter then
 			souls = 46
 		else

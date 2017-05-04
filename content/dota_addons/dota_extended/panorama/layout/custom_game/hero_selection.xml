@@ -22,7 +22,7 @@
 				<!--Left-hand player section 
 				==================================================================-->
 				<Panel id="LeftPlayers">
-					<Label id="LeftTeamTitle" class="PickScreenTeamTitle" text="#imba_radiant_team_title" />
+					<Label id="LeftTeamTitle" class="PickScreenTeamTitle" text="#extended_radiant_team_title" />
 					<!-- JS Inserts player elements here -->
 				</Panel>
 
@@ -35,45 +35,45 @@
 								<Panel id='PickTimer'>
 									<Label id='TimerTxt' text="" />
 								</Panel>
-								<Label id="HeroSelectText" class="HeroSelectText" text="#imba_gamemode_name_all_pick" />
+								<Label id="HeroSelectText" class="HeroSelectText" text="#extended_gamemode_name_all_pick" />
 							</Panel>
 
 							<Panel id='GameOptionsPanelContainer'>
 								<Panel id="GameOptionsPanel1">
 									<Panel id="GameOptionsLabelPanel1" class="GameModeLabelPanel">
-										<Label id="BountyMultiplierLabel" class="GameModeLabel" text="#imba_gamemode_settings_bounty_multiplier" />
+										<Label id="BountyMultiplierLabel" class="GameModeLabel" text="#extended_gamemode_settings_bounty_multiplier" />
 										<Label id="BountyMultiplierValue" class="GameModeValue" text="135%" />
 									</Panel>
 									<Panel id="GameOptionsLabelPanel2" class="GameModeLabelPanel">
-										<Label id="CreepPowerLabel" class="GameModeLabel" text="#imba_gamemode_settings_creep_power_title" />
+										<Label id="CreepPowerLabel" class="GameModeLabel" text="#extended_gamemode_settings_creep_power_title" />
 										<Label id="CreepPowerValue" class="GameModeValue" text="0" />
 									</Panel>
 									<Panel id="GameOptionsLabelPanel3" class="GameModeLabelPanel">
-										<Label id="TowerPowerLabel" class="GameModeLabel" text="#imba_gamemode_settings_tower_power_title" />
+										<Label id="TowerPowerLabel" class="GameModeLabel" text="#extended_gamemode_settings_tower_power_title" />
 										<Label id="TowerPowerValue" class="GameModeValue" text="1" />
 									</Panel>
 									<Panel id="GameOptionsLabelPanel4" class="GameModeLabelPanel">
-										<Label id="RespawnTimerLabel" class="GameModeLabel" text="#imba_gamemode_settings_respawn_time" />
+										<Label id="RespawnTimerLabel" class="GameModeLabel" text="#extended_gamemode_settings_respawn_time" />
 										<Label id="RespawnTimerValue" class="GameModeValue" text="0%" />
 									</Panel>
 								</Panel>
 
 								<Panel id="GameOptionsPanel2">
 									<Panel id="GameOptionsLabelPanel5" class="GameModeLabelPanel">
-										<Label id="InitialGoldLabel" class="GameModeLabel" text="#imba_gamemode_settings_initial_gold" />
+										<Label id="InitialGoldLabel" class="GameModeLabel" text="#extended_gamemode_settings_initial_gold" />
 										<Label id="InitialGoldValue" class="GameModeValue" text="625" />
 									</Panel>
 									<Panel id="GameOptionsLabelPanel6" class="GameModeLabelPanel">
-										<Label id="InitialLevelLabel" class="GameModeLabel" text="#imba_gamemode_settings_initial_level" />
+										<Label id="InitialLevelLabel" class="GameModeLabel" text="#extended_gamemode_settings_initial_level" />
 										<Label id="InitialLevelValue" class="GameModeValue" text="1" />
 									</Panel>
 									<Panel id="GameOptionsLabelPanel7" class="GameModeLabelPanel">
-										<Label id="MaxLevelLabel" class="GameModeLabel" text="#imba_gamemode_settings_max_level" />
+										<Label id="MaxLevelLabel" class="GameModeLabel" text="#extended_gamemode_settings_max_level" />
 										<Label id="MaxLevelValue" class="GameModeValue" text="40" />
 									</Panel>
 									<Panel id="GameOptionsLabelPanel8" class="GameModeLabelPanel">
-										<Label id="FranticModeLabel" class="GameModeLabel" text="#imba_gamemode_game_options_frantic" />
-										<Label id="FranticModeValue" class="GameModeValue" text="#imba_gamemode_game_options_frantic_disabled" />
+										<Label id="FranticModeLabel" class="GameModeLabel" text="#extended_gamemode_game_options_frantic" />
+										<Label id="FranticModeValue" class="GameModeValue" text="#extended_gamemode_game_options_frantic_disabled" />
 									</Panel>
 								</Panel>
 							</Panel>
@@ -81,7 +81,7 @@
 
 						<Panel id="HeroDetailsPanel">
 							<Panel id="PickedHeroPanel">
-								<Label id="PickedHeroName" text="#imba_hero_name_filler"/>
+								<Label id="PickedHeroName" text="#extended_hero_name_filler"/>
 								<DOTAHeroImage id="PickedHeroImage" heroname="" />
 							</Panel>
 							<Panel id="HeroAbilitiesParentPanel">
@@ -94,13 +94,13 @@
 									<DOTAAbilityImage id="PickedHeroAbility6" class="PickedHeroAbility" onmouseout="DOTAHideAbilityTooltip()" abilityname="" />
 								</Panel>
 								<Button id="PickHeroBtn" onactivate="PickHero()" >
-									<Label id="PickHeroBtnTxt" text="#imba_confirm_pick_button" />
+									<Label id="PickHeroBtnTxt" text="#extended_confirm_pick_button" />
 								</Button>
 							</Panel>
 							<Panel id="RandomButtonContainer">
 								<Panel id="RandomButtonPanel">
 									<Image id="RandomPickBtnImage" src="file://{images}/custom_game/random_button.png" onactivate="SelectRandomHero()"/>
-									<Label id="RandomPickBtnTxt" text="#imba_random_pick_button" />
+									<Label id="RandomPickBtnTxt" text="#extended_random_pick_button" />
 								</Panel>
 							</Panel>
 						</Panel>
@@ -111,7 +111,7 @@
 
 						<Panel id="StrPickListPanel" class="PickListTitlePanel">
 							<Image id="StrPickListPip" class="PickListPip" src="file://{images}/hud/pip_str.png"/>
-							<Label id="StrPickListText" class="PickListText" text="#imba_strength_hero_pick_list_title" />
+							<Label id="StrPickListText" class="PickListText" text="#extended_strength_hero_pick_list_title" />
 						</Panel>
 
 						<Panel id="PickListColumn1" class="ClassOptionRow">
@@ -229,7 +229,7 @@
 
 						<Panel id="AgiPickListPanel" class="PickListTitlePanel">
 							<Image id="AgiPickListPip" class="PickListPip" src="file://{images}/hud/pip_agi.png"/>
-							<Label id="AgiPickListText" class="PickListText" text="#imba_agility_hero_pick_list_title" />
+							<Label id="AgiPickListText" class="PickListText" text="#extended_agility_hero_pick_list_title" />
 						</Panel>
 
 						<Panel id="PickListColumn3" class="ClassOptionRow">
@@ -338,7 +338,7 @@
 
 						<Panel id="IntPickListPanel" class="PickListTitlePanel">
 							<Image id="IntPickListPip" class="PickListPip" src="file://{images}/hud/pip_int.png"/>
-							<Label id="IntPickListText" class="PickListText" text="#imba_intelligence_hero_pick_list_title" />
+							<Label id="IntPickListText" class="PickListText" text="#extended_intelligence_hero_pick_list_title" />
 						</Panel>
 
 						<Panel id="PickListColumn5" class="ClassOptionRow">
@@ -467,10 +467,10 @@
 					<!-- Post-pick screen (hero view) -->
 					<Panel id="PostPickScreen">
 						<Button id="EnterGameBtn" class="disabled" onactivate="EnterGame()" >
-							<Label id="EnterGameBtnTxt" text="#imba_waiting_for_other_players_button" />
+							<Label id="EnterGameBtnTxt" text="#extended_waiting_for_other_players_button" />
 						</Button>
 						<Button id="RepickBtn" onactivate="RepickHero()" >
-							<Label id="RepickBtnTxt" text="#imba_repick_button" />
+							<Label id="RepickBtnTxt" text="#extended_repick_button" />
 						</Button>
 					</Panel>
 				</Panel>
@@ -478,7 +478,7 @@
 				<!-- Right-hand player section 
 				==================================================================-->
 				<Panel id="RightPlayers">
-					<Label id="RightTeamTitle" class="PickScreenTeamTitle" text="#imba_dire_team_title" />
+					<Label id="RightTeamTitle" class="PickScreenTeamTitle" text="#extended_dire_team_title" />
 					<!-- JS Inserts player elements here -->
 				</Panel>
 			</Panel>

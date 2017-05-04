@@ -84,7 +84,7 @@ function FountainThink( keys )
 		local enemy_creeps = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, 5000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 		for	_,enemy in pairs(enemy_creeps) do
 			if enemy:GetTeam() ~= caster:GetTeam() and string.find(enemy:GetUnitName(), "mega") then
-				ability:ApplyDataDrivenModifier(caster, caster, "modifier_imba_fountain_disabled", {})
+				ability:ApplyDataDrivenModifier(caster, caster, "modifier_extended_fountain_disabled", {})
 				caster.fountain_disabled = true
 			end
 		end

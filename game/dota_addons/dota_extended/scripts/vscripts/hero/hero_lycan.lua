@@ -25,23 +25,23 @@ CreateEmptyTalents("lycan")
 ---------------------------------------------------
 
 
-imba_lycan_summon_wolves = class({})
-LinkLuaModifier("modifier_imba_lycan_wolf_charge", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_lycan_wolf_death_check", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+extended_lycan_summon_wolves = class({})
+LinkLuaModifier("modifier_extended_lycan_wolf_charge", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_lycan_wolf_death_check", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
 
 
-function imba_lycan_summon_wolves:OnUpgrade()
+function extended_lycan_summon_wolves:OnUpgrade()
 	-- Ability properties
 	local caster = self:GetCaster()
 	local ability = self
-	local charges_buff = "modifier_imba_lycan_wolf_charge"	
+	local charges_buff = "modifier_extended_lycan_wolf_charge"	
 	
 	-- Ability specials
 	local charge_cooldown = ability:GetSpecialValueFor("charge_cooldown")
 	local max_charges = ability:GetSpecialValueFor("max_charges")	
 	
 	-- #5 Talent extra max charges	
-	max_charges = max_charges + caster:FindTalentValue("special_bonus_imba_lycan_5")	
+	max_charges = max_charges + caster:FindTalentValue("special_bonus_extended_lycan_5")	
 	
 	-- Give buff, set stacks to maximum count.
 	if not caster:HasModifier(charges_buff) then
@@ -56,7 +56,7 @@ function imba_lycan_summon_wolves:OnUpgrade()
 end
 
 
-function imba_lycan_summon_wolves:OnSpellStart()
+function extended_lycan_summon_wolves:OnSpellStart()
 	-- Ability properties
 	local caster = self:GetCaster()
 	local caster_level = caster:GetLevel()
@@ -67,7 +67,7 @@ function imba_lycan_summon_wolves:OnSpellStart()
 	local particle_cast = "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
 	local particle_spawn = "particles/units/heroes/hero_lycan/lycan_summon_wolves_spawn.vpcf"
 	local player_id = nil
-	local death_check = "modifier_imba_lycan_wolf_death_check"	
+	local death_check = "modifier_extended_lycan_wolf_death_check"	
 	
 	-- Nonhero caster handling (e.g. Nether Ward)
 	if caster:IsRealHero() then
@@ -82,10 +82,10 @@ function imba_lycan_summon_wolves:OnSpellStart()
 	
 	
 	-- #1 Talent: wolves upgrade by one level			
-	wolf_type = wolf_type + caster:FindTalentValue("special_bonus_imba_lycan_1")
+	wolf_type = wolf_type + caster:FindTalentValue("special_bonus_extended_lycan_1")
 	
 	-- #5 Talent: Increase wolves count	
-	wolves_count = wolves_count + caster:FindTalentValue("special_bonus_imba_lycan_5")
+	wolves_count = wolves_count + caster:FindTalentValue("special_bonus_extended_lycan_5")
 	
 	
 	-- Fine and kill any living wolves on the map
@@ -170,29 +170,29 @@ end
 
 
 -- Charge modifier
-modifier_imba_lycan_wolf_charge = class({}) 
+modifier_extended_lycan_wolf_charge = class({}) 
 
-function modifier_imba_lycan_wolf_charge:GetAttributes()
+function modifier_extended_lycan_wolf_charge:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-function modifier_imba_lycan_wolf_charge:IsDebuff()
+function modifier_extended_lycan_wolf_charge:IsDebuff()
 	return false	
 end
 
-function modifier_imba_lycan_wolf_charge:IsHidden()	
+function modifier_extended_lycan_wolf_charge:IsHidden()	
 		return false	
 end
 
-function modifier_imba_lycan_wolf_charge:IsPurgable()
+function modifier_extended_lycan_wolf_charge:IsPurgable()
 	return false	
 end
 
-function modifier_imba_lycan_wolf_charge:AllowIllusionDuplicate()
+function modifier_extended_lycan_wolf_charge:AllowIllusionDuplicate()
 	return false
 end
 
-function modifier_imba_lycan_wolf_charge:OnCreated()
+function modifier_extended_lycan_wolf_charge:OnCreated()
 	-- Ability properties	
 	local ability = self:GetAbility()	
 	
@@ -202,7 +202,7 @@ function modifier_imba_lycan_wolf_charge:OnCreated()
 	self:StartIntervalThink(charge_cooldown-0.01)
 end
 
-function modifier_imba_lycan_wolf_charge:OnIntervalThink()
+function modifier_extended_lycan_wolf_charge:OnIntervalThink()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -216,8 +216,8 @@ function modifier_imba_lycan_wolf_charge:OnIntervalThink()
 		
 		
 		-- #5 Talent: extra max charges and wolves		
-		max_charges = max_charges + caster:FindTalentValue("special_bonus_imba_lycan_5")
-		wolves_count = wolves_count + caster:FindTalentValue("special_bonus_imba_lycan_5")		
+		max_charges = max_charges + caster:FindTalentValue("special_bonus_extended_lycan_5")
+		wolves_count = wolves_count + caster:FindTalentValue("special_bonus_extended_lycan_5")		
 		
 		-- if we're not at maximum charges yet, refresh it		
 		if stacks < max_charges then
@@ -257,27 +257,27 @@ end
 
 
 -- Death check modifier (given to wolves)
-modifier_imba_lycan_wolf_death_check = class({})
+modifier_extended_lycan_wolf_death_check = class({})
 
-function modifier_imba_lycan_wolf_death_check:IsDebuff()
+function modifier_extended_lycan_wolf_death_check:IsDebuff()
 	return false	
 end
 
-function modifier_imba_lycan_wolf_death_check:IsHidden()
+function modifier_extended_lycan_wolf_death_check:IsHidden()
 	return true
 end
 
-function modifier_imba_lycan_wolf_death_check:IsPurgable()
+function modifier_extended_lycan_wolf_death_check:IsPurgable()
 	return false	
 end
 
-function modifier_imba_lycan_wolf_death_check:DeclareFunctions()	
+function modifier_extended_lycan_wolf_death_check:DeclareFunctions()	
 		local decFuncs = {MODIFIER_EVENT_ON_DEATH}
 		
 		return decFuncs	
 end
 
-function modifier_imba_lycan_wolf_death_check:OnDeath( keys )
+function modifier_extended_lycan_wolf_death_check:OnDeath( keys )
 	-- Ability properties				
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
@@ -295,11 +295,11 @@ end
 
 function ReviveWolves (caster, ability)
 	if IsServer() then
-		local charge_modifier = "modifier_imba_lycan_wolf_charge"				
+		local charge_modifier = "modifier_extended_lycan_wolf_charge"				
 		local particle_spawn = "particles/units/heroes/hero_lycan/lycan_summon_wolves_spawn.vpcf"
 		local wolf_name = "npc_lycan_wolf"
 		local caster_level = caster:GetLevel()
-		local death_check = "modifier_imba_lycan_wolf_death_check"
+		local death_check = "modifier_extended_lycan_wolf_death_check"
 		local player_id = nil
 		
 		-- Ability specials				
@@ -309,7 +309,7 @@ function ReviveWolves (caster, ability)
 		local wolf_type = ability:GetSpecialValueFor("wolf_type")				
 	
 		-- #1 Talent (wolves upgrade by one level)				
-		wolf_type = wolf_type + caster:FindTalentValue("special_bonus_imba_lycan_1")
+		wolf_type = wolf_type + caster:FindTalentValue("special_bonus_extended_lycan_1")
 		
 		if caster:HasModifier(charge_modifier) then -- prevents error if Lycan is dead
 			local charge_modifier_handler = caster:FindModifierByName(charge_modifier)
@@ -384,10 +384,10 @@ end
 
 
 
-imba_lycan_howl = class ({})
-LinkLuaModifier("modifier_imba_howl_buff", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+extended_lycan_howl = class ({})
+LinkLuaModifier("modifier_extended_howl_buff", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
 
-function imba_lycan_howl:OnSpellStart()
+function extended_lycan_howl:OnSpellStart()
 	-- Ability properties
 	local caster = self:GetCaster()
 	local ability = self
@@ -396,7 +396,7 @@ function imba_lycan_howl:OnSpellStart()
 	local particle_lycan_howl = "particles/units/heroes/hero_lycan/lycan_howl_cast.vpcf"
 	local particle_wolves_howl = "particles/units/heroes/hero_lycan/lycan_howl_cast_wolves.vpcf"
 	local wolf_name = "npc_lycan_wolf"
-	local buff = "modifier_imba_howl_buff"
+	local buff = "modifier_extended_howl_buff"
 	local day = GameRules:IsDaytime()	
 	
 	-- Ability specials
@@ -404,7 +404,7 @@ function imba_lycan_howl:OnSpellStart()
 	local bonus_health_heroes = ability:GetSpecialValueFor("bonus_health_heroes")	
 	
 	-- #3 Talent howl duration	
-	duration = duration + caster:FindTalentValue("special_bonus_imba_lycan_3")	
+	duration = duration + caster:FindTalentValue("special_bonus_extended_lycan_3")	
 	
 	if IsServer() then -- set custom nettable to store current day/night cycle on the time of cast
 		CustomNetTables:SetTableValue( "player_table", tostring(caster:GetPlayerOwnerID()).."daytime", { dayTime = GameRules:IsDaytime()} )
@@ -480,29 +480,29 @@ end
 
 
 --heroes howl modifier
-modifier_imba_howl_buff = class({})
+modifier_extended_howl_buff = class({})
 
-function modifier_imba_howl_buff:IsHidden()
+function modifier_extended_howl_buff:IsHidden()
 	return false
 end
 
-function modifier_imba_howl_buff:IsDebuff()
+function modifier_extended_howl_buff:IsDebuff()
 	return false
 end
 
-function modifier_imba_howl_buff:IsPurgable()
+function modifier_extended_howl_buff:IsPurgable()
 	return true
 end
 
-function modifier_imba_howl_buff:GetEffectName()
+function modifier_extended_howl_buff:GetEffectName()
 	return "particles/units/heroes/hero_lycan/lycan_howl_buff.vpcf"
 end
 
-function modifier_imba_howl_buff:GetEffectAttachType()
+function modifier_extended_howl_buff:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
 end
 
-function modifier_imba_howl_buff:DeclareFunctions()		
+function modifier_extended_howl_buff:DeclareFunctions()		
 		local decFuncs = {MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE,
 						  MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
 						  MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS						  
@@ -510,7 +510,7 @@ function modifier_imba_howl_buff:DeclareFunctions()
 		return decFuncs			
 end
 
-function modifier_imba_howl_buff:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_howl_buff:GetModifierBaseAttack_BonusDamage()
 	if IsServer() then	
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -523,8 +523,8 @@ function modifier_imba_howl_buff:GetModifierBaseAttack_BonusDamage()
 		local bonus_damage_units = ability:GetSpecialValueFor("bonus_damage_units")		
 		
 		-- #7 Talent: Increased damage		
-		bonus_damage_hero = bonus_damage_hero + caster:FindSpecificTalentValue("special_bonus_imba_lycan_7", "damage_hero")
-		bonus_damage_units = bonus_damage_units + caster:FindSpecificTalentValue("special_bonus_imba_lycan_7", "damage_creep")		
+		bonus_damage_hero = bonus_damage_hero + caster:FindSpecificTalentValue("special_bonus_extended_lycan_7", "damage_hero")
+		bonus_damage_units = bonus_damage_units + caster:FindSpecificTalentValue("special_bonus_extended_lycan_7", "damage_creep")		
 		
 		-- If hero, give appropriate hero damage bonus, else creep damage
 		if parent:IsHero() then
@@ -543,7 +543,7 @@ function modifier_imba_howl_buff:GetModifierBaseAttack_BonusDamage()
 	end
 end
 
-function modifier_imba_howl_buff:GetModifierExtraHealthBonus()
+function modifier_extended_howl_buff:GetModifierExtraHealthBonus()
 	if IsServer() then		
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -556,8 +556,8 @@ function modifier_imba_howl_buff:GetModifierExtraHealthBonus()
 		local bonus_health_units = ability:GetSpecialValueFor("bonus_health_units")		
 		
 		-- #7 Talent: Increased health		
-		bonus_health_heroes = bonus_health_heroes + caster:FindSpecificTalentValue("special_bonus_imba_lycan_7", "health_hero")
-		bonus_health_units = bonus_health_units + caster:FindSpecificTalentValue("special_bonus_imba_lycan_7", "health_creep")		
+		bonus_health_heroes = bonus_health_heroes + caster:FindSpecificTalentValue("special_bonus_extended_lycan_7", "health_hero")
+		bonus_health_units = bonus_health_units + caster:FindSpecificTalentValue("special_bonus_extended_lycan_7", "health_creep")		
 		
 		-- If hero, give appropriate hero health bonus based on current day cycle
 		if parent:IsHero() then
@@ -577,7 +577,7 @@ function modifier_imba_howl_buff:GetModifierExtraHealthBonus()
 end
 
 
-function modifier_imba_howl_buff:GetModifierMoveSpeedBonus_Constant()
+function modifier_extended_howl_buff:GetModifierMoveSpeedBonus_Constant()
 	-- Ability properties	
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
@@ -596,8 +596,8 @@ function modifier_imba_howl_buff:GetModifierMoveSpeedBonus_Constant()
 	local bonus_ms_units = ability:GetSpecialValueFor("bonus_ms_units")				
 	
 	-- #7 Talent: Increase move speed
-	bonus_ms_heroes = bonus_ms_heroes + caster:FindSpecificTalentValue("special_bonus_imba_lycan_7", "ms_hero")
-	bonus_ms_units = bonus_ms_units + caster:FindSpecificTalentValue("special_bonus_imba_lycan_7", "ms_creep")				
+	bonus_ms_heroes = bonus_ms_heroes + caster:FindSpecificTalentValue("special_bonus_extended_lycan_7", "ms_hero")
+	bonus_ms_units = bonus_ms_units + caster:FindSpecificTalentValue("special_bonus_extended_lycan_7", "ms_creep")				
 
 	-- If hero, give appropriate hero move speed bonus based on current day cycle
 	if parent:IsHero() then					
@@ -617,7 +617,7 @@ end
 
 
 
-function modifier_imba_howl_buff:CheckState()
+function modifier_extended_howl_buff:CheckState()
 	if IsServer() then
 		local day = GameRules:IsDaytime()
 		
@@ -641,27 +641,27 @@ end
 ---------------------------------------------------
 ---------------------------------------------------
 
-imba_lycan_feral_impulse = class({})
-LinkLuaModifier("modifier_imba_feral_impulse_aura", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_feral_impulse", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+extended_lycan_feral_impulse = class({})
+LinkLuaModifier("modifier_extended_feral_impulse_aura", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_feral_impulse", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
 
-function imba_lycan_feral_impulse:OnUpgrade()
+function extended_lycan_feral_impulse:OnUpgrade()
 	local caster = self:GetCaster()
 	local ability = self
-	local aura_buff = "modifier_imba_feral_impulse_aura"	
+	local aura_buff = "modifier_extended_feral_impulse_aura"	
 	if not caster:HasModifier(aura_buff) then
 		caster:AddNewModifier(caster, ability, aura_buff, {})
 	end
 end
 
 -- Feral Impulse aura
-modifier_imba_feral_impulse_aura = class({})
+modifier_extended_feral_impulse_aura = class({})
 
-function modifier_imba_feral_impulse_aura:OnCreated()
+function modifier_extended_feral_impulse_aura:OnCreated()
 	self:StartIntervalThink(0.2)
 end
 
-function modifier_imba_feral_impulse_aura:OnIntervalThink()
+function modifier_extended_feral_impulse_aura:OnIntervalThink()
 	if IsServer() then
 			--Ability properties
 		local caster = self:GetCaster()
@@ -704,34 +704,34 @@ function modifier_imba_feral_impulse_aura:OnIntervalThink()
 	end
 end
 
-function modifier_imba_feral_impulse_aura:GetAttributes()
+function modifier_extended_feral_impulse_aura:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE + MODIFIER_ATTRIBUTE_PERMANENT
 end
 
-function modifier_imba_feral_impulse_aura:GetAuraRadius()
+function modifier_extended_feral_impulse_aura:GetAuraRadius()
 	local ability = self:GetAbility()
 	local aura_radius = ability:GetSpecialValueFor("aura_radius")
 
 	return aura_radius
 end
 
-function modifier_imba_feral_impulse_aura:GetAuraSearchFlags()
+function modifier_extended_feral_impulse_aura:GetAuraSearchFlags()
 	return DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED
 end
 
-function modifier_imba_feral_impulse_aura:GetAuraSearchTeam()
+function modifier_extended_feral_impulse_aura:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
-function modifier_imba_feral_impulse_aura:GetAuraSearchType()
+function modifier_extended_feral_impulse_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
-function modifier_imba_feral_impulse_aura:GetModifierAura()
-	return "modifier_imba_feral_impulse"
+function modifier_extended_feral_impulse_aura:GetModifierAura()
+	return "modifier_extended_feral_impulse"
 end
 
-function modifier_imba_feral_impulse_aura:IsAura()
+function modifier_extended_feral_impulse_aura:IsAura()
 	local caster = self:GetCaster()	
 	
 	if caster:PassivesDisabled() then
@@ -741,34 +741,34 @@ function modifier_imba_feral_impulse_aura:IsAura()
 	return true
 end
 
-function modifier_imba_feral_impulse_aura:IsAuraActiveOnDeath()
+function modifier_extended_feral_impulse_aura:IsAuraActiveOnDeath()
 	return false
 end
 
-function modifier_imba_feral_impulse_aura:IsDebuff()
+function modifier_extended_feral_impulse_aura:IsDebuff()
 	return false
 end
 
-function modifier_imba_feral_impulse_aura:IsHidden()
+function modifier_extended_feral_impulse_aura:IsHidden()
 	return true
 end
 
-function modifier_imba_feral_impulse_aura:IsPermanent()
+function modifier_extended_feral_impulse_aura:IsPermanent()
 	return true
 end
 
-function  modifier_imba_feral_impulse_aura:IsPurgable()
+function  modifier_extended_feral_impulse_aura:IsPurgable()
 	return false
 end
 
 -- Feral Impulse modifier
-modifier_imba_feral_impulse = class({})
+modifier_extended_feral_impulse = class({})
 
-function modifier_imba_feral_impulse:OnCreated()
+function modifier_extended_feral_impulse:OnCreated()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()
-		local aura_buff = "modifier_imba_feral_impulse_aura" 
+		local aura_buff = "modifier_extended_feral_impulse_aura" 
 		
 		-- Find aura stacks	
 		if caster:HasModifier(aura_buff) then
@@ -781,11 +781,11 @@ function modifier_imba_feral_impulse:OnCreated()
 	
 end
 
-function modifier_imba_feral_impulse:OnIntervalThink()
+function modifier_extended_feral_impulse:OnIntervalThink()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()
-		local aura_buff = "modifier_imba_feral_impulse_aura" 
+		local aura_buff = "modifier_extended_feral_impulse_aura" 
 		
 		-- Find aura stacks	
 		if caster:HasModifier(aura_buff) then
@@ -795,14 +795,14 @@ function modifier_imba_feral_impulse:OnIntervalThink()
 	end
 end
 
-function modifier_imba_feral_impulse:DeclareFunctions()	
+function modifier_extended_feral_impulse:DeclareFunctions()	
 		local decFuncs = {MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
 						  MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT}
 		
 		return decFuncs	
 end
 
-function modifier_imba_feral_impulse:GetModifierBaseDamageOutgoing_Percentage()	 
+function modifier_extended_feral_impulse:GetModifierBaseDamageOutgoing_Percentage()	 
 	-- Ability properties
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()	
@@ -814,14 +814,14 @@ function modifier_imba_feral_impulse:GetModifierBaseDamageOutgoing_Percentage()
 	local damage_inc_per_unit = ability:GetSpecialValueFor("damage_inc_per_unit")			
 	
 	-- #2 Talent: damage increase bonus 	
-	damage_inc_per_unit = damage_inc_per_unit + caster:FindTalentValue("special_bonus_imba_lycan_2")	
+	damage_inc_per_unit = damage_inc_per_unit + caster:FindTalentValue("special_bonus_extended_lycan_2")	
 	
 	-- Calculate damage percents
 	local damage_perc_increase = base_bonus_damage_perc + damage_inc_per_unit * stacks			
 	return damage_perc_increase		
 end
 
-function modifier_imba_feral_impulse:GetModifierConstantHealthRegen()
+function modifier_extended_feral_impulse:GetModifierConstantHealthRegen()
 	-- Ability properties
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()			
@@ -832,7 +832,7 @@ function modifier_imba_feral_impulse:GetModifierConstantHealthRegen()
 	local regen_inc_per_unit = ability:GetSpecialValueFor("regen_inc_per_unit")			
 	
 	-- #2 Talent - HP regen increase bonus 	
-	regen_inc_per_unit = regen_inc_per_unit + caster:FindTalentValue("special_bonus_imba_lycan_2")		
+	regen_inc_per_unit = regen_inc_per_unit + caster:FindTalentValue("special_bonus_extended_lycan_2")		
 	
 	-- Calculate damage percents
 	local health_increase = health_regen + regen_inc_per_unit * stacks			
@@ -849,21 +849,21 @@ end
 ---------------------------------------------------
 ---------------------------------------------------
 
-imba_lycan_shapeshift = class({})
-LinkLuaModifier("modifier_imba_shapeshift_transform_stun", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_shapeshift_transform", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_shapeshift_aura", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_shapeshift", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_shapeshift_certain_crit", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+extended_lycan_shapeshift = class({})
+LinkLuaModifier("modifier_extended_shapeshift_transform_stun", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_shapeshift_transform", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_shapeshift_aura", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_shapeshift", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_shapeshift_certain_crit", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
 
-function imba_lycan_shapeshift:OnSpellStart()
+function extended_lycan_shapeshift:OnSpellStart()
 	-- Ability properties
 	local caster = self:GetCaster()
 	local ability = self
 	local sound_cast_path = "lycan_lycan_ability_shapeshift_"	
 	local particle_cast = "particles/units/heroes/hero_lycan/lycan_shapeshift_cast.vpcf"
-	local transform_buff = "modifier_imba_shapeshift_transform"
-	local transform_stun = "modifier_imba_shapeshift_transform_stun"
+	local transform_buff = "modifier_extended_shapeshift_transform"
+	local transform_stun = "modifier_extended_shapeshift_transform_stun"
 
 	-- Ability specials
 	local transformation_time = ability:GetSpecialValueFor("transformation_time")
@@ -871,7 +871,7 @@ function imba_lycan_shapeshift:OnSpellStart()
 	
 	
 	-- #8 Talent: Shapeshift duration increase	
-	duration = duration + caster:FindTalentValue("special_bonus_imba_lycan_8")
+	duration = duration + caster:FindTalentValue("special_bonus_extended_lycan_8")
 	
 	-- Start transformation gesture
 	caster:StartGesture(ACT_DOTA_OVERRIDE_ABILITY_4)
@@ -905,12 +905,12 @@ function imba_lycan_shapeshift:OnSpellStart()
 	end)	
 end
 
-function imba_lycan_shapeshift:GetCooldown( level )	
+function extended_lycan_shapeshift:GetCooldown( level )	
 	local caster = self:GetCaster()
 	local ability = self
 	local ability_level = ability:GetLevel()
 	local base_cooldown = self.BaseClass.GetCooldown( self, level )			
-	local wolfsbane_modifier = "modifier_imba_wolfsbane_lycan"			
+	local wolfsbane_modifier = "modifier_extended_wolfsbane_lycan"			
 	
 	if IsServer() then		
 		-- Get amount of Wolfsbane stacks
@@ -953,46 +953,46 @@ function imba_lycan_shapeshift:GetCooldown( level )
 end
 
 -- Transform modifier (stuns Lycan so he can't do anything but channel his transformation)
-modifier_imba_shapeshift_transform_stun = class({})
+modifier_extended_shapeshift_transform_stun = class({})
 
-function modifier_imba_shapeshift_transform_stun:CheckState()	
+function modifier_extended_shapeshift_transform_stun:CheckState()	
 			local state = {[MODIFIER_STATE_STUNNED] = true}
 			return state	
 end
 
-function modifier_imba_shapeshift_transform_stun:IsHidden()
+function modifier_extended_shapeshift_transform_stun:IsHidden()
 	return true
 end
 
 -- Transformation buff (changes model to wolf)
-modifier_imba_shapeshift_transform = class({})
+modifier_extended_shapeshift_transform = class({})
 
-function modifier_imba_shapeshift_transform:DeclareFunctions()	
+function modifier_extended_shapeshift_transform:DeclareFunctions()	
 		local decFuncs = {MODIFIER_PROPERTY_MODEL_CHANGE}
 		
 		return decFuncs	
 end
 
-function modifier_imba_shapeshift_transform:GetModifierModelChange()
+function modifier_extended_shapeshift_transform:GetModifierModelChange()
 	return "models/heroes/lycan/lycan_wolf.vmdl"
 end
 
-function modifier_imba_shapeshift_transform:OnCreated()
+function modifier_extended_shapeshift_transform:OnCreated()
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
-	local aura = "modifier_imba_shapeshift_aura"	 
+	local aura = "modifier_extended_shapeshift_aura"	 
 
 	if not caster:HasModifier(aura) then
 		caster:AddNewModifier(caster, ability, aura, {})
 	end	
 end
 
-function modifier_imba_shapeshift_transform:OnDestroy()
+function modifier_extended_shapeshift_transform:OnDestroy()
 	local caster = self:GetCaster()
 	local response_sound = "lycan_lycan_ability_revert_0" ..RandomInt(1,3)
 	local particle_revert = "particles/units/heroes/hero_lycan/lycan_shapeshift_revert.vpcf"
-	local aura = "modifier_imba_shapeshift_aura"
-	local certain_crit_buff = "modifier_imba_shapeshift_certain_crit"
+	local aura = "modifier_extended_shapeshift_aura"
+	local certain_crit_buff = "modifier_extended_shapeshift_certain_crit"
 	
 	-- Play one of the revert responses
 	EmitSoundOn(response_sound, caster)
@@ -1006,50 +1006,50 @@ function modifier_imba_shapeshift_transform:OnDestroy()
 	end		
 end
 
-function modifier_imba_shapeshift_transform:IsHidden()
+function modifier_extended_shapeshift_transform:IsHidden()
 	return false
 end
 
 -- Speed/crit aura
-modifier_imba_shapeshift_aura = class({})
+modifier_extended_shapeshift_aura = class({})
 
-function modifier_imba_shapeshift_aura:AllowIllusionDuplicate()
+function modifier_extended_shapeshift_aura:AllowIllusionDuplicate()
 	return false
 end
 
-function modifier_imba_shapeshift_aura:GetAuraRadius()
+function modifier_extended_shapeshift_aura:GetAuraRadius()
 	return 50000 --global
 end
 
-function modifier_imba_shapeshift_aura:GetAuraSearchFlags()
+function modifier_extended_shapeshift_aura:GetAuraSearchFlags()
 	return DOTA_UNIT_TARGET_FLAG_PLAYER_CONTROLLED
 end
 
-function modifier_imba_shapeshift_aura:GetAuraSearchTeam()
+function modifier_extended_shapeshift_aura:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
-function modifier_imba_shapeshift_aura:GetAuraSearchType()
+function modifier_extended_shapeshift_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
-function modifier_imba_shapeshift_aura:GetModifierAura()
-	return "modifier_imba_shapeshift"
+function modifier_extended_shapeshift_aura:GetModifierAura()
+	return "modifier_extended_shapeshift"
 end
 
-function modifier_imba_shapeshift_aura:IsAura()
+function modifier_extended_shapeshift_aura:IsAura()
 	return true	
 end
 
-function modifier_imba_shapeshift_aura:IsPurgable()
+function modifier_extended_shapeshift_aura:IsPurgable()
 	return false
 end
 
-function modifier_imba_shapeshift_aura:IsHidden()
+function modifier_extended_shapeshift_aura:IsHidden()
 	return true
 end
 
-function modifier_imba_shapeshift_aura:GetAuraEntityReject( target )
+function modifier_extended_shapeshift_aura:GetAuraEntityReject( target )
 	local caster = self:GetCaster()		
 	local owner = target:GetOwnerEntity()
 	
@@ -1071,12 +1071,12 @@ end
 
 
 -- Speed/crit modifier
-modifier_imba_shapeshift = class({})
+modifier_extended_shapeshift = class({})
 
-function modifier_imba_shapeshift:OnCreated()
+function modifier_extended_shapeshift:OnCreated()
 	if IsServer() then
 		local parent = self:GetParent()
-		local certain_crit_buff = "modifier_imba_shapeshift_certain_crit"
+		local certain_crit_buff = "modifier_extended_shapeshift_certain_crit"
 		
 		if not parent:HasModifier(certain_crit_buff) then
 			parent:AddNewModifier(caster, ability, certain_crit_buff, {})
@@ -1084,10 +1084,10 @@ function modifier_imba_shapeshift:OnCreated()
 	end	
 end
 
-function modifier_imba_shapeshift:OnDestroy()
+function modifier_extended_shapeshift:OnDestroy()
 	if IsServer() then
 		local parent = self:GetParent()
-		local certain_crit_buff = "modifier_imba_shapeshift_certain_crit"
+		local certain_crit_buff = "modifier_extended_shapeshift_certain_crit"
 		
 		if parent:HasModifier(certain_crit_buff) then
 			parent:RemoveModifierByName(certain_crit_buff)
@@ -1095,15 +1095,15 @@ function modifier_imba_shapeshift:OnDestroy()
 	end	
 end
 
-function modifier_imba_shapeshift:GetEffectName()
+function modifier_extended_shapeshift:GetEffectName()
 	return "particles/units/heroes/hero_lycan/lycan_shapeshift_buff.vpcf"
 end
 
-function modifier_imba_shapeshift:GetEffectAttachType()
+function modifier_extended_shapeshift:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
 end
 
-function modifier_imba_shapeshift:DeclareFunctions()
+function modifier_extended_shapeshift:DeclareFunctions()
 		local decFuncs = {MODIFIER_PROPERTY_BONUS_NIGHT_VISION,
 						  MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
 						  MODIFIER_PROPERTY_MOVESPEED_MAX,
@@ -1111,35 +1111,35 @@ function modifier_imba_shapeshift:DeclareFunctions()
 		return decFuncs	
 end
 
-function modifier_imba_shapeshift:GetBonusNightVision()
+function modifier_extended_shapeshift:GetBonusNightVision()
 	local ability = self:GetAbility()
 	local night_vision_bonus = ability:GetSpecialValueFor("night_vision_bonus")
 	
 	return night_vision_bonus
 end
 
-function modifier_imba_shapeshift:GetModifierMoveSpeed_Max()
+function modifier_extended_shapeshift:GetModifierMoveSpeed_Max()
 	local ability = self:GetAbility()
 	local absolute_speed = ability:GetSpecialValueFor("absolute_speed")
 	
 	return absolute_speed
 end
 
-function modifier_imba_shapeshift:GetModifierMoveSpeed_Absolute()
+function modifier_extended_shapeshift:GetModifierMoveSpeed_Absolute()
 	local ability = self:GetAbility()
 	local absolute_speed = ability:GetSpecialValueFor("absolute_speed")
 	
 	return absolute_speed
 end
 
-function modifier_imba_shapeshift:GetModifierPreAttack_CriticalStrike()
+function modifier_extended_shapeshift:GetModifierPreAttack_CriticalStrike()
 	if IsServer() then		
 		-- Ability properties
 		local caster = self:GetCaster()
 		local parent = self:GetParent()
 		local ability = self:GetAbility()
-		local certain_crit_buff = "modifier_imba_shapeshift_certain_crit"
-		local transform_buff = "modifier_imba_shapeshift_transform"
+		local certain_crit_buff = "modifier_extended_shapeshift_certain_crit"
+		local transform_buff = "modifier_extended_shapeshift_transform"
 				
 		-- Ability specials		
 		local crit_chance = ability:GetSpecialValueFor("crit_chance")
@@ -1177,10 +1177,10 @@ function modifier_imba_shapeshift:GetModifierPreAttack_CriticalStrike()
 	end
 end
 
-function modifier_imba_shapeshift:OnDestroy()
+function modifier_extended_shapeshift:OnDestroy()
 	if IsServer() then
 		local parent = self:GetParent()
-		local certain_crit_buff = "modifier_imba_shapeshift_certain_crit"
+		local certain_crit_buff = "modifier_extended_shapeshift_certain_crit"
 	
 		if parent:HasModifier(certain_crit_buff) then
 			parent:RemoveModifierByName(certain_crit_buff)
@@ -1192,7 +1192,7 @@ end
 
 
 -- certain crit buff
-modifier_imba_shapeshift_certain_crit = class({})
+modifier_extended_shapeshift_certain_crit = class({})
 
 
 ---------------------------------------------------
@@ -1203,18 +1203,18 @@ modifier_imba_shapeshift_certain_crit = class({})
 ---------------------------------------------------
 ---------------------------------------------------
 
-imba_lycan_wolfsbane = class({})
-LinkLuaModifier("modifier_imba_wolfsbane_aura", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_wolfsbane_wolves", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_wolfsbane_lycan", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_wolfsbane_lycan_prevent", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+extended_lycan_wolfsbane = class({})
+LinkLuaModifier("modifier_extended_wolfsbane_aura", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_wolfsbane_wolves", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_wolfsbane_lycan", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_wolfsbane_lycan_prevent", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
 
-function imba_lycan_wolfsbane:OnUpgrade()
+function extended_lycan_wolfsbane:OnUpgrade()
 	-- Ability properties	
 	local caster = self:GetCaster()
 	local ability = self
-	local aura = "modifier_imba_wolfsbane_aura"
-	local lycan_modifier = "modifier_imba_wolfsbane_lycan"
+	local aura = "modifier_extended_wolfsbane_aura"
+	local lycan_modifier = "modifier_extended_wolfsbane_lycan"
 	
 	if not caster:HasModifier(aura) then
 		caster:AddNewModifier(caster, ability, aura, {})
@@ -1229,38 +1229,38 @@ end
 
 
 --wolfsbane's aura
-modifier_imba_wolfsbane_aura = class({})
+modifier_extended_wolfsbane_aura = class({})
 
 
-function modifier_imba_wolfsbane_aura:DestroyOnExpire()
+function modifier_extended_wolfsbane_aura:DestroyOnExpire()
 	return false
 end
 
-function modifier_imba_wolfsbane_aura:GetAttributes()
+function modifier_extended_wolfsbane_aura:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE + MODIFIER_ATTRIBUTE_PERMANENT
 end
 
-function modifier_imba_wolfsbane_aura:GetAuraRadius()
+function modifier_extended_wolfsbane_aura:GetAuraRadius()
 	return 50000 --global
 end
 
-function modifier_imba_wolfsbane_aura:GetAuraSearchFlags()
+function modifier_extended_wolfsbane_aura:GetAuraSearchFlags()
 	return DOTA_UNIT_TARGET_FLAG_NONE
 end
 
-function modifier_imba_wolfsbane_aura:GetAuraSearchTeam()
+function modifier_extended_wolfsbane_aura:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
-function modifier_imba_wolfsbane_aura:GetAuraSearchType()
+function modifier_extended_wolfsbane_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
-function modifier_imba_wolfsbane_aura:GetModifierAura()
-	return "modifier_imba_wolfsbane_wolves"
+function modifier_extended_wolfsbane_aura:GetModifierAura()
+	return "modifier_extended_wolfsbane_wolves"
 end
 
-function modifier_imba_wolfsbane_aura:IsAura()
+function modifier_extended_wolfsbane_aura:IsAura()
 	local caster = self:GetCaster()
 	
 	if caster:PassivesDisabled() then
@@ -1270,27 +1270,27 @@ function modifier_imba_wolfsbane_aura:IsAura()
 	return true
 end
 
-function modifier_imba_wolfsbane_aura:IsAuraActiveOnDeath()
+function modifier_extended_wolfsbane_aura:IsAuraActiveOnDeath()
 	return true
 end
 
-function modifier_imba_wolfsbane_aura:IsDebuff()
+function modifier_extended_wolfsbane_aura:IsDebuff()
 	return false
 end
 
-function modifier_imba_wolfsbane_aura:IsHidden()
+function modifier_extended_wolfsbane_aura:IsHidden()
 	return true
 end
 
-function modifier_imba_wolfsbane_aura:IsPermanent()
+function modifier_extended_wolfsbane_aura:IsPermanent()
 	return true
 end
 
-function  modifier_imba_wolfsbane_aura:IsPurgable()
+function  modifier_extended_wolfsbane_aura:IsPurgable()
 	return false
 end
 
-function modifier_imba_wolfsbane_aura:GetAuraEntityReject( target )	
+function modifier_extended_wolfsbane_aura:GetAuraEntityReject( target )	
 	-- Ability properties
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
@@ -1330,21 +1330,21 @@ end
 
 
 --wolfsbane modifier (wolves or anyone if Lycan holds a scepter)
-modifier_imba_wolfsbane_wolves = class({})
+modifier_extended_wolfsbane_wolves = class({})
 
-function modifier_imba_wolfsbane_wolves:OnCreated()
+function modifier_extended_wolfsbane_wolves:OnCreated()
 	if IsServer() then
 		self:StartIntervalThink(0.5)
 	end
 	
 end
 
-function modifier_imba_wolfsbane_wolves:OnIntervalThink()
+function modifier_extended_wolfsbane_wolves:OnIntervalThink()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()
 		local wolf = self:GetParent()
-		local aura = "modifier_imba_wolfsbane_aura"		
+		local aura = "modifier_extended_wolfsbane_aura"		
 		local aura_handler = caster:FindModifierByName(aura)
 		local aura_stacks = aura_handler:GetStackCount()
 		local wolf_stacks = self:GetStackCount()		
@@ -1355,29 +1355,29 @@ function modifier_imba_wolfsbane_wolves:OnIntervalThink()
 	end
 end
 
-function modifier_imba_wolfsbane_wolves:GetAttributes()
+function modifier_extended_wolfsbane_wolves:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-function modifier_imba_wolfsbane_wolves:IsHidden()	
+function modifier_extended_wolfsbane_wolves:IsHidden()	
 	return false
 end
 
-function modifier_imba_wolfsbane_wolves:IsPurgable()
+function modifier_extended_wolfsbane_wolves:IsPurgable()
 	return false
 end
 
-function modifier_imba_wolfsbane_wolves:IsPermanent()
+function modifier_extended_wolfsbane_wolves:IsPermanent()
 	return true
 end
 
-function modifier_imba_wolfsbane_wolves:DeclareFunctions()	
+function modifier_extended_wolfsbane_wolves:DeclareFunctions()	
 		local decFuncs = {MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE}
 		
 		return decFuncs	
 end
 
-function modifier_imba_wolfsbane_wolves:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_wolfsbane_wolves:GetModifierBaseAttack_BonusDamage()
 	local caster = self:GetCaster()
 	local parent = self:GetParent()
 	local ability = self:GetAbility()
@@ -1386,7 +1386,7 @@ function modifier_imba_wolfsbane_wolves:GetModifierBaseAttack_BonusDamage()
 	local stacks = self:GetStackCount()	
 	
 	-- #4 Talent: Wolfsbane damage increase
-	damage_bonus = damage_bonus + caster:FindTalentValue("special_bonus_imba_lycan_4")
+	damage_bonus = damage_bonus + caster:FindTalentValue("special_bonus_extended_lycan_4")
 	
 	if parent:PassivesDisabled() then
 		return nil
@@ -1397,23 +1397,23 @@ end
 
 
 --wolfsbane modifier (lycan)
-modifier_imba_wolfsbane_lycan = class({})
+modifier_extended_wolfsbane_lycan = class({})
 
-function modifier_imba_wolfsbane_lycan:DeclareFunctions()	
+function modifier_extended_wolfsbane_lycan:DeclareFunctions()	
 		local decFuncs = {MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE,
 						  MODIFIER_EVENT_ON_HERO_KILLED}
 		
 		return decFuncs	
 end
 
-function modifier_imba_wolfsbane_lycan:OnHeroKilled( keys )
+function modifier_extended_wolfsbane_lycan:OnHeroKilled( keys )
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()
 		local killed_hero = keys.target
-		local aura = "modifier_imba_wolfsbane_aura"
-		local prevent_modifier = "modifier_imba_wolfsbane_lycan_prevent"
+		local aura = "modifier_extended_wolfsbane_aura"
+		local prevent_modifier = "modifier_extended_wolfsbane_lycan_prevent"
 		local sound_howl = "Imba.LycanWolfsbane" 
 		local scepter = caster:HasScepter()
 		
@@ -1486,14 +1486,14 @@ function modifier_imba_wolfsbane_lycan:OnHeroKilled( keys )
 	end	
 end
 
-function modifier_imba_wolfsbane_lycan:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_wolfsbane_lycan:GetModifierBaseAttack_BonusDamage()
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()
 	local damage_bonus = ability:GetSpecialValueFor("damage_bonus")
 	local stacks = self:GetStackCount()
 
 	-- #4 Talent: Wolfsbane damage increase
-	damage_bonus = damage_bonus + caster:FindTalentValue("special_bonus_imba_lycan_4")
+	damage_bonus = damage_bonus + caster:FindTalentValue("special_bonus_extended_lycan_4")
 	
 	if caster:PassivesDisabled() then
 		return nil
@@ -1502,7 +1502,7 @@ function modifier_imba_wolfsbane_lycan:GetModifierBaseAttack_BonusDamage()
 	return damage_bonus * stacks
 end
 
-function modifier_imba_wolfsbane_lycan:OnCreated()
+function modifier_extended_wolfsbane_lycan:OnCreated()
 	if IsServer() then
 		local caster = self:GetCaster()
 		CustomNetTables:SetTableValue( "player_table", tostring(caster:GetPlayerOwnerID().."shapeshift_cooldown"), { wolfsbane_stacks = 0} )			
@@ -1511,11 +1511,11 @@ function modifier_imba_wolfsbane_lycan:OnCreated()
 	
 end
 
-function modifier_imba_wolfsbane_lycan:OnIntervalThink()
+function modifier_extended_wolfsbane_lycan:OnIntervalThink()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()		
-		local aura = "modifier_imba_wolfsbane_aura"		
+		local aura = "modifier_extended_wolfsbane_aura"		
 		local aura_handler = caster:FindModifierByName(aura)
 		local aura_stacks = aura_handler:GetStackCount()
 		local lycan_stacks = self:GetStackCount()		
@@ -1526,35 +1526,35 @@ function modifier_imba_wolfsbane_lycan:OnIntervalThink()
 	end
 end
 
-function modifier_imba_wolfsbane_lycan:GetAttributes()
+function modifier_extended_wolfsbane_lycan:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-function modifier_imba_wolfsbane_lycan:IsHidden()
+function modifier_extended_wolfsbane_lycan:IsHidden()
 	return false
 end
 
-function modifier_imba_wolfsbane_lycan:IsPurgable()
+function modifier_extended_wolfsbane_lycan:IsPurgable()
 	return false
 end
 
-function modifier_imba_wolfsbane_lycan:IsPermanent()
+function modifier_extended_wolfsbane_lycan:IsPermanent()
 	return true
 end
 
 
 --Lycan wolfsbane prevent modifier
-modifier_imba_wolfsbane_lycan_prevent = class({})
+modifier_extended_wolfsbane_lycan_prevent = class({})
 
-function modifier_imba_wolfsbane_lycan_prevent:IsHidden()
+function modifier_extended_wolfsbane_lycan_prevent:IsHidden()
 	return false
 end
 
-function modifier_imba_wolfsbane_lycan_prevent:IsPurgable()
+function modifier_extended_wolfsbane_lycan_prevent:IsPurgable()
 	return false
 end
 
-function modifier_imba_wolfsbane_lycan_prevent:IsDebuff()
+function modifier_extended_wolfsbane_lycan_prevent:IsDebuff()
 	return false
 end
 
@@ -1571,46 +1571,46 @@ end
 ---------------------------------------------------
 ---------------------------------------------------
 
-imba_summoned_wolf_wicked_crunch = class({})
-LinkLuaModifier("modifier_imba_summoned_wolf_wicked_crunch_debuff", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_summoned_wolf_wicked_crunch", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+extended_summoned_wolf_wicked_crunch = class({})
+LinkLuaModifier("modifier_extended_summoned_wolf_wicked_crunch_debuff", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_summoned_wolf_wicked_crunch", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
 
-function imba_summoned_wolf_wicked_crunch:GetIntrinsicModifierName()
-	return "modifier_imba_summoned_wolf_wicked_crunch"
+function extended_summoned_wolf_wicked_crunch:GetIntrinsicModifierName()
+	return "modifier_extended_summoned_wolf_wicked_crunch"
 end
 
 -- Wolf attack modifier
-modifier_imba_summoned_wolf_wicked_crunch = class({})
+modifier_extended_summoned_wolf_wicked_crunch = class({})
 
-function modifier_imba_summoned_wolf_wicked_crunch:GetAttributes()
+function modifier_extended_summoned_wolf_wicked_crunch:GetAttributes()
 	return MODIFIER_ATTRIBUTE_PERMANENT
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch:IsDebuff()
+function modifier_extended_summoned_wolf_wicked_crunch:IsDebuff()
 	return false	
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch:IsHidden()
+function modifier_extended_summoned_wolf_wicked_crunch:IsHidden()
 	return true	
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch:IsPurgable()
+function modifier_extended_summoned_wolf_wicked_crunch:IsPurgable()
 	return false	
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch:DeclareFunctions()	
+function modifier_extended_summoned_wolf_wicked_crunch:DeclareFunctions()	
 		local decFuncs = {MODIFIER_EVENT_ON_ATTACK_LANDED}
 		
 		return decFuncs	
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch:OnAttackLanded ( keys )
+function modifier_extended_summoned_wolf_wicked_crunch:OnAttackLanded ( keys )
 	-- Ability properties
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target = keys.target
 		local ability = self:GetAbility()	
-		local debuff = "modifier_imba_summoned_wolf_wicked_crunch_debuff"
+		local debuff = "modifier_extended_summoned_wolf_wicked_crunch_debuff"
 		local lifesteal_particle = "particles/generic_gameplay/generic_lifesteal_lanecreeps.vpcf"
 		local owner = nil
 		
@@ -1625,10 +1625,10 @@ function modifier_imba_summoned_wolf_wicked_crunch:OnAttackLanded ( keys )
 		local duration = ability:GetSpecialValueFor("duration")
 		local max_stacks = ability:GetSpecialValueFor("max_stacks")	
 		local lycan_lifesteal = ability:GetSpecialValueFor("lycan_lifesteal")
-		local certain_crit = "modifier_imba_shapeshift_certain_crit"				
+		local certain_crit = "modifier_extended_shapeshift_certain_crit"				
 		
 		-- #6 Talent: Double max stacks count
-		max_stacks = max_stacks + owner:FindTalentValue("special_bonus_imba_lycan_6")				
+		max_stacks = max_stacks + owner:FindTalentValue("special_bonus_extended_lycan_6")				
 		
 		-- If wolves are the attackers, grant modifier or increment stacks if already present.
 		if caster == keys.attacker then
@@ -1660,7 +1660,7 @@ function modifier_imba_summoned_wolf_wicked_crunch:OnAttackLanded ( keys )
 			end			
 			
 			-- #6 Talent (wolves generate two stacks per attack) 			
-			if owner:HasTalent("special_bonus_imba_lycan_6") then
+			if owner:HasTalent("special_bonus_extended_lycan_6") then
 				debuff_handler:IncrementStackCount()
 			end
 			
@@ -1691,7 +1691,7 @@ function modifier_imba_summoned_wolf_wicked_crunch:OnAttackLanded ( keys )
 				
 				-- If Lycan has just Certain Critted with Shapeshift, increase damage by crit damage				
 				if owner.certain_crit_attacked then
-					local shapeshift_ability = owner:FindAbilityByName("imba_lycan_shapeshift")
+					local shapeshift_ability = owner:FindAbilityByName("extended_lycan_shapeshift")
 					local crit_damage = shapeshift_ability:GetSpecialValueFor("crit_damage")
 					damage = damage * (crit_damage/100)
 					owner.certain_crit_attacked = false					
@@ -1724,43 +1724,43 @@ end
 
 
 -- Crunch debuff
-modifier_imba_summoned_wolf_wicked_crunch_debuff = class({})
+modifier_extended_summoned_wolf_wicked_crunch_debuff = class({})
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:GetAttributes()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:GetEffectName()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:GetEffectName()
 	return "particles/units/heroes/hero_bloodseeker/bloodseeker_rupture_nuke.vpcf"
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:GetEffectAttachType()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:GetTexture()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:GetTexture()
 	return "lycan_summon_wolves_critical_strike"
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:IsDebuff()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:IsDebuff()
 	return true	
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:IsHidden()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:IsHidden()
 	return false
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:IsPurgable()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:IsPurgable()
 	return true
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:DeclareFunctions()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
 		
 	return decFuncs	
 end
 
-function modifier_imba_summoned_wolf_wicked_crunch_debuff:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_summoned_wolf_wicked_crunch_debuff:GetModifierAttackSpeedBonus_Constant()
 	local ability = self:GetAbility()
 	local attack_speed_reduction = ability:GetSpecialValueFor("attack_speed_reduction")
 	
@@ -1778,13 +1778,13 @@ end
 ---------------------------------------------------
 ---------------------------------------------------
 ---------------------------------------------------
-imba_summoned_wolf_hunter_instincts = class({})
-LinkLuaModifier("modifier_imba_summoned_wolf_hunter_instincts", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+extended_summoned_wolf_hunter_instincts = class({})
+LinkLuaModifier("modifier_extended_summoned_wolf_hunter_instincts", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
 
-function imba_summoned_wolf_hunter_instincts:OnUpgrade()
+function extended_summoned_wolf_hunter_instincts:OnUpgrade()
 	 local caster = self:GetCaster()
 	 local ability = self	 
-	 local buff = "modifier_imba_summoned_wolf_hunter_instincts"
+	 local buff = "modifier_extended_summoned_wolf_hunter_instincts"
 	 
 	 if not caster:HasModifier(buff) then
 		caster:AddNewModifier(caster, ability, buff, {})
@@ -1792,15 +1792,15 @@ function imba_summoned_wolf_hunter_instincts:OnUpgrade()
 end
 
 -- Hunter instincts buff
-modifier_imba_summoned_wolf_hunter_instincts = class({})
+modifier_extended_summoned_wolf_hunter_instincts = class({})
 
-function modifier_imba_summoned_wolf_hunter_instincts:DeclareFunctions()	
+function modifier_extended_summoned_wolf_hunter_instincts:DeclareFunctions()	
 		local decFuncs = {MODIFIER_PROPERTY_EVASION_CONSTANT}
 		
 		return decFuncs	
 end
 
-function modifier_imba_summoned_wolf_hunter_instincts:GetModifierEvasion_Constant()
+function modifier_extended_summoned_wolf_hunter_instincts:GetModifierEvasion_Constant()
 	local caster = self:GetCaster()
 	
 	if caster:PassivesDisabled() then
@@ -1813,19 +1813,19 @@ function modifier_imba_summoned_wolf_hunter_instincts:GetModifierEvasion_Constan
 	return evasion
 end
 
-function modifier_imba_summoned_wolf_hunter_instincts:GetAttributes()
+function modifier_extended_summoned_wolf_hunter_instincts:GetAttributes()
 	return MODIFIER_ATTRIBUTE_PERMANENT
 end
 
-function modifier_imba_summoned_wolf_hunter_instincts:IsDebuff()
+function modifier_extended_summoned_wolf_hunter_instincts:IsDebuff()
 	return false	
 end
 
-function modifier_imba_summoned_wolf_hunter_instincts:IsHidden()
+function modifier_extended_summoned_wolf_hunter_instincts:IsHidden()
 	return true	
 end
 
-function modifier_imba_summoned_wolf_hunter_instincts:IsPurgable()
+function modifier_extended_summoned_wolf_hunter_instincts:IsPurgable()
 	return false	
 end
 
@@ -1842,15 +1842,15 @@ end
 ---------------------------------------------------
 
 
-imba_summoned_wolf_invisibility = class({})
-LinkLuaModifier("modifier_imba_summoned_wolf_invisibility_fade", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_summoned_wolf_invisibility", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+extended_summoned_wolf_invisibility = class({})
+LinkLuaModifier("modifier_extended_summoned_wolf_invisibility_fade", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_summoned_wolf_invisibility", "hero/hero_lycan", LUA_MODIFIER_MOTION_NONE)
 
-function imba_summoned_wolf_invisibility:OnUpgrade()
+function extended_summoned_wolf_invisibility:OnUpgrade()
 	 if IsServer() then
 		 local caster = self:GetCaster()
 		 local ability = self	 
-		 local buff = "modifier_imba_summoned_wolf_invisibility_fade"
+		 local buff = "modifier_extended_summoned_wolf_invisibility_fade"
 		 local fade_time = ability:GetSpecialValueFor("fade_time")
 		 
 		 if not caster:HasModifier(buff) then
@@ -1862,45 +1862,45 @@ end
 
 
 --invisibility fade buff
-modifier_imba_summoned_wolf_invisibility_fade = class({})
+modifier_extended_summoned_wolf_invisibility_fade = class({})
 
-function modifier_imba_summoned_wolf_invisibility_fade:IsDebuff()
+function modifier_extended_summoned_wolf_invisibility_fade:IsDebuff()
 	return false	
 end
 
-function modifier_imba_summoned_wolf_invisibility_fade:IsHidden()
+function modifier_extended_summoned_wolf_invisibility_fade:IsHidden()
 	return false	
 end
 
-function modifier_imba_summoned_wolf_invisibility_fade:IsPurgable()
+function modifier_extended_summoned_wolf_invisibility_fade:IsPurgable()
 	return false	
 end
 
-function modifier_imba_summoned_wolf_invisibility_fade:OnCreated()
+function modifier_extended_summoned_wolf_invisibility_fade:OnCreated()
 	if IsServer() then
 		self.caster = self:GetParent()
 		self.ability = self:GetAbility()
 	end
 end
 
-function modifier_imba_summoned_wolf_invisibility_fade:OnDestroy()
+function modifier_extended_summoned_wolf_invisibility_fade:OnDestroy()
 	if IsServer() then
 		local caster = self.caster
 		local ability = self.ability
-		local invis_buff = "modifier_imba_summoned_wolf_invisibility"		
+		local invis_buff = "modifier_extended_summoned_wolf_invisibility"		
 	
 		caster:AddNewModifier(caster, ability, invis_buff, {})
 		caster:AddNewModifier(caster, ability, "modifier_invisible", {})
 	end
 end
 
-function modifier_imba_summoned_wolf_invisibility_fade:DeclareFunctions()	
+function modifier_extended_summoned_wolf_invisibility_fade:DeclareFunctions()	
 		local decFuncs = {MODIFIER_EVENT_ON_ATTACK_FINISHED}
 		
 		return decFuncs	
 end
 
-function modifier_imba_summoned_wolf_invisibility_fade:OnAttackFinished( keys )
+function modifier_extended_summoned_wolf_invisibility_fade:OnAttackFinished( keys )
 	local caster = self:GetCaster()
 	local ability = self:GetAbility()			
 	
@@ -1910,31 +1910,31 @@ function modifier_imba_summoned_wolf_invisibility_fade:OnAttackFinished( keys )
 end
 
 --actual invisibility buff
-modifier_imba_summoned_wolf_invisibility = class({})
+modifier_extended_summoned_wolf_invisibility = class({})
 
-function modifier_imba_summoned_wolf_invisibility:IsDebuff()
+function modifier_extended_summoned_wolf_invisibility:IsDebuff()
 	return false	
 end
 
-function modifier_imba_summoned_wolf_invisibility:IsHidden()
+function modifier_extended_summoned_wolf_invisibility:IsHidden()
 	return true	
 end
 
-function modifier_imba_summoned_wolf_invisibility:IsPurgable()
+function modifier_extended_summoned_wolf_invisibility:IsPurgable()
 	return false	
 end
 
-function modifier_imba_summoned_wolf_invisibility:DeclareFunctions()	
+function modifier_extended_summoned_wolf_invisibility:DeclareFunctions()	
 		local decFuncs = {MODIFIER_EVENT_ON_ATTACK_FINISHED}
 		
 		return decFuncs	
 end
 
-function modifier_imba_summoned_wolf_invisibility:OnAttackFinished( keys )
+function modifier_extended_summoned_wolf_invisibility:OnAttackFinished( keys )
 	if IsServer() then
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()	
-		local invis_fade = "modifier_imba_summoned_wolf_invisibility_fade"
+		local invis_fade = "modifier_extended_summoned_wolf_invisibility_fade"
 		local fade_time = ability:GetSpecialValueFor("fade_time")
 		
 		if caster == keys.attacker then

@@ -1,9 +1,9 @@
 --[[	Author: Yahnich
 		Date: 28.12.2016	]]
 
-imba_witch_doctor_paralyzing_cask = class({})
+extended_witch_doctor_paralyzing_cask = class({})
 
-function imba_witch_doctor_paralyzing_cask:OnSpellStart()
+function extended_witch_doctor_paralyzing_cask:OnSpellStart()
 	local hTarget = self:GetCursorTarget()
 	local projectile = {
 			Target = hTarget,
@@ -23,7 +23,7 @@ function imba_witch_doctor_paralyzing_cask:OnSpellStart()
 	ProjectileManager:CreateTrackingProjectile(projectile)
 end
 
-function imba_witch_doctor_paralyzing_cask:OnProjectileHit(target, vLocation)
+function extended_witch_doctor_paralyzing_cask:OnProjectileHit(target, vLocation)
 	EmitSoundOn("Hero_WitchDoctor.Paralyzing_Cask_Bounce", target)
 	local bounce_delay  = self:GetSpecialValueFor("bounce_delay")
 	local bounce_range = self:GetSpecialValueFor("bounce_range")
@@ -104,28 +104,28 @@ function imba_witch_doctor_paralyzing_cask:OnProjectileHit(target, vLocation)
 end
 
 
-imba_witch_doctor_voodoo_restoration = class({})
+extended_witch_doctor_voodoo_restoration = class({})
 
-function imba_witch_doctor_voodoo_restoration:GetCastRange()
+function extended_witch_doctor_voodoo_restoration:GetCastRange()
 	return self:GetSpecialValueFor("radius")
 end
 
-LinkLuaModifier("imba_witch_doctor_voodoo_restoration_handler", "hero/hero_witch_doctor", LUA_MODIFIER_MOTION_NONE)
-function imba_witch_doctor_voodoo_restoration:OnToggle()
+LinkLuaModifier("extended_witch_doctor_voodoo_restoration_handler", "hero/hero_witch_doctor", LUA_MODIFIER_MOTION_NONE)
+function extended_witch_doctor_voodoo_restoration:OnToggle()
 	if self:GetToggleState() then
 		EmitSoundOn("Hero_WitchDoctor.Voodoo_Restoration", self:GetCaster())
 		EmitSoundOn("Hero_WitchDoctor.Voodoo_Restoration.Loop", self:GetCaster())
-		self:GetCaster():AddNewModifier(self:GetCaster(), self, "imba_witch_doctor_voodoo_restoration_handler", {})
+		self:GetCaster():AddNewModifier(self:GetCaster(), self, "extended_witch_doctor_voodoo_restoration_handler", {})
 	else
 		EmitSoundOn("Hero_WitchDoctor.Voodoo_Restoration.Off", self:GetCaster())
 		StopSoundEvent("Hero_WitchDoctor.Voodoo_Restoration.Loop", self:GetCaster())
-		self:GetCaster():RemoveModifierByName("imba_witch_doctor_voodoo_restoration_handler")
+		self:GetCaster():RemoveModifierByName("extended_witch_doctor_voodoo_restoration_handler")
 	end
 end
 
-imba_witch_doctor_voodoo_restoration_handler = class({})
+extended_witch_doctor_voodoo_restoration_handler = class({})
 
-function imba_witch_doctor_voodoo_restoration_handler:OnCreated()
+function extended_witch_doctor_voodoo_restoration_handler:OnCreated()
 	self.interval = self:GetAbility():GetSpecialValueFor("heal_interval")
 	if IsServer() then
 		self:StartIntervalThink( self.interval )
@@ -138,7 +138,7 @@ function imba_witch_doctor_voodoo_restoration_handler:OnCreated()
 			ParticleManager:SetParticleControlEnt(self.mainParticle, 2, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_staff", self:GetParent():GetAbsOrigin(), true)
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:OnDestroy()
+function extended_witch_doctor_voodoo_restoration_handler:OnDestroy()
 	if IsServer() then
 		self:StartIntervalThink(-1)
 	end
@@ -146,7 +146,7 @@ function imba_witch_doctor_voodoo_restoration_handler:OnDestroy()
 	ParticleManager:ReleaseParticleIndex(self.mainParticle)
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:OnIntervalThink()
+function extended_witch_doctor_voodoo_restoration_handler:OnIntervalThink()
 	if self:GetCaster():GetMana() >= self:GetAbility():GetManaCost(-1) then
 		self:GetCaster():SpendMana(self.manaCost, self:GetAbility())
 	else
@@ -154,38 +154,38 @@ function imba_witch_doctor_voodoo_restoration_handler:OnIntervalThink()
 	end
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:IsAura()
+function extended_witch_doctor_voodoo_restoration_handler:IsAura()
 	return true
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:IsAuraActiveOnDeath()
+function extended_witch_doctor_voodoo_restoration_handler:IsAuraActiveOnDeath()
 	return false
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:GetAuraRadius()
+function extended_witch_doctor_voodoo_restoration_handler:GetAuraRadius()
 	return self.radius
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:GetAuraSearchTeam()
+function extended_witch_doctor_voodoo_restoration_handler:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:GetAuraSearchType()
+function extended_witch_doctor_voodoo_restoration_handler:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:GetModifierAura()
-	return "imba_witch_doctor_voodoo_restoration_heal"
+function extended_witch_doctor_voodoo_restoration_handler:GetModifierAura()
+	return "extended_witch_doctor_voodoo_restoration_heal"
 end
 
-function imba_witch_doctor_voodoo_restoration_handler:IsHidden()
+function extended_witch_doctor_voodoo_restoration_handler:IsHidden()
 	return true
 end
 
-LinkLuaModifier("imba_witch_doctor_voodoo_restoration_heal", "hero/hero_witch_doctor", LUA_MODIFIER_MOTION_NONE)
-imba_witch_doctor_voodoo_restoration_heal = class({})
+LinkLuaModifier("extended_witch_doctor_voodoo_restoration_heal", "hero/hero_witch_doctor", LUA_MODIFIER_MOTION_NONE)
+extended_witch_doctor_voodoo_restoration_heal = class({})
 
-function imba_witch_doctor_voodoo_restoration_heal:OnCreated()
+function extended_witch_doctor_voodoo_restoration_heal:OnCreated()
 	self.interval = self:GetAbility():GetSpecialValueFor("heal_interval")
 	if IsServer() then
 		self:StartIntervalThink( self.interval )
@@ -197,19 +197,19 @@ function imba_witch_doctor_voodoo_restoration_heal:OnCreated()
 	self:SetDuration(self.stickTime, false)
 end
 
-function imba_witch_doctor_voodoo_restoration_heal:OnRefresh()
+function extended_witch_doctor_voodoo_restoration_heal:OnRefresh()
 	if IsServer() then
 		self.heal = (self:GetAbility():GetSpecialValueFor("heal") + self:GetCaster():GetIntellect()*self:GetAbility():GetSpecialValueFor("int_to_heal")/100 ) * self.interval
 	end
 	self:SetDuration(self.stickTime, false)
 end
 
-function imba_witch_doctor_voodoo_restoration_heal:IsBuff()
+function extended_witch_doctor_voodoo_restoration_heal:IsBuff()
 	return true
 end
 
 
-function imba_witch_doctor_voodoo_restoration_heal:OnIntervalThink()
+function extended_witch_doctor_voodoo_restoration_heal:OnIntervalThink()
 	self:GetParent():Heal(self.heal, self:GetCaster())
 	SendOverheadEventMessage(self:GetParent(), OVERHEAD_ALERT_HEAL, self:GetParent(), self.heal, self:GetParent())
 	self.purgeCounter = self.purgeCounter + self.interval
@@ -222,9 +222,9 @@ function imba_witch_doctor_voodoo_restoration_heal:OnIntervalThink()
 	end
 end
 
-imba_witch_doctor_maledict = class({})
+extended_witch_doctor_maledict = class({})
 
-function imba_witch_doctor_maledict:OnSpellStart()
+function extended_witch_doctor_maledict:OnSpellStart()
 	local vPosition = self:GetCursorPosition()
 	local caster = self:GetCaster()
 	local radius = self:GetSpecialValueFor("radius")
@@ -235,21 +235,21 @@ function imba_witch_doctor_maledict:OnSpellStart()
 	if #enemies > 0 then
 		EmitSoundOn("Hero_WitchDoctor.Maledict_Cast", caster)
 		for _, enemy in pairs(enemies) do
-			enemy:AddNewModifier(caster, self, "modifier_maledict_imba_thinker", {duration = self:GetDuration()+0.1})
+			enemy:AddNewModifier(caster, self, "modifier_maledict_extended_thinker", {duration = self:GetDuration()+0.1})
 		end
 	else
 		EmitSoundOn("Hero_WitchDoctor.Maledict_CastFail", caster)
 	end
 end
 
-function imba_witch_doctor_maledict:GetAOERadius()
+function extended_witch_doctor_maledict:GetAOERadius()
 	return self:GetSpecialValueFor("radius")
 end
 
-LinkLuaModifier("modifier_maledict_imba_thinker", "hero/hero_witch_doctor", LUA_MODIFIER_MOTION_NONE)
-modifier_maledict_imba_thinker = class({})
+LinkLuaModifier("modifier_maledict_extended_thinker", "hero/hero_witch_doctor", LUA_MODIFIER_MOTION_NONE)
+modifier_maledict_extended_thinker = class({})
 
-function modifier_maledict_imba_thinker:OnCreated()
+function modifier_maledict_extended_thinker:OnCreated()
 	self.burstDamage = self:GetAbility():GetAbilityDamage()
 	self.baseDamage = self:GetAbility():GetSpecialValueFor("bonus_damage")
 	self.burstCounter = 0
@@ -265,7 +265,7 @@ function modifier_maledict_imba_thinker:OnCreated()
 	EmitSoundOn("Hero_WitchDoctor.Maledict_Loop", self:GetParent())
 end
 
-function modifier_maledict_imba_thinker:OnDestroy()
+function modifier_maledict_extended_thinker:OnDestroy()
 	if IsServer() then
 		self:StartIntervalThink(-1)
 	end
@@ -274,7 +274,7 @@ function modifier_maledict_imba_thinker:OnDestroy()
 	ParticleManager:ReleaseParticleIndex(self.burstParticle)
 end
 
-function modifier_maledict_imba_thinker:OnIntervalThink()
+function modifier_maledict_extended_thinker:OnIntervalThink()
 	self.burstCounter = self.burstCounter + self.thinkInterval
 	ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), damage = self.baseDamage, damage_type = self:GetAbility():GetAbilityDamageType()})
 	if self.burstCounter >= self.burstTimer then
@@ -283,26 +283,26 @@ function modifier_maledict_imba_thinker:OnIntervalThink()
 	end
 end
 
-function modifier_maledict_imba_thinker:GetStatusEffectName()
+function modifier_maledict_extended_thinker:GetStatusEffectName()
 	return "particles/status_fx/status_effect_maledict.vpcf"
 end
 
-function modifier_maledict_imba_thinker:DeclareFunctions()
+function modifier_maledict_extended_thinker:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_DISABLE_HEALING,
 	}
 	return funcs
 end
 
-function modifier_maledict_imba_thinker:GetDisableHealing()
+function modifier_maledict_extended_thinker:GetDisableHealing()
 	return 1
 end
 
-function modifier_maledict_imba_thinker:IsPurgable()
+function modifier_maledict_extended_thinker:IsPurgable()
 	return false
 end
 
-function modifier_maledict_imba_thinker:DealHPBurstDamage(target)
+function modifier_maledict_extended_thinker:DealHPBurstDamage(target)
 	local oldHP = self.healthComparator
 	local newHP = target:GetHealth()
 	local ability = self:GetAbility()
@@ -312,32 +312,32 @@ function modifier_maledict_imba_thinker:DealHPBurstDamage(target)
 	EmitSoundOn("Hero_WitchDoctor.Maledict_Tick", target)
 end
 
-imba_witch_doctor_death_ward = class({})
+extended_witch_doctor_death_ward = class({})
 
-function imba_witch_doctor_death_ward:OnSpellStart()
+function extended_witch_doctor_death_ward:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local vPosition = self:GetCursorPosition()
 		self.wardDamage = self:GetSpecialValueFor("damage") + caster:GetIntellect()*self:GetSpecialValueFor("int_to_damage")/100
-		self.death_ward = CreateUnitByName("imba_witch_doctor_death_ward", vPosition, true, caster, nil, caster:GetTeam())
+		self.death_ward = CreateUnitByName("extended_witch_doctor_death_ward", vPosition, true, caster, nil, caster:GetTeam())
 		self.death_ward:SetControllableByPlayer(caster:GetPlayerID(), true)
 		self.death_ward:SetOwner(caster)
 		self.death_ward:SetBaseAttackTime( self:GetSpecialValueFor("base_attack_time") )
 		self.death_ward:AddNewModifier(caster, self, "modifier_death_ward_handling", {duration = self:GetChannelTime()})
 		EmitSoundOn("Hero_WitchDoctor.Death_WardBuild", self.death_ward)
 		local exceptionList = {
-			["item_imba_azura"] = true,
-			["item_imba_bfury"] = true,
-			["item_imba_butterfly"] = true,
-			["item_imba_echo_sabre"] = true,
-			["item_imba_reverb_rapier"] = true,
-			["item_imba_starfury"] = true,
-			["item_imba_shotgun"] = true,
-			["item_imba_rapier"] = true,
-			["item_imba_rapier_2"] = true,
-			["item_imba_rapier_magic"] = true,
-			["item_imba_rapier_magic_2"] = true,
-			["item_imba_rapier_cursed"] = true,
+			["item_extended_azura"] = true,
+			["item_extended_bfury"] = true,
+			["item_extended_butterfly"] = true,
+			["item_extended_echo_sabre"] = true,
+			["item_extended_reverb_rapier"] = true,
+			["item_extended_starfury"] = true,
+			["item_extended_shotgun"] = true,
+			["item_extended_rapier"] = true,
+			["item_extended_rapier_2"] = true,
+			["item_extended_rapier_magic"] = true,
+			["item_extended_rapier_magic_2"] = true,
+			["item_extended_rapier_cursed"] = true,
 		}
 		for i = 0, 5 do
 			local item = caster:GetItemInSlot(i)
@@ -351,14 +351,14 @@ function imba_witch_doctor_death_ward:OnSpellStart()
 	end
 end
 
-function imba_witch_doctor_death_ward:OnChannelFinish()
+function extended_witch_doctor_death_ward:OnChannelFinish()
 	if IsServer() then
 		StopSoundEvent("Hero_WitchDoctor.Death_WardBuild", self.death_ward)
 		UTIL_Remove(self.death_ward)	
 	end
 end
 
-function imba_witch_doctor_death_ward:OnProjectileHit_ExtraData(target, vLocation, extraData)
+function extended_witch_doctor_death_ward:OnProjectileHit_ExtraData(target, vLocation, extraData)
 	if not self.death_ward:IsNull() then
 		self.death_ward:PerformAttack(target, false, true, true, true, false, false, false)
 		if extraData.bounces_left > 0 and self:GetCaster():HasScepter() then
@@ -369,7 +369,7 @@ function imba_witch_doctor_death_ward:OnProjectileHit_ExtraData(target, vLocatio
 	end
 end
 
-function imba_witch_doctor_death_ward:CreateBounceAttack(originalTarget, extraData)
+function extended_witch_doctor_death_ward:CreateBounceAttack(originalTarget, extraData)
     local caster = self:GetCaster()
     local enemies = FindUnitsInRadius(caster:GetTeamNumber(), originalTarget:GetAbsOrigin(), nil, self:GetSpecialValueFor("bounce_radius"),
                     self:GetAbilityTargetTeam(), self:GetAbilityTargetType(),

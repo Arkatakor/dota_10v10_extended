@@ -20,7 +20,7 @@
 				<Label id="RadiantScoreLabel" text="0" />
 			</Panel>
 			<Panel id="CenterContainer">
-				<Label id="CenterObjectiveTitle" text="#imba_arena_points_objective"/>
+				<Label id="CenterObjectiveTitle" text="#extended_arena_points_objective"/>
 				<Label id="CenterObjectivePoints" text="999"/>
 			</Panel>
 			<Panel id="DireContainer">

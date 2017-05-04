@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	20.09.2015	]]
 
 function ButterflyEffect( keys )
@@ -30,7 +30,7 @@ function ButterflyEffect( keys )
 		caster:PerformAttack(enemy, true, true, true, true, true, false, false)
 
 	-- Troll Warlord graphical adjustment
-	elseif caster:HasModifier("modifier_imba_berserkers_rage") then
+	elseif caster:HasModifier("modifier_extended_berserkers_rage") then
 		caster:SetAttackCapability(DOTA_UNIT_CAP_RANGED_ATTACK)
 		caster:PerformAttack(enemy, true, true, true, true, true, false, false)
 		caster:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)

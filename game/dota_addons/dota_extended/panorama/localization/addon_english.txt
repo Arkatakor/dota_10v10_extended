@@ -16,7 +16,7 @@
 	"DOTA_Custom7"    								"Olive Snake"
 	"DOTA_Custom8"    								"Purple Horse"
 	
-	"addonname"										"Dota IMBA"
+	"addonname"										"Dota EXTENDED"
 
 	
 }

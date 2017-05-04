@@ -54,18 +54,18 @@ function HeroSelection:Start()
 	HeroSelection.listener_abilities_requested = CustomGameEventManager:RegisterListener("pick_abilities_requested", HeroSelection.PickAbilitiesRequested )
 
 	-- Play relevant pick lines
-	if IMBA_PICK_MODE_ALL_RANDOM then
+	if EXTENDED_PICK_MODE_ALL_RANDOM then
 		EmitGlobalSound("announcer_announcer_type_all_random")
-	elseif IMBA_ABILITY_MODE_RANDOM_OMG then
+	elseif EXTENDED_ABILITY_MODE_RANDOM_OMG then
 		EmitGlobalSound("announcer_announcer_type_random_draft")
-	elseif IMBA_PICK_MODE_ARENA_MODE then
+	elseif EXTENDED_PICK_MODE_ARENA_MODE then
 		EmitGlobalSound("announcer_announcer_type_death_match")
 	else
 		EmitGlobalSound("announcer_announcer_type_all_pick")
 	end
 
 	-- Block-pick heroes forbidden in certain modes
-	if IMBA_ABILITY_MODE_RANDOM_OMG then
+	if EXTENDED_ABILITY_MODE_RANDOM_OMG then
 		local random_omg_forbidden_heroes = {
 			"npc_dota_hero_earth_spirit",
 			"npc_dota_hero_life_stealer",
@@ -281,7 +281,7 @@ end
 function HeroSelection:HeroSelect( event )
 
 	-- If this is All Random and the player picked a hero manually, refuse it
-	if IMBA_PICK_MODE_ALL_RANDOM and (not event.HasRandomed) then
+	if EXTENDED_PICK_MODE_ALL_RANDOM and (not event.HasRandomed) then
 		return nil
 	end
 
@@ -427,7 +427,7 @@ function HeroSelection:AssignHero(player_id, hero_name)
 		UTIL_Remove(wisp)
 
 		-------------------------------------------------------------------------------------------------
-		-- IMBA: First hero spawn initialization
+		-- EXTENDED: First hero spawn initialization
 		-------------------------------------------------------------------------------------------------
 
 		-- Fetch this player's hero entity
@@ -467,24 +467,24 @@ function HeroSelection:AssignHero(player_id, hero_name)
 
 		if has_repicked then
 			PlayerResource:SetGold(player_id, HERO_REPICK_GOLD, false)
-		elseif has_randomed or IMBA_PICK_MODE_ALL_RANDOM then
+		elseif has_randomed or EXTENDED_PICK_MODE_ALL_RANDOM then
 			PlayerResource:SetGold(player_id, HERO_RANDOM_GOLD, false)
 		else
 			PlayerResource:SetGold(player_id, HERO_INITIAL_GOLD, false)
 		end
 
 		-- Randomize abilities
-		if IMBA_ABILITY_MODE_RANDOM_OMG then
+		if EXTENDED_ABILITY_MODE_RANDOM_OMG then
 			ApplyAllRandomOmgAbilities(hero)
 		end
 
 		-- Apply frantic modifier, if appropriate
-		if IMBA_FRANTIC_MODE_ON then
-			hero:AddNewModifier(hero, nil, "modifier_imba_frantic", {})
+		if EXTENDED_FRANTIC_MODE_ON then
+			hero:AddNewModifier(hero, nil, "modifier_extended_frantic", {})
 		end
 
 		-- Apply generic talents handler
-		hero:AddNewModifier(hero, nil, "modifier_imba_generic_talents_handler", {})
+		hero:AddNewModifier(hero, nil, "modifier_extended_generic_talents_handler", {})
 
 		-- Initialize innate hero abilities
 		InitializeInnateAbilities(hero)

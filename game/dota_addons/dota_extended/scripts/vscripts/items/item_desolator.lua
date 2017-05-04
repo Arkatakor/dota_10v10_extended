@@ -7,39 +7,39 @@
 --	Blight Stone definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_blight_stone == nil then item_imba_blight_stone = class({}) end
-LinkLuaModifier( "modifier_item_imba_blight_stone", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_blight_stone_debuff", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )	-- Armor/vision debuff
+if item_extended_blight_stone == nil then item_extended_blight_stone = class({}) end
+LinkLuaModifier( "modifier_item_extended_blight_stone", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_blight_stone_debuff", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )	-- Armor/vision debuff
 
-function item_imba_blight_stone:GetIntrinsicModifierName()
-	return "modifier_item_imba_blight_stone" end
+function item_extended_blight_stone:GetIntrinsicModifierName()
+	return "modifier_item_extended_blight_stone" end
 
 -----------------------------------------------------------------------------------------------------------
 --	Blight Stone owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_blight_stone == nil then modifier_item_imba_blight_stone = class({}) end
-function modifier_item_imba_blight_stone:IsHidden() return true end
-function modifier_item_imba_blight_stone:IsDebuff() return false end
-function modifier_item_imba_blight_stone:IsPurgable() return false end
-function modifier_item_imba_blight_stone:IsPermanent() return true end
-function modifier_item_imba_blight_stone:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_blight_stone == nil then modifier_item_extended_blight_stone = class({}) end
+function modifier_item_extended_blight_stone:IsHidden() return true end
+function modifier_item_extended_blight_stone:IsDebuff() return false end
+function modifier_item_extended_blight_stone:IsPurgable() return false end
+function modifier_item_extended_blight_stone:IsPermanent() return true end
+function modifier_item_extended_blight_stone:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Possible projectile changes
-function modifier_item_imba_blight_stone:OnCreated()
+function modifier_item_extended_blight_stone:OnCreated()
 	if IsServer() then
 		ChangeAttackProjectileImba(self:GetParent())
 	end
 end
 
-function modifier_item_imba_blight_stone:OnDestroy()
+function modifier_item_extended_blight_stone:OnDestroy()
 	if IsServer() then
 		ChangeAttackProjectileImba(self:GetParent())
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_blight_stone:DeclareFunctions()
+function modifier_item_extended_blight_stone:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
@@ -47,7 +47,7 @@ function modifier_item_imba_blight_stone:DeclareFunctions()
 end
 
 -- On attack landed, apply the debuff
-function modifier_item_imba_blight_stone:OnAttackLanded( keys )
+function modifier_item_extended_blight_stone:OnAttackLanded( keys )
 	if IsServer() then
 		local owner = self:GetParent()
 
@@ -61,12 +61,12 @@ function modifier_item_imba_blight_stone:OnAttackLanded( keys )
 			return end
 
 		-- If a higher-priority modifier is present, still do nothing
-		if target:HasModifier("modifier_item_imba_desolator_debuff") or target:HasModifier("modifier_item_imba_desolator_2_debuff") then
+		if target:HasModifier("modifier_item_extended_desolator_debuff") or target:HasModifier("modifier_item_extended_desolator_2_debuff") then
 			return end
 
 		-- All conditions met, apply the Blight Stone modifier
 		local ability = self:GetAbility()
-		Desolate(owner, target, ability, "modifier_item_imba_blight_stone_debuff", ability:GetSpecialValueFor("duration"))
+		Desolate(owner, target, ability, "modifier_item_extended_blight_stone_debuff", ability:GetSpecialValueFor("duration"))
 	end
 end
 
@@ -74,20 +74,20 @@ end
 --	Blight Stone debuff
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_blight_stone_debuff == nil then modifier_item_imba_blight_stone_debuff = class({}) end
-function modifier_item_imba_blight_stone_debuff:IsHidden() return false end
-function modifier_item_imba_blight_stone_debuff:IsDebuff() return true end
-function modifier_item_imba_blight_stone_debuff:IsPurgable() return true end
+if modifier_item_extended_blight_stone_debuff == nil then modifier_item_extended_blight_stone_debuff = class({}) end
+function modifier_item_extended_blight_stone_debuff:IsHidden() return false end
+function modifier_item_extended_blight_stone_debuff:IsDebuff() return true end
+function modifier_item_extended_blight_stone_debuff:IsPurgable() return true end
 
 -- Store modifier values in case the original ability is missing
-function modifier_item_imba_blight_stone_debuff:OnCreated()
+function modifier_item_extended_blight_stone_debuff:OnCreated()
 	local ability = self:GetAbility()
 	self.armor_reduction = (-1) * ability:GetSpecialValueFor("armor_reduction")
 	self.vision_reduction = (-1) * ability:GetSpecialValueFor("vision_reduction")
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_blight_stone_debuff:DeclareFunctions()
+function modifier_item_extended_blight_stone_debuff:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 		MODIFIER_PROPERTY_BONUS_DAY_VISION,
@@ -96,13 +96,13 @@ function modifier_item_imba_blight_stone_debuff:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_blight_stone_debuff:GetModifierPhysicalArmorBonus()
+function modifier_item_extended_blight_stone_debuff:GetModifierPhysicalArmorBonus()
 	return self.armor_reduction end
 
-function modifier_item_imba_blight_stone_debuff:GetBonusDayVision()
+function modifier_item_extended_blight_stone_debuff:GetBonusDayVision()
 	return self.vision_reduction end
 
-function modifier_item_imba_blight_stone_debuff:GetBonusNightVision()
+function modifier_item_extended_blight_stone_debuff:GetBonusNightVision()
 	return self.vision_reduction end
 
 
@@ -111,14 +111,14 @@ function modifier_item_imba_blight_stone_debuff:GetBonusNightVision()
 --	Desolator definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_desolator == nil then item_imba_desolator = class({}) end
-LinkLuaModifier( "modifier_item_imba_desolator", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )				-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_desolator_debuff", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )		-- Armor/vision debuff
+if item_extended_desolator == nil then item_extended_desolator = class({}) end
+LinkLuaModifier( "modifier_item_extended_desolator", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )				-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_desolator_debuff", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )		-- Armor/vision debuff
 
-function item_imba_desolator:GetIntrinsicModifierName()
-	return "modifier_item_imba_desolator" end
+function item_extended_desolator:GetIntrinsicModifierName()
+	return "modifier_item_extended_desolator" end
 
-function item_imba_desolator:OnSpellStart()
+function item_extended_desolator:OnSpellStart()
 	if IsServer() then
 
 		-- Parameters
@@ -159,7 +159,7 @@ function item_imba_desolator:OnSpellStart()
 	end
 end
 
-function item_imba_desolator:OnProjectileThink(projectile_location)
+function item_extended_desolator:OnProjectileThink(projectile_location)
 	if IsServer() then
 
 		-- Iterate through nearby enemies
@@ -176,18 +176,18 @@ function item_imba_desolator:OnProjectileThink(projectile_location)
 	end
 end
 
-function item_imba_desolator:OnProjectileHit(target, target_loc)
+function item_extended_desolator:OnProjectileHit(target, target_loc)
 	if IsServer() and target then
 
 		-- Play hit sound
 		target:EmitSound("Item_Desolator.Target")
 
 		-- Remove lower priority debuffs
-		target:RemoveModifierByName("modifier_item_imba_blight_stone_debuff")
+		target:RemoveModifierByName("modifier_item_extended_blight_stone_debuff")
 
 		-- Apply the armor debuff, if applicable
-		if not target:HasModifier("modifier_item_imba_desolator_2_debuff") then
-			target:AddNewModifier(self:GetCaster(), self, "modifier_item_imba_desolator_debuff", {duration = self:GetSpecialValueFor("duration")})
+		if not target:HasModifier("modifier_item_extended_desolator_2_debuff") then
+			target:AddNewModifier(self:GetCaster(), self, "modifier_item_extended_desolator_debuff", {duration = self:GetSpecialValueFor("duration")})
 		end
 
 		-- Deal minor physical damage
@@ -199,28 +199,28 @@ end
 --	Desolator owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_desolator == nil then modifier_item_imba_desolator = class({}) end
-function modifier_item_imba_desolator:IsHidden() return true end
-function modifier_item_imba_desolator:IsDebuff() return false end
-function modifier_item_imba_desolator:IsPurgable() return false end
-function modifier_item_imba_desolator:IsPermanent() return true end
-function modifier_item_imba_desolator:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_desolator == nil then modifier_item_extended_desolator = class({}) end
+function modifier_item_extended_desolator:IsHidden() return true end
+function modifier_item_extended_desolator:IsDebuff() return false end
+function modifier_item_extended_desolator:IsPurgable() return false end
+function modifier_item_extended_desolator:IsPermanent() return true end
+function modifier_item_extended_desolator:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Possible projectile changes
-function modifier_item_imba_desolator:OnCreated()
+function modifier_item_extended_desolator:OnCreated()
 	if IsServer() then
 		ChangeAttackProjectileImba(self:GetParent())
 	end
 end
 
-function modifier_item_imba_desolator:OnDestroy()
+function modifier_item_extended_desolator:OnDestroy()
 	if IsServer() then
 		ChangeAttackProjectileImba(self:GetParent())
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_desolator:DeclareFunctions()
+function modifier_item_extended_desolator:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
@@ -228,11 +228,11 @@ function modifier_item_imba_desolator:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_desolator:GetModifierPreAttack_BonusDamage()
+function modifier_item_extended_desolator:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("damage") end
 
 -- On attack landed, apply the debuff
-function modifier_item_imba_desolator:OnAttackLanded( keys )
+function modifier_item_extended_desolator:OnAttackLanded( keys )
 	if IsServer() then
 		local owner = self:GetParent()
 
@@ -246,15 +246,15 @@ function modifier_item_imba_desolator:OnAttackLanded( keys )
 			return end
 
 		-- If a higher-priority modifier is present, still do nothing
-		if target:HasModifier("modifier_item_imba_desolator_2_debuff") then
+		if target:HasModifier("modifier_item_extended_desolator_2_debuff") then
 			return end
 
 		-- If a lower-priority modifier is present, remove it
-		target:RemoveModifierByName("modifier_item_imba_blight_stone_debuff")
+		target:RemoveModifierByName("modifier_item_extended_blight_stone_debuff")
 
 		-- All conditions met, apply the Desolator modifier
 		local ability = self:GetAbility()
-		Desolate(owner, target, ability, "modifier_item_imba_desolator_debuff", ability:GetSpecialValueFor("duration"))
+		Desolate(owner, target, ability, "modifier_item_extended_desolator_debuff", ability:GetSpecialValueFor("duration"))
 	end
 end
 
@@ -262,20 +262,20 @@ end
 --	Desolator debuff
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_desolator_debuff == nil then modifier_item_imba_desolator_debuff = class({}) end
-function modifier_item_imba_desolator_debuff:IsHidden() return false end
-function modifier_item_imba_desolator_debuff:IsDebuff() return true end
-function modifier_item_imba_desolator_debuff:IsPurgable() return true end
+if modifier_item_extended_desolator_debuff == nil then modifier_item_extended_desolator_debuff = class({}) end
+function modifier_item_extended_desolator_debuff:IsHidden() return false end
+function modifier_item_extended_desolator_debuff:IsDebuff() return true end
+function modifier_item_extended_desolator_debuff:IsPurgable() return true end
 
 -- Store modifier values in case the original ability is missing
-function modifier_item_imba_desolator_debuff:OnCreated()
+function modifier_item_extended_desolator_debuff:OnCreated()
 	local ability = self:GetAbility()
 	self.armor_reduction = (-1) * ability:GetSpecialValueFor("armor_reduction")
 	self.vision_reduction = (-1) * ability:GetSpecialValueFor("vision_reduction")
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_desolator_debuff:DeclareFunctions()
+function modifier_item_extended_desolator_debuff:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 		MODIFIER_PROPERTY_BONUS_DAY_VISION,
@@ -284,13 +284,13 @@ function modifier_item_imba_desolator_debuff:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_desolator_debuff:GetModifierPhysicalArmorBonus()
+function modifier_item_extended_desolator_debuff:GetModifierPhysicalArmorBonus()
 	return self.armor_reduction end
 
-function modifier_item_imba_desolator_debuff:GetBonusDayVision()
+function modifier_item_extended_desolator_debuff:GetBonusDayVision()
 	return self.vision_reduction end
 
-function modifier_item_imba_desolator_debuff:GetBonusNightVision()
+function modifier_item_extended_desolator_debuff:GetBonusNightVision()
 	return self.vision_reduction end
 
 
@@ -299,14 +299,14 @@ function modifier_item_imba_desolator_debuff:GetBonusNightVision()
 --	Stygian Desolator definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_desolator_2 == nil then item_imba_desolator_2 = class({}) end
-LinkLuaModifier( "modifier_item_imba_desolator_2", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_desolator_2_debuff", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )	-- Armor/vision debuff
+if item_extended_desolator_2 == nil then item_extended_desolator_2 = class({}) end
+LinkLuaModifier( "modifier_item_extended_desolator_2", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_desolator_2_debuff", "items/item_desolator.lua", LUA_MODIFIER_MOTION_NONE )	-- Armor/vision debuff
 
-function item_imba_desolator_2:GetIntrinsicModifierName()
-	return "modifier_item_imba_desolator_2" end
+function item_extended_desolator_2:GetIntrinsicModifierName()
+	return "modifier_item_extended_desolator_2" end
 
-function item_imba_desolator_2:OnSpellStart()
+function item_extended_desolator_2:OnSpellStart()
 	if IsServer() then
 
 		-- Parameters
@@ -367,7 +367,7 @@ function item_imba_desolator_2:OnSpellStart()
 	end
 end
 
-function item_imba_desolator_2:OnProjectileThink(projectile_location)
+function item_extended_desolator_2:OnProjectileThink(projectile_location)
 	if IsServer() then
 
 		-- Iterate through nearby enemies
@@ -384,18 +384,18 @@ function item_imba_desolator_2:OnProjectileThink(projectile_location)
 	end
 end
 
-function item_imba_desolator_2:OnProjectileHit(target, target_loc)
+function item_extended_desolator_2:OnProjectileHit(target, target_loc)
 	if IsServer() and target then
 
 		-- Play hit sound
 		target:EmitSound("Item_Desolator.Target")
 
 		-- Remove lower priority debuffs
-		target:RemoveModifierByName("modifier_item_imba_blight_stone_debuff")
-		target:RemoveModifierByName("modifier_item_imba_desolator_debuff")
+		target:RemoveModifierByName("modifier_item_extended_blight_stone_debuff")
+		target:RemoveModifierByName("modifier_item_extended_desolator_debuff")
 
 		-- Apply the armor debuff
-		target:AddNewModifier(self:GetCaster(), self, "modifier_item_imba_desolator_2_debuff", {duration = self:GetSpecialValueFor("duration")})
+		target:AddNewModifier(self:GetCaster(), self, "modifier_item_extended_desolator_2_debuff", {duration = self:GetSpecialValueFor("duration")})
 
 		-- Deal minor physical damage
 		ApplyDamage({attacker = self:GetCaster(), victim = target, ability = self, damage = self:GetSpecialValueFor("active_damage"), damage_type = DAMAGE_TYPE_PHYSICAL})
@@ -406,28 +406,28 @@ end
 --	Stygian Desolator owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_desolator_2 == nil then modifier_item_imba_desolator_2 = class({}) end
-function modifier_item_imba_desolator_2:IsHidden() return true end
-function modifier_item_imba_desolator_2:IsDebuff() return false end
-function modifier_item_imba_desolator_2:IsPurgable() return false end
-function modifier_item_imba_desolator_2:IsPermanent() return true end
-function modifier_item_imba_desolator_2:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_desolator_2 == nil then modifier_item_extended_desolator_2 = class({}) end
+function modifier_item_extended_desolator_2:IsHidden() return true end
+function modifier_item_extended_desolator_2:IsDebuff() return false end
+function modifier_item_extended_desolator_2:IsPurgable() return false end
+function modifier_item_extended_desolator_2:IsPermanent() return true end
+function modifier_item_extended_desolator_2:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Possible projectile changes
-function modifier_item_imba_desolator_2:OnCreated()
+function modifier_item_extended_desolator_2:OnCreated()
 	if IsServer() then
 		ChangeAttackProjectileImba(self:GetParent())
 	end
 end
 
-function modifier_item_imba_desolator_2:OnDestroy()
+function modifier_item_extended_desolator_2:OnDestroy()
 	if IsServer() then
 		ChangeAttackProjectileImba(self:GetParent())
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_desolator_2:DeclareFunctions()
+function modifier_item_extended_desolator_2:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
@@ -435,11 +435,11 @@ function modifier_item_imba_desolator_2:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_desolator_2:GetModifierPreAttack_BonusDamage()
+function modifier_item_extended_desolator_2:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("damage") end
 
 -- On attack landed, apply the debuff
-function modifier_item_imba_desolator_2:OnAttackLanded( keys )
+function modifier_item_extended_desolator_2:OnAttackLanded( keys )
 	if IsServer() then
 		local owner = self:GetParent()
 
@@ -453,12 +453,12 @@ function modifier_item_imba_desolator_2:OnAttackLanded( keys )
 			return end
 
 		-- If a lower-priority modifier is present, remove it
-		target:RemoveModifierByName("modifier_item_imba_blight_stone_debuff")
-		target:RemoveModifierByName("modifier_item_imba_desolator_debuff")
+		target:RemoveModifierByName("modifier_item_extended_blight_stone_debuff")
+		target:RemoveModifierByName("modifier_item_extended_desolator_debuff")
 
 		-- All conditions met, apply the Desolator modifier
 		local ability = self:GetAbility()
-		Desolate(owner, target, ability, "modifier_item_imba_desolator_2_debuff", ability:GetSpecialValueFor("duration"))
+		Desolate(owner, target, ability, "modifier_item_extended_desolator_2_debuff", ability:GetSpecialValueFor("duration"))
 	end
 end
 
@@ -466,20 +466,20 @@ end
 --	Stygian Desolator debuff
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_desolator_2_debuff == nil then modifier_item_imba_desolator_2_debuff = class({}) end
-function modifier_item_imba_desolator_2_debuff:IsHidden() return false end
-function modifier_item_imba_desolator_2_debuff:IsDebuff() return true end
-function modifier_item_imba_desolator_2_debuff:IsPurgable() return true end
+if modifier_item_extended_desolator_2_debuff == nil then modifier_item_extended_desolator_2_debuff = class({}) end
+function modifier_item_extended_desolator_2_debuff:IsHidden() return false end
+function modifier_item_extended_desolator_2_debuff:IsDebuff() return true end
+function modifier_item_extended_desolator_2_debuff:IsPurgable() return true end
 
 -- Store modifier values in case the original ability is missing
-function modifier_item_imba_desolator_2_debuff:OnCreated()
+function modifier_item_extended_desolator_2_debuff:OnCreated()
 	local ability = self:GetAbility()
 	self.armor_reduction = (-1) * ability:GetSpecialValueFor("armor_reduction")
 	self.vision_reduction = (-1) * ability:GetSpecialValueFor("vision_reduction")
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_desolator_2_debuff:DeclareFunctions()
+function modifier_item_extended_desolator_2_debuff:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
 		MODIFIER_PROPERTY_BONUS_DAY_VISION,
@@ -488,13 +488,13 @@ function modifier_item_imba_desolator_2_debuff:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_desolator_2_debuff:GetModifierPhysicalArmorBonus()
+function modifier_item_extended_desolator_2_debuff:GetModifierPhysicalArmorBonus()
 	return self.armor_reduction end
 
-function modifier_item_imba_desolator_2_debuff:GetBonusDayVision()
+function modifier_item_extended_desolator_2_debuff:GetBonusDayVision()
 	return self.vision_reduction end
 
-function modifier_item_imba_desolator_2_debuff:GetBonusNightVision()
+function modifier_item_extended_desolator_2_debuff:GetBonusNightVision()
 	return self.vision_reduction end
 
 

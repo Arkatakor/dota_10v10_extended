@@ -166,7 +166,7 @@ function OnSetGameMode( eventSourceIndex, args )
 	local player = PlayerResource:GetPlayer(player_id)
 	local is_host = GameRules:PlayerHasCustomGameHostPrivileges(player)
 	local mode_info = args.modes
-	local game_mode_imba = GameRules:GetGameModeEntity()  
+	local game_mode_extended = GameRules:GetGameModeEntity()  
 	local map_name = GetMapName()
 
 	-- If the player who sent the game options is not the host, do nothing
@@ -185,13 +185,13 @@ function OnSetGameMode( eventSourceIndex, args )
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Mode selection data setup
+	-- EXTENDED: Mode selection data setup
 	-------------------------------------------------------------------------------------------------
 
 	-- All random setup
 	if tonumber(mode_info.all_random) == 1 then
-		IMBA_PICK_MODE_ALL_RANDOM = true
-		HERO_SELECTION_TIME = IMBA_ALL_RANDOM_HERO_SELECTION_TIME
+		EXTENDED_PICK_MODE_ALL_RANDOM = true
+		HERO_SELECTION_TIME = EXTENDED_ALL_RANDOM_HERO_SELECTION_TIME
 		CustomNetTables:SetTableValue("game_options", "all_random", {true})
 		print("All Random mode activated!")
 	end
@@ -205,13 +205,13 @@ function OnSetGameMode( eventSourceIndex, args )
 
 	-- Frantic mode setup
 	if tonumber(mode_info.frantic_mode) == 1 then
-		IMBA_FRANTIC_MODE_ON = true
+		EXTENDED_FRANTIC_MODE_ON = true
 		CustomNetTables:SetTableValue("game_options", "frantic_mode", {true})
 		print("Frantic mode activated!")
 	end
 
 	-- Arena mode setup
-	if mode_info.kills_to_end and tonumber(mode_info.kills_to_end) > 0 and map_name == "imba_arena" then
+	if mode_info.kills_to_end and tonumber(mode_info.kills_to_end) > 0 and map_name == "extended_arena" then
 		END_GAME_ON_KILLS = true
 		KILLS_TO_END_GAME_FOR_TEAM = math.min(tonumber(mode_info.kills_to_end), 250)
 		CustomNetTables:SetTableValue("game_options", "kills_to_end", {mode_info.kills_to_end})
@@ -220,16 +220,16 @@ function OnSetGameMode( eventSourceIndex, args )
 
 	-- Bounty multiplier increase
 	if tostring(mode_info.bounty_multiplier) == "GoldExpOption2" then
-		if map_name == "imba_standard" or map_name == "imba_random_omg" then
+		if map_name == "extended_standard" or map_name == "extended_random_omg" then
 			CUSTOM_GOLD_BONUS = 75
 			CUSTOM_XP_BONUS = 75
-		elseif map_name == "imba_custom" then
+		elseif map_name == "extended_custom" then
 			CUSTOM_GOLD_BONUS = 300
 			CUSTOM_XP_BONUS = 300
-		elseif map_name == "imba_10v10" then
+		elseif map_name == "extended_10v10" then
 			CUSTOM_GOLD_BONUS = 125
 			CUSTOM_XP_BONUS = 125
-		elseif map_name == "imba_arena" then
+		elseif map_name == "extended_arena" then
 			CUSTOM_GOLD_BONUS = 150
 			CUSTOM_XP_BONUS = 150
 		end
@@ -239,11 +239,11 @@ function OnSetGameMode( eventSourceIndex, args )
 
 	-- Creep power increase
 	if tostring(mode_info.creep_power) == "CreepPowerOption2" then
-		if map_name == "imba_standard" or map_name == "imba_random_omg" then
+		if map_name == "extended_standard" or map_name == "extended_random_omg" then
 			CREEP_POWER_FACTOR = 2
-		elseif map_name == "imba_custom" then
+		elseif map_name == "extended_custom" then
 			CREEP_POWER_FACTOR = 3
-		elseif map_name == "imba_10v10" then
+		elseif map_name == "extended_10v10" then
 			CREEP_POWER_FACTOR = 2
 		end
 		CustomNetTables:SetTableValue("game_options", "creep_power", {CREEP_POWER_FACTOR})
@@ -252,11 +252,11 @@ function OnSetGameMode( eventSourceIndex, args )
 
 	-- Tower power increase
 	if tostring(mode_info.tower_power) == "TowerPowerOption2" then
-		if map_name == "imba_standard" or map_name == "imba_random_omg" then
+		if map_name == "extended_standard" or map_name == "extended_random_omg" then
 			TOWER_POWER_FACTOR = 1
-		elseif map_name == "imba_custom" then
+		elseif map_name == "extended_custom" then
 			TOWER_POWER_FACTOR = 2
-		elseif map_name == "imba_10v10" then
+		elseif map_name == "extended_10v10" then
 			TOWER_POWER_FACTOR = 2
 		end
 		CustomNetTables:SetTableValue("game_options", "tower_power", {TOWER_POWER_FACTOR})
@@ -265,11 +265,11 @@ function OnSetGameMode( eventSourceIndex, args )
 
 	-- Respawn timer decrease
 	if tostring(mode_info.respawn_reduction) == "RespawnTimeOption2" then
-		if map_name == "imba_standard" or map_name == "imba_random_omg" then
+		if map_name == "extended_standard" or map_name == "extended_random_omg" then
 			HERO_RESPAWN_TIME_MULTIPLIER = 75
-		elseif map_name == "imba_custom" then
+		elseif map_name == "extended_custom" then
 			HERO_RESPAWN_TIME_MULTIPLIER = 50
-		elseif map_name == "imba_10v10" then
+		elseif map_name == "extended_10v10" then
 			HERO_RESPAWN_TIME_MULTIPLIER = 50
 		end
 		CustomNetTables:SetTableValue("game_options", "respawn_multiplier", {100 - HERO_RESPAWN_TIME_MULTIPLIER})
@@ -278,25 +278,25 @@ function OnSetGameMode( eventSourceIndex, args )
 
 	-- Hero power increase
 	if tostring(mode_info.hero_power) == "InitialGoldExp2" then
-		if map_name == "imba_standard" or map_name == "imba_random_omg" then
+		if map_name == "extended_standard" or map_name == "extended_random_omg" then
 			HERO_INITIAL_GOLD = 1200
 			HERO_REPICK_GOLD = 1000
 			HERO_RANDOM_GOLD = 1500
 			HERO_STARTING_LEVEL = 1
 			MAX_LEVEL = 50
-		elseif map_name == "imba_custom" then
+		elseif map_name == "extended_custom" then
 			HERO_INITIAL_GOLD = 5000
 			HERO_REPICK_GOLD = 4000
 			HERO_RANDOM_GOLD = 6000
 			HERO_STARTING_LEVEL = 12
 			MAX_LEVEL = 100
-		elseif map_name == "imba_10v10" then
+		elseif map_name == "extended_10v10" then
 			HERO_INITIAL_GOLD = 2000
 			HERO_REPICK_GOLD = 1600
 			HERO_RANDOM_GOLD = 2400
 			HERO_STARTING_LEVEL = 5
 			MAX_LEVEL = 60
-		elseif map_name == "imba_arena" then
+		elseif map_name == "extended_arena" then
 			HERO_INITIAL_GOLD = 2000
 			HERO_REPICK_GOLD = 1600
 			HERO_RANDOM_GOLD = 2400
@@ -313,21 +313,21 @@ function OnSetGameMode( eventSourceIndex, args )
 	GAME_OPTIONS_SET = true
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Stat tracking stuff
+	-- EXTENDED: Stat tracking stuff
 	-------------------------------------------------------------------------------------------------
 
 	-- Tracks if game options were customized or just left as default
 	-- statCollection:setFlags({game_options_set = GAME_OPTIONS_SET and 1 or 0})
 
 	-- -- Tracks the game mode
-	-- if IMBA_ABILITY_MODE_RANDOM_OMG then
+	-- if EXTENDED_ABILITY_MODE_RANDOM_OMG then
 	-- 	statCollection:setFlags({game_mode = "Random_OMG"})
-	-- 	if IMBA_RANDOM_OMG_RANDOMIZE_SKILLS_ON_DEATH then
+	-- 	if EXTENDED_RANDOM_OMG_RANDOMIZE_SKILLS_ON_DEATH then
 	-- 		statCollection:setFlags({romg_mode = "ROMG_random_skills"})
 	-- 	else
 	-- 		statCollection:setFlags({romg_mode = "ROMG_fixed_skills"})
 	-- 	end
-	-- elseif IMBA_PICK_MODE_ALL_RANDOM then
+	-- elseif EXTENDED_PICK_MODE_ALL_RANDOM then
 	-- 	statCollection:setFlags({game_mode = "All_Random"})
 	-- else
 	-- 	statCollection:setFlags({game_mode = "All_Pick"})

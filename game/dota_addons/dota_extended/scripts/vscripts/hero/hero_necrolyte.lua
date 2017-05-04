@@ -1,4 +1,4 @@
---[[ 	Author: D2imba
+--[[ 	Author: D2extended
 		Date: 27.04.2015	]]
 
 function DeathPulseStart( keys )
@@ -410,20 +410,20 @@ function ReapersScytheKill( keys )
 	local scepter = HasScepter(caster)
 
 	-- Flag this as a scythe death, increasing respawn timer by respawn_base
-	target:RemoveModifierByName("modifier_imba_reapers_scythe")
+	target:RemoveModifierByName("modifier_extended_reapers_scythe")
 
 	-- Scepter on-kill effects
 	if scepter then
 
 		-- Apply sadist stacks to nearby allies, if appropriate
-		local ability_sadist = caster:FindAbilityByName("imba_necrolyte_sadist")
+		local ability_sadist = caster:FindAbilityByName("extended_necrolyte_sadist")
 		if ability_sadist and ability_sadist:GetLevel() > 0 then
 			local stacks_scepter = ability:GetLevelSpecialValueFor("stacks_scepter", ability_level)
 			local sadist_aoe_scepter = ability:GetLevelSpecialValueFor("sadist_aoe_scepter", ability_level)
 			local nearby_allies = FindUnitsInRadius(caster:GetTeamNumber(), target:GetAbsOrigin(), nil, sadist_aoe_scepter, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 			for _,ally in pairs(nearby_allies) do
 				for i = 1, stacks_scepter do
-					ability_sadist:ApplyDataDrivenModifier(caster, ally, "modifier_imba_sadist_regen", {})
+					ability_sadist:ApplyDataDrivenModifier(caster, ally, "modifier_extended_sadist_regen", {})
 				end
 			end
 		end

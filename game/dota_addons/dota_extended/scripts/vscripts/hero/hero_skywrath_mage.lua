@@ -345,7 +345,7 @@ function ConcussiveShotGhastlyPulseImpact ( keys )
 	-- Ability properties
 	local caster = keys.caster
 	local target = keys.target		  
-	local ability = caster:FindAbilityByName("imba_skywrath_mage_concussive_shot")
+	local ability = caster:FindAbilityByName("extended_skywrath_mage_concussive_shot")
 	local ability_level = ability:GetLevel()-1
 	local sound_impact = keys.sound_impact
 	local modifier_slow = keys.modifier_slow	
@@ -530,8 +530,8 @@ function MysticFlare ( keys )
 	end
 	
 	-- Calculate final explosion radius based on Arcane Magic stacks
-	if caster:HasModifier("modifier_imba_arcane_int_stack") then
-		local modifier_arcane_magic_stacks = caster:FindModifierByName("modifier_imba_arcane_int_stack"):GetStackCount()
+	if caster:HasModifier("modifier_extended_arcane_int_stack") then
+		local modifier_arcane_magic_stacks = caster:FindModifierByName("modifier_extended_arcane_int_stack"):GetStackCount()
 		explosion_radius = explosion_radius + explosion_radius_increase * modifier_arcane_magic_stacks 
 		explosion_damage = explosion_damage + explosion_damage_increase * modifier_arcane_magic_stacks
 	end

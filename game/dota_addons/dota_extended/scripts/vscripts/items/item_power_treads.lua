@@ -1,61 +1,61 @@
 --[[	Author: zimberzimber
 		Date:	5.2.2017	]]
 
-LinkLuaModifier( "modifier_imba_power_treads_2", "items/item_power_treads.lua", LUA_MODIFIER_MOTION_NONE )					-- Mega Treads passive item effect
-LinkLuaModifier( "modifier_imba_mega_treads_stat_multiplier_00", "items/item_power_treads.lua", LUA_MODIFIER_MOTION_NONE )	-- Mega Treads strength stat multiplier
-LinkLuaModifier( "modifier_imba_mega_treads_stat_multiplier_01", "items/item_power_treads.lua", LUA_MODIFIER_MOTION_NONE )	-- Mega Treads agility stat multiplier
-LinkLuaModifier( "modifier_imba_mega_treads_stat_multiplier_02", "items/item_power_treads.lua", LUA_MODIFIER_MOTION_NONE )	-- Mega Treads intelligence stat multiplier
+LinkLuaModifier( "modifier_extended_power_treads_2", "items/item_power_treads.lua", LUA_MODIFIER_MOTION_NONE )					-- Mega Treads passive item effect
+LinkLuaModifier( "modifier_extended_mega_treads_stat_multiplier_00", "items/item_power_treads.lua", LUA_MODIFIER_MOTION_NONE )	-- Mega Treads strength stat multiplier
+LinkLuaModifier( "modifier_extended_mega_treads_stat_multiplier_01", "items/item_power_treads.lua", LUA_MODIFIER_MOTION_NONE )	-- Mega Treads agility stat multiplier
+LinkLuaModifier( "modifier_extended_mega_treads_stat_multiplier_02", "items/item_power_treads.lua", LUA_MODIFIER_MOTION_NONE )	-- Mega Treads intelligence stat multiplier
 
 -----------------------------------------------------------------------------------------------------------
 --	Item Definition 
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_power_treads_2 == nil then item_imba_power_treads_2 = class({}) end
-function item_imba_power_treads_2:GetBehavior() return DOTA_ABILITY_BEHAVIOR_IMMEDIATE + DOTA_ABILITY_BEHAVIOR_NO_TARGET end
+if item_extended_power_treads_2 == nil then item_extended_power_treads_2 = class({}) end
+function item_extended_power_treads_2:GetBehavior() return DOTA_ABILITY_BEHAVIOR_IMMEDIATE + DOTA_ABILITY_BEHAVIOR_NO_TARGET end
 
-function item_imba_power_treads_2:GetIntrinsicModifierName()
-	return "modifier_imba_power_treads_2"
+function item_extended_power_treads_2:GetIntrinsicModifierName()
+	return "modifier_extended_power_treads_2"
 end
 
-function item_imba_power_treads_2:OnSpellStart()
+function item_extended_power_treads_2:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		if not caster:IsHero() then return end
 		
 		-- Switch tread attribute
-		local modifier = caster:FindModifierByName("modifier_imba_power_treads_2")
+		local modifier = caster:FindModifierByName("modifier_extended_power_treads_2")
 		local state = modifier:GetStackCount()
 		modifier:SetStackCount((state - 1 + DOTA_ATTRIBUTE_MAX) % DOTA_ATTRIBUTE_MAX)
 		self.state = state
 		
 		-- Remove stat multiplier modifiers (they get reapplied in the item modifier if relevant)
 		for i = 0,2 do 
-			local mod = caster:FindModifierByName("modifier_imba_mega_treads_stat_multiplier_0"..i)
-			if mod then caster:RemoveModifierByName("modifier_imba_mega_treads_stat_multiplier_0"..i) end
+			local mod = caster:FindModifierByName("modifier_extended_mega_treads_stat_multiplier_0"..i)
+			if mod then caster:RemoveModifierByName("modifier_extended_mega_treads_stat_multiplier_0"..i) end
 		end
 		caster:CalculateStatBonus()
 	end		
 end
 
-function item_imba_power_treads_2:GetAbilityTextureName()
+function item_extended_power_treads_2:GetAbilityTextureName()
 	if IsClient() then
 		local caster = self:GetCaster()
-		if not caster:IsHero() or not self.state then return "custom/imba_power_treads" end
+		if not caster:IsHero() or not self.state then return "custom/extended_power_treads" end
 		
-		return "custom/imba_mega_treads_"..self.state
+		return "custom/extended_mega_treads_"..self.state
 	end
 end
 
 -----------------------------------------------------------------------------------------------------------
 --	Item Modifier - Movement speed and stat bonus (stacks responsible for texture and stat bonus choice)
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_power_treads_2 == nil then modifier_imba_power_treads_2 = class({}) end
-function modifier_imba_power_treads_2:IsHidden() return true end
-function modifier_imba_power_treads_2:IsDebuff() return false end
-function modifier_imba_power_treads_2:IsPurgable() return false end
-function modifier_imba_power_treads_2:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_power_treads_2 == nil then modifier_extended_power_treads_2 = class({}) end
+function modifier_extended_power_treads_2:IsHidden() return true end
+function modifier_extended_power_treads_2:IsDebuff() return false end
+function modifier_extended_power_treads_2:IsPurgable() return false end
+function modifier_extended_power_treads_2:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_imba_power_treads_2:DeclareFunctions()
+function modifier_extended_power_treads_2:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
 					MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
 					MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
@@ -63,7 +63,7 @@ function modifier_imba_power_treads_2:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_power_treads_2:OnCreated()
+function modifier_extended_power_treads_2:OnCreated()
 	if IsServer() then
 		if self:GetParent():IsHero() then
 			local ability = self:GetAbility()
@@ -79,7 +79,7 @@ function modifier_imba_power_treads_2:OnCreated()
 						if hero:GetName() == parent:GetName() then
 							for i = 0,5 do
 								local hero_item = hero:GetItemInSlot(i)
-								if hero_item and hero_item:GetName() == "item_imba_power_treads_2" then
+								if hero_item and hero_item:GetName() == "item_extended_power_treads_2" then
 									local illusion_item = parent:GetItemInSlot(i)
 									if illusion_item == self:GetAbility() then
 										local state = (hero_item.state - 1 + DOTA_ATTRIBUTE_MAX) % DOTA_ATTRIBUTE_MAX
@@ -111,7 +111,7 @@ function modifier_imba_power_treads_2:OnCreated()
 	end
 end
 
-function modifier_imba_power_treads_2:OnIntervalThink()
+function modifier_extended_power_treads_2:OnIntervalThink()
 	if IsClient() then
 		local state = self:GetStackCount()
 		local ability = self:GetAbility()
@@ -121,25 +121,25 @@ function modifier_imba_power_treads_2:OnIntervalThink()
 		local state = self:GetStackCount()
 		local ability = self:GetAbility()
 		local parent = self:GetParent()
-		local mod = parent:FindModifierByName("modifier_imba_mega_treads_stat_multiplier_0"..state)
+		local mod = parent:FindModifierByName("modifier_extended_mega_treads_stat_multiplier_0"..state)
 		if not parent:IsRealHero() then return end
 		
 		if mod then return
-		else parent:AddNewModifier(parent, ability, "modifier_imba_mega_treads_stat_multiplier_0"..state, {})
+		else parent:AddNewModifier(parent, ability, "modifier_extended_mega_treads_stat_multiplier_0"..state, {})
 		end
 	end
 end
 
-function modifier_imba_power_treads_2:OnDestroyed()
+function modifier_extended_power_treads_2:OnDestroyed()
 	if IsServer() then
 		for i = 0,2 do
 			local parent = self:GetParent()
-			parent:RemoveModifierByName("modifier_imba_mega_treads_stat_multiplier_0"..i)
+			parent:RemoveModifierByName("modifier_extended_mega_treads_stat_multiplier_0"..i)
 		end
 	end
 end
 
-function modifier_imba_power_treads_2:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_power_treads_2:GetModifierBaseAttack_BonusDamage()
 	local parent = self:GetParent()
 	if not parent:IsHero() then return end
 	
@@ -150,13 +150,13 @@ function modifier_imba_power_treads_2:GetModifierBaseAttack_BonusDamage()
 	return main_stats * damage_bonus
 end
 
-function modifier_imba_power_treads_2:GetModifierMoveSpeedBonus_Special_Boots()
+function modifier_extended_power_treads_2:GetModifierMoveSpeedBonus_Special_Boots()
 	local ability = self:GetAbility()
 	local speed_bonus = ability:GetSpecialValueFor("bonus_movement_speed")
 	return speed_bonus
 end
 
-function modifier_imba_power_treads_2:GetModifierBonusStats_Strength()
+function modifier_extended_power_treads_2:GetModifierBonusStats_Strength()
 	if self:GetStackCount() ~= DOTA_ATTRIBUTE_STRENGTH then return end
 	
 	local parent = self:GetParent()
@@ -167,7 +167,7 @@ function modifier_imba_power_treads_2:GetModifierBonusStats_Strength()
 	return stat_bonus
 end
 
-function modifier_imba_power_treads_2:GetModifierBonusStats_Agility()
+function modifier_extended_power_treads_2:GetModifierBonusStats_Agility()
 	if self:GetStackCount() ~= DOTA_ATTRIBUTE_AGILITY then return end
 	
 	local ability = self:GetAbility()
@@ -178,7 +178,7 @@ function modifier_imba_power_treads_2:GetModifierBonusStats_Agility()
 	return stat_bonus
 end
 
-function modifier_imba_power_treads_2:GetModifierBonusStats_Intellect()
+function modifier_extended_power_treads_2:GetModifierBonusStats_Intellect()
 	if self:GetStackCount() ~= DOTA_ATTRIBUTE_INTELLECT then return end
 	
 	local parent = self:GetParent()
@@ -192,18 +192,18 @@ end
 -----------------------------------------------------------------------------------------------------------
 --	Strength multiplier modifier
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_mega_treads_stat_multiplier_00 == nil then modifier_imba_mega_treads_stat_multiplier_00 = class({}) end
-function modifier_imba_mega_treads_stat_multiplier_00:IsHidden() return true end
-function modifier_imba_mega_treads_stat_multiplier_00:IsDebuff() return false end
-function modifier_imba_mega_treads_stat_multiplier_00:IsPurgable() return false end
+if modifier_extended_mega_treads_stat_multiplier_00 == nil then modifier_extended_mega_treads_stat_multiplier_00 = class({}) end
+function modifier_extended_mega_treads_stat_multiplier_00:IsHidden() return true end
+function modifier_extended_mega_treads_stat_multiplier_00:IsDebuff() return false end
+function modifier_extended_mega_treads_stat_multiplier_00:IsPurgable() return false end
 
-function modifier_imba_mega_treads_stat_multiplier_00:DeclareFunctions()
+function modifier_extended_mega_treads_stat_multiplier_00:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_HEALTH_BONUS,			
 					MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,}
 	return funcs
 end
 
-function modifier_imba_mega_treads_stat_multiplier_00:GetModifierHealthBonus()
+function modifier_extended_mega_treads_stat_multiplier_00:GetModifierHealthBonus()
 	if self:GetStackCount() ~= DOTA_ATTRIBUTE_STRENGTH then return end
 	
 	local ability = self:GetAbility()
@@ -216,7 +216,7 @@ function modifier_imba_mega_treads_stat_multiplier_00:GetModifierHealthBonus()
 	return strength * health_bonus
 end
 
-function modifier_imba_mega_treads_stat_multiplier_00:GetModifierConstantHealthRegen()
+function modifier_extended_mega_treads_stat_multiplier_00:GetModifierConstantHealthRegen()
 	if self:GetStackCount() ~= DOTA_ATTRIBUTE_STRENGTH then return end
 	
 	local ability = self:GetAbility()
@@ -232,18 +232,18 @@ end
 -----------------------------------------------------------------------------------------------------------
 --	Agility multiplier modifier
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_mega_treads_stat_multiplier_01 == nil then modifier_imba_mega_treads_stat_multiplier_01 = class({}) end
-function modifier_imba_mega_treads_stat_multiplier_01:IsHidden() return true end
-function modifier_imba_mega_treads_stat_multiplier_01:IsDebuff() return false end
-function modifier_imba_mega_treads_stat_multiplier_01:IsPurgable() return false end
+if modifier_extended_mega_treads_stat_multiplier_01 == nil then modifier_extended_mega_treads_stat_multiplier_01 = class({}) end
+function modifier_extended_mega_treads_stat_multiplier_01:IsHidden() return true end
+function modifier_extended_mega_treads_stat_multiplier_01:IsDebuff() return false end
+function modifier_extended_mega_treads_stat_multiplier_01:IsPurgable() return false end
 
-function modifier_imba_mega_treads_stat_multiplier_01:DeclareFunctions()
+function modifier_extended_mega_treads_stat_multiplier_01:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 					MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,		}
 	return funcs
 end
 
-function modifier_imba_mega_treads_stat_multiplier_01:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_mega_treads_stat_multiplier_01:GetModifierAttackSpeedBonus_Constant()
 	if IsServer() then
 		if self:GetStackCount() ~= DOTA_ATTRIBUTE_AGILITY then return end
 		
@@ -258,7 +258,7 @@ function modifier_imba_mega_treads_stat_multiplier_01:GetModifierAttackSpeedBonu
 	end
 end
 
-function modifier_imba_mega_treads_stat_multiplier_01:GetModifierPhysicalArmorBonus()
+function modifier_extended_mega_treads_stat_multiplier_01:GetModifierPhysicalArmorBonus()
 	if IsServer() then
 		if self:GetStackCount() ~= DOTA_ATTRIBUTE_AGILITY then return end
 		
@@ -275,24 +275,24 @@ end
 -----------------------------------------------------------------------------------------------------------
 --	Intelliegence multiplier modifier (Stacks are used to calculate bonus spell power)
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_mega_treads_stat_multiplier_02 == nil then modifier_imba_mega_treads_stat_multiplier_02 = class({}) end
-function modifier_imba_mega_treads_stat_multiplier_02:IsHidden() return true end
-function modifier_imba_mega_treads_stat_multiplier_02:IsDebuff() return false end
-function modifier_imba_mega_treads_stat_multiplier_02:IsPurgable() return false end
+if modifier_extended_mega_treads_stat_multiplier_02 == nil then modifier_extended_mega_treads_stat_multiplier_02 = class({}) end
+function modifier_extended_mega_treads_stat_multiplier_02:IsHidden() return true end
+function modifier_extended_mega_treads_stat_multiplier_02:IsDebuff() return false end
+function modifier_extended_mega_treads_stat_multiplier_02:IsPurgable() return false end
 
-function modifier_imba_mega_treads_stat_multiplier_02:DeclareFunctions()
+function modifier_extended_mega_treads_stat_multiplier_02:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_MANA_BONUS,	
 					MODIFIER_PROPERTY_BASE_MANA_REGEN,}
 	return funcs
 end
 
-function modifier_imba_mega_treads_stat_multiplier_02:OnCreated()
+function modifier_extended_mega_treads_stat_multiplier_02:OnCreated()
 	if IsServer() then
 		self:StartIntervalThink( 0.2 )
 	end
 end
 
-function modifier_imba_mega_treads_stat_multiplier_02:OnIntervalThink()
+function modifier_extended_mega_treads_stat_multiplier_02:OnIntervalThink()
 	if IsServer() then
 		local parent = self:GetParent()
 		local int = parent:GetIntellect()
@@ -300,7 +300,7 @@ function modifier_imba_mega_treads_stat_multiplier_02:OnIntervalThink()
 	end
 end
 
-function modifier_imba_mega_treads_stat_multiplier_02:GetModifierManaBonus()
+function modifier_extended_mega_treads_stat_multiplier_02:GetModifierManaBonus()
 	if self:GetStackCount() ~= DOTA_ATTRIBUTE_INTELLECT then return end
 	
 	local ability = self:GetAbility()
@@ -313,7 +313,7 @@ function modifier_imba_mega_treads_stat_multiplier_02:GetModifierManaBonus()
 	return intellect * mana_bonus
 end
 
-function modifier_imba_mega_treads_stat_multiplier_02:GetModifierBaseRegen()
+function modifier_extended_mega_treads_stat_multiplier_02:GetModifierBaseRegen()
 	if self:GetStackCount() ~= DOTA_ATTRIBUTE_INTELLECT then return end
 	
 	local ability = self:GetAbility()

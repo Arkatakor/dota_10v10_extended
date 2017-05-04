@@ -7,26 +7,26 @@
 --	Spellfencer definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_spell_fencer == nil then item_imba_spell_fencer = class({}) end
-LinkLuaModifier( "modifier_item_imba_spell_fencer", "items/item_spell_fencer.lua", LUA_MODIFIER_MOTION_NONE )		-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_spell_fencer_buff", "items/item_spell_fencer.lua", LUA_MODIFIER_MOTION_NONE )	-- Damage conversion modifier
+if item_extended_spell_fencer == nil then item_extended_spell_fencer = class({}) end
+LinkLuaModifier( "modifier_item_extended_spell_fencer", "items/item_spell_fencer.lua", LUA_MODIFIER_MOTION_NONE )		-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_spell_fencer_buff", "items/item_spell_fencer.lua", LUA_MODIFIER_MOTION_NONE )	-- Damage conversion modifier
 
-function item_imba_spell_fencer:GetIntrinsicModifierName()
-	return "modifier_item_imba_spell_fencer" end
+function item_extended_spell_fencer:GetIntrinsicModifierName()
+	return "modifier_item_extended_spell_fencer" end
 
 -----------------------------------------------------------------------------------------------------------
 --	Spellfencer passive modifier (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_spell_fencer == nil then modifier_item_imba_spell_fencer = class({}) end
-function modifier_item_imba_spell_fencer:IsHidden() return true end
-function modifier_item_imba_spell_fencer:IsDebuff() return false end
-function modifier_item_imba_spell_fencer:IsPurgable() return false end
-function modifier_item_imba_spell_fencer:IsPermanent() return true end
-function modifier_item_imba_spell_fencer:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_spell_fencer == nil then modifier_item_extended_spell_fencer = class({}) end
+function modifier_item_extended_spell_fencer:IsHidden() return true end
+function modifier_item_extended_spell_fencer:IsDebuff() return false end
+function modifier_item_extended_spell_fencer:IsPurgable() return false end
+function modifier_item_extended_spell_fencer:IsPermanent() return true end
+function modifier_item_extended_spell_fencer:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Declare modifier events/properties
-function modifier_item_imba_spell_fencer:DeclareFunctions()
+function modifier_item_extended_spell_fencer:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE,
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
@@ -38,23 +38,23 @@ function modifier_item_imba_spell_fencer:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_spell_fencer:GetModifierPercentageCooldown()
+function modifier_item_extended_spell_fencer:GetModifierPercentageCooldown()
 	return self:GetAbility():GetSpecialValueFor("bonus_cdr") end
 
-function modifier_item_imba_spell_fencer:GetModifierPreAttack_BonusDamage()
+function modifier_item_extended_spell_fencer:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") end
 
-function modifier_item_imba_spell_fencer:GetModifierAttackSpeedBonus_Constant()
+function modifier_item_extended_spell_fencer:GetModifierAttackSpeedBonus_Constant()
 	return self:GetAbility():GetSpecialValueFor("bonus_attack_speed") end
 
-function modifier_item_imba_spell_fencer:GetModifierBonusStats_Intellect()
+function modifier_item_extended_spell_fencer:GetModifierBonusStats_Intellect()
 	return self:GetAbility():GetSpecialValueFor("bonus_int") end
 
-function modifier_item_imba_spell_fencer:GetModifierPercentageManaRegen()
+function modifier_item_extended_spell_fencer:GetModifierPercentageManaRegen()
 	return self:GetAbility():GetSpecialValueFor("bonus_mana_regen") end
 
 -- On attack landed, roll for proc and apply stacks
-function modifier_item_imba_spell_fencer:OnAttackLanded( keys )
+function modifier_item_extended_spell_fencer:OnAttackLanded( keys )
 	if IsServer() then
 		local owner = self:GetParent()
 
@@ -73,15 +73,15 @@ function modifier_item_imba_spell_fencer:OnAttackLanded( keys )
 
 		-- Apply the damage conversion modifier and deal magical damage
 		local ability = self:GetAbility()
-		owner:AddNewModifier(owner, ability, "modifier_item_imba_spell_fencer_buff", {duration = 0.01})
-		target:AddNewModifier(owner, ability, "modifier_item_imba_spell_fencer_buff", {duration = 0.01})
+		owner:AddNewModifier(owner, ability, "modifier_item_extended_spell_fencer_buff", {duration = 0.01})
+		target:AddNewModifier(owner, ability, "modifier_item_extended_spell_fencer_buff", {duration = 0.01})
 		ApplyDamage({attacker = owner, victim = target, ability = ability, damage = keys.original_damage, damage_type = DAMAGE_TYPE_MAGICAL})
 
 		-- If a higher-priority sword is present, do zilch
 		local priority_sword_modifiers = {
-			"modifier_item_imba_sange_azura",
-			"modifier_item_imba_azura_yasha",
-			"modifier_item_imba_triumvirate"
+			"modifier_item_extended_sange_azura",
+			"modifier_item_extended_azura_yasha",
+			"modifier_item_extended_triumvirate"
 		}
 		for _, sword_modifier in pairs(priority_sword_modifiers) do
 			if owner:HasModifier(sword_modifier) then
@@ -94,7 +94,7 @@ function modifier_item_imba_spell_fencer:OnAttackLanded( keys )
 			return end
 
 		-- Stack the magic amp up
-		local modifier_amp = target:AddNewModifier(owner, ability, "modifier_item_imba_azura_amp", {duration = ability:GetSpecialValueFor("stack_duration")})
+		local modifier_amp = target:AddNewModifier(owner, ability, "modifier_item_extended_azura_amp", {duration = ability:GetSpecialValueFor("stack_duration")})
 		if modifier_amp and modifier_amp:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 			modifier_amp:SetStackCount(modifier_amp:GetStackCount() + 1)
 			target:EmitSound("Imba.AzuraStack")
@@ -104,7 +104,7 @@ function modifier_item_imba_spell_fencer:OnAttackLanded( keys )
 		if ability:IsCooldownReady() and RollPercentage(ability:GetSpecialValueFor("proc_chance")) then
 
 			-- Proc! Apply the silence modifier and put the ability on cooldown
-			target:AddNewModifier(owner, ability, "modifier_item_imba_azura_silence", {duration = ability:GetSpecialValueFor("proc_duration")})
+			target:AddNewModifier(owner, ability, "modifier_item_extended_azura_silence", {duration = ability:GetSpecialValueFor("proc_duration")})
 			target:EmitSound("Imba.AzuraProc")
 			ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(owner))
 		end
@@ -115,19 +115,19 @@ end
 --	Spellfencer damage conversion modifier
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_spell_fencer_buff == nil then modifier_item_imba_spell_fencer_buff = class({}) end
-function modifier_item_imba_spell_fencer_buff:IsHidden() return true end
-function modifier_item_imba_spell_fencer_buff:IsDebuff() return false end
-function modifier_item_imba_spell_fencer_buff:IsPurgable() return false end
-function modifier_item_imba_spell_fencer_buff:IsPermanent() return true end
+if modifier_item_extended_spell_fencer_buff == nil then modifier_item_extended_spell_fencer_buff = class({}) end
+function modifier_item_extended_spell_fencer_buff:IsHidden() return true end
+function modifier_item_extended_spell_fencer_buff:IsDebuff() return false end
+function modifier_item_extended_spell_fencer_buff:IsPurgable() return false end
+function modifier_item_extended_spell_fencer_buff:IsPermanent() return true end
 
 -- Declare modifier events/properties
-function modifier_item_imba_spell_fencer_buff:DeclareFunctions()
+function modifier_item_extended_spell_fencer_buff:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL,
 	}
 	return funcs
 end
 
-function modifier_item_imba_spell_fencer_buff:GetAbsoluteNoDamagePhysical()
+function modifier_item_extended_spell_fencer_buff:GetAbsoluteNoDamagePhysical()
 	return 1 end

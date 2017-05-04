@@ -255,7 +255,7 @@ function March( keys )
 	for _,spawn_point in pairs(spawn_points) do
 
 		-- Spawn spawner
-		local spawner = CreateUnitByName("npc_imba_tinker_mom_spawner", spawn_point, false, nil, nil, caster:GetTeamNumber())
+		local spawner = CreateUnitByName("npc_extended_tinker_mom_spawner", spawn_point, false, nil, nil, caster:GetTeamNumber())
 
 		-- Apply spawner modifier (controls projectile spawning)
 		ability:ApplyDataDrivenModifier(caster, spawner, modifier_machine, {})
@@ -395,41 +395,41 @@ function Rearm( keys )
 
 	-- List of unrefreshable abilities (for Random OMG/LOD modes)
 	local forbidden_abilities = {
-		"imba_tinker_rearm",
+		"extended_tinker_rearm",
 		"ancient_apparition_ice_blast",
 		"zuus_thundergods_wrath",
 		"furion_wrath_of_nature",
-		"imba_magnus_reverse_polarity",
-		"imba_omniknight_guardian_angel",
-		"imba_mirana_arrow",
-		"imba_dazzle_shallow_grave",
-		"imba_wraith_king_reincarnation",
-		"imba_abaddon_borrowed_time",
+		"extended_magnus_reverse_polarity",
+		"extended_omniknight_guardian_angel",
+		"extended_mirana_arrow",
+		"extended_dazzle_shallow_grave",
+		"extended_wraith_king_reincarnation",
+		"extended_abaddon_borrowed_time",
 		"furion_force_of_nature",
-		"imba_nyx_assassin_spiked_carapace",
+		"extended_nyx_assassin_spiked_carapace",
 		"elder_titan_earth_splitter",
-		"imba_centaur_stampede",
+		"extended_centaur_stampede",
 		"silencer_global_silence"
 	}
 
 	-- List of unrefreshable items
 	local forbidden_items = {
-		"item_imba_bloodstone",
-		"item_imba_arcane_boots",
-		"item_imba_mekansm",
-		"item_imba_mekansm_2",
-		"item_imba_guardian_greaves",
-		"item_imba_hand_of_midas",
-		"item_imba_white_queen_cape",
-		"item_imba_black_king_bar",
-		"item_imba_refresher",
-		"item_imba_necronomicon",
-		"item_imba_necronomicon_2",
-		"item_imba_necronomicon_3",
-		"item_imba_necronomicon_4",
-		"item_imba_necronomicon_5",
-		"item_imba_skadi",
-		"item_imba_sphere"
+		"item_extended_bloodstone",
+		"item_extended_arcane_boots",
+		"item_extended_mekansm",
+		"item_extended_mekansm_2",
+		"item_extended_guardian_greaves",
+		"item_extended_hand_of_midas",
+		"item_extended_white_queen_cape",
+		"item_extended_black_king_bar",
+		"item_extended_refresher",
+		"item_extended_necronomicon",
+		"item_extended_necronomicon_2",
+		"item_extended_necronomicon_3",
+		"item_extended_necronomicon_4",
+		"item_extended_necronomicon_5",
+		"item_extended_skadi",
+		"item_extended_sphere"
 	}
 
 	-- Play sound

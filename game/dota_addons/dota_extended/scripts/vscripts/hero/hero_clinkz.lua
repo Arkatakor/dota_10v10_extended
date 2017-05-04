@@ -7,17 +7,17 @@ CreateEmptyTalents("clinkz")
 --         STRAFE          --
 -----------------------------
 
-imba_clinkz_strafe = class({})
-LinkLuaModifier("modifier_imba_strafe_aspd", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_strafe_mount", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+extended_clinkz_strafe = class({})
+LinkLuaModifier("modifier_extended_strafe_aspd", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_strafe_mount", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
 
-function imba_clinkz_strafe:IsHiddenWhenStolen() return false end
+function extended_clinkz_strafe:IsHiddenWhenStolen() return false end
 
-function imba_clinkz_strafe:GetCooldown(level)
+function extended_clinkz_strafe:GetCooldown(level)
     if IsServer() then
         local caster = self:GetCaster()
         local duration = self:GetSpecialValueFor("duration")        
-        local modifier_mount = "modifier_imba_strafe_mount"
+        local modifier_mount = "modifier_extended_strafe_mount"
         
         -- Assign correct cooldown. No need to update the UI
         if self.time_remaining ~= nil then  
@@ -30,9 +30,9 @@ function imba_clinkz_strafe:GetCooldown(level)
     return self.BaseClass.GetCooldown(self, level)
 end
 
-function imba_clinkz_strafe:GetBehavior()
+function extended_clinkz_strafe:GetBehavior()
     local caster = self:GetCaster()
-    local modifier_mount = "modifier_imba_strafe_mount"
+    local modifier_mount = "modifier_extended_strafe_mount"
 
     if caster:HasModifier(modifier_mount) then
         return DOTA_ABILITY_BEHAVIOR_NO_TARGET
@@ -43,15 +43,15 @@ end
 
 
 
-function imba_clinkz_strafe:OnSpellStart()
+function extended_clinkz_strafe:OnSpellStart()
     if IsServer() then        
             -- Ability properties
             local caster = self:GetCaster()
             local ability = self
             local target = self:GetCursorTarget()
             local sound_cast = "Hero_Clinkz.Strafe"    
-            local modifier_aspd = "modifier_imba_strafe_aspd"
-            local modifier_mount = "modifier_imba_strafe_mount"
+            local modifier_aspd = "modifier_extended_strafe_aspd"
+            local modifier_mount = "modifier_extended_strafe_mount"
 
             -- Ability specials
             local duration = ability:GetSpecialValueFor("duration")
@@ -95,47 +95,47 @@ end
 
 
 -- Attack speed modifier
-modifier_imba_strafe_aspd = class({})
+modifier_extended_strafe_aspd = class({})
 
-function modifier_imba_strafe_aspd:OnCreated()
+function modifier_extended_strafe_aspd:OnCreated()
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
-    self.modifier_mount = "modifier_imba_strafe_mount"
+    self.modifier_mount = "modifier_extended_strafe_mount"
 
     self.as_bonus = self.ability:GetSpecialValueFor("as_bonus")
     self.bonus_attack_range = self.ability:GetSpecialValueFor("bonus_attack_range")
 
     -- #1 Talent: Strafe Bonus attack range when mounted
-    self.bonus_attack_range = self.bonus_attack_range + self.caster:FindTalentValue("special_bonus_imba_clinkz_1")
+    self.bonus_attack_range = self.bonus_attack_range + self.caster:FindTalentValue("special_bonus_extended_clinkz_1")
 
     -- #5 Talent: Strafe bonus attack speed
-    self.as_bonus = self.as_bonus + self.caster:FindTalentValue("special_bonus_imba_clinkz_5")
+    self.as_bonus = self.as_bonus + self.caster:FindTalentValue("special_bonus_extended_clinkz_5")
 end
 
-function modifier_imba_strafe_aspd:IsHidden() return false end
-function modifier_imba_strafe_aspd:IsPurgable() return true end
-function modifier_imba_strafe_aspd:IsDebuff() return false end
+function modifier_extended_strafe_aspd:IsHidden() return false end
+function modifier_extended_strafe_aspd:IsPurgable() return true end
+function modifier_extended_strafe_aspd:IsDebuff() return false end
 
-function modifier_imba_strafe_aspd:GetEffectName()
+function modifier_extended_strafe_aspd:GetEffectName()
     return "particles/units/heroes/hero_clinkz/clinkz_strafe_fire.vpcf"
 end
 
-function modifier_imba_strafe_aspd:GetEffectAttachType()
+function modifier_extended_strafe_aspd:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
-function modifier_imba_strafe_aspd:DeclareFunctions()
+function modifier_extended_strafe_aspd:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
                       MODIFIER_PROPERTY_ATTACK_RANGE_BONUS}
 
     return decFuncs
 end
 
-function modifier_imba_strafe_aspd:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_strafe_aspd:GetModifierAttackSpeedBonus_Constant()
     return self.as_bonus 
 end
 
-function modifier_imba_strafe_aspd:GetModifierAttackRangeBonus()
+function modifier_extended_strafe_aspd:GetModifierAttackRangeBonus()
     if self.caster:HasModifier(self.modifier_mount) then
         return self.bonus_attack_range
     end
@@ -145,9 +145,9 @@ end
 
 
 -- Mount modifier
-modifier_imba_strafe_mount = class({})
+modifier_extended_strafe_mount = class({})
 
-function modifier_imba_strafe_mount:OnCreated()
+function modifier_extended_strafe_mount:OnCreated()
     if IsServer() then
         -- Ability properties
         self.caster = self:GetCaster()
@@ -172,18 +172,18 @@ function modifier_imba_strafe_mount:OnCreated()
     end
 end
 
-function modifier_imba_strafe_mount:IsHidden() return false end
-function modifier_imba_strafe_mount:IsPurgable() return true end
-function modifier_imba_strafe_mount:IsDebuff() return false end
+function modifier_extended_strafe_mount:IsHidden() return false end
+function modifier_extended_strafe_mount:IsPurgable() return true end
+function modifier_extended_strafe_mount:IsDebuff() return false end
 
-function modifier_imba_strafe_mount:CheckState()
+function modifier_extended_strafe_mount:CheckState()
     local state = {[MODIFIER_STATE_ROOTED] = true,
                    [MODIFIER_STATE_NO_UNIT_COLLISION] = true}
 
     return state
 end
 
-function modifier_imba_strafe_mount:OnIntervalThink()
+function modifier_extended_strafe_mount:OnIntervalThink()
     if IsServer() then
         -- Get new point        
         local current_loc = self.caster:GetAbsOrigin()
@@ -216,7 +216,7 @@ function modifier_imba_strafe_mount:OnIntervalThink()
     end
 end
 
-function modifier_imba_strafe_mount:OnRemoved()
+function modifier_extended_strafe_mount:OnRemoved()
     if IsServer() then
         -- Start cooldown, reduce it by the duration of the skill
         if self.ability:IsCooldownReady() then
@@ -233,32 +233,32 @@ end
 --     SEARING ARROWS      --
 -----------------------------
 
-imba_clinkz_searing_arrows = class({})
-LinkLuaModifier("modifier_imba_searing_arrows_passive", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_searing_arrows_active", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+extended_clinkz_searing_arrows = class({})
+LinkLuaModifier("modifier_extended_searing_arrows_passive", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_searing_arrows_active", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
 
-function imba_clinkz_searing_arrows:GetIntrinsicModifierName()    
-    return "modifier_imba_searing_arrows_passive"
+function extended_clinkz_searing_arrows:GetIntrinsicModifierName()    
+    return "modifier_extended_searing_arrows_passive"
 end
 
-function imba_clinkz_searing_arrows:GetCastRange(location, target)
+function extended_clinkz_searing_arrows:GetCastRange(location, target)
      local caster = self:GetCaster()
      return caster:GetAttackRange()
 end 
 
-function imba_clinkz_searing_arrows:IsHiddenWhenStolen()
+function extended_clinkz_searing_arrows:IsHiddenWhenStolen()
     return false
 end
 
-function imba_clinkz_searing_arrows:OnUnStolen()
+function extended_clinkz_searing_arrows:OnUnStolen()
     -- Rubick interaction
     local caster = self:GetCaster()
-    if caster:HasModifier("modifier_imba_searing_arrows_passive") then
-        caster:RemoveModifierByName("modifier_imba_searing_arrows_passive")
+    if caster:HasModifier("modifier_extended_searing_arrows_passive") then
+        caster:RemoveModifierByName("modifier_extended_searing_arrows_passive")
     end
 end
 
-function imba_clinkz_searing_arrows:OnSpellStart()
+function extended_clinkz_searing_arrows:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
@@ -292,11 +292,11 @@ function imba_clinkz_searing_arrows:OnSpellStart()
     ProjectileManager:CreateTrackingProjectile(searing_arrow_active)
 
     -- #4 Talent: Searing Arrow active hits in an AoE
-    if caster:HasTalent("special_bonus_imba_clinkz_4") then
+    if caster:HasTalent("special_bonus_extended_clinkz_4") then
         local enemies = FindUnitsInRadius(caster:GetTeamNumber(),
                                           target:GetAbsOrigin(),
                                           nil,
-                                          caster:FindTalentValue("special_bonus_imba_clinkz_4"),
+                                          caster:FindTalentValue("special_bonus_extended_clinkz_4"),
                                           DOTA_UNIT_TARGET_TEAM_ENEMY,
                                           DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
                                           DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_NO_INVIS,
@@ -328,13 +328,13 @@ function imba_clinkz_searing_arrows:OnSpellStart()
     end
 end
 
-function imba_clinkz_searing_arrows:OnProjectileHit(target, location)
+function extended_clinkz_searing_arrows:OnProjectileHit(target, location)
     if IsServer() then
         -- Ability properties
         local caster = self:GetCaster()
         local ability = self
         local sound_hit = "Hero_Clinkz.SearingArrows.Impact"
-        local modifier_active = "modifier_imba_searing_arrows_active"
+        local modifier_active = "modifier_extended_searing_arrows_active"
 
         -- Ability specials
         local active_duration = ability:GetSpecialValueFor("active_duration")
@@ -357,18 +357,18 @@ function imba_clinkz_searing_arrows:OnProjectileHit(target, location)
     end
 end
 
-function imba_clinkz_searing_arrows:OnUpgrade()
+function extended_clinkz_searing_arrows:OnUpgrade()
     if IsServer() then
         local caster = self:GetCaster()    
-        caster:RemoveModifierByName("modifier_imba_searing_arrows_passive")    
-        caster:AddNewModifier(caster, self, "modifier_imba_searing_arrows_passive", {})
+        caster:RemoveModifierByName("modifier_extended_searing_arrows_passive")    
+        caster:AddNewModifier(caster, self, "modifier_extended_searing_arrows_passive", {})
     end
 end
 
 -- Passive Clinkz Searing Arrows modifier
-modifier_imba_searing_arrows_passive = class({})
+modifier_extended_searing_arrows_passive = class({})
 
-function modifier_imba_searing_arrows_passive:OnCreated()
+function modifier_extended_searing_arrows_passive:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
@@ -377,18 +377,18 @@ function modifier_imba_searing_arrows_passive:OnCreated()
     self.bonus_damage = self.ability:GetSpecialValueFor("bonus_damage")
 end
 
-function modifier_imba_searing_arrows_passive:IsHidden() return true end
-function modifier_imba_searing_arrows_passive:IsPurgable() return false end
-function modifier_imba_searing_arrows_passive:IsDebuff() return false end
+function modifier_extended_searing_arrows_passive:IsHidden() return true end
+function modifier_extended_searing_arrows_passive:IsPurgable() return false end
+function modifier_extended_searing_arrows_passive:IsDebuff() return false end
 
-function modifier_imba_searing_arrows_passive:DeclareFunctions()
+function modifier_extended_searing_arrows_passive:DeclareFunctions()
     local decFuncs = {MODIFIER_EVENT_ON_ATTACK_START,
                       MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE}
 
     return decFuncs
 end
 
-function modifier_imba_searing_arrows_passive:OnAttackStart(keys)
+function modifier_extended_searing_arrows_passive:OnAttackStart(keys)
     if IsServer() then
         local attacker = keys.attacker
         local target = keys.target
@@ -416,14 +416,14 @@ function modifier_imba_searing_arrows_passive:OnAttackStart(keys)
     end
 end
 
-function modifier_imba_searing_arrows_passive:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_searing_arrows_passive:GetModifierBaseAttack_BonusDamage()
     -- Ignore if it is a stolen ability
     if self.ability:IsStolen() then
         return nil
     end
 
     if not self.caster:PassivesDisabled() then
-        return self.bonus_damage + self.caster:FindTalentValue("special_bonus_imba_clinkz_3")
+        return self.bonus_damage + self.caster:FindTalentValue("special_bonus_extended_clinkz_3")
     end
 
     return nil
@@ -432,13 +432,13 @@ end
 
 function SetArrowAttackProjectile(caster, searing_arrows)    
     -- modifiers
-    local skadi_modifier = "modifier_item_imba_skadi_unique"
-    local deso_modifier = "modifier_item_imba_desolator_unique" 
-    local morbid_modifier = "modifier_imba_morbid_mask"
+    local skadi_modifier = "modifier_item_extended_skadi_unique"
+    local deso_modifier = "modifier_item_extended_desolator_unique" 
+    local morbid_modifier = "modifier_extended_morbid_mask"
     local mom_modifier = "modifier_item_mask_of_madness"
     local satanic_modifier = "modifier_item_satanic"
-    local vladimir_modifier = "modifier_item_imba_vladmir"
-    local vladimir_2_modifier = "modifier_item_imba_vladmir_2"
+    local vladimir_modifier = "modifier_item_extended_vladmir"
+    local vladimir_2_modifier = "modifier_item_extended_vladmir_2"
 
     -- normal projectiles
     local skadi_projectile = "particles/items2_fx/skadi_projectile.vpcf"
@@ -554,13 +554,13 @@ end
 
 
 -- Active burning Searing Arrow modifier
-modifier_imba_searing_arrows_active = class({})
+modifier_extended_searing_arrows_active = class({})
 
-function modifier_imba_searing_arrows_active:IsHidden() return false end
-function modifier_imba_searing_arrows_active:IsPurgable() return true end
-function modifier_imba_searing_arrows_active:IsDebuff() return true end
+function modifier_extended_searing_arrows_active:IsHidden() return false end
+function modifier_extended_searing_arrows_active:IsPurgable() return true end
+function modifier_extended_searing_arrows_active:IsDebuff() return true end
 
-function modifier_imba_searing_arrows_active:OnCreated()
+function modifier_extended_searing_arrows_active:OnCreated()
     if IsServer() then
         -- Ability properties
         self.caster = self:GetCaster()
@@ -582,7 +582,7 @@ function modifier_imba_searing_arrows_active:OnCreated()
     end
 end
 
-function modifier_imba_searing_arrows_active:OnIntervalThink()
+function modifier_extended_searing_arrows_active:OnIntervalThink()
     AddFOWViewer(self.caster:GetTeamNumber(), self.parent:GetAbsOrigin(), self.vision_radius, FrameTime(), false)
 end
 
@@ -591,24 +591,24 @@ end
 --     SKELETON WALK       --
 -----------------------------
 
-imba_clinkz_skeleton_walk = class({})
-LinkLuaModifier("modifier_imba_skeleton_walk_invis", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_skeleton_walk_spook", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_skeleton_walk_talent_ms", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+extended_clinkz_skeleton_walk = class({})
+LinkLuaModifier("modifier_extended_skeleton_walk_invis", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_skeleton_walk_spook", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_skeleton_walk_talent_ms", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
 
-function imba_clinkz_skeleton_walk:IsHiddenWhenStolen()
+function extended_clinkz_skeleton_walk:IsHiddenWhenStolen()
     return false
 end
 
-function imba_clinkz_skeleton_walk:OnSpellStart()
+function extended_clinkz_skeleton_walk:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
     local particle_invis = "particles/units/heroes/hero_clinkz/clinkz_windwalk.vpcf"
     local sound_cast = "Hero_Clinkz.WindWalk"
-    local modifier_invis = "modifier_imba_skeleton_walk_invis"
+    local modifier_invis = "modifier_extended_skeleton_walk_invis"
     local scepter = caster:HasScepter()
-    local modifier_mount = "modifier_imba_strafe_mount"
+    local modifier_mount = "modifier_extended_strafe_mount"
 
     -- Ability specials
     local duration = ability:GetSpecialValueFor("duration")
@@ -638,21 +638,21 @@ function imba_clinkz_skeleton_walk:OnSpellStart()
 end
 
 -- Invisibility modifier
-modifier_imba_skeleton_walk_invis = class({})
+modifier_extended_skeleton_walk_invis = class({})
 
-function modifier_imba_skeleton_walk_invis:IsHidden() return false end
-function modifier_imba_skeleton_walk_invis:IsPurgable() return false end
-function modifier_imba_skeleton_walk_invis:IsDebuff() return false end
+function modifier_extended_skeleton_walk_invis:IsHidden() return false end
+function modifier_extended_skeleton_walk_invis:IsPurgable() return false end
+function modifier_extended_skeleton_walk_invis:IsDebuff() return false end
 
-function modifier_imba_skeleton_walk_invis:OnCreated()
+function modifier_extended_skeleton_walk_invis:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
     self.parent = self:GetParent()
     self.sound_cast = "Hero_Clinkz.WindWalk"
-    self.modifier_spook = "modifier_imba_skeleton_walk_spook"        
-    self.modifier_talent_ms = "modifier_imba_skeleton_walk_talent_ms"
-    self.modifier_mount = "modifier_imba_strafe_mount"   
+    self.modifier_spook = "modifier_extended_skeleton_walk_spook"        
+    self.modifier_talent_ms = "modifier_extended_skeleton_walk_talent_ms"
+    self.modifier_mount = "modifier_extended_strafe_mount"   
 
     -- Ability specials
     self.ms_bonus_pct = self.ability:GetSpecialValueFor("ms_bonus_pct")
@@ -662,14 +662,14 @@ function modifier_imba_skeleton_walk_invis:OnCreated()
     self.spook_added_duration = self.ability:GetSpecialValueFor("spook_added_duration")
 
     -- #2 Talent: Spook search radius increase
-    self.spook_radius = self.spook_radius + self.caster:FindTalentValue("special_bonus_imba_clinkz_2")
+    self.spook_radius = self.spook_radius + self.caster:FindTalentValue("special_bonus_extended_clinkz_2")
 
     if IsServer() then
         self:StartIntervalThink(0.1)
     end
 end
 
-function modifier_imba_skeleton_walk_invis:OnIntervalThink()
+function modifier_extended_skeleton_walk_invis:OnIntervalThink()
     if IsServer() then
         -- If it is someone else from the caster (agh effect) then
         -- Check if the caster still has the Mounted buff. Remove it if he doesn't.    
@@ -681,17 +681,17 @@ function modifier_imba_skeleton_walk_invis:OnIntervalThink()
     end    
 end
 
-function modifier_imba_skeleton_walk_invis:CheckState()
+function modifier_extended_skeleton_walk_invis:CheckState()
     local state = {[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
                    [MODIFIER_STATE_INVISIBLE] = true}
     return state
 end
 
-function modifier_imba_skeleton_walk_invis:GetPriority()
+function modifier_extended_skeleton_walk_invis:GetPriority()
     return MODIFIER_PRIORITY_NORMAL
 end
 
-function modifier_imba_skeleton_walk_invis:DeclareFunctions()
+function modifier_extended_skeleton_walk_invis:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
                       MODIFIER_PROPERTY_INVISIBILITY_LEVEL,
                       MODIFIER_EVENT_ON_ABILITY_EXECUTED,
@@ -700,15 +700,15 @@ function modifier_imba_skeleton_walk_invis:DeclareFunctions()
     return decFuncs
 end
 
-function modifier_imba_skeleton_walk_invis:GetModifierInvisibilityLevel()
+function modifier_extended_skeleton_walk_invis:GetModifierInvisibilityLevel()
     return 1
 end
 
-function modifier_imba_skeleton_walk_invis:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_skeleton_walk_invis:GetModifierMoveSpeedBonus_Percentage()
     return self.ms_bonus_pct
 end
 
-function modifier_imba_skeleton_walk_invis:OnAbilityExecuted(keys)
+function modifier_extended_skeleton_walk_invis:OnAbilityExecuted(keys)
     if IsServer() then       
         local caster = keys.unit        
 
@@ -735,7 +735,7 @@ function modifier_imba_skeleton_walk_invis:OnAbilityExecuted(keys)
     end
 end
 
-function modifier_imba_skeleton_walk_invis:OnAttack(keys)
+function modifier_extended_skeleton_walk_invis:OnAttack(keys)
     if IsServer() then
         local attacker = keys.attacker
 
@@ -763,11 +763,11 @@ function modifier_imba_skeleton_walk_invis:OnAttack(keys)
     end
 end
 
-function modifier_imba_skeleton_walk_invis:OnRemoved()
+function modifier_extended_skeleton_walk_invis:OnRemoved()
     if IsServer() then
         -- #6 Talent: Skeleton Walk move speed persists for a small period
-        if self.caster:HasTalent("special_bonus_imba_clinkz_6") then
-            self.parent:AddNewModifier(self.caster, self.ability, self.modifier_talent_ms, {duration = self.caster:FindTalentValue("special_bonus_imba_clinkz_6")})
+        if self.caster:HasTalent("special_bonus_extended_clinkz_6") then
+            self.parent:AddNewModifier(self.caster, self.ability, self.modifier_talent_ms, {duration = self.caster:FindTalentValue("special_bonus_extended_clinkz_6")})
         end        
 
         -- Only apply if Clinkz wasn't detected before removing modifier
@@ -807,13 +807,13 @@ function modifier_imba_skeleton_walk_invis:OnRemoved()
 end
 
 -- Spook modifier
-modifier_imba_skeleton_walk_spook = class({})
+modifier_extended_skeleton_walk_spook = class({})
 
-function modifier_imba_skeleton_walk_spook:IsHidden() return false end
-function modifier_imba_skeleton_walk_spook:IsPurgable() return true end
-function modifier_imba_skeleton_walk_spook:IsDebuff() return true end
+function modifier_extended_skeleton_walk_spook:IsHidden() return false end
+function modifier_extended_skeleton_walk_spook:IsPurgable() return true end
+function modifier_extended_skeleton_walk_spook:IsDebuff() return true end
 
-function modifier_imba_skeleton_walk_spook:OnCreated()
+function modifier_extended_skeleton_walk_spook:OnCreated()
     if IsServer() then
         -- Ability properties
         self.caster = self:GetCaster()
@@ -833,7 +833,7 @@ function modifier_imba_skeleton_walk_spook:OnCreated()
     end
 end
 
-function modifier_imba_skeleton_walk_spook:OnIntervalThink()    
+function modifier_extended_skeleton_walk_spook:OnIntervalThink()    
     -- Determine location to force move to
     local direction = (self.parent:GetAbsOrigin() - self.caster:GetAbsOrigin()):Normalized()
     local location = self.parent:GetAbsOrigin() + direction * 500
@@ -842,7 +842,7 @@ function modifier_imba_skeleton_walk_spook:OnIntervalThink()
     self.parent:MoveToPosition(location)
 end
 
-function modifier_imba_skeleton_walk_spook:CheckState()
+function modifier_extended_skeleton_walk_spook:CheckState()
     local state = {[MODIFIER_STATE_COMMAND_RESTRICTED] = true}
     return state 
 end
@@ -850,26 +850,26 @@ end
 
 
 -- Move speed modifier for #6 Talent
-modifier_imba_skeleton_walk_talent_ms = class({})
+modifier_extended_skeleton_walk_talent_ms = class({})
 
-function modifier_imba_skeleton_walk_talent_ms:IsHidden() return false end
-function modifier_imba_skeleton_walk_talent_ms:IsPurgable() return true end
-function modifier_imba_skeleton_walk_talent_ms:IsDebuff() return false end
+function modifier_extended_skeleton_walk_talent_ms:IsHidden() return false end
+function modifier_extended_skeleton_walk_talent_ms:IsPurgable() return true end
+function modifier_extended_skeleton_walk_talent_ms:IsDebuff() return false end
 
-function modifier_imba_skeleton_walk_talent_ms:OnCreated()
+function modifier_extended_skeleton_walk_talent_ms:OnCreated()
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()   
 
     self.ms_bonus_pct = self.ability:GetSpecialValueFor("ms_bonus_pct")
 end
 
-function modifier_imba_skeleton_walk_talent_ms:DeclareFunctions()
+function modifier_extended_skeleton_walk_talent_ms:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
 
     return decFuncs
 end
 
-function modifier_imba_skeleton_walk_talent_ms:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_skeleton_walk_talent_ms:GetModifierMoveSpeedBonus_Percentage()
     return self.ms_bonus_pct
 end
 
@@ -880,14 +880,14 @@ end
 --       DEATH PACT        --
 -----------------------------
 
-imba_clinkz_death_pact = class({})
-LinkLuaModifier("modifier_imba_death_pact_buff", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_death_pact_stack_creep", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_death_pact_stack_hero", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_death_pact_talent_debuff", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_death_pact_talent_buff", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+extended_clinkz_death_pact = class({})
+LinkLuaModifier("modifier_extended_death_pact_buff", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_death_pact_stack_creep", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_death_pact_stack_hero", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_death_pact_talent_debuff", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_death_pact_talent_buff", "hero/hero_clinkz", LUA_MODIFIER_MOTION_NONE)
 
-function imba_clinkz_death_pact:CastFilterResultTarget(target)
+function extended_clinkz_death_pact:CastFilterResultTarget(target)
     local caster = self:GetCaster()
 
     -- Can't target self
@@ -898,15 +898,15 @@ function imba_clinkz_death_pact:CastFilterResultTarget(target)
     return UF_SUCCESS
 end
 
-function imba_clinkz_death_pact:GetCustomCastErrorTarget(target) 
+function extended_clinkz_death_pact:GetCustomCastErrorTarget(target) 
     return "Ability cannot be cast on yourself"
 end
 
-function imba_clinkz_death_pact:IsHiddenWhenStolen()
+function extended_clinkz_death_pact:IsHiddenWhenStolen()
     return false
 end
 
-function imba_clinkz_death_pact:OnSpellStart()
+function extended_clinkz_death_pact:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
@@ -914,10 +914,10 @@ function imba_clinkz_death_pact:OnSpellStart()
     local cast_response = "clinkz_clinkz_ability_pact_0"..math.random(1, 6)
     local sound_cast = "sounds/weapons/hero/clinkz/death_pact_cast.vsnd"
     local particle_pact = "particles/units/heroes/hero_clinkz/clinkz_death_pact.vpcf"
-    local modifier_pact = "modifier_imba_death_pact_buff"
-    local modifier_stack_creep = "modifier_imba_death_pact_stack_creep"
-    local modifier_stack_hero = "modifier_imba_death_pact_stack_hero"
-    local modifier_talent_debuff_mark = "modifier_imba_death_pact_talent_debuff"
+    local modifier_pact = "modifier_extended_death_pact_buff"
+    local modifier_stack_creep = "modifier_extended_death_pact_stack_creep"
+    local modifier_stack_hero = "modifier_extended_death_pact_stack_hero"
+    local modifier_talent_debuff_mark = "modifier_extended_death_pact_talent_debuff"
 
     -- Ability specials
     local duration = ability:GetSpecialValueFor("duration")        
@@ -1004,28 +1004,28 @@ function imba_clinkz_death_pact:OnSpellStart()
 
     -- #8 Talent: Death Pact bonuses stay permanently if enemy target dies quickly
     -- Apply a marker on the target if caster has the talent
-    if caster:HasTalent("special_bonus_imba_clinkz_8") and caster:GetTeamNumber() ~= target:GetTeamNumber() then
-        local mark_duration = caster:FindSpecificTalentValue("special_bonus_imba_clinkz_8", "mark_duration")
+    if caster:HasTalent("special_bonus_extended_clinkz_8") and caster:GetTeamNumber() ~= target:GetTeamNumber() then
+        local mark_duration = caster:FindSpecificTalentValue("special_bonus_extended_clinkz_8", "mark_duration")
         target:AddNewModifier(caster, ability, modifier_talent_debuff_mark, {duration = mark_duration})
     end
 end
 
 -- Dummy Death Pact buff (shows in the UI, but actually does nothing)
-modifier_imba_death_pact_buff = class({})
+modifier_extended_death_pact_buff = class({})
 
-function modifier_imba_death_pact_buff:IsHidden() return false end
-function modifier_imba_death_pact_buff:IsPurgable() return false end
-function modifier_imba_death_pact_buff:IsDebuff() return false end
+function modifier_extended_death_pact_buff:IsHidden() return false end
+function modifier_extended_death_pact_buff:IsPurgable() return false end
+function modifier_extended_death_pact_buff:IsDebuff() return false end
 
 
 -- Hidden buff for counting stacks (gives bonus damage and HP depending on stacks)
-modifier_imba_death_pact_stack_creep = class({})
+modifier_extended_death_pact_stack_creep = class({})
 
-function modifier_imba_death_pact_stack_creep:IsHidden() return true end
-function modifier_imba_death_pact_stack_creep:IsPurgable() return false end
-function modifier_imba_death_pact_stack_creep:IsDebuff() return false end
+function modifier_extended_death_pact_stack_creep:IsHidden() return true end
+function modifier_extended_death_pact_stack_creep:IsPurgable() return false end
+function modifier_extended_death_pact_stack_creep:IsDebuff() return false end
 
-function modifier_imba_death_pact_stack_creep:OnCreated()
+function modifier_extended_death_pact_stack_creep:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
@@ -1036,8 +1036,8 @@ function modifier_imba_death_pact_stack_creep:OnCreated()
     self.creep_bonus_dmg_pct = self.ability:GetSpecialValueFor("creep_bonus_dmg_pct")  
 
     -- #7 Talent: Death Pact bonuses increase
-    self.creep_bonus_hp_pct = self.creep_bonus_hp_pct * (1+ self.caster:FindTalentValue("special_bonus_imba_clinkz_7") * 0.01)
-    self.creep_bonus_dmg_pct = self.creep_bonus_dmg_pct * (1+ self.caster:FindTalentValue("special_bonus_imba_clinkz_7") * 0.01)
+    self.creep_bonus_hp_pct = self.creep_bonus_hp_pct * (1+ self.caster:FindTalentValue("special_bonus_extended_clinkz_7") * 0.01)
+    self.creep_bonus_dmg_pct = self.creep_bonus_dmg_pct * (1+ self.caster:FindTalentValue("special_bonus_extended_clinkz_7") * 0.01)
 
     -- Add buff effect
     self.particle_pact_buff_fx = ParticleManager:CreateParticle(self.particle_pact_buff, PATTACH_POINT_FOLLOW, self.caster)
@@ -1056,21 +1056,21 @@ function modifier_imba_death_pact_stack_creep:OnCreated()
 end
 
 
-function modifier_imba_death_pact_stack_creep:DeclareFunctions()
+function modifier_extended_death_pact_stack_creep:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE,
                       MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS}
 
     return decFuncs
 end
 
-function modifier_imba_death_pact_stack_creep:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_death_pact_stack_creep:GetModifierBaseAttack_BonusDamage()
     local stacks = self:GetStackCount()
     local bonus_damage = self.creep_bonus_dmg_pct * 0.01 * stacks 
 
     return bonus_damage
 end
 
-function modifier_imba_death_pact_stack_creep:GetModifierExtraHealthBonus()
+function modifier_extended_death_pact_stack_creep:GetModifierExtraHealthBonus()
     local stacks = self:GetStackCount()
     local bonus_hp = self.creep_bonus_hp_pct * 0.01 * stacks
 
@@ -1078,13 +1078,13 @@ function modifier_imba_death_pact_stack_creep:GetModifierExtraHealthBonus()
 end
 
 -- Hidden buff for counting stacks. Calculates for hero
-modifier_imba_death_pact_stack_hero = class({})
+modifier_extended_death_pact_stack_hero = class({})
 
-function modifier_imba_death_pact_stack_hero:IsHidden() return true end
-function modifier_imba_death_pact_stack_hero:IsPurgable() return false end
-function modifier_imba_death_pact_stack_hero:IsDebuff() return false end
+function modifier_extended_death_pact_stack_hero:IsHidden() return true end
+function modifier_extended_death_pact_stack_hero:IsPurgable() return false end
+function modifier_extended_death_pact_stack_hero:IsDebuff() return false end
 
-function modifier_imba_death_pact_stack_hero:OnCreated()
+function modifier_extended_death_pact_stack_hero:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
@@ -1095,8 +1095,8 @@ function modifier_imba_death_pact_stack_hero:OnCreated()
     self.hero_bonus_dmg_pct = self.ability:GetSpecialValueFor("hero_bonus_dmg_pct")  
 
     -- #7 Talent: Death Pact bonuses increase
-    self.hero_bonus_hp_dmg_mult = self.hero_bonus_hp_dmg_mult * (1+ self.caster:FindTalentValue("special_bonus_imba_clinkz_7") * 0.01)
-    self.hero_bonus_dmg_pct = self.hero_bonus_dmg_pct * (1+ self.caster:FindTalentValue("special_bonus_imba_clinkz_7") * 0.01)
+    self.hero_bonus_hp_dmg_mult = self.hero_bonus_hp_dmg_mult * (1+ self.caster:FindTalentValue("special_bonus_extended_clinkz_7") * 0.01)
+    self.hero_bonus_dmg_pct = self.hero_bonus_dmg_pct * (1+ self.caster:FindTalentValue("special_bonus_extended_clinkz_7") * 0.01)
 
     -- Add buff effect
     self.particle_pact_buff_fx = ParticleManager:CreateParticle(self.particle_pact_buff, PATTACH_POINT_FOLLOW, self.caster)
@@ -1115,21 +1115,21 @@ function modifier_imba_death_pact_stack_hero:OnCreated()
 end
 
 
-function modifier_imba_death_pact_stack_hero:DeclareFunctions()
+function modifier_extended_death_pact_stack_hero:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE,
                       MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS}
 
     return decFuncs
 end
 
-function modifier_imba_death_pact_stack_hero:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_death_pact_stack_hero:GetModifierBaseAttack_BonusDamage()
     local stacks = self:GetStackCount()
     local bonus_damage = self.hero_bonus_dmg_pct * 0.01 * stacks 
 
     return bonus_damage
 end
 
-function modifier_imba_death_pact_stack_hero:GetModifierExtraHealthBonus()
+function modifier_extended_death_pact_stack_hero:GetModifierExtraHealthBonus()
     if IsServer() then
         local stacks = self:GetStackCount()
         local bonus_hp = self.hero_bonus_hp_dmg_mult * stacks
@@ -1140,29 +1140,29 @@ end
 
 
 -- #8 Talent Debuff talent target marker
-modifier_imba_death_pact_talent_debuff = class({})
+modifier_extended_death_pact_talent_debuff = class({})
 
-function modifier_imba_death_pact_talent_debuff:IsHidden() return false end
-function modifier_imba_death_pact_talent_debuff:IsPurgable() return false end
-function modifier_imba_death_pact_talent_debuff:IsDebuff() return true end
+function modifier_extended_death_pact_talent_debuff:IsHidden() return false end
+function modifier_extended_death_pact_talent_debuff:IsPurgable() return false end
+function modifier_extended_death_pact_talent_debuff:IsDebuff() return true end
 
-function modifier_imba_death_pact_talent_debuff:OnCreated()
+function modifier_extended_death_pact_talent_debuff:OnCreated()
     if IsServer() then
         self.caster = self:GetCaster()
         self.ability = self:GetAbility()
         self.parent = self:GetParent()
-        self.modifier_hero_pact = "modifier_imba_death_pact_stack_hero"
-        self.modifier_perma_buff = "modifier_imba_death_pact_talent_buff"
+        self.modifier_hero_pact = "modifier_extended_death_pact_stack_hero"
+        self.modifier_perma_buff = "modifier_extended_death_pact_talent_buff"
     end
 end
 
-function modifier_imba_death_pact_talent_debuff:DeclareFunctions()
+function modifier_extended_death_pact_talent_debuff:DeclareFunctions()
     local decFuncs ={MODIFIER_EVENT_ON_HERO_KILLED}
 
     return decFuncs
 end
 
-function modifier_imba_death_pact_talent_debuff:OnHeroKilled(keys)    
+function modifier_extended_death_pact_talent_debuff:OnHeroKilled(keys)    
     if IsServer() then
         local killed_hero = keys.target        
 
@@ -1172,7 +1172,7 @@ function modifier_imba_death_pact_talent_debuff:OnHeroKilled(keys)
             local buff_stacks = self.caster:FindModifierByName(self.modifier_hero_pact):GetStackCount()
             print(buff_stacks)
             -- Calculate stack amount to keep
-            local stacks = buff_stacks * (self.caster:FindSpecificTalentValue("special_bonus_imba_clinkz_8", "stacks_pct") * 0.01)
+            local stacks = buff_stacks * (self.caster:FindSpecificTalentValue("special_bonus_extended_clinkz_8", "stacks_pct") * 0.01)
             print(stacks)
             -- Add perma buff if not exists yet
             if not self.caster:HasModifier(self.modifier_perma_buff) then
@@ -1187,13 +1187,13 @@ function modifier_imba_death_pact_talent_debuff:OnHeroKilled(keys)
 end
 
 -- #8 Talent Perma bonus buff
-modifier_imba_death_pact_talent_buff = class({})
+modifier_extended_death_pact_talent_buff = class({})
 
-function modifier_imba_death_pact_talent_buff:IsHidden() return false end
-function modifier_imba_death_pact_talent_buff:IsPurgable() return false end
-function modifier_imba_death_pact_talent_buff:IsDebuff() return false end
+function modifier_extended_death_pact_talent_buff:IsHidden() return false end
+function modifier_extended_death_pact_talent_buff:IsPurgable() return false end
+function modifier_extended_death_pact_talent_buff:IsDebuff() return false end
 
-function modifier_imba_death_pact_talent_buff:OnCreated()
+function modifier_extended_death_pact_talent_buff:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()        
@@ -1203,25 +1203,25 @@ function modifier_imba_death_pact_talent_buff:OnCreated()
     self.hero_bonus_dmg_pct = self.ability:GetSpecialValueFor("hero_bonus_dmg_pct")  
 
     -- #7 Talent: Death Pact bonuses increase
-    self.hero_bonus_hp_dmg_mult = self.hero_bonus_hp_dmg_mult * (1+ self.caster:FindTalentValue("special_bonus_imba_clinkz_7") * 0.01)
-    self.hero_bonus_dmg_pct = self.hero_bonus_dmg_pct * (1+ self.caster:FindTalentValue("special_bonus_imba_clinkz_7") * 0.01)            
+    self.hero_bonus_hp_dmg_mult = self.hero_bonus_hp_dmg_mult * (1+ self.caster:FindTalentValue("special_bonus_extended_clinkz_7") * 0.01)
+    self.hero_bonus_dmg_pct = self.hero_bonus_dmg_pct * (1+ self.caster:FindTalentValue("special_bonus_extended_clinkz_7") * 0.01)            
 end
 
-function modifier_imba_death_pact_talent_buff:DeclareFunctions()
+function modifier_extended_death_pact_talent_buff:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE,
                       MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS}
 
     return decFuncs
 end
 
-function modifier_imba_death_pact_talent_buff:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_death_pact_talent_buff:GetModifierBaseAttack_BonusDamage()
     local stacks = self:GetStackCount()
     local bonus_damage = self.hero_bonus_dmg_pct * 0.01 * stacks 
 
     return bonus_damage
 end
 
-function modifier_imba_death_pact_talent_buff:GetModifierExtraHealthBonus()
+function modifier_extended_death_pact_talent_buff:GetModifierExtraHealthBonus()
     if IsServer() then
         local stacks = self:GetStackCount()
         local bonus_hp = self.hero_bonus_hp_dmg_mult * stacks

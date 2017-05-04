@@ -8,13 +8,13 @@
 --	Arcane Boots definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_arcane_boots == nil then item_imba_arcane_boots = class({}) end
-LinkLuaModifier( "modifier_item_imba_arcane_boots", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )				-- Owner's bonus attributes, stackable
+if item_extended_arcane_boots == nil then item_extended_arcane_boots = class({}) end
+LinkLuaModifier( "modifier_item_extended_arcane_boots", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )				-- Owner's bonus attributes, stackable
 
-function item_imba_arcane_boots:GetIntrinsicModifierName()
-	return "modifier_item_imba_arcane_boots" end
+function item_extended_arcane_boots:GetIntrinsicModifierName()
+	return "modifier_item_extended_arcane_boots" end
 
-function item_imba_arcane_boots:OnSpellStart()
+function item_extended_arcane_boots:OnSpellStart()
 	if IsServer() then
 
 		-- Parameters
@@ -46,15 +46,15 @@ end
 --	Arcane Boots owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_arcane_boots == nil then modifier_item_imba_arcane_boots = class({}) end
-function modifier_item_imba_arcane_boots:IsHidden() return true end
-function modifier_item_imba_arcane_boots:IsDebuff() return false end
-function modifier_item_imba_arcane_boots:IsPurgable() return false end
-function modifier_item_imba_arcane_boots:IsPermanent() return true end
-function modifier_item_imba_arcane_boots:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_arcane_boots == nil then modifier_item_extended_arcane_boots = class({}) end
+function modifier_item_extended_arcane_boots:IsHidden() return true end
+function modifier_item_extended_arcane_boots:IsDebuff() return false end
+function modifier_item_extended_arcane_boots:IsPurgable() return false end
+function modifier_item_extended_arcane_boots:IsPermanent() return true end
+function modifier_item_extended_arcane_boots:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Declare modifier events/properties
-function modifier_item_imba_arcane_boots:DeclareFunctions()
+function modifier_item_extended_arcane_boots:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE,
 		MODIFIER_PROPERTY_MANA_BONUS,
@@ -62,10 +62,10 @@ function modifier_item_imba_arcane_boots:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_arcane_boots:GetModifierMoveSpeedBonus_Special_Boots()
+function modifier_item_extended_arcane_boots:GetModifierMoveSpeedBonus_Special_Boots()
 	return self:GetAbility():GetSpecialValueFor("bonus_ms") end
 
-function modifier_item_imba_arcane_boots:GetModifierManaBonus()
+function modifier_item_extended_arcane_boots:GetModifierManaBonus()
 	return self:GetAbility():GetSpecialValueFor("bonus_mana") end
 
 
@@ -74,16 +74,16 @@ function modifier_item_imba_arcane_boots:GetModifierManaBonus()
 --	Mekansm definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_mekansm == nil then item_imba_mekansm = class({}) end
-LinkLuaModifier( "modifier_item_imba_mekansm", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )					-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_mekansm_aura_emitter", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )	-- Aura emitter
-LinkLuaModifier( "modifier_item_imba_mekansm_aura", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )			-- Aura buff
-LinkLuaModifier( "modifier_item_imba_mekansm_heal", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )			-- Heal buff
+if item_extended_mekansm == nil then item_extended_mekansm = class({}) end
+LinkLuaModifier( "modifier_item_extended_mekansm", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )					-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_mekansm_aura_emitter", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )	-- Aura emitter
+LinkLuaModifier( "modifier_item_extended_mekansm_aura", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )			-- Aura buff
+LinkLuaModifier( "modifier_item_extended_mekansm_heal", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )			-- Heal buff
 
-function item_imba_mekansm:GetIntrinsicModifierName()
-	return "modifier_item_imba_mekansm" end
+function item_extended_mekansm:GetIntrinsicModifierName()
+	return "modifier_item_extended_mekansm" end
 
-function item_imba_mekansm:OnSpellStart()
+function item_extended_mekansm:OnSpellStart()
 	if IsServer() then
 
 		-- Parameters
@@ -114,7 +114,7 @@ function item_imba_mekansm:OnSpellStart()
 			ParticleManager:ReleaseParticleIndex(mekansm_target_pfx)
 
 			-- Apply armor & heal over time buff
-			ally:AddNewModifier(caster, self, "modifier_item_imba_mekansm_heal", {duration = heal_duration})
+			ally:AddNewModifier(caster, self, "modifier_item_extended_mekansm_heal", {duration = heal_duration})
 		end
 	end
 end
@@ -123,35 +123,35 @@ end
 --	Mekansm owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mekansm == nil then modifier_item_imba_mekansm = class({}) end
-function modifier_item_imba_mekansm:IsHidden() return true end
-function modifier_item_imba_mekansm:IsDebuff() return false end
-function modifier_item_imba_mekansm:IsPurgable() return false end
-function modifier_item_imba_mekansm:IsPermanent() return true end
-function modifier_item_imba_mekansm:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_mekansm == nil then modifier_item_extended_mekansm = class({}) end
+function modifier_item_extended_mekansm:IsHidden() return true end
+function modifier_item_extended_mekansm:IsDebuff() return false end
+function modifier_item_extended_mekansm:IsPurgable() return false end
+function modifier_item_extended_mekansm:IsPermanent() return true end
+function modifier_item_extended_mekansm:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Adds the aura emitter to the caster when created
-function modifier_item_imba_mekansm:OnCreated(keys)
+function modifier_item_extended_mekansm:OnCreated(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_mekansm_aura_emitter") then
-			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_imba_mekansm_aura_emitter", {})
+		if not parent:HasModifier("modifier_item_extended_mekansm_aura_emitter") then
+			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_extended_mekansm_aura_emitter", {})
 		end
 	end
 end
 
 -- Removes the aura emitter from the caster if this is the last mekansm in its inventory
-function modifier_item_imba_mekansm:OnDestroy(keys)
+function modifier_item_extended_mekansm:OnDestroy(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_mekansm") then
-			parent:RemoveModifierByName("modifier_item_imba_mekansm_aura_emitter")
+		if not parent:HasModifier("modifier_item_extended_mekansm") then
+			parent:RemoveModifierByName("modifier_item_extended_mekansm_aura_emitter")
 		end
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_mekansm:DeclareFunctions()
+function modifier_item_extended_mekansm:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
@@ -161,97 +161,97 @@ function modifier_item_imba_mekansm:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_mekansm:GetModifierBonusStats_Strength()
+function modifier_item_extended_mekansm:GetModifierBonusStats_Strength()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
-function modifier_item_imba_mekansm:GetModifierBonusStats_Agility()
+function modifier_item_extended_mekansm:GetModifierBonusStats_Agility()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
-function modifier_item_imba_mekansm:GetModifierBonusStats_Intellect()
+function modifier_item_extended_mekansm:GetModifierBonusStats_Intellect()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
-function modifier_item_imba_mekansm:GetModifierPhysicalArmorBonus()
+function modifier_item_extended_mekansm:GetModifierPhysicalArmorBonus()
 	return self:GetAbility():GetSpecialValueFor("bonus_armor") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Mekansm aura emitter
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mekansm_aura_emitter == nil then modifier_item_imba_mekansm_aura_emitter = class({}) end
-function modifier_item_imba_mekansm_aura_emitter:IsAura() return true end
-function modifier_item_imba_mekansm_aura_emitter:IsHidden() return true end
-function modifier_item_imba_mekansm_aura_emitter:IsDebuff() return false end
-function modifier_item_imba_mekansm_aura_emitter:IsPurgable() return false end
+if modifier_item_extended_mekansm_aura_emitter == nil then modifier_item_extended_mekansm_aura_emitter = class({}) end
+function modifier_item_extended_mekansm_aura_emitter:IsAura() return true end
+function modifier_item_extended_mekansm_aura_emitter:IsHidden() return true end
+function modifier_item_extended_mekansm_aura_emitter:IsDebuff() return false end
+function modifier_item_extended_mekansm_aura_emitter:IsPurgable() return false end
 
-function modifier_item_imba_mekansm_aura_emitter:GetAuraSearchTeam()
+function modifier_item_extended_mekansm_aura_emitter:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
 	
-function modifier_item_imba_mekansm_aura_emitter:GetAuraSearchType()
+function modifier_item_extended_mekansm_aura_emitter:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO end
 	
-function modifier_item_imba_mekansm_aura_emitter:GetModifierAura()
+function modifier_item_extended_mekansm_aura_emitter:GetModifierAura()
 	if IsServer() then
 		if self:GetParent():IsAlive() then
-			return "modifier_item_imba_mekansm_aura"
+			return "modifier_item_extended_mekansm_aura"
 		else
 			return nil
 		end
 	end
 end
 	
-function modifier_item_imba_mekansm_aura_emitter:GetAuraRadius()
+function modifier_item_extended_mekansm_aura_emitter:GetAuraRadius()
 	return self:GetAbility():GetSpecialValueFor("aura_radius") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Mekansm aura
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mekansm_aura == nil then modifier_item_imba_mekansm_aura = class({}) end
-function modifier_item_imba_mekansm_aura:IsHidden() return false end
-function modifier_item_imba_mekansm_aura:IsDebuff() return false end
-function modifier_item_imba_mekansm_aura:IsPurgable() return false end
+if modifier_item_extended_mekansm_aura == nil then modifier_item_extended_mekansm_aura = class({}) end
+function modifier_item_extended_mekansm_aura:IsHidden() return false end
+function modifier_item_extended_mekansm_aura:IsDebuff() return false end
+function modifier_item_extended_mekansm_aura:IsPurgable() return false end
 
 -- Aura icon
-function modifier_item_imba_mekansm_aura:GetTexture()
-	return "custom/imba_mekansm" end
+function modifier_item_extended_mekansm_aura:GetTexture()
+	return "custom/extended_mekansm" end
 
 -- Stores the aura's parameters to prevent errors when the item is destroyed
-function modifier_item_imba_mekansm_aura:OnCreated(keys)
+function modifier_item_extended_mekansm_aura:OnCreated(keys)
 	self.aura_health_regen = self:GetAbility():GetSpecialValueFor("aura_health_regen")
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_mekansm_aura:DeclareFunctions()
+function modifier_item_extended_mekansm_aura:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
 	}
 	return funcs
 end
 
-function modifier_item_imba_mekansm_aura:GetModifierConstantHealthRegen()
+function modifier_item_extended_mekansm_aura:GetModifierConstantHealthRegen()
 	return self.aura_health_regen end
 
 -----------------------------------------------------------------------------------------------------------
 --	Mekansm heal over time
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_mekansm_heal == nil then modifier_item_imba_mekansm_heal = class({}) end
-function modifier_item_imba_mekansm_heal:IsHidden() return false end
-function modifier_item_imba_mekansm_heal:IsDebuff() return false end
-function modifier_item_imba_mekansm_heal:IsPurgable() return true end
+if modifier_item_extended_mekansm_heal == nil then modifier_item_extended_mekansm_heal = class({}) end
+function modifier_item_extended_mekansm_heal:IsHidden() return false end
+function modifier_item_extended_mekansm_heal:IsDebuff() return false end
+function modifier_item_extended_mekansm_heal:IsPurgable() return true end
 
 -- Modifier texture
-function modifier_item_imba_mekansm_heal:GetTexture()
-	return "custom/imba_mekansm" end
+function modifier_item_extended_mekansm_heal:GetTexture()
+	return "custom/extended_mekansm" end
 
 -- Stores the ability's parameters to prevent errors if the item is destroyed
-function modifier_item_imba_mekansm_heal:OnCreated(keys)
+function modifier_item_extended_mekansm_heal:OnCreated(keys)
 	self.heal_bonus_armor = self:GetAbility():GetSpecialValueFor("heal_bonus_armor")
 	self.heal_percentage = self:GetAbility():GetSpecialValueFor("heal_percentage")
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_mekansm_heal:DeclareFunctions()
+function modifier_item_extended_mekansm_heal:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE,
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS_UNIQUE_ACTIVE,
@@ -259,10 +259,10 @@ function modifier_item_imba_mekansm_heal:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_mekansm_heal:GetModifierHealthRegenPercentage()
+function modifier_item_extended_mekansm_heal:GetModifierHealthRegenPercentage()
 	return self.heal_percentage end
 
-function modifier_item_imba_mekansm_heal:GetModifierPhysicalArmorBonusUniqueActive()
+function modifier_item_extended_mekansm_heal:GetModifierPhysicalArmorBonusUniqueActive()
 	return self.heal_bonus_armor end
 
 
@@ -271,16 +271,16 @@ function modifier_item_imba_mekansm_heal:GetModifierPhysicalArmorBonusUniqueActi
 --	Guardian Greaves definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_guardian_greaves == nil then item_imba_guardian_greaves = class({}) end
-LinkLuaModifier( "modifier_item_imba_guardian_greaves", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )				-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_guardian_greaves_aura_emitter", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )	-- Aura emitter
-LinkLuaModifier( "modifier_item_imba_guardian_greaves_aura", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )			-- Aura buff
-LinkLuaModifier( "modifier_item_imba_guardian_greaves_heal", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )			-- Heal buff
+if item_extended_guardian_greaves == nil then item_extended_guardian_greaves = class({}) end
+LinkLuaModifier( "modifier_item_extended_guardian_greaves", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )				-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_guardian_greaves_aura_emitter", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )	-- Aura emitter
+LinkLuaModifier( "modifier_item_extended_guardian_greaves_aura", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )			-- Aura buff
+LinkLuaModifier( "modifier_item_extended_guardian_greaves_heal", "items/item_mekansm.lua", LUA_MODIFIER_MOTION_NONE )			-- Heal buff
 
-function item_imba_guardian_greaves:GetIntrinsicModifierName()
-	return "modifier_item_imba_guardian_greaves" end
+function item_extended_guardian_greaves:GetIntrinsicModifierName()
+	return "modifier_item_extended_guardian_greaves" end
 
-function item_imba_guardian_greaves:OnSpellStart()
+function item_extended_guardian_greaves:OnSpellStart()
 	if IsServer() then
 
 		-- Parameters
@@ -299,35 +299,35 @@ end
 --	Guardian Greaves owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_guardian_greaves == nil then modifier_item_imba_guardian_greaves = class({}) end
-function modifier_item_imba_guardian_greaves:IsHidden() return true end
-function modifier_item_imba_guardian_greaves:IsDebuff() return false end
-function modifier_item_imba_guardian_greaves:IsPurgable() return false end
-function modifier_item_imba_guardian_greaves:IsPermanent() return true end
-function modifier_item_imba_guardian_greaves:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_guardian_greaves == nil then modifier_item_extended_guardian_greaves = class({}) end
+function modifier_item_extended_guardian_greaves:IsHidden() return true end
+function modifier_item_extended_guardian_greaves:IsDebuff() return false end
+function modifier_item_extended_guardian_greaves:IsPurgable() return false end
+function modifier_item_extended_guardian_greaves:IsPermanent() return true end
+function modifier_item_extended_guardian_greaves:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Adds the aura emitter to the caster when created
-function modifier_item_imba_guardian_greaves:OnCreated(keys)
+function modifier_item_extended_guardian_greaves:OnCreated(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_guardian_greaves_aura_emitter") then
-			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_imba_guardian_greaves_aura_emitter", {})
+		if not parent:HasModifier("modifier_item_extended_guardian_greaves_aura_emitter") then
+			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_extended_guardian_greaves_aura_emitter", {})
 		end
 	end
 end
 
 -- Removes the aura emitter from the caster if this is the last greaves in its inventory
-function modifier_item_imba_guardian_greaves:OnDestroy(keys)
+function modifier_item_extended_guardian_greaves:OnDestroy(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_guardian_greaves") then
-			parent:RemoveModifierByName("modifier_item_imba_guardian_greaves_aura_emitter")
+		if not parent:HasModifier("modifier_item_extended_guardian_greaves") then
+			parent:RemoveModifierByName("modifier_item_extended_guardian_greaves_aura_emitter")
 		end
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_guardian_greaves:DeclareFunctions()
+function modifier_item_extended_guardian_greaves:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
@@ -339,55 +339,55 @@ function modifier_item_imba_guardian_greaves:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_guardian_greaves:GetModifierMoveSpeedBonus_Special_Boots()
+function modifier_item_extended_guardian_greaves:GetModifierMoveSpeedBonus_Special_Boots()
 	return self:GetAbility():GetSpecialValueFor("bonus_ms") end
 
-function modifier_item_imba_guardian_greaves:GetModifierManaBonus()
+function modifier_item_extended_guardian_greaves:GetModifierManaBonus()
 	return self:GetAbility():GetSpecialValueFor("bonus_mana") end
 
-function modifier_item_imba_guardian_greaves:GetModifierBonusStats_Strength()
+function modifier_item_extended_guardian_greaves:GetModifierBonusStats_Strength()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
-function modifier_item_imba_guardian_greaves:GetModifierBonusStats_Agility()
+function modifier_item_extended_guardian_greaves:GetModifierBonusStats_Agility()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
-function modifier_item_imba_guardian_greaves:GetModifierBonusStats_Intellect()
+function modifier_item_extended_guardian_greaves:GetModifierBonusStats_Intellect()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
-function modifier_item_imba_guardian_greaves:GetModifierPhysicalArmorBonus()
+function modifier_item_extended_guardian_greaves:GetModifierPhysicalArmorBonus()
 	return self:GetAbility():GetSpecialValueFor("bonus_armor") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Guardian Greaves aura emitter
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_guardian_greaves_aura_emitter == nil then modifier_item_imba_guardian_greaves_aura_emitter = class({}) end
-function modifier_item_imba_guardian_greaves_aura_emitter:IsAura() return true end
-function modifier_item_imba_guardian_greaves_aura_emitter:IsHidden() return true end
-function modifier_item_imba_guardian_greaves_aura_emitter:IsDebuff() return false end
-function modifier_item_imba_guardian_greaves_aura_emitter:IsPurgable() return false end
+if modifier_item_extended_guardian_greaves_aura_emitter == nil then modifier_item_extended_guardian_greaves_aura_emitter = class({}) end
+function modifier_item_extended_guardian_greaves_aura_emitter:IsAura() return true end
+function modifier_item_extended_guardian_greaves_aura_emitter:IsHidden() return true end
+function modifier_item_extended_guardian_greaves_aura_emitter:IsDebuff() return false end
+function modifier_item_extended_guardian_greaves_aura_emitter:IsPurgable() return false end
 
-function modifier_item_imba_guardian_greaves_aura_emitter:GetAuraSearchTeam()
+function modifier_item_extended_guardian_greaves_aura_emitter:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY end
 	
-function modifier_item_imba_guardian_greaves_aura_emitter:GetAuraSearchType()
+function modifier_item_extended_guardian_greaves_aura_emitter:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO end
 	
-function modifier_item_imba_guardian_greaves_aura_emitter:GetModifierAura()
+function modifier_item_extended_guardian_greaves_aura_emitter:GetModifierAura()
 	if IsServer() then
 		if self:GetParent():IsAlive() then
-			return "modifier_item_imba_guardian_greaves_aura"
+			return "modifier_item_extended_guardian_greaves_aura"
 		else
 			return nil
 		end
 	end
 end
 	
-function modifier_item_imba_guardian_greaves_aura_emitter:GetAuraRadius()
+function modifier_item_extended_guardian_greaves_aura_emitter:GetAuraRadius()
 	return self:GetAbility():GetSpecialValueFor("aura_radius") end
 
 -- Declare modifier events/properties
-function modifier_item_imba_guardian_greaves_aura_emitter:DeclareFunctions()
+function modifier_item_extended_guardian_greaves_aura_emitter:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
@@ -395,7 +395,7 @@ function modifier_item_imba_guardian_greaves_aura_emitter:DeclareFunctions()
 end
 
 -- Psssive activation when below the threshold
-function modifier_item_imba_guardian_greaves_aura_emitter:OnTakeDamage( keys )
+function modifier_item_extended_guardian_greaves_aura_emitter:OnTakeDamage( keys )
 	if IsServer() then
 		local owner = self:GetParent()
 
@@ -424,17 +424,17 @@ end
 --	Guardian Greaves aura
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_guardian_greaves_aura == nil then modifier_item_imba_guardian_greaves_aura = class({}) end
-function modifier_item_imba_guardian_greaves_aura:IsHidden() return false end
-function modifier_item_imba_guardian_greaves_aura:IsDebuff() return false end
-function modifier_item_imba_guardian_greaves_aura:IsPurgable() return false end
+if modifier_item_extended_guardian_greaves_aura == nil then modifier_item_extended_guardian_greaves_aura = class({}) end
+function modifier_item_extended_guardian_greaves_aura:IsHidden() return false end
+function modifier_item_extended_guardian_greaves_aura:IsDebuff() return false end
+function modifier_item_extended_guardian_greaves_aura:IsPurgable() return false end
 
 -- Aura icon
-function modifier_item_imba_guardian_greaves_aura:GetTexture()
-	return "custom/imba_guardian_greaves" end
+function modifier_item_extended_guardian_greaves_aura:GetTexture()
+	return "custom/extended_guardian_greaves" end
 
 -- Stores the aura's parameters to prevent errors when the item is destroyed
-function modifier_item_imba_guardian_greaves_aura:OnCreated(keys)
+function modifier_item_extended_guardian_greaves_aura:OnCreated(keys)
 	local ability = self:GetAbility()
 	self.aura_regen = ability:GetSpecialValueFor("aura_regen")
 	self.aura_armor = ability:GetSpecialValueFor("aura_armor")
@@ -444,7 +444,7 @@ function modifier_item_imba_guardian_greaves_aura:OnCreated(keys)
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_guardian_greaves_aura:DeclareFunctions()
+function modifier_item_extended_guardian_greaves_aura:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
@@ -452,7 +452,7 @@ function modifier_item_imba_guardian_greaves_aura:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_guardian_greaves_aura:GetModifierPhysicalArmorBonus()
+function modifier_item_extended_guardian_greaves_aura:GetModifierPhysicalArmorBonus()
 	local owner = self:GetParent()
 
 	-- Hero-only health-scaling bonus
@@ -464,7 +464,7 @@ function modifier_item_imba_guardian_greaves_aura:GetModifierPhysicalArmorBonus(
 	return self.aura_armor
 end
 
-function modifier_item_imba_guardian_greaves_aura:GetModifierConstantHealthRegen()
+function modifier_item_extended_guardian_greaves_aura:GetModifierConstantHealthRegen()
 	local owner = self:GetParent()
 
 	-- Hero-only health-scaling bonus
@@ -480,29 +480,29 @@ end
 --	Guardian Greaves heal over time
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_guardian_greaves_heal == nil then modifier_item_imba_guardian_greaves_heal = class({}) end
-function modifier_item_imba_guardian_greaves_heal:IsHidden() return false end
-function modifier_item_imba_guardian_greaves_heal:IsDebuff() return false end
-function modifier_item_imba_guardian_greaves_heal:IsPurgable() return true end
+if modifier_item_extended_guardian_greaves_heal == nil then modifier_item_extended_guardian_greaves_heal = class({}) end
+function modifier_item_extended_guardian_greaves_heal:IsHidden() return false end
+function modifier_item_extended_guardian_greaves_heal:IsDebuff() return false end
+function modifier_item_extended_guardian_greaves_heal:IsPurgable() return true end
 
 -- Modifier texture
-function modifier_item_imba_guardian_greaves_heal:GetTexture()
-	return "custom/imba_guardian_greaves" end
+function modifier_item_extended_guardian_greaves_heal:GetTexture()
+	return "custom/extended_guardian_greaves" end
 
 -- Stores the ability's parameters to prevent errors if the item is destroyed
-function modifier_item_imba_guardian_greaves_heal:OnCreated(keys)
+function modifier_item_extended_guardian_greaves_heal:OnCreated(keys)
 	self.mend_regen = self:GetAbility():GetSpecialValueFor("mend_regen")
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_guardian_greaves_heal:DeclareFunctions()
+function modifier_item_extended_guardian_greaves_heal:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE,
 	}
 	return funcs
 end
 
-function modifier_item_imba_guardian_greaves_heal:GetModifierHealthRegenPercentage()
+function modifier_item_extended_guardian_greaves_heal:GetModifierHealthRegenPercentage()
 	return self.mend_regen end
 
 -----------------------------------------------------------------------------------------------------------
@@ -545,6 +545,6 @@ function GreavesActivate(caster, ability, heal_amount, mana_amount, heal_radius,
 		ParticleManager:SetParticleControl(target_pfx, 0, ally:GetAbsOrigin())
 
 		-- Apply heal over time buff
-		ally:AddNewModifier(caster, ability, "modifier_item_imba_guardian_greaves_heal", {duration = heal_duration})
+		ally:AddNewModifier(caster, ability, "modifier_item_extended_guardian_greaves_heal", {duration = heal_duration})
 	end
 end

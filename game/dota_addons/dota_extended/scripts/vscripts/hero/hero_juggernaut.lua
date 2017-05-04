@@ -8,21 +8,21 @@ function IsTotem(unit) -- have to do it like this because server and client side
 end
 
 -- BLADE FURY --
-imba_juggernaut_blade_fury = class({})
+extended_juggernaut_blade_fury = class({})
 
-function imba_juggernaut_blade_fury:GetCastRange()
+function extended_juggernaut_blade_fury:GetCastRange()
 	return self:GetTalentSpecialValueFor("effect_radius")
 end
 
-function imba_juggernaut_blade_fury:GetCooldown(nLevel)
-	local cooldown = self.BaseClass.GetCooldown( self, nLevel ) + self:GetCaster():FindTalentValue("special_bonus_imba_juggernaut_7")
+function extended_juggernaut_blade_fury:GetCooldown(nLevel)
+	local cooldown = self.BaseClass.GetCooldown( self, nLevel ) + self:GetCaster():FindTalentValue("special_bonus_extended_juggernaut_7")
 	return cooldown
 end
 
-function imba_juggernaut_blade_fury:OnSpellStart()
+function extended_juggernaut_blade_fury:OnSpellStart()
 	local caster = self:GetCaster()
 	caster:Purge(false, true, false, false, false)	
-	caster:AddNewModifier(caster, self, "modifier_imba_juggernaut_blade_fury", {duration = self:GetSpecialValueFor("duration")})
+	caster:AddNewModifier(caster, self, "modifier_extended_juggernaut_blade_fury", {duration = self:GetSpecialValueFor("duration")})
 
 	-- Play cast lines
 	local rand = RandomInt(2, 9)
@@ -33,10 +33,10 @@ function imba_juggernaut_blade_fury:OnSpellStart()
 	end
 end
 
-LinkLuaModifier("modifier_imba_juggernaut_blade_fury", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_juggernaut_blade_fury = class({})
+LinkLuaModifier("modifier_extended_juggernaut_blade_fury", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_juggernaut_blade_fury = class({})
 
-function modifier_imba_juggernaut_blade_fury:OnCreated()
+function modifier_extended_juggernaut_blade_fury:OnCreated()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	self.dps = self.ability:GetTalentSpecialValueFor("damage_per_sec")
@@ -53,7 +53,7 @@ function modifier_imba_juggernaut_blade_fury:OnCreated()
 	end
 end
 
-function modifier_imba_juggernaut_blade_fury:OnIntervalThink()
+function modifier_extended_juggernaut_blade_fury:OnIntervalThink()
 	local damage = self.dps * self.tick
 	local caster_loc = self.caster:GetAbsOrigin()
 	-- Iterate through nearby enemies
@@ -65,8 +65,8 @@ function modifier_imba_juggernaut_blade_fury:OnIntervalThink()
 		local slash_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_juggernaut/juggernaut_blade_fury_tgt.vpcf", PATTACH_ABSORIGIN_FOLLOW, enemy)
 		ParticleManager:SetParticleControl(slash_pfx, 0, enemy:GetAbsOrigin())
 		ParticleManager:ReleaseParticleIndex(slash_pfx)
-		if self.caster:HasTalent("special_bonus_imba_juggernaut_6") then
-			self.bladedance = self.bladedance or self.caster:FindAbilityByName("imba_juggernaut_blade_dance")
+		if self.caster:HasTalent("special_bonus_extended_juggernaut_6") then
+			self.bladedance = self.bladedance or self.caster:FindAbilityByName("extended_juggernaut_blade_dance")
 			self.prng = self.prng or 0
 			local crit = self.bladedance:GetTalentSpecialValueFor("crit_damage") / 100
 			local chance = self.bladedance:GetTalentSpecialValueFor("crit_chance")
@@ -89,11 +89,11 @@ function modifier_imba_juggernaut_blade_fury:OnIntervalThink()
 	end
 end
 
-function modifier_imba_juggernaut_blade_fury:OnRemoved()
+function modifier_extended_juggernaut_blade_fury:OnRemoved()
 	if IsServer() then
 		self.caster:StopSound("Hero_Juggernaut.BladeFuryStart")
 		self.caster:EmitSound("Hero_Juggernaut.BladeFuryStop")
-		if self.caster:HasModifier("modifier_imba_omni_slash_caster") then
+		if self.caster:HasModifier("modifier_extended_omni_slash_caster") then
 			StartAnimation(self.caster, {activity = ACT_DOTA_OVERRIDE_ABILITY_4, rate = 1.0})
 		else
 			EndAnimation(self.caster)
@@ -104,22 +104,22 @@ function modifier_imba_juggernaut_blade_fury:OnRemoved()
 	end
 end
 
-function modifier_imba_juggernaut_blade_fury:DeclareFunctions()
+function modifier_extended_juggernaut_blade_fury:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_EVASION_CONSTANT,
 	}
 	return funcs
 end
 
-function modifier_imba_juggernaut_blade_fury:GetModifierEvasion_Constant()
+function modifier_extended_juggernaut_blade_fury:GetModifierEvasion_Constant()
 	return self.evasion
 end
 
 
 -- HEALING WARD --
-imba_juggernaut_healing_ward = class({})
+extended_juggernaut_healing_ward = class({})
 
-function imba_juggernaut_healing_ward:OnSpellStart()
+function extended_juggernaut_healing_ward:OnSpellStart()
 	local caster = self:GetCaster()
 	local targetPoint = self:GetCursorPosition()
 	
@@ -127,7 +127,7 @@ function imba_juggernaut_healing_ward:OnSpellStart()
 	caster:EmitSound("Hero_Juggernaut.HealingWard.Cast")
 
 	-- Spawn the Healing Ward
-	local healing_ward = CreateUnitByName("npc_imba_juggernaut_healing_ward", targetPoint, true, caster, caster, caster:GetTeam())
+	local healing_ward = CreateUnitByName("npc_extended_juggernaut_healing_ward", targetPoint, true, caster, caster, caster:GetTeam())
 
 	-- Make the ward immediately follow its caster
 	healing_ward:SetControllableByPlayer(caster:GetPlayerID(), true)
@@ -144,18 +144,18 @@ function imba_juggernaut_healing_ward:OnSpellStart()
 	-- Apply the Healing Ward duration modifier
 	healing_ward:AddNewModifier(caster, self, "modifier_kill", {duration = self:GetTalentSpecialValueFor("duration")})
 	-- Grant the Healing Ward its abilities
-	healing_ward:AddAbility("imba_juggernaut_healing_ward_passive"):SetLevel( self:GetLevel() )
+	healing_ward:AddAbility("extended_juggernaut_healing_ward_passive"):SetLevel( self:GetLevel() )
 end
 
 
 
-imba_juggernaut_healing_ward_passive = class({})
+extended_juggernaut_healing_ward_passive = class({})
 
-function imba_juggernaut_healing_ward_passive:GetIntrinsicModifierName()
-	return "modifier_imba_juggernaut_healing_ward_passive"
+function extended_juggernaut_healing_ward_passive:GetIntrinsicModifierName()
+	return "modifier_extended_juggernaut_healing_ward_passive"
 end
 
-function imba_juggernaut_healing_ward_passive:CastFilterResult()
+function extended_juggernaut_healing_ward_passive:CastFilterResult()
 	if not IsTotem(self:GetCaster()) then
 		return UF_SUCCESS
 	else
@@ -163,11 +163,11 @@ function imba_juggernaut_healing_ward_passive:CastFilterResult()
 	end
 end
 
-function imba_juggernaut_healing_ward_passive:GetCustomCastError()
+function extended_juggernaut_healing_ward_passive:GetCustomCastError()
 	return "Already totem"
 end
 
-function imba_juggernaut_healing_ward_passive:OnSpellStart()
+function extended_juggernaut_healing_ward_passive:OnSpellStart()
 	local caster = self:GetCaster()
 	local targetPoint = self:GetCursorPosition()
 	-- Play cast sound
@@ -177,13 +177,13 @@ function imba_juggernaut_healing_ward_passive:OnSpellStart()
 	caster:SetMoveCapability(DOTA_UNIT_CAP_MOVE_NONE)
 	caster:SetModel("models/items/juggernaut/ward/dc_wardupate/dc_wardupate.vmdl")
 	SetCreatureHealth(caster, self:GetTalentSpecialValueFor("health_totem"), true)
-	caster:FindModifierByName("modifier_imba_juggernaut_healing_ward_passive"):ForceRefresh()
+	caster:FindModifierByName("modifier_extended_juggernaut_healing_ward_passive"):ForceRefresh()
 end
 
-LinkLuaModifier("modifier_imba_juggernaut_healing_ward_passive", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_juggernaut_healing_ward_passive = class({})
+LinkLuaModifier("modifier_extended_juggernaut_healing_ward_passive", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_juggernaut_healing_ward_passive = class({})
 
-function modifier_imba_juggernaut_healing_ward_passive:OnCreated()
+function modifier_extended_juggernaut_healing_ward_passive:OnCreated()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	if IsTotem(self:GetParent()) then
@@ -209,7 +209,7 @@ function modifier_imba_juggernaut_healing_ward_passive:OnCreated()
 	end
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:OnRefresh()
+function modifier_extended_juggernaut_healing_ward_passive:OnRefresh()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	if IsTotem(self:GetParent()) then
@@ -235,7 +235,7 @@ function modifier_imba_juggernaut_healing_ward_passive:OnRefresh()
 	end
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:OnIntervalThink()
+function modifier_extended_juggernaut_healing_ward_passive:OnIntervalThink()
 	if IsTotem(self:GetParent()) and self:GetParent():GetModelName() == "models/heroes/juggernaut/jugg_healing_ward.vmdl" then
 		self:GetParent():SetModel("models/items/juggernaut/ward/dc_wardupate/dc_wardupate.vmdl")
 	elseif not IsTotem(self:GetParent()) and self:GetParent():GetModelName() == "models/items/juggernaut/ward/dc_wardupate/dc_wardupate.vmdl" then
@@ -243,23 +243,23 @@ function modifier_imba_juggernaut_healing_ward_passive:OnIntervalThink()
 	end
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:IsHidden()
+function modifier_extended_juggernaut_healing_ward_passive:IsHidden()
 	return true
 end
 
 --------------------------------------------------------------------------------
 
-function modifier_imba_juggernaut_healing_ward_passive:IsAura()
+function modifier_extended_juggernaut_healing_ward_passive:IsAura()
 	return true
 end
 
 --------------------------------------------------------------------------------
 
-function modifier_imba_juggernaut_healing_ward_passive:GetModifierAura()
-	return "modifier_imba_juggernaut_healing_ward_aura"
+function modifier_extended_juggernaut_healing_ward_passive:GetModifierAura()
+	return "modifier_extended_juggernaut_healing_ward_aura"
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:GetAuraEntityReject(hEntity)
+function modifier_extended_juggernaut_healing_ward_passive:GetAuraEntityReject(hEntity)
 	if hEntity == self:GetParent() then return true end
 	return false
 end
@@ -267,28 +267,28 @@ end
 
 --------------------------------------------------------------------------------
 
-function modifier_imba_juggernaut_healing_ward_passive:GetAuraSearchTeam()
+function modifier_extended_juggernaut_healing_ward_passive:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
 --------------------------------------------------------------------------------
 
-function modifier_imba_juggernaut_healing_ward_passive:GetAuraSearchType()
+function modifier_extended_juggernaut_healing_ward_passive:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
 --------------------------------------------------------------------------------
 
-function modifier_imba_juggernaut_healing_ward_passive:GetAuraRadius()
+function modifier_extended_juggernaut_healing_ward_passive:GetAuraRadius()
 	return self.radius
 end
 
 --------------------------------------------------------------------------------
-function modifier_imba_juggernaut_healing_ward_passive:IsPurgable()
+function modifier_extended_juggernaut_healing_ward_passive:IsPurgable()
     return false
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:CheckState()
+function modifier_extended_juggernaut_healing_ward_passive:CheckState()
     local state = {
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 		[MODIFIER_STATE_MAGIC_IMMUNE] = true,
@@ -297,7 +297,7 @@ function modifier_imba_juggernaut_healing_ward_passive:CheckState()
 	return state
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:DeclareFunctions()
+function modifier_extended_juggernaut_healing_ward_passive:DeclareFunctions()
 	funcs = { 
 		MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
@@ -306,11 +306,11 @@ function modifier_imba_juggernaut_healing_ward_passive:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:GetModifierIncomingDamage_Percentage()
+function modifier_extended_juggernaut_healing_ward_passive:GetModifierIncomingDamage_Percentage()
 	return -100
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:OnAttackLanded(params) -- health handling
+function modifier_extended_juggernaut_healing_ward_passive:OnAttackLanded(params) -- health handling
 	if params.target == self:GetParent() then
 		local damage = 1
 		if params.attacker:IsRealHero() or params.attacker:IsTower() then
@@ -324,7 +324,7 @@ function modifier_imba_juggernaut_healing_ward_passive:OnAttackLanded(params) --
 	end
 end
 
-function modifier_imba_juggernaut_healing_ward_passive:OnDeath(params) -- modifier kill instadeletes thanks valve
+function modifier_extended_juggernaut_healing_ward_passive:OnDeath(params) -- modifier kill instadeletes thanks valve
 	if params.unit == self:GetParent() then
 		ParticleManager:DestroyParticle(self.caster.healing_ward_ambient_pfx, false)
 		ParticleManager:ReleaseParticleIndex(self.caster.healing_ward_ambient_pfx)
@@ -333,10 +333,10 @@ function modifier_imba_juggernaut_healing_ward_passive:OnDeath(params) -- modifi
 	end
 end
 
-LinkLuaModifier("modifier_imba_juggernaut_healing_ward_aura", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_juggernaut_healing_ward_aura = class({})
+LinkLuaModifier("modifier_extended_juggernaut_healing_ward_aura", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_juggernaut_healing_ward_aura = class({})
 
-function modifier_imba_juggernaut_healing_ward_aura:OnCreated()
+function modifier_extended_juggernaut_healing_ward_aura:OnCreated()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	if IsTotem(self.caster) then
@@ -346,7 +346,7 @@ function modifier_imba_juggernaut_healing_ward_aura:OnCreated()
 	end
 end
 
-function modifier_imba_juggernaut_healing_ward_aura:OnRefresh()
+function modifier_extended_juggernaut_healing_ward_aura:OnRefresh()
 	if IsTotem(self.caster) then
 		self.healing = self.ability:GetTalentSpecialValueFor("heal_per_sec_totem")
 	else
@@ -354,56 +354,56 @@ function modifier_imba_juggernaut_healing_ward_aura:OnRefresh()
 	end
 end
 
-function modifier_imba_juggernaut_healing_ward_aura:GetEffectName()
+function modifier_extended_juggernaut_healing_ward_aura:GetEffectName()
 	return "particles/units/heroes/hero_juggernaut/juggernaut_ward_heal.vpcf"
 end
 
-function modifier_imba_juggernaut_healing_ward_aura:DeclareFunctions()
+function modifier_extended_juggernaut_healing_ward_aura:DeclareFunctions()
 	funcs = { MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE }
 	return funcs
 end
 
-function modifier_imba_juggernaut_healing_ward_aura:GetModifierHealthRegenPercentage()
+function modifier_extended_juggernaut_healing_ward_aura:GetModifierHealthRegenPercentage()
 	return self.healing
 end
 
 
 -- BLADE DANCE --
-imba_juggernaut_blade_dance = class({})
+extended_juggernaut_blade_dance = class({})
 
-function imba_juggernaut_blade_dance:GetIntrinsicModifierName()
-	return "modifier_imba_juggernaut_blade_dance_passive"
+function extended_juggernaut_blade_dance:GetIntrinsicModifierName()
+	return "modifier_extended_juggernaut_blade_dance_passive"
 end
 
-function imba_juggernaut_blade_dance:OnSpellStart()
+function extended_juggernaut_blade_dance:OnSpellStart()
 	local caster = self:GetCaster()
 	local target = self:GetCursorTarget()
 	self.endTarget = target
-	caster:AddNewModifier(caster, self, "modifier_imba_juggernaut_blade_dance_empowered_slice", {})
+	caster:AddNewModifier(caster, self, "modifier_extended_juggernaut_blade_dance_empowered_slice", {})
 end
 
-function imba_juggernaut_blade_dance:GetCastRange()
+function extended_juggernaut_blade_dance:GetCastRange()
 	if self:GetBehavior() ~= DOTA_ABILITY_BEHAVIOR_PASSIVE then
 		return self:GetTalentSpecialValueFor("active_distance")
 	end
 	return 0
 end
 
-function imba_juggernaut_blade_dance:GetCooldown()
+function extended_juggernaut_blade_dance:GetCooldown()
 	if self:GetBehavior() ~= DOTA_ABILITY_BEHAVIOR_PASSIVE then
 		return self:GetTalentSpecialValueFor("active_cooldown")
 	end
 	return 0
 end
 
-LinkLuaModifier("modifier_imba_juggernaut_blade_dance_empowered_slice", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_HORIZONTAL)
-modifier_imba_juggernaut_blade_dance_empowered_slice = class({})
+LinkLuaModifier("modifier_extended_juggernaut_blade_dance_empowered_slice", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_HORIZONTAL)
+modifier_extended_juggernaut_blade_dance_empowered_slice = class({})
 
-function modifier_imba_juggernaut_blade_dance_empowered_slice:IsHidden()
+function modifier_extended_juggernaut_blade_dance_empowered_slice:IsHidden()
 	return true
 end
 
-function modifier_imba_juggernaut_blade_dance_empowered_slice:OnCreated( )
+function modifier_extended_juggernaut_blade_dance_empowered_slice:OnCreated( )
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	if IsServer() then
@@ -418,12 +418,12 @@ function modifier_imba_juggernaut_blade_dance_empowered_slice:OnCreated( )
 		self.direction = ( self.endTarget:GetAbsOrigin() - self.caster:GetAbsOrigin() ):Normalized()
 		self.traveled = 0
 		self:StartIntervalThink(self.caster:GetSecondsPerAttack()/2)
-		self.wind_dance = self.caster:FindModifierByName("modifier_imba_juggernaut_blade_dance_wind_dance")
+		self.wind_dance = self.caster:FindModifierByName("modifier_extended_juggernaut_blade_dance_wind_dance")
 		self:SeekAndDestroy()
 	end
 end
 
-function modifier_imba_juggernaut_blade_dance_empowered_slice:SeekAndDestroy( )
+function modifier_extended_juggernaut_blade_dance_empowered_slice:SeekAndDestroy( )
 	local sliceEnemies = FindUnitsInRadius(self.caster:GetTeamNumber(), self.caster:GetAbsOrigin(), nil, 150, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 	for _,enemy in pairs(sliceEnemies) do	
 		-- Play hit sound
@@ -438,11 +438,11 @@ function modifier_imba_juggernaut_blade_dance_empowered_slice:SeekAndDestroy( )
 	end
 end
 
-function modifier_imba_juggernaut_blade_dance_empowered_slice:OnIntervalThink( )
+function modifier_extended_juggernaut_blade_dance_empowered_slice:OnIntervalThink( )
 	self:SeekAndDestroy()
 end
 
-function modifier_imba_juggernaut_blade_dance_empowered_slice:UpdateHorizontalMotion( me, dt )
+function modifier_extended_juggernaut_blade_dance_empowered_slice:UpdateHorizontalMotion( me, dt )
 	if IsServer() then
 		if self.distance_left > 100 and not self.wind_dance:IsNull() and self.wind_dance:GetStackCount() > 0 then
 			local oldPos = self.caster:GetAbsOrigin()
@@ -464,7 +464,7 @@ function modifier_imba_juggernaut_blade_dance_empowered_slice:UpdateHorizontalMo
 	end
 end
 
-function modifier_imba_juggernaut_blade_dance_empowered_slice:CheckState()
+function modifier_extended_juggernaut_blade_dance_empowered_slice:CheckState()
     local state = {
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 		[MODIFIER_STATE_INVULNERABLE] = true,
@@ -472,23 +472,23 @@ function modifier_imba_juggernaut_blade_dance_empowered_slice:CheckState()
 	return state
 end
 
-function modifier_imba_juggernaut_blade_dance_empowered_slice:StatusEffectPriority()
+function modifier_extended_juggernaut_blade_dance_empowered_slice:StatusEffectPriority()
 	return 20
 end
 
-function modifier_imba_juggernaut_blade_dance_empowered_slice:GetStatusEffectName()
+function modifier_extended_juggernaut_blade_dance_empowered_slice:GetStatusEffectName()
 	return "particles/status_fx/status_effect_omnislash.vpcf"
 end
 
 
-LinkLuaModifier("modifier_imba_juggernaut_blade_dance_passive", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_juggernaut_blade_dance_passive = class({})
+LinkLuaModifier("modifier_extended_juggernaut_blade_dance_passive", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_juggernaut_blade_dance_passive = class({})
 
-function modifier_imba_juggernaut_blade_dance_passive:IsHidden()
+function modifier_extended_juggernaut_blade_dance_passive:IsHidden()
 	return true
 end
 
-function modifier_imba_juggernaut_blade_dance_passive:OnCreated()
+function modifier_extended_juggernaut_blade_dance_passive:OnCreated()
 	self:StartIntervalThink(1)
 	self.ability = self:GetAbility()
 	self.caster = self:GetCaster()
@@ -501,16 +501,16 @@ function modifier_imba_juggernaut_blade_dance_passive:OnCreated()
 	self:GetAbility():GetBehavior()
 end
 
-function modifier_imba_juggernaut_blade_dance_passive:OnRefresh()
+function modifier_extended_juggernaut_blade_dance_passive:OnRefresh()
 	self.crit = self.ability:GetTalentSpecialValueFor("crit_damage")
 	self.chance = self.ability:GetTalentSpecialValueFor("crit_chance")
 end
 
-function modifier_imba_juggernaut_blade_dance_passive:OnIntervalThink() -- account for talents being skilled
+function modifier_extended_juggernaut_blade_dance_passive:OnIntervalThink() -- account for talents being skilled
 	self:ForceRefresh()
 end
 
-function modifier_imba_juggernaut_blade_dance_passive:DeclareFunctions()
+function modifier_extended_juggernaut_blade_dance_passive:DeclareFunctions()
 	funcs = {
 				MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE,
 				MODIFIER_EVENT_ON_ATTACK_LANDED
@@ -519,7 +519,7 @@ function modifier_imba_juggernaut_blade_dance_passive:DeclareFunctions()
 end
 
 if IsServer() then
-	function modifier_imba_juggernaut_blade_dance_passive:GetModifierPreAttack_CriticalStrike(params)
+	function modifier_extended_juggernaut_blade_dance_passive:GetModifierPreAttack_CriticalStrike(params)
 		if self:GetParent():PassivesDisabled() then return nil end
 		if RollPercentage( self.chance + self.prng - math.floor( (self.chance - 5)/self.chance ) ) then
 			self.prng = 0
@@ -538,7 +538,7 @@ if IsServer() then
 		end
 	end
 
-	function modifier_imba_juggernaut_blade_dance_passive:OnAttackLanded(params)
+	function modifier_extended_juggernaut_blade_dance_passive:OnAttackLanded(params)
 		if params.attacker == self:GetParent() then
 			self:HandleWindDance(self.critProc)
 			self.critProc = false
@@ -546,11 +546,11 @@ if IsServer() then
 	end
 end
 
-function modifier_imba_juggernaut_blade_dance_passive:HandleWindDance(bCrit)
+function modifier_extended_juggernaut_blade_dance_passive:HandleWindDance(bCrit)
 	if self:GetCaster():IsRealHero() then
-		local wind_dance = self.caster:FindModifierByName("modifier_imba_juggernaut_blade_dance_wind_dance")
+		local wind_dance = self.caster:FindModifierByName("modifier_extended_juggernaut_blade_dance_wind_dance")
 		if bCrit then
-			if not wind_dance then wind_dance = self.caster:AddNewModifier(self.caster, self.ability, "modifier_imba_juggernaut_blade_dance_wind_dance", {duration = self.ability:GetTalentSpecialValueFor("bonus_duration")}) end
+			if not wind_dance then wind_dance = self.caster:AddNewModifier(self.caster, self.ability, "modifier_extended_juggernaut_blade_dance_wind_dance", {duration = self.ability:GetTalentSpecialValueFor("bonus_duration")}) end
 			wind_dance:ForceRefresh()
 		elseif wind_dance then
 			wind_dance:SetDuration(wind_dance:GetDuration(), true) -- does not roll refresh
@@ -558,17 +558,17 @@ function modifier_imba_juggernaut_blade_dance_passive:HandleWindDance(bCrit)
 	end
 end
 
-LinkLuaModifier("modifier_imba_juggernaut_blade_dance_wind_dance", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_juggernaut_blade_dance_wind_dance = class({})
+LinkLuaModifier("modifier_extended_juggernaut_blade_dance_wind_dance", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_juggernaut_blade_dance_wind_dance = class({})
 
-function modifier_imba_juggernaut_blade_dance_wind_dance:OnCreated()
+function modifier_extended_juggernaut_blade_dance_wind_dance:OnCreated()
 	self.agi = self:GetAbility():GetTalentSpecialValueFor("bonus_agi")
 	self.ms = self:GetAbility():GetTalentSpecialValueFor("bonus_ms")
 	
 	self:StartIntervalThink(1)
 end
 
-function modifier_imba_juggernaut_blade_dance_wind_dance:OnRefresh()
+function modifier_extended_juggernaut_blade_dance_wind_dance:OnRefresh()
 	self.agi = self:GetAbility():GetTalentSpecialValueFor("bonus_agi")
 	self.ms = self:GetAbility():GetTalentSpecialValueFor("bonus_ms")
 	if IsServer() then
@@ -577,7 +577,7 @@ function modifier_imba_juggernaut_blade_dance_wind_dance:OnRefresh()
 	end
 end
 
-function modifier_imba_juggernaut_blade_dance_wind_dance:OnStackCountChanged()
+function modifier_extended_juggernaut_blade_dance_wind_dance:OnStackCountChanged()
 	local serverCheck = 0
 	if IsServer() then -- why? ? ? ? ?
 		self:GetParent():CalculateStatBonus()
@@ -597,14 +597,14 @@ function modifier_imba_juggernaut_blade_dance_wind_dance:OnStackCountChanged()
 	end
 end
 
-function modifier_imba_juggernaut_blade_dance_wind_dance:OnRemoved()
+function modifier_extended_juggernaut_blade_dance_wind_dance:OnRemoved()
 	self:GetAbility().GetBehavior = function() return DOTA_ABILITY_BEHAVIOR_PASSIVE end
 	self:GetAbility():GetBehavior()
 	self:GetAbility():GetCastRange(self:GetCaster(), self:GetCaster():GetAbsOrigin())
 	self:GetAbility():GetCooldown()
 end
 
-function modifier_imba_juggernaut_blade_dance_wind_dance:DeclareFunctions()
+function modifier_extended_juggernaut_blade_dance_wind_dance:DeclareFunctions()
 	funcs = {
 				MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 				MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
@@ -612,24 +612,24 @@ function modifier_imba_juggernaut_blade_dance_wind_dance:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_juggernaut_blade_dance_wind_dance:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_juggernaut_blade_dance_wind_dance:GetModifierMoveSpeedBonus_Percentage()
 	return self.ms * self:GetStackCount()
 end
 
-function modifier_imba_juggernaut_blade_dance_wind_dance:GetModifierBonusStats_Agility()
+function modifier_extended_juggernaut_blade_dance_wind_dance:GetModifierBonusStats_Agility()
 	return self.agi * self:GetStackCount()
 end
 
 
 -- OMNI SLASH --
-imba_juggernaut_omni_slash = class({})
+extended_juggernaut_omni_slash = class({})
 
-function imba_juggernaut_omni_slash:GetIntrinsicModifierName()
-	return	"modifier_imba_juggernaut_omni_slash_cdr"
+function extended_juggernaut_omni_slash:GetIntrinsicModifierName()
+	return	"modifier_extended_juggernaut_omni_slash_cdr"
 end
 
 
-function imba_juggernaut_omni_slash:OnAbilityPhaseStart()
+function extended_juggernaut_omni_slash:OnAbilityPhaseStart()
 	local caster = self:GetCaster()
 	local rand = math.random
 	local rand_number = rand(100)
@@ -641,10 +641,10 @@ function imba_juggernaut_omni_slash:OnAbilityPhaseStart()
 	return true
 end
 
-function imba_juggernaut_omni_slash:OnSpellStart()
+function extended_juggernaut_omni_slash:OnSpellStart()
 	local caster = self:GetCaster()
 	local target = self:GetCursorTarget()
-	local omnislash_modifier = caster:AddNewModifier(caster, self, "modifier_imba_omni_slash_caster", {})
+	local omnislash_modifier = caster:AddNewModifier(caster, self, "modifier_extended_omni_slash_caster", {})
 	
 
 	PlayerResource:SetCameraTarget(caster:GetPlayerID(), caster)
@@ -664,10 +664,10 @@ function imba_juggernaut_omni_slash:OnSpellStart()
 end
 
 
-LinkLuaModifier("modifier_imba_omni_slash_caster", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_HORIZONTAL)
-modifier_imba_omni_slash_caster = class({})
+LinkLuaModifier("modifier_extended_omni_slash_caster", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_HORIZONTAL)
+modifier_extended_omni_slash_caster = class({})
 
-function modifier_imba_omni_slash_caster:OnCreated( )
+function modifier_extended_omni_slash_caster:OnCreated( )
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	if not self.caster:HasScepter() then
@@ -683,11 +683,11 @@ function modifier_imba_omni_slash_caster:OnCreated( )
 	end
 end
 
-function modifier_imba_omni_slash_caster:OnIntervalThink( )
+function modifier_extended_omni_slash_caster:OnIntervalThink( )
 	self:BounceAndSlaughter()
 end
 
-function modifier_imba_omni_slash_caster:BounceAndSlaughter( )
+function modifier_extended_omni_slash_caster:BounceAndSlaughter( )
 	nearby_enemies = FindUnitsInRadius(self.caster:GetTeamNumber(), self.caster:GetAbsOrigin(), nil, self.bounce_range, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE, FIND_ANY_ORDER, false)
 	print(self.bounce_amt, self.bounce_amt >= 1 and #nearby_enemies >= 1)
 	if self.bounce_amt >= 1 and #nearby_enemies >= 1 then
@@ -731,9 +731,9 @@ function modifier_imba_omni_slash_caster:BounceAndSlaughter( )
 	end
 end
 
-function modifier_imba_omni_slash_caster:OnRemoved()
+function modifier_extended_omni_slash_caster:OnRemoved()
 	if IsServer() then
-		if self.caster:HasModifier("modifier_imba_blade_fury_caster") then
+		if self.caster:HasModifier("modifier_extended_blade_fury_caster") then
 			StartAnimation(self.caster, {activity = ACT_DOTA_OVERRIDE_ABILITY_1, rate = 1.0})
 		else
 			EndAnimation(self.caster)
@@ -746,7 +746,7 @@ function modifier_imba_omni_slash_caster:OnRemoved()
 	end
 end
 
-function modifier_imba_omni_slash_caster:CheckState()
+function modifier_extended_omni_slash_caster:CheckState()
     local state = {
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 		[MODIFIER_STATE_INVULNERABLE] = true,
@@ -756,40 +756,40 @@ function modifier_imba_omni_slash_caster:CheckState()
 	return state
 end
 
-function modifier_imba_omni_slash_caster:StatusEffectPriority()
+function modifier_extended_omni_slash_caster:StatusEffectPriority()
 	return 20
 end
 
-function modifier_imba_omni_slash_caster:GetStatusEffectName()
+function modifier_extended_omni_slash_caster:GetStatusEffectName()
 	return "particles/status_fx/status_effect_omnislash.vpcf"
 end
 
-LinkLuaModifier("modifier_imba_juggernaut_omni_slash_cdr", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_HORIZONTAL)
-modifier_imba_juggernaut_omni_slash_cdr = class({})
+LinkLuaModifier("modifier_extended_juggernaut_omni_slash_cdr", "hero/hero_juggernaut", LUA_MODIFIER_MOTION_HORIZONTAL)
+modifier_extended_juggernaut_omni_slash_cdr = class({})
 
-function modifier_imba_juggernaut_omni_slash_cdr:OnCreated()
+function modifier_extended_juggernaut_omni_slash_cdr:OnCreated()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	self.cdr = self.ability:GetTalentSpecialValueFor("cdr_per_attack")
 end
 
-function modifier_imba_juggernaut_omni_slash_cdr:OnRefresh()
+function modifier_extended_juggernaut_omni_slash_cdr:OnRefresh()
 	self.cdr = self.ability:GetTalentSpecialValueFor("cdr_per_attack")
 end
 
-function modifier_imba_juggernaut_omni_slash_cdr:IsHidden()
+function modifier_extended_juggernaut_omni_slash_cdr:IsHidden()
 	return true
 end
 
 
-function modifier_imba_juggernaut_omni_slash_cdr:DeclareFunctions()
+function modifier_extended_juggernaut_omni_slash_cdr:DeclareFunctions()
 	funcs = { 
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 	return funcs
 end
 
-function modifier_imba_juggernaut_omni_slash_cdr:OnAttackLanded(params) -- health handling
+function modifier_extended_juggernaut_omni_slash_cdr:OnAttackLanded(params) -- health handling
 	if params.attacker == self:GetParent() and params.target:IsRealHero() and not self.ability:IsCooldownReady() then
 		local cd = self.ability:GetCooldownTimeRemaining() - self.cdr
 		self.ability:EndCooldown()
@@ -866,7 +866,7 @@ function Omnislash( keys )
 			-- Else, end the omnislash
 			else
 				caster:RemoveModifierByName(modifier_caster)
-				if caster:HasModifier("modifier_imba_blade_fury_caster") then
+				if caster:HasModifier("modifier_extended_blade_fury_caster") then
 					StartAnimation(caster, {activity = ACT_DOTA_OVERRIDE_ABILITY_1, rate = 1.0})
 				else
 					EndAnimation(caster)
@@ -877,7 +877,7 @@ function Omnislash( keys )
 		-- Else, end the omnislash
 		else
 			caster:RemoveModifierByName(modifier_caster)
-			if caster:HasModifier("modifier_imba_blade_fury_caster") then
+			if caster:HasModifier("modifier_extended_blade_fury_caster") then
 				StartAnimation(caster, {activity = ACT_DOTA_OVERRIDE_ABILITY_1, rate = 1.0})
 			else
 				EndAnimation(caster)

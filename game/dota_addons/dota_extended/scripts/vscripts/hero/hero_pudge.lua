@@ -1,4 +1,4 @@
---[[ 	Authors: Pizzalol and D2imba
+--[[ 	Authors: Pizzalol and D2extended
 		Date: 10.07.2015				]]
 
 function HookCast( keys )
@@ -347,7 +347,7 @@ function HookStacksUpdater( keys )
 
 	-- If this is Rubick and Meat Hook is no longer present, kill the modifier
 	if IsStolenSpell(caster) then
-		if not caster:FindAbilityByName("imba_pudge_meat_hook") then
+		if not caster:FindAbilityByName("extended_pudge_meat_hook") then
 			caster:RemoveModifierByName(modifier_sharp)
 			caster:RemoveModifierByName(modifier_light)
 			return nil

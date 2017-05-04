@@ -1,16 +1,16 @@
 --[[	Author: Firetoad
 		Date: 29.09.2015	]]
 
-if modifier_imba_speed_limit_break == nil then
-	modifier_imba_speed_limit_break = class({})
+if modifier_extended_speed_limit_break == nil then
+	modifier_extended_speed_limit_break = class({})
 end
 
-function modifier_imba_speed_limit_break:OnCreated( kv )	
+function modifier_extended_speed_limit_break:OnCreated( kv )	
 	if IsServer() then
 	end
 end
 
-function modifier_imba_speed_limit_break:DeclareFunctions()
+function modifier_extended_speed_limit_break:DeclareFunctions()
 	local funcs = {
 	MODIFIER_PROPERTY_MOVESPEED_MAX
 	}
@@ -18,12 +18,12 @@ function modifier_imba_speed_limit_break:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_speed_limit_break:GetModifierMoveSpeed_Max()
+function modifier_extended_speed_limit_break:GetModifierMoveSpeed_Max()
 	return 10000
 end
-function modifier_imba_speed_limit_break:GetPriority()
+function modifier_extended_speed_limit_break:GetPriority()
     return MODIFIER_PRIORITY_HIGH end
    
-function modifier_imba_speed_limit_break:IsHidden()
+function modifier_extended_speed_limit_break:IsHidden()
 	return true
 end

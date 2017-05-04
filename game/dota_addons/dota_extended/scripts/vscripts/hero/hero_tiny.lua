@@ -1,13 +1,13 @@
-imba_tiny_rolling_stone = imba_tiny_rolling_stone or class({})
-function imba_tiny_rolling_stone:GetIntrinsicModifierName()
-	return "modifier_imba_tiny_rolling_stone"
+extended_tiny_rolling_stone = extended_tiny_rolling_stone or class({})
+function extended_tiny_rolling_stone:GetIntrinsicModifierName()
+	return "modifier_extended_tiny_rolling_stone"
 end
 
 
-LinkLuaModifier("modifier_imba_tiny_rolling_stone", "hero/hero_tiny", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_tiny_rolling_stone = class({})
+LinkLuaModifier("modifier_extended_tiny_rolling_stone", "hero/hero_tiny", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_tiny_rolling_stone = class({})
 
-function modifier_imba_tiny_rolling_stone:OnCreated()
+function modifier_extended_tiny_rolling_stone:OnCreated()
 	self.bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
 	self.attackspeed = self:GetAbility():GetSpecialValueFor("attackspeed_reduction")
 	self.movespeed = self:GetAbility():GetSpecialValueFor("bonus_movespeed")
@@ -23,7 +23,7 @@ function modifier_imba_tiny_rolling_stone:OnCreated()
 	end
 end
 
-function modifier_imba_tiny_rolling_stone:OnRefresh()
+function modifier_extended_tiny_rolling_stone:OnRefresh()
 	self.bonus_damage = self:GetAbility():GetSpecialValueFor("bonus_damage")
 	self.attackspeed = self:GetAbility():GetSpecialValueFor("attackspeed_reduction")
 	self.movespeed = self:GetAbility():GetSpecialValueFor("bonus_movespeed")
@@ -33,7 +33,7 @@ function modifier_imba_tiny_rolling_stone:OnRefresh()
 	self.growscale = 0
 end
 
-function modifier_imba_tiny_rolling_stone:OnIntervalThink()
+function modifier_extended_tiny_rolling_stone:OnIntervalThink()
 	if self:GetParent():IsMoving() then
 		self.internalTimer = self.internalTimer + 0.03 * self.gain
 	end
@@ -55,15 +55,15 @@ function modifier_imba_tiny_rolling_stone:OnIntervalThink()
 	end
 end
 
-function modifier_imba_tiny_rolling_stone:IsHidden()
+function modifier_extended_tiny_rolling_stone:IsHidden()
 	return false
 end
 
-function modifier_imba_tiny_rolling_stone:RemoveOnDeath()
+function modifier_extended_tiny_rolling_stone:RemoveOnDeath()
 	return false
 end
 
-function modifier_imba_tiny_rolling_stone:DeclareFunctions()
+function modifier_extended_tiny_rolling_stone:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE,
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT,
@@ -73,15 +73,15 @@ function modifier_imba_tiny_rolling_stone:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_tiny_rolling_stone:GetModifierBaseAttack_BonusDamage()
+function modifier_extended_tiny_rolling_stone:GetModifierBaseAttack_BonusDamage()
 	return self.bonus_damage * self:GetStackCount()
 end
 
-function modifier_imba_tiny_rolling_stone:GetModifierMoveSpeedBonus_Constant()
+function modifier_extended_tiny_rolling_stone:GetModifierMoveSpeedBonus_Constant()
 	return self.movespeed * self:GetStackCount()
 end
 
-function modifier_imba_tiny_rolling_stone:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_tiny_rolling_stone:GetModifierAttackSpeedBonus_Constant()
 	if not self:GetParent():HasModifier("modifier_special_bonus_unique_tiny_8") then
 		return self.attackspeed * self:GetStackCount()
 	else
@@ -89,7 +89,7 @@ function modifier_imba_tiny_rolling_stone:GetModifierAttackSpeedBonus_Constant()
 	end
 end
 
-function modifier_imba_tiny_rolling_stone:GetModifierModelScale()
+function modifier_extended_tiny_rolling_stone:GetModifierModelScale()
 	if IsServer() then
 		local scale = self.modelscale * self:GetStackCount() - self.growscale
 		if scale > self.modelcap then scale = self.modelcap end
@@ -97,12 +97,12 @@ function modifier_imba_tiny_rolling_stone:GetModifierModelScale()
 	end
 end
 
-imba_tiny_avalanche = imba_tiny_avalanche or class({})
-function imba_tiny_avalanche:GetAOERadius()
+extended_tiny_avalanche = extended_tiny_avalanche or class({})
+function extended_tiny_avalanche:GetAOERadius()
 	return self:GetSpecialValueFor("radius")
 end
 if IsServer() then
-	function imba_tiny_avalanche:OnSpellStart()
+	function extended_tiny_avalanche:OnSpellStart()
 		local vPos = self:GetCursorPosition()
 		local caster = self:GetCaster()
 		
@@ -131,12 +131,12 @@ if IsServer() then
 		EmitSoundOnLocationWithCaster(vPos, "Ability.Avalanche", caster)
 	end
 	
-	function imba_tiny_avalanche:OnProjectileHit_ExtraData(hTarget, vLocation, extradata)
+	function extended_tiny_avalanche:OnProjectileHit_ExtraData(hTarget, vLocation, extradata)
 		local caster = self:GetCaster()
 		
 		local duration = self:GetSpecialValueFor("stun_duration")
 		local toss_mult = self:GetSpecialValueFor("toss_damage_multiplier")
-		local radius = self:GetSpecialValueFor("radius") + caster:FindModifierByName("modifier_imba_tiny_rolling_stone"):GetStackCount() * caster:FindAbilityByName("imba_tiny_grow"):GetSpecialValueFor("rolling_stones_aoe")
+		local radius = self:GetSpecialValueFor("radius") + caster:FindModifierByName("modifier_extended_tiny_rolling_stone"):GetStackCount() * caster:FindAbilityByName("extended_tiny_grow"):GetSpecialValueFor("rolling_stones_aoe")
 		local interval = self:GetSpecialValueFor("tick_interval")
 		local damage = self:GetTalentSpecialValueFor("avalanche_damage") / self:GetSpecialValueFor("num_ticks")
 		local avalanche = ParticleManager:CreateParticle("particles/units/heroes/hero_tiny/tiny_avalanche.vpcf", PATTACH_CUSTOMORIGIN, nil) 
@@ -178,38 +178,38 @@ if IsServer() then
 	end
 end
 
-function imba_tiny_avalanche:GetIntrinsicModifierName()
-	return "modifier_imba_tiny_avalanche_passive"
+function extended_tiny_avalanche:GetIntrinsicModifierName()
+	return "modifier_extended_tiny_avalanche_passive"
 end
 
 
-LinkLuaModifier("modifier_imba_tiny_avalanche_passive", "hero/hero_tiny", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_tiny_avalanche_passive = class({})
-function modifier_imba_tiny_avalanche_passive:OnCreated()
+LinkLuaModifier("modifier_extended_tiny_avalanche_passive", "hero/hero_tiny", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_tiny_avalanche_passive = class({})
+function modifier_extended_tiny_avalanche_passive:OnCreated()
 	self.chance = self:GetAbility():GetSpecialValueFor("passive_chance")
 	self.prng = -10
 end
 
-function modifier_imba_tiny_avalanche_passive:OnRefresh()
+function modifier_extended_tiny_avalanche_passive:OnRefresh()
 	self.chance = self:GetAbility():GetSpecialValueFor("passive_chance")
 end
 
-function modifier_imba_tiny_avalanche_passive:IsHidden()
+function modifier_extended_tiny_avalanche_passive:IsHidden()
 	return true
 end
 
-function modifier_imba_tiny_avalanche_passive:RemoveOnDeath()
+function modifier_extended_tiny_avalanche_passive:RemoveOnDeath()
 	return false
 end
 
-function modifier_imba_tiny_avalanche_passive:DeclareFunctions()
+function modifier_extended_tiny_avalanche_passive:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 	return funcs
 end
 
-function modifier_imba_tiny_avalanche_passive:OnAttackLanded(params)
+function modifier_extended_tiny_avalanche_passive:OnAttackLanded(params)
 	if IsServer() then
 		if params.attacker == self:GetParent() then
 			if RollPercentage(self.chance + self.prng) then
@@ -247,9 +247,9 @@ function modifier_imba_tiny_avalanche_passive:OnAttackLanded(params)
 	end
 end
 
-imba_tiny_toss = imba_tiny_toss or class({})
+extended_tiny_toss = extended_tiny_toss or class({})
 if IsServer() then
-	function imba_tiny_toss:OnSpellStart()
+	function extended_tiny_toss:OnSpellStart()
 		self.tossPosition = self:GetCursorPosition()
 		local hTarget = self:GetCursorTarget()
 		local caster = self:GetCaster()
@@ -289,7 +289,7 @@ if IsServer() then
 	end
 end
 
-function imba_tiny_toss:GetCastRange(vLocation, hTarget)
+function extended_tiny_toss:GetCastRange(vLocation, hTarget)
 	if IsServer() or hTarget then
 		return self.BaseClass.GetCastRange( self, vLocation, hTarget )
 	elseif hTarget == nil then
@@ -346,12 +346,12 @@ end
 function modifier_tiny_toss_movement:OnRemoved()
 	if IsServer() then
 		local caster = self:GetCaster()
-		local radius = self:GetAbility():GetSpecialValueFor("radius") + caster:FindModifierByName("modifier_imba_tiny_rolling_stone"):GetStackCount() * caster:FindAbilityByName("imba_tiny_grow"):GetSpecialValueFor("rolling_stones_aoe")
+		local radius = self:GetAbility():GetSpecialValueFor("radius") + caster:FindModifierByName("modifier_extended_tiny_rolling_stone"):GetStackCount() * caster:FindAbilityByName("extended_tiny_grow"):GetSpecialValueFor("rolling_stones_aoe")
 		local victims = FindUnitsInRadius(caster:GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, 0, 1, false)
 		for _, victim in pairs(victims) do
 			local damage = self:GetAbility():GetSpecialValueFor("toss_damage")
 			if victim == self:GetParent() then
-				damage = damage * (1 + (self:GetAbility():GetSpecialValueFor("bonus_damage_pct") + self:GetCaster():FindModifierByName("modifier_imba_tiny_rolling_stone"):GetStackCount()) / 100)
+				damage = damage * (1 + (self:GetAbility():GetSpecialValueFor("bonus_damage_pct") + self:GetCaster():FindModifierByName("modifier_extended_tiny_rolling_stone"):GetStackCount()) / 100)
 			end
 			if victim:IsBuilding() then
 				damage = damage * self:GetAbility():GetSpecialValueFor("building_dmg") / 100
@@ -576,15 +576,15 @@ function modifier_tiny_toss_scepter_bounce:UpdateVerticalMotion( me, dt )
 end
 
 
-imba_tiny_craggy_exterior = imba_tiny_craggy_exterior or class({})
+extended_tiny_craggy_exterior = extended_tiny_craggy_exterior or class({})
 
-function imba_tiny_craggy_exterior:GetIntrinsicModifierName()
-	return "modifier_imba_tiny_craggy_exterior_passive"
+function extended_tiny_craggy_exterior:GetIntrinsicModifierName()
+	return "modifier_extended_tiny_craggy_exterior_passive"
 end
 
-LinkLuaModifier("modifier_imba_tiny_craggy_exterior_passive", "hero/hero_tiny", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_tiny_craggy_exterior_passive = class({})
-function modifier_imba_tiny_craggy_exterior_passive:OnCreated()
+LinkLuaModifier("modifier_extended_tiny_craggy_exterior_passive", "hero/hero_tiny", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_tiny_craggy_exterior_passive = class({})
+function modifier_extended_tiny_craggy_exterior_passive:OnCreated()
 	self.chance = self:GetAbility():GetSpecialValueFor("stun_chance")
 	self.damage = self:GetAbility():GetSpecialValueFor("damage")
 	self.duration = self:GetAbility():GetSpecialValueFor("stun_duration")
@@ -592,7 +592,7 @@ function modifier_imba_tiny_craggy_exterior_passive:OnCreated()
 	self.prng = -10
 end
 
-function modifier_imba_tiny_craggy_exterior_passive:OnRefresh()
+function modifier_extended_tiny_craggy_exterior_passive:OnRefresh()
 	self.chance = self:GetAbility():GetSpecialValueFor("stun_chance")
 	self.damage = self:GetAbility():GetSpecialValueFor("damage")
 	self.duration = self:GetAbility():GetSpecialValueFor("stun_duration")
@@ -600,15 +600,15 @@ function modifier_imba_tiny_craggy_exterior_passive:OnRefresh()
 	self.reduction_duration = self:GetAbility():GetSpecialValueFor("reduction_duration")
 end
 
-function modifier_imba_tiny_craggy_exterior_passive:IsHidden()
+function modifier_extended_tiny_craggy_exterior_passive:IsHidden()
 	return true
 end
 
-function modifier_imba_tiny_craggy_exterior_passive:RemoveOnDeath()
+function modifier_extended_tiny_craggy_exterior_passive:RemoveOnDeath()
 	return false
 end
 
-function modifier_imba_tiny_craggy_exterior_passive:DeclareFunctions()
+function modifier_extended_tiny_craggy_exterior_passive:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS
@@ -616,11 +616,11 @@ function modifier_imba_tiny_craggy_exterior_passive:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_tiny_craggy_exterior_passive:GetModifierPhysicalArmorBonus()
+function modifier_extended_tiny_craggy_exterior_passive:GetModifierPhysicalArmorBonus()
 	return self.armor
 end
 
-function modifier_imba_tiny_craggy_exterior_passive:OnAttackLanded(params)
+function modifier_extended_tiny_craggy_exterior_passive:OnAttackLanded(params)
 	if IsServer() then
 		if params.target == self:GetParent() then
 			local caster = self:GetCaster()
@@ -698,15 +698,15 @@ function modifier_craggy_exterior_blunt:GetModifierPreAttack_BonusDamage()
 	return self.reduction * self:GetStackCount()
 end
 
-imba_tiny_grow = imba_tiny_grow or class({})
+extended_tiny_grow = extended_tiny_grow or class({})
 
-function imba_tiny_grow:GetIntrinsicModifierName()
-	return "modifier_imba_tiny_grow_passive"
+function extended_tiny_grow:GetIntrinsicModifierName()
+	return "modifier_extended_tiny_grow_passive"
 end
 
-function imba_tiny_grow:OnUpgrade()
+function extended_tiny_grow:OnUpgrade()
 	if IsServer() then
-		local rolling_stone = self:GetCaster():FindModifierByName("modifier_imba_tiny_rolling_stone")
+		local rolling_stone = self:GetCaster():FindModifierByName("modifier_extended_tiny_rolling_stone")
 		rolling_stone.growscale = self:GetSpecialValueFor("rolling_stone_scale_reduction")
 		local old_stacks = self:GetLevelSpecialValueFor("rolling_stones_stacks", self:GetLevel() - 2 )
 		local new_stacks = self:GetLevelSpecialValueFor("rolling_stones_stacks", self:GetLevel() - 1 )
@@ -744,10 +744,10 @@ function imba_tiny_grow:OnUpgrade()
 	end
 end
 
-LinkLuaModifier("modifier_imba_tiny_grow_passive", "hero/hero_tiny", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_tiny_grow_passive = class({})
+LinkLuaModifier("modifier_extended_tiny_grow_passive", "hero/hero_tiny", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_tiny_grow_passive = class({})
 
-function modifier_imba_tiny_grow_passive:OnCreated()
+function modifier_extended_tiny_grow_passive:OnCreated()
 	self.cleave_pct = self:GetAbility():GetSpecialValueFor("bonus_cleave_damage_scepter")
 	self.cleave_distance = self:GetAbility():GetSpecialValueFor("cleave_distance")
 	self.cleave_startwidth = self:GetAbility():GetSpecialValueFor("cleave_starting_width")
@@ -760,7 +760,7 @@ function modifier_imba_tiny_grow_passive:OnCreated()
 	end
 end
 
-function modifier_imba_tiny_grow_passive:OnIntervalThink()
+function modifier_extended_tiny_grow_passive:OnIntervalThink()
 	if self:GetCaster():HasScepter() and not self.tree then
 		self.tree = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/heroes/tiny_01/tiny_01_tree.vmdl"})
 		self.tree:FollowEntity(self:GetCaster(), true)
@@ -770,15 +770,15 @@ function modifier_imba_tiny_grow_passive:OnIntervalThink()
 	end
 end
 
-function modifier_imba_tiny_grow_passive:IsHidden()
+function modifier_extended_tiny_grow_passive:IsHidden()
 	return true
 end
 
-function modifier_imba_tiny_grow_passive:RemoveOnDeath()
+function modifier_extended_tiny_grow_passive:RemoveOnDeath()
 	return false
 end
 
-function modifier_imba_tiny_grow_passive:DeclareFunctions()
+function modifier_extended_tiny_grow_passive:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
 		MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
@@ -790,7 +790,7 @@ end
 
 ----------------------------------------------------------------------------
 
-function modifier_imba_tiny_grow_passive:GetModifierAttackRangeBonus( params )
+function modifier_extended_tiny_grow_passive:GetModifierAttackRangeBonus( params )
 	if self:GetCaster():HasScepter() then
 		return self.attackrange
 	else
@@ -798,7 +798,7 @@ function modifier_imba_tiny_grow_passive:GetModifierAttackRangeBonus( params )
 	end
 end
 
-function modifier_imba_tiny_grow_passive:GetModifierTotalDamageOutgoing_Percentage( params )
+function modifier_extended_tiny_grow_passive:GetModifierTotalDamageOutgoing_Percentage( params )
 	if IsServer() then
 		if params.attacker == self:GetParent() and params.target:IsBuilding() and self:GetParent():HasScepter() and not params.inflictor then
 			return self.buildingdmg
@@ -808,7 +808,7 @@ end
 
 
 
-function modifier_imba_tiny_grow_passive:OnAttackLanded( params )
+function modifier_extended_tiny_grow_passive:OnAttackLanded( params )
 	if IsServer() then
 		if params.attacker == self:GetParent() and not params.target:IsBuilding() and self:GetParent():HasScepter() then
 			DoCleaveAttack( params.attacker, params.target, self:GetAbility(), params.damage * self.cleave_pct / 100, self.cleave_startwidth, self.cleave_endwidth, self.cleave_distance, "particles/units/heroes/hero_tiny/tiny_grow_cleave.vpcf" )

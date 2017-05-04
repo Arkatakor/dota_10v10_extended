@@ -10,7 +10,7 @@ CreateEmptyTalents("lina")
 -------------------------------------------
 -- 	#8 Talent - Blazing strike
 -------------------------------------------
-function modifier_special_bonus_imba_lina_8:DeclareFunctions()
+function modifier_special_bonus_extended_lina_8:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_EVENT_ON_ATTACK_LANDED
@@ -18,26 +18,26 @@ function modifier_special_bonus_imba_lina_8:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_special_bonus_imba_lina_8:OnAttackLanded( params )
+function modifier_special_bonus_extended_lina_8:OnAttackLanded( params )
 	if IsServer() then
 		local parent = self:GetParent()
 		local target = params.target
 		if parent == params.attacker and target:GetTeamNumber() ~= parent:GetTeamNumber() and (target.IsCreep or target.IsHero) then
 			local int = parent:GetIntellect()
-			local ticks = parent:FindSpecificTalentValue("special_bonus_imba_lina_8", "ticks_amount")
-			local duration = parent:FindSpecificTalentValue("special_bonus_imba_lina_8", "duration")
-			local dmg_int_pct = parent:FindSpecificTalentValue("special_bonus_imba_lina_8", "dmg_int_pct")
+			local ticks = parent:FindSpecificTalentValue("special_bonus_extended_lina_8", "ticks_amount")
+			local duration = parent:FindSpecificTalentValue("special_bonus_extended_lina_8", "duration")
+			local dmg_int_pct = parent:FindSpecificTalentValue("special_bonus_extended_lina_8", "dmg_int_pct")
 			local dmg_per_tick = ( int * dmg_int_pct / 100) / (duration / ticks)
 			local tick_duration = duration / ticks
-			target:AddNewModifier(parent, nil, "modifier_imba_blazing_strike", {duration = duration, dmg_per_tick = dmg_per_tick, tick_duration = tick_duration})
+			target:AddNewModifier(parent, nil, "modifier_extended_blazing_strike", {duration = duration, dmg_per_tick = dmg_per_tick, tick_duration = tick_duration})
 		end
 	end
 end
 
-LinkLuaModifier("modifier_imba_blazing_strike", "hero/hero_lina", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_blazing_strike = class({})
+LinkLuaModifier("modifier_extended_blazing_strike", "hero/hero_lina", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_blazing_strike = class({})
 
-function modifier_imba_blazing_strike:OnCreated( params )
+function modifier_extended_blazing_strike:OnCreated( params )
 	if IsServer() then
 		self.dmg_per_tick = params.dmg_per_tick
 		self.counter = 10
@@ -49,21 +49,21 @@ function modifier_imba_blazing_strike:OnCreated( params )
 	end
 end
 
-function modifier_imba_blazing_strike:OnRefresh( params )
+function modifier_extended_blazing_strike:OnRefresh( params )
 	if IsServer() then
 		self.dmg_per_tick = params.dmg_per_tick
 		self.counter = 10
 	end
 end
 
-function modifier_imba_blazing_strike:OnIntervalThink( )	
+function modifier_extended_blazing_strike:OnIntervalThink( )	
 	if IsServer() then
 		ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = nil, damage = self.dmg_per_tick, damage_type = DAMAGE_TYPE_MAGICAL})
 		self.counter = self.counter - 1
 	end
 end
 
-function modifier_imba_blazing_strike:OnDestroy( params )
+function modifier_extended_blazing_strike:OnDestroy( params )
 	if IsServer() then
 		ApplyDamage({victim = self:GetParent(), attacker = self:GetCaster(), ability = nil, damage = (self.dmg_per_tick * self.counter), damage_type = DAMAGE_TYPE_MAGICAL})
 		ParticleManager:DestroyParticle(self.particle_fx, false)
@@ -71,15 +71,15 @@ function modifier_imba_blazing_strike:OnDestroy( params )
 	end
 end
 
-function modifier_imba_blazing_strike:IsDebuff()
+function modifier_extended_blazing_strike:IsDebuff()
 	return true
 end
 
-function modifier_imba_blazing_strike:IsHidden()
+function modifier_extended_blazing_strike:IsHidden()
 	return false
 end
 
-function modifier_imba_blazing_strike:GetTexture()
+function modifier_extended_blazing_strike:GetTexture()
 	return "lina_fiery_soul"
 end
 
@@ -87,13 +87,13 @@ end
 --			DRAGON SLAVE
 -------------------------------------------
 
-imba_lina_dragon_slave = class({})
+extended_lina_dragon_slave = class({})
 
-function imba_lina_dragon_slave:OnUpgrade()
+function extended_lina_dragon_slave:OnUpgrade()
 	self.cast_point = self.cast_point or self:GetCastPoint()
 end
 
-function imba_lina_dragon_slave:OnSpellStart()
+function extended_lina_dragon_slave:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target_loc = self:GetCursorPosition()
@@ -204,12 +204,12 @@ function imba_lina_dragon_slave:OnSpellStart()
 	end
 end
 
-function imba_lina_dragon_slave:OnProjectileHit_ExtraData(target, location, ExtraData)
+function extended_lina_dragon_slave:OnProjectileHit_ExtraData(target, location, ExtraData)
 	if target then
 		local caster = self:GetCaster()
-		local ability_laguna = caster:FindAbilityByName("imba_lina_laguna_blade")
+		local ability_laguna = caster:FindAbilityByName("extended_lina_laguna_blade")
 		ApplyDamage({victim = target, attacker = caster, ability = self, damage = ExtraData.damage, damage_type = self:GetAbilityDamageType()})
-		target:RemoveModifierByName("modifier_imba_blazing_strike")
+		target:RemoveModifierByName("modifier_extended_blazing_strike")
 		if ability_laguna and not ability_laguna:IsCooldownReady() then
 			local cdr
 			if target:IsHero() and not target:IsIllusion() then
@@ -225,19 +225,19 @@ function imba_lina_dragon_slave:OnProjectileHit_ExtraData(target, location, Extr
 	return false
 end
 
-function imba_lina_dragon_slave:IsStealable()
+function extended_lina_dragon_slave:IsStealable()
 	return true
 end
 
-function imba_lina_dragon_slave:IsHiddenWhenStolen()
+function extended_lina_dragon_slave:IsHiddenWhenStolen()
 	return false
 end
 
-function imba_lina_dragon_slave:GetCooldown( nLevel )
+function extended_lina_dragon_slave:GetCooldown( nLevel )
 	local cooldown = self.BaseClass.GetCooldown( self, nLevel )
 	local caster = self:GetCaster()
-	if caster:HasTalent("special_bonus_imba_lina_3") then
-		cooldown = cooldown - caster:FindTalentValue("special_bonus_imba_lina_3")
+	if caster:HasTalent("special_bonus_extended_lina_3") then
+		cooldown = cooldown - caster:FindTalentValue("special_bonus_extended_lina_3")
 	end
 	return cooldown
 end
@@ -246,9 +246,9 @@ end
 --			LIGHT STRIKE ARRAY
 -------------------------------------------
 
-imba_lina_light_strike_array = class({})
+extended_lina_light_strike_array = class({})
 
-function imba_lina_light_strike_array:OnSpellStart()
+function extended_lina_light_strike_array:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target_loc = self:GetCursorPosition()
@@ -288,9 +288,9 @@ function imba_lina_light_strike_array:OnSpellStart()
 			local position = target_loc + distance * direction
 			self:CreateStrike( position, delay, cast_delay, radius, damage, stun_duration )
 		end
-		if caster:HasTalent("special_bonus_imba_lina_4") then
+		if caster:HasTalent("special_bonus_extended_lina_4") then
 			direction = RotateVector2D(direction,90,true)
-			for i=1, caster:FindTalentValue("special_bonus_imba_lina_4"), 1 do
+			for i=1, caster:FindTalentValue("special_bonus_extended_lina_4"), 1 do
 				local distance = i
 				if math.mod(i,2) == 1 then
 					distance = radius * (distance + 1)
@@ -305,7 +305,7 @@ function imba_lina_light_strike_array:OnSpellStart()
 	end
 end
 
-function imba_lina_light_strike_array:CreateStrike( position, delay, cast_delay, radius, damage, stun_duration )
+function extended_lina_light_strike_array:CreateStrike( position, delay, cast_delay, radius, damage, stun_duration )
 	local caster = self:GetCaster()
 	local dummy = CreateUnitByName("npc_dummy_unit", position, false, caster, caster, caster:GetTeamNumber() )
 	position = dummy:GetAbsOrigin()
@@ -336,18 +336,18 @@ function imba_lina_light_strike_array:CreateStrike( position, delay, cast_delay,
 	end)
 end
 
-function imba_lina_light_strike_array:OnHit( target, damage, stun_duration )
+function extended_lina_light_strike_array:OnHit( target, damage, stun_duration )
 	local caster = self:GetCaster()
 	ApplyDamage({attacker = caster, victim = target, ability = self, damage = damage, damage_type = self:GetAbilityDamageType()})
-	target:RemoveModifierByName("modifier_imba_blazing_strike")
+	target:RemoveModifierByName("modifier_extended_blazing_strike")
 	target:AddNewModifier(caster, self, "modifier_stunned", {duration = stun_duration})
 end
 
-function imba_lina_light_strike_array:GetAOERadius()
+function extended_lina_light_strike_array:GetAOERadius()
 	return self:GetSpecialValueFor("aoe_radius")
 end
 
-function imba_lina_light_strike_array:IsHiddenWhenStolen()
+function extended_lina_light_strike_array:IsHiddenWhenStolen()
 	return false
 end
 
@@ -355,17 +355,17 @@ end
 --				FIERY SOUL
 -------------------------------------------
 
-imba_lina_fiery_soul = class({})
-LinkLuaModifier("modifier_imba_fiery_soul", "hero/hero_lina", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_fiery_soul_counter", "hero/hero_lina", LUA_MODIFIER_MOTION_NONE)
+extended_lina_fiery_soul = class({})
+LinkLuaModifier("modifier_extended_fiery_soul", "hero/hero_lina", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_fiery_soul_counter", "hero/hero_lina", LUA_MODIFIER_MOTION_NONE)
 
-function imba_lina_fiery_soul:GetIntrinsicModifierName()
-    return "modifier_imba_fiery_soul"
+function extended_lina_fiery_soul:GetIntrinsicModifierName()
+    return "modifier_extended_fiery_soul"
 end
 
-modifier_imba_fiery_soul = class({})
+modifier_extended_fiery_soul = class({})
 
-function modifier_imba_fiery_soul:DeclareFunctions()
+function modifier_extended_fiery_soul:DeclareFunctions()
 	local decFuncs =
 	{
 		MODIFIER_EVENT_ON_ABILITY_FULLY_CAST,
@@ -373,7 +373,7 @@ function modifier_imba_fiery_soul:DeclareFunctions()
 	return decFuncs
 end
 
-function modifier_imba_fiery_soul:OnAbilityFullyCast( params )
+function modifier_extended_fiery_soul:OnAbilityFullyCast( params )
 	if IsServer() then
 		local item = params.ability:IsItem()
 		if item then
@@ -381,20 +381,20 @@ function modifier_imba_fiery_soul:OnAbilityFullyCast( params )
 		end
 		local parent = self:GetParent()
 		if (params.ability:GetCaster() == parent) then
-			parent:AddNewModifier(parent, self:GetAbility(), "modifier_imba_fiery_soul_counter", {duration = self:GetAbility():GetSpecialValueFor("duration")})
+			parent:AddNewModifier(parent, self:GetAbility(), "modifier_extended_fiery_soul_counter", {duration = self:GetAbility():GetSpecialValueFor("duration")})
 		end
 		return true
 	end
 end
 
-function modifier_imba_fiery_soul:IsHidden()
+function modifier_extended_fiery_soul:IsHidden()
 	return true
 end
 
 
-modifier_imba_fiery_soul_counter = class({})
+modifier_extended_fiery_soul_counter = class({})
 
-function modifier_imba_fiery_soul_counter:OnCreated()
+function modifier_extended_fiery_soul_counter:OnCreated()
 	if IsServer() then
 		local caster = self:GetCaster()
 		self:SetStackCount(1)
@@ -406,7 +406,7 @@ function modifier_imba_fiery_soul_counter:OnCreated()
 	end
 end
 
-function modifier_imba_fiery_soul_counter:OnRefresh()
+function modifier_extended_fiery_soul_counter:OnRefresh()
 	if IsServer() then
 		local stacks = self:GetStackCount()
 		local ability = self:GetAbility()
@@ -419,18 +419,18 @@ function modifier_imba_fiery_soul_counter:OnRefresh()
 	end
 end
 
-function modifier_imba_fiery_soul_counter:OnDestroy()
+function modifier_extended_fiery_soul_counter:OnDestroy()
 	if IsServer() then
 		ParticleManager:DestroyParticle(self.particle, false)
 		ParticleManager:ReleaseParticleIndex(self.particle)
 	end
 end
 
-function modifier_imba_fiery_soul_counter:GetTexture()
+function modifier_extended_fiery_soul_counter:GetTexture()
 	return "lina_fiery_soul"
 end
 
-function modifier_imba_fiery_soul_counter:DeclareFunctions()
+function modifier_extended_fiery_soul_counter:DeclareFunctions()
 	local decFuncs = 
 	{	
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
@@ -441,21 +441,21 @@ function modifier_imba_fiery_soul_counter:DeclareFunctions()
 	return decFuncs	
 end
 
-function modifier_imba_fiery_soul_counter:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_fiery_soul_counter:GetModifierAttackSpeedBonus_Constant()
 	local speed = self:GetAbility():GetTalentSpecialValueFor("bonus_as")
 	return speed * self:GetStackCount()
 end
 
-function modifier_imba_fiery_soul_counter:GetModifierMoveSpeedBonus_Percentage()
-	local speed = self:GetAbility():GetSpecialValueFor("bonus_ms_pct") + self:GetCaster():FindSpecificTalentValue("special_bonus_imba_lina_5", "value2")
+function modifier_extended_fiery_soul_counter:GetModifierMoveSpeedBonus_Percentage()
+	local speed = self:GetAbility():GetSpecialValueFor("bonus_ms_pct") + self:GetCaster():FindSpecificTalentValue("special_bonus_extended_lina_5", "value2")
 	return speed * self:GetStackCount()
 end
 
-function modifier_imba_fiery_soul_counter:GetModifierPercentageCasttime()
+function modifier_extended_fiery_soul_counter:GetModifierPercentageCasttime()
 	return self:GetAbility():GetSpecialValueFor("animation_pct") * self:GetStackCount()
 end
 
-function modifier_imba_fiery_soul_counter:GetModifierPercentageCooldown()
+function modifier_extended_fiery_soul_counter:GetModifierPercentageCooldown()
 	return self:GetAbility():GetSpecialValueFor("cdr_pct") * self:GetStackCount()
 end
 
@@ -463,9 +463,9 @@ end
 --			LAGUNA BLADE
 -------------------------------------------
 
-imba_lina_laguna_blade = class({})
+extended_lina_laguna_blade = class({})
 
-function imba_lina_laguna_blade:OnSpellStart()
+function extended_lina_laguna_blade:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target = self:GetCursorTarget()
@@ -493,9 +493,9 @@ function imba_lina_laguna_blade:OnSpellStart()
 				end
 			end
 			ApplyDamage({victim = target, attacker = caster, ability = self, damage = damage, damage_type = damage_type})
-			target:RemoveModifierByName("modifier_imba_blazing_strike")
-			if caster:HasTalent("special_bonus_imba_lina_6") then
-				target:AddNewModifier(caster, self, "modifier_stunned", { duration = caster:FindTalentValue("special_bonus_imba_lina_6") })
+			target:RemoveModifierByName("modifier_extended_blazing_strike")
+			if caster:HasTalent("special_bonus_extended_lina_6") then
+				target:AddNewModifier(caster, self, "modifier_stunned", { duration = caster:FindTalentValue("special_bonus_extended_lina_6") })
 			end
 			-- Bouncing --
 			local enemies = FindUnitsInRadius(caster:GetTeamNumber(), target_loc, nil, bounce_range, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
@@ -512,9 +512,9 @@ function imba_lina_laguna_blade:OnSpellStart()
 				ParticleManager:SetParticleControlEnt(bounce_pfx, 1, enemies[i], PATTACH_POINT_FOLLOW, "attach_hitloc", enemies[i]:GetAbsOrigin(), true)
 				ParticleManager:ReleaseParticleIndex(bounce_pfx)
 				ApplyDamage({victim = enemies[i], attacker = caster, ability = self, damage = damage, damage_type = damage_type})
-				enemies[i]:RemoveModifierByName("modifier_imba_blazing_strike")
-				if caster:HasTalent("special_bonus_imba_lina_6") then
-					enemies[i]:AddNewModifier(caster, self, "modifier_stunned", { duration = caster:FindTalentValue("special_bonus_imba_lina_6") })
+				enemies[i]:RemoveModifierByName("modifier_extended_blazing_strike")
+				if caster:HasTalent("special_bonus_extended_lina_6") then
+					enemies[i]:AddNewModifier(caster, self, "modifier_stunned", { duration = caster:FindTalentValue("special_bonus_extended_lina_6") })
 				end
 			end
 		end)
@@ -522,7 +522,7 @@ function imba_lina_laguna_blade:OnSpellStart()
 end
 
 -- Restrict Laguna Blade being casted on magic immune without scepter
-function imba_lina_laguna_blade:CastFilterResultTarget( target )
+function extended_lina_laguna_blade:CastFilterResultTarget( target )
 	if IsServer() then
 
 		if target ~= nil and target:IsMagicImmune() and ( not self:GetCaster():HasScepter() ) then
@@ -535,24 +535,24 @@ function imba_lina_laguna_blade:CastFilterResultTarget( target )
 	return UF_SUCCESS
 end
 
-function imba_lina_laguna_blade:GetAbilityDamageType()
+function extended_lina_laguna_blade:GetAbilityDamageType()
 	if self:GetCaster():HasScepter() then return DAMAGE_TYPE_PURE end
 	return DAMAGE_TYPE_MAGICAL
 end
 
-function imba_lina_laguna_blade:GetAOERadius()
+function extended_lina_laguna_blade:GetAOERadius()
 	return self:GetSpecialValueFor("bounce_range")
 end
 
-function imba_lina_laguna_blade:GetCooldown( nLevel )
+function extended_lina_laguna_blade:GetCooldown( nLevel )
 	local cooldown = self.BaseClass.GetCooldown( self, nLevel )
 	local caster = self:GetCaster()
-	if caster:HasTalent("special_bonus_imba_lina_3") then
-		cooldown = cooldown - caster:FindTalentValue("special_bonus_imba_lina_3")
+	if caster:HasTalent("special_bonus_extended_lina_3") then
+		cooldown = cooldown - caster:FindTalentValue("special_bonus_extended_lina_3")
 	end
 	return cooldown
 end
 
-function imba_lina_laguna_blade:IsHiddenWhenStolen()
+function extended_lina_laguna_blade:IsHiddenWhenStolen()
 	return false
 end

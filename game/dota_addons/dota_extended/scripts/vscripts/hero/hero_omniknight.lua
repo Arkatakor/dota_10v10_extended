@@ -1,4 +1,4 @@
---[[	Author: D2imba
+--[[	Author: D2extended
 		Date: 23.05.2015	]]
 
 function Purification( keys )
@@ -63,9 +63,9 @@ function PurificationDeath( keys )
 
 	-- If this is Rubick and Purification is no longer present, do nothing and kill the modifiers
 	if IsStolenSpell(caster) then
-		if not caster:FindAbilityByName("imba_omniknight_purification") then
-			caster:RemoveModifierByName("modifier_imba_purification_passive_cooldown")
-			caster:RemoveModifierByName("modifier_imba_purification_passive")
+		if not caster:FindAbilityByName("extended_omniknight_purification") then
+			caster:RemoveModifierByName("modifier_extended_purification_passive_cooldown")
+			caster:RemoveModifierByName("modifier_extended_purification_passive")
 			return nil
 		end
 	end

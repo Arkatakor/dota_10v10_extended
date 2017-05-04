@@ -1,11 +1,11 @@
 --[[	Author: Firetoad
 		Date: 15.02.2017	]]
 
-if modifier_imba_prevent_actions_game_start == nil then
-	modifier_imba_prevent_actions_game_start = class({})
+if modifier_extended_prevent_actions_game_start == nil then
+	modifier_extended_prevent_actions_game_start = class({})
 end
 
-function modifier_imba_prevent_actions_game_start:CheckState()
+function modifier_extended_prevent_actions_game_start:CheckState()
 	local state = {
 		[MODIFIER_STATE_ROOTED] = true,
 		[MODIFIER_STATE_STUNNED] = true,
@@ -21,10 +21,10 @@ function modifier_imba_prevent_actions_game_start:CheckState()
 	return state
 end
 
-function modifier_imba_prevent_actions_game_start:GetDuration()
+function modifier_extended_prevent_actions_game_start:GetDuration()
 	return 60
 end
 
-function modifier_imba_prevent_actions_game_start:IsHidden()
+function modifier_extended_prevent_actions_game_start:IsHidden()
 	return true
 end

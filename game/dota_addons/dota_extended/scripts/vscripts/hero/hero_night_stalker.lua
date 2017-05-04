@@ -1,4 +1,4 @@
---[[ 	Author: D2imba
+--[[ 	Author: D2extended
 		Date: 11.05.2015	]]
 
 function Void( keys )
@@ -142,8 +142,8 @@ function DarknessLimitBreak( keys )
 	local modifier_caster = keys.modifier_caster
 
 	-- Removes movement speed cap
-	if not caster:HasModifier("modifier_imba_speed_limit_break") then
-		caster:AddNewModifier(caster, ability, "modifier_imba_speed_limit_break", {})
+	if not caster:HasModifier("modifier_extended_speed_limit_break") then
+		caster:AddNewModifier(caster, ability, "modifier_extended_speed_limit_break", {})
 	end
 
 	-- Simulate attack speed cap removal
@@ -163,7 +163,7 @@ function DarknessLimitBreakEnd( keys )
 	local caster = keys.caster
 
 	-- Returns movement speed cap
-	caster:RemoveModifierByName("modifier_imba_speed_limit_break")
+	caster:RemoveModifierByName("modifier_extended_speed_limit_break")
 
 	-- Return attack speed cap
 	RevertAttackSpeedCap(caster)

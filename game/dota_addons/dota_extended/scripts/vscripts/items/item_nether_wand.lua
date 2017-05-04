@@ -5,13 +5,13 @@ function NetherWand( keys )
 	local caster = keys.caster
 
 	-- If the bearer has a higher-level version of this ability, do nothing
-	if caster:HasModifier("modifier_item_imba_elder_staff") then
+	if caster:HasModifier("modifier_item_extended_elder_staff") then
 		return nil
 	end
 
 	-- If the target is over 2500 distance away, do nothing
 	local target = keys.unit
-	if (caster:GetAbsOrigin() - target:GetAbsOrigin()):Length2D() > IMBA_DAMAGE_EFFECTS_DISTANCE_CUTOFF then
+	if (caster:GetAbsOrigin() - target:GetAbsOrigin()):Length2D() > EXTENDED_DAMAGE_EFFECTS_DISTANCE_CUTOFF then
 		return nil
 	end
 
@@ -33,7 +33,7 @@ function ElderStaff( keys )
 	local modifier_burn = keys.modifier_burn
 
 	-- If the target is over 2500 distance away, do nothing
-	if (caster:GetAbsOrigin() - target:GetAbsOrigin()):Length2D() > IMBA_DAMAGE_EFFECTS_DISTANCE_CUTOFF then
+	if (caster:GetAbsOrigin() - target:GetAbsOrigin()):Length2D() > EXTENDED_DAMAGE_EFFECTS_DISTANCE_CUTOFF then
 		return nil
 	end
 
@@ -64,9 +64,9 @@ function NetherWandTick( keys )
 	local damage = target:GetHealth() * burn_damage * 0.01
 
 	-- Caustic finale interaction part 1
-	local caustic_ability = caster:FindAbilityByName("imba_sandking_caustic_finale")
+	local caustic_ability = caster:FindAbilityByName("extended_sandking_caustic_finale")
 	if caustic_ability and caustic_ability:GetLevel() > 0 then
-		caustic_ability:ApplyDataDrivenModifier(caster, target, "modifier_imba_caustic_finale_prevent", {})
+		caustic_ability:ApplyDataDrivenModifier(caster, target, "modifier_extended_caustic_finale_prevent", {})
 	end
 
 	-- Deal damage
@@ -77,5 +77,5 @@ function NetherWandTick( keys )
 	end
 
 	-- Caustic finale interaction part 2
-	target:RemoveModifierByNameAndCaster("modifier_imba_caustic_finale_prevent", caster)
+	target:RemoveModifierByNameAndCaster("modifier_extended_caustic_finale_prevent", caster)
 end

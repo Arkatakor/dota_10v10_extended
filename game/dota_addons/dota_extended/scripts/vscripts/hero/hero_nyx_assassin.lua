@@ -1,4 +1,4 @@
---[[ 	Author: D2imba & kritth
+--[[ 	Author: D2extended & kritth
 		Date: 16.05.2015	]]
 
 function Impale ( keys )
@@ -256,10 +256,10 @@ function VendettaDamageCount( keys )
 
 	-- If this is Rubick and Tidebringer is no longer present, do nothing and kill the modifiers
 	if IsStolenSpell(caster) then
-		if not caster:FindAbilityByName("imba_nyx_assassin_vendetta") then
-			caster:RemoveModifierByName("modifier_imba_vendetta")
-			caster:RemoveModifierByName("modifier_imba_vendetta_damage_counter")
-			caster:RemoveModifierByName("modifier_imba_vendetta_damage_stacks")
+		if not caster:FindAbilityByName("extended_nyx_assassin_vendetta") then
+			caster:RemoveModifierByName("modifier_extended_vendetta")
+			caster:RemoveModifierByName("modifier_extended_vendetta_damage_counter")
+			caster:RemoveModifierByName("modifier_extended_vendetta_damage_stacks")
 			return nil
 		end
 	end

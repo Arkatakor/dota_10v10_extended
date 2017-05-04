@@ -7,20 +7,20 @@ CreateEmptyTalents("lich")
 --          COLD FRONT           --
 -----------------------------------
 
-imba_lich_cold_front = class({})
-LinkLuaModifier("modifier_imba_cold_front_passive", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_cold_front_debuff", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_cold_front_freeze", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+extended_lich_cold_front = class({})
+LinkLuaModifier("modifier_extended_cold_front_passive", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_cold_front_debuff", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_cold_front_freeze", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
 
 
-function imba_lich_cold_front:GetIntrinsicModifierName()
-    return "modifier_imba_cold_front_passive"
+function extended_lich_cold_front:GetIntrinsicModifierName()
+    return "modifier_extended_cold_front_passive"
 end
 
 -- Cold Front attack modifier
-modifier_imba_cold_front_passive = class({})
+modifier_extended_cold_front_passive = class({})
 
-function modifier_imba_cold_front_passive:OnCreated()
+function modifier_extended_cold_front_passive:OnCreated()
     if IsServer() then
         -- Ability properties
         self.caster = self:GetCaster()
@@ -31,17 +31,17 @@ function modifier_imba_cold_front_passive:OnCreated()
     end
 end
 
-function modifier_imba_cold_front_passive:IsHidden() return true end
-function modifier_imba_cold_front_passive:IsPurgable() return false end
-function modifier_imba_cold_front_passive:IsDebuff() return false end
+function modifier_extended_cold_front_passive:IsHidden() return true end
+function modifier_extended_cold_front_passive:IsPurgable() return false end
+function modifier_extended_cold_front_passive:IsDebuff() return false end
 
-function modifier_imba_cold_front_passive:DeclareFunctions()
+function modifier_extended_cold_front_passive:DeclareFunctions()
     local decFuncs = {MODIFIER_EVENT_ON_ATTACK_LANDED}
 
     return decFuncs
 end
 
-function modifier_imba_cold_front_passive:OnAttackLanded(keys)
+function modifier_extended_cold_front_passive:OnAttackLanded(keys)
     if IsServer() then
         local attacker = keys.attacker
         local target = keys.target        
@@ -71,8 +71,8 @@ end
 -- Generic function responsible for adding Cold Front stacks from any spell
 function IncreaseStacksColdFront(caster, target, stacks)
     -- Gather information
-    local modifier_passive = "modifier_imba_cold_front_passive"
-    local modifier_debuff = "modifier_imba_cold_front_debuff"
+    local modifier_passive = "modifier_extended_cold_front_passive"
+    local modifier_debuff = "modifier_extended_cold_front_debuff"
 
     -- Non-caster handling (Nether ward)
     if not caster or not caster:HasModifier(modifier_passive) then
@@ -104,21 +104,21 @@ end
 
 
 -- Cold Front debuff
-modifier_imba_cold_front_debuff = class({})
+modifier_extended_cold_front_debuff = class({})
 
-function modifier_imba_cold_front_debuff:IsHidden() return false end
-function modifier_imba_cold_front_debuff:IsPurgable() return false end
-function modifier_imba_cold_front_debuff:IsDebuff() return true end
+function modifier_extended_cold_front_debuff:IsHidden() return false end
+function modifier_extended_cold_front_debuff:IsPurgable() return false end
+function modifier_extended_cold_front_debuff:IsDebuff() return true end
 
-function modifier_imba_cold_front_debuff:OnCreated()
+function modifier_extended_cold_front_debuff:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()    
     self.parent = self:GetParent()
-    self.modifier_freeze = "modifier_imba_cold_front_freeze"
+    self.modifier_freeze = "modifier_extended_cold_front_freeze"
 
     if IsServer() then
-        self.frost_nova_ability = self.caster:FindAbilityByName("imba_lich_frost_nova")
+        self.frost_nova_ability = self.caster:FindAbilityByName("extended_lich_frost_nova")
     end
 
     -- Ability specials
@@ -128,29 +128,29 @@ function modifier_imba_cold_front_debuff:OnCreated()
     self.freeze_duration = self.ability:GetSpecialValueFor("freeze_duration")    
 
     -- #5 Talent: Cold Front duration increase
-    self.freeze_duration = self.freeze_duration + self.caster:FindTalentValue("special_bonus_imba_lich_5")
+    self.freeze_duration = self.freeze_duration + self.caster:FindTalentValue("special_bonus_extended_lich_5")
 end
 
-function modifier_imba_cold_front_debuff:DeclareFunctions()
+function modifier_extended_cold_front_debuff:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
                       MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
 
     return decFuncs
 end
 
-function modifier_imba_cold_front_debuff:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_cold_front_debuff:GetModifierMoveSpeedBonus_Percentage()
     return self.ms_slow_pct * (-1)
 end
 
-function modifier_imba_cold_front_debuff:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_cold_front_debuff:GetModifierAttackSpeedBonus_Constant()
     return self.as_slow * (-1)
 end
 
-function modifier_imba_cold_front_debuff:GetStatusEffectName()
+function modifier_extended_cold_front_debuff:GetStatusEffectName()
     return "particles/status_fx/status_effect_frost_lich.vpcf"
 end
 
-function modifier_imba_cold_front_debuff:OnStackCountChanged()
+function modifier_extended_cold_front_debuff:OnStackCountChanged()
     if IsServer() then
         local stacks = self:GetStackCount()
 
@@ -169,19 +169,19 @@ function modifier_imba_cold_front_debuff:OnStackCountChanged()
 end
 
 -- Cold Front Freeze debuff
-modifier_imba_cold_front_freeze = class({})
+modifier_extended_cold_front_freeze = class({})
 
-function modifier_imba_cold_front_freeze:IsHidden() return false end
-function modifier_imba_cold_front_freeze:IsPurgable() return true end
-function modifier_imba_cold_front_freeze:IsDebuff() return true end
+function modifier_extended_cold_front_freeze:IsHidden() return false end
+function modifier_extended_cold_front_freeze:IsPurgable() return true end
+function modifier_extended_cold_front_freeze:IsDebuff() return true end
 
-function modifier_imba_cold_front_freeze:CheckState()
+function modifier_extended_cold_front_freeze:CheckState()
     local state = {[MODIFIER_STATE_DISARMED] = true,
                    [MODIFIER_STATE_ROOTED] = true}
     return state
 end
 
-function modifier_imba_cold_front_freeze:OnCreated()
+function modifier_extended_cold_front_freeze:OnCreated()
     self.parent = self:GetParent()
     self.particle_freeze = "particles/hero/lich/cold_front_freeze.vpcf"
 
@@ -200,28 +200,28 @@ end
 --          FROST NOVA           --
 -----------------------------------
 
-imba_lich_frost_nova = class({})
-LinkLuaModifier("modifier_imba_frost_nova_debuff", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+extended_lich_frost_nova = class({})
+LinkLuaModifier("modifier_extended_frost_nova_debuff", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
 
-function imba_lich_frost_nova:GetCooldown(level)   
+function extended_lich_frost_nova:GetCooldown(level)   
     local caster = self:GetCaster()
     local cd = self.BaseClass.GetCooldown(self, level)
 
     -- #4 Talent: Frost Nova cooldown decrease
-    cd = cd - caster:FindTalentValue("special_bonus_imba_lich_4")
+    cd = cd - caster:FindTalentValue("special_bonus_extended_lich_4")
     return cd   
 end
 
-function imba_lich_frost_nova:IsHiddenWhenStolen()
+function extended_lich_frost_nova:IsHiddenWhenStolen()
     return false
 end
 
-function imba_lich_frost_nova:GetAOERadius()
+function extended_lich_frost_nova:GetAOERadius()
     local radius = self:GetSpecialValueFor("radius")    
     return radius
 end
 
-function imba_lich_frost_nova:OnSpellStart()
+function extended_lich_frost_nova:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
@@ -283,7 +283,7 @@ end
 function FrostNova(caster, ability, target, cold_front)
     local sound_cast = "Ability.FrostNova"
     local particle_nova = "particles/units/heroes/hero_lich/lich_frost_nova.vpcf"
-    local modifier_nova = "modifier_imba_frost_nova_debuff"
+    local modifier_nova = "modifier_extended_frost_nova_debuff"
     local should_add_cold_front_stacks = true
 
     -- Ability specials
@@ -295,7 +295,7 @@ function FrostNova(caster, ability, target, cold_front)
     local area_cold_front_stacks = ability:GetSpecialValueFor("area_cold_front_stacks")    
 
     -- #8 Talent: Cold Front gains additional stack from skills
-    area_cold_front_stacks = area_cold_front_stacks + caster:FindTalentValue("special_bonus_imba_lich_8")
+    area_cold_front_stacks = area_cold_front_stacks + caster:FindTalentValue("special_bonus_extended_lich_8")
 
     -- Play cast sound
     EmitSoundOn(sound_cast, target)
@@ -373,9 +373,9 @@ end
 
 
 -- Slow debuff
-modifier_imba_frost_nova_debuff = class({})
+modifier_extended_frost_nova_debuff = class({})
 
-function modifier_imba_frost_nova_debuff:OnCreated()
+function modifier_extended_frost_nova_debuff:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
@@ -385,26 +385,26 @@ function modifier_imba_frost_nova_debuff:OnCreated()
     self.as_slow = self.ability:GetSpecialValueFor("as_slow")
 end
 
-function modifier_imba_cold_front_freeze:IsHidden() return false end
-function modifier_imba_cold_front_freeze:IsPurgable() return true end
-function modifier_imba_cold_front_freeze:IsDebuff() return true end
+function modifier_extended_cold_front_freeze:IsHidden() return false end
+function modifier_extended_cold_front_freeze:IsPurgable() return true end
+function modifier_extended_cold_front_freeze:IsDebuff() return true end
 
-function modifier_imba_frost_nova_debuff:GetStatusEffectName()
+function modifier_extended_frost_nova_debuff:GetStatusEffectName()
     return "particles/status_fx/status_effect_frost_lich.vpcf"
 end
 
-function modifier_imba_frost_nova_debuff:DeclareFunctions()
+function modifier_extended_frost_nova_debuff:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
                       MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
 
     return decFuncs
 end
 
-function modifier_imba_frost_nova_debuff:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_frost_nova_debuff:GetModifierMoveSpeedBonus_Percentage()
     return self.ms_slow_pct * (-1)
 end
 
-function modifier_imba_frost_nova_debuff:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_frost_nova_debuff:GetModifierAttackSpeedBonus_Constant()
     return self.as_slow * (-1)
 end
 
@@ -413,13 +413,13 @@ end
 --          ICE ARMOR            --
 -----------------------------------
 
-imba_lich_frost_armor = class({})
-LinkLuaModifier("modifier_imba_frost_armor_buff", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_frost_armor_debuff", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_frost_armor_freeze", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_frost_armor_auto_cast", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+extended_lich_frost_armor = class({})
+LinkLuaModifier("modifier_extended_frost_armor_buff", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_frost_armor_debuff", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_frost_armor_freeze", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_frost_armor_auto_cast", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
 
-function imba_lich_frost_armor:CastFilterResultTarget(target)
+function extended_lich_frost_armor:CastFilterResultTarget(target)
     local caster = self:GetCaster()
 
     -- Can't apply on self since Lich already got it, like, forever
@@ -440,16 +440,16 @@ function imba_lich_frost_armor:CastFilterResultTarget(target)
     return UF_SUCCESS
 end
 
-function imba_lich_frost_armor:GetCustomCastErrorTarget(target)
+function extended_lich_frost_armor:GetCustomCastErrorTarget(target)
     return "Ice Armor is eternally applied to you!"
 end
 
-function imba_lich_frost_armor:IsHiddenWhenStolen()
+function extended_lich_frost_armor:IsHiddenWhenStolen()
     return false
 end
 
-function imba_lich_frost_armor:OnUnStolen()
-    local modifier_buff = "modifier_imba_frost_armor_buff"
+function extended_lich_frost_armor:OnUnStolen()
+    local modifier_buff = "modifier_extended_frost_armor_buff"
     local caster = self:GetCaster()
 
     -- Remove Ice Armor from Rubick when he loses the spell
@@ -458,14 +458,14 @@ function imba_lich_frost_armor:OnUnStolen()
     end
 end
 
-function imba_lich_frost_armor:GetIntrinsicModifierName()
-    return "modifier_imba_frost_armor_auto_cast"
+function extended_lich_frost_armor:GetIntrinsicModifierName()
+    return "modifier_extended_frost_armor_auto_cast"
 end
 
-function imba_lich_frost_armor:OnUpgrade()    
+function extended_lich_frost_armor:OnUpgrade()    
     local caster = self:GetCaster()
     local ability = self
-    local modifier_armor = "modifier_imba_frost_armor_buff" 
+    local modifier_armor = "modifier_extended_frost_armor_buff" 
 
     -- Reapply Frost Armor on self
     if caster:HasModifier(modifier_armor) then
@@ -476,14 +476,14 @@ function imba_lich_frost_armor:OnUpgrade()
     end
 end
 
-function imba_lich_frost_armor:OnSpellStart()
+function extended_lich_frost_armor:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
     local target = self:GetCursorTarget()
     local cast_response = "lich_lich_ability_armor_0"..math.random(1,5)
     local sound_cast = "Hero_Lich.FrostArmor"
-    local modifier_armor = "modifier_imba_frost_armor_buff"
+    local modifier_armor = "modifier_extended_frost_armor_buff"
 
     -- Ability specials
     local armor_duration = ability:GetSpecialValueFor("armor_duration")
@@ -501,15 +501,15 @@ function imba_lich_frost_armor:OnSpellStart()
 end
 
 -- Frost Armor buff
-modifier_imba_frost_armor_buff = class({})
+modifier_extended_frost_armor_buff = class({})
 
-function modifier_imba_frost_armor_buff:OnCreated()
+function modifier_extended_frost_armor_buff:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
     self.parent = self:GetParent()    
     self.particle_frost_armor = "particles/units/heroes/hero_lich/lich_frost_armor.vpcf"
-    self.modifier_armor_debuff = "modifier_imba_frost_armor_debuff"
+    self.modifier_armor_debuff = "modifier_extended_frost_armor_debuff"
 
     -- Ability specials
     self.armor_bonus = self.ability:GetSpecialValueFor("armor_bonus")
@@ -519,7 +519,7 @@ function modifier_imba_frost_armor_buff:OnCreated()
 
     -- #6 Talent: Massive Ice Armor armor increase when cast on buildings
     if self.parent:IsBuilding() then
-        self.armor_bonus = self.armor_bonus + self.caster:FindTalentValue("special_bonus_imba_lich_6")
+        self.armor_bonus = self.armor_bonus + self.caster:FindTalentValue("special_bonus_extended_lich_6")
     end    
 
     -- Add particle
@@ -530,10 +530,10 @@ function modifier_imba_frost_armor_buff:OnCreated()
     self:AddParticle(self.particle_frost_armor_fx, false, false, -1, false, false)    
 end 
 
-function modifier_imba_frost_armor_buff:IsHidden() return false end
-function modifier_imba_frost_armor_buff:IsDebuff() return false end
+function modifier_extended_frost_armor_buff:IsHidden() return false end
+function modifier_extended_frost_armor_buff:IsDebuff() return false end
 
-function modifier_imba_frost_armor_buff:IsPurgable() 
+function modifier_extended_frost_armor_buff:IsPurgable() 
     -- Cannot be purged on caster
     if self.caster == self.parent then
         return false
@@ -542,18 +542,18 @@ function modifier_imba_frost_armor_buff:IsPurgable()
     return true 
 end
 
-function modifier_imba_frost_armor_buff:DeclareFunctions()
+function modifier_extended_frost_armor_buff:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
                       MODIFIER_EVENT_ON_ATTACK_LANDED}
 
     return decFuncs
 end
 
-function modifier_imba_frost_armor_buff:GetModifierPhysicalArmorBonus()
+function modifier_extended_frost_armor_buff:GetModifierPhysicalArmorBonus()
     return self.armor_bonus
 end
 
-function modifier_imba_frost_armor_buff:OnAttackLanded(keys)
+function modifier_extended_frost_armor_buff:OnAttackLanded(keys)
     local attacker = keys.attacker
     local target = keys.target
 
@@ -585,25 +585,25 @@ function modifier_imba_frost_armor_buff:OnAttackLanded(keys)
 
         -- Apply Cold Front stacks        
         -- #8 Talent: Cold Front gains additional stack from skills
-        IncreaseStacksColdFront(self.caster, attacker, self.cold_front_stacks + self.caster:FindTalentValue("special_bonus_imba_lich_8"))    
+        IncreaseStacksColdFront(self.caster, attacker, self.cold_front_stacks + self.caster:FindTalentValue("special_bonus_extended_lich_8"))    
     end
 end
 
-function modifier_imba_frost_armor_buff:GetStatusEffectName()
+function modifier_extended_frost_armor_buff:GetStatusEffectName()
     return "particles/status_fx/status_effect_frost_armor.vpcf"
 end
 
 
 
 -- Frost debuff on attacker
-modifier_imba_frost_armor_debuff = class({})
+modifier_extended_frost_armor_debuff = class({})
 
-function modifier_imba_frost_armor_debuff:OnCreated()
+function modifier_extended_frost_armor_debuff:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
     self.parent = self:GetParent()
-    self.modifier_disarm = "modifier_imba_frost_armor_freeze"
+    self.modifier_disarm = "modifier_extended_frost_armor_freeze"
 
     -- Ability specials
     self.ms_slow_pct = self.ability:GetSpecialValueFor("ms_slow_pct")
@@ -612,30 +612,30 @@ function modifier_imba_frost_armor_debuff:OnCreated()
     self.freeze_attacks = self.ability:GetSpecialValueFor("freeze_attacks")
 end
 
-function modifier_imba_frost_armor_debuff:IsHidden() return false end
-function modifier_imba_frost_armor_debuff:IsPurgable() return true end
-function modifier_imba_frost_armor_debuff:IsDebuff() return true end
+function modifier_extended_frost_armor_debuff:IsHidden() return false end
+function modifier_extended_frost_armor_debuff:IsPurgable() return true end
+function modifier_extended_frost_armor_debuff:IsDebuff() return true end
 
-function modifier_imba_frost_armor_debuff:GetStatusEffectName()
+function modifier_extended_frost_armor_debuff:GetStatusEffectName()
     return "particles/status_fx/status_effect_frost.vpcf"
 end
 
-function modifier_imba_frost_armor_debuff:DeclareFunctions()
+function modifier_extended_frost_armor_debuff:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
                       MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
 
     return decFuncs
 end
 
-function modifier_imba_frost_armor_debuff:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_frost_armor_debuff:GetModifierMoveSpeedBonus_Percentage()
     return self.ms_slow_pct * (-1)
 end
 
-function modifier_imba_frost_armor_debuff:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_frost_armor_debuff:GetModifierAttackSpeedBonus_Constant()
     return self.as_slow * (-1)
 end
 
-function modifier_imba_frost_armor_debuff:OnStackCountChanged()    
+function modifier_extended_frost_armor_debuff:OnStackCountChanged()    
     local stacks = self:GetStackCount()
 
     if stacks == 0 then
@@ -655,9 +655,9 @@ function modifier_imba_frost_armor_debuff:OnStackCountChanged()
 end
 
 -- Freeze debuff
-modifier_imba_frost_armor_freeze = class({})
+modifier_extended_frost_armor_freeze = class({})
 
-function modifier_imba_frost_armor_freeze:OnCreated()
+function modifier_extended_frost_armor_freeze:OnCreated()
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
     self.parent = self:GetParent()
@@ -669,33 +669,33 @@ function modifier_imba_frost_armor_freeze:OnCreated()
     self:AddParticle(self.particle_hand_freeze_fx, false, false, -1, false, false)
 end
 
-function modifier_imba_frost_armor_freeze:IsHidden() return false end
-function modifier_imba_frost_armor_freeze:IsPurgable() return true end
-function modifier_imba_frost_armor_freeze:IsDebuff() return true end
+function modifier_extended_frost_armor_freeze:IsHidden() return false end
+function modifier_extended_frost_armor_freeze:IsPurgable() return true end
+function modifier_extended_frost_armor_freeze:IsDebuff() return true end
 
-function modifier_imba_frost_armor_freeze:CheckState()
+function modifier_extended_frost_armor_freeze:CheckState()
     local state = {[MODIFIER_STATE_DISARMED] = true}
     return state
 end
 
 -- Auto cast thinker
-modifier_imba_frost_armor_auto_cast = class({})
+modifier_extended_frost_armor_auto_cast = class({})
 
-function modifier_imba_frost_armor_auto_cast:OnCreated()
+function modifier_extended_frost_armor_auto_cast:OnCreated()
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()      
-    self.modifier_frost_armor = "modifier_imba_frost_armor_buff"
+    self.modifier_frost_armor = "modifier_extended_frost_armor_buff"
 
     self.autocast_radius = self.ability:GetSpecialValueFor("autocast_radius")
 end
 
-function modifier_imba_frost_armor_auto_cast:DeclareFunctions()
+function modifier_extended_frost_armor_auto_cast:DeclareFunctions()
     local decFuncs = {MODIFIER_EVENT_ON_ATTACK}
 
     return decFuncs
 end
 
-function modifier_imba_frost_armor_auto_cast:OnAttack(keys)    
+function modifier_extended_frost_armor_auto_cast:OnAttack(keys)    
     local target = keys.target
 
     -- If the spell is not on auto cast, do nothing
@@ -743,23 +743,23 @@ function modifier_imba_frost_armor_auto_cast:OnAttack(keys)
     self.caster:CastAbilityOnTarget(target, self.ability, self.caster:GetPlayerID())
 end
 
-function modifier_imba_frost_armor_auto_cast:IsHidden() return true end
-function modifier_imba_frost_armor_auto_cast:IsPurgable() return false end
-function modifier_imba_frost_armor_auto_cast:IsDebuff() return false end
-function modifier_imba_frost_armor_auto_cast:IsPermanent() return true end
+function modifier_extended_frost_armor_auto_cast:IsHidden() return true end
+function modifier_extended_frost_armor_auto_cast:IsPurgable() return false end
+function modifier_extended_frost_armor_auto_cast:IsDebuff() return false end
+function modifier_extended_frost_armor_auto_cast:IsPermanent() return true end
 
 
 -----------------------------------
 --          SACRIFICE            --
 -----------------------------------
 
-imba_lich_dark_ritual = class({})
-LinkLuaModifier("modifier_imba_dark_ritual_creeps", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_dark_ritual_allied_sacrifice", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_dark_ritual_enemy_sacrifice", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+extended_lich_dark_ritual = class({})
+LinkLuaModifier("modifier_extended_dark_ritual_creeps", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_dark_ritual_allied_sacrifice", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_dark_ritual_enemy_sacrifice", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
 
 
-function imba_lich_dark_ritual:OnSpellStart()
+function extended_lich_dark_ritual:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
@@ -769,9 +769,9 @@ function imba_lich_dark_ritual:OnSpellStart()
     local sound_cast = "Ability.DarkRitual"
     local particle_sacrifice_allies = "particles/units/heroes/hero_lich/lich_dark_ritual.vpcf"
     local particle_sacrifice_enemy = "particles/hero/lich/lich_dark_ritual_enemy.vpcf"
-    local modifier_creeps = "modifier_imba_dark_ritual_creeps"
-    local modifier_allied_sacrifice = "modifier_imba_dark_ritual_allied_sacrifice"
-    local modifier_enemy_sacrifice = "modifier_imba_dark_ritual_enemy_sacrifice"
+    local modifier_creeps = "modifier_extended_dark_ritual_creeps"
+    local modifier_allied_sacrifice = "modifier_extended_dark_ritual_allied_sacrifice"
+    local modifier_enemy_sacrifice = "modifier_extended_dark_ritual_enemy_sacrifice"
 
     -- Ability specials
     local mana_conversion_pct = ability:GetSpecialValueFor("mana_conversion_pct")
@@ -890,9 +890,9 @@ function imba_lich_dark_ritual:OnSpellStart()
 end
 
 -- Allied creeps bonuses modifier
-modifier_imba_dark_ritual_creeps = class({})
+modifier_extended_dark_ritual_creeps = class({})
 
-function modifier_imba_dark_ritual_creeps:OnCreated()
+function modifier_extended_dark_ritual_creeps:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
@@ -905,9 +905,9 @@ function modifier_imba_dark_ritual_creeps:OnCreated()
     self.creeps_bonus_dmg_pct = self.ability:GetSpecialValueFor("creeps_bonus_dmg_pct")
 
     -- #2 Talent: Sacrifice bonuses increase
-    self.creeps_bonus_as = self.creeps_bonus_as * (1 + self.caster:FindTalentValue("special_bonus_imba_lich_2") * 0.01)
-    self.creeps_bonus_hp_pct = self.creeps_bonus_hp_pct * (1 + self.caster:FindTalentValue("special_bonus_imba_lich_2") * 0.01)
-    self.creeps_bonus_dmg_pct = self.creeps_bonus_dmg_pct * (1 + self.caster:FindTalentValue("special_bonus_imba_lich_2") * 0.01)
+    self.creeps_bonus_as = self.creeps_bonus_as * (1 + self.caster:FindTalentValue("special_bonus_extended_lich_2") * 0.01)
+    self.creeps_bonus_hp_pct = self.creeps_bonus_hp_pct * (1 + self.caster:FindTalentValue("special_bonus_extended_lich_2") * 0.01)
+    self.creeps_bonus_dmg_pct = self.creeps_bonus_dmg_pct * (1 + self.caster:FindTalentValue("special_bonus_extended_lich_2") * 0.01)
 
     if IsServer() then
         -- Force adjust HP
@@ -916,33 +916,33 @@ function modifier_imba_dark_ritual_creeps:OnCreated()
     end
 end
 
-function modifier_imba_dark_ritual_creeps:IsHidden() return false end
-function modifier_imba_dark_ritual_creeps:IsPurgable() return true end
-function modifier_imba_dark_ritual_creeps:IsDebuff() return false end
+function modifier_extended_dark_ritual_creeps:IsHidden() return false end
+function modifier_extended_dark_ritual_creeps:IsPurgable() return true end
+function modifier_extended_dark_ritual_creeps:IsDebuff() return false end
 
-function modifier_imba_dark_ritual_creeps:GetEffectName()
+function modifier_extended_dark_ritual_creeps:GetEffectName()
     return "particles/hero/lich/lich_dark_ritual_buff_ally.vpcf"
 end
 
-function modifier_imba_dark_ritual_creeps:DeclareFunctions()
+function modifier_extended_dark_ritual_creeps:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,                      
                       MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE}
 
     return decFuncs
 end
 
-function modifier_imba_dark_ritual_creeps:GetModifierHealthBonus()     
+function modifier_extended_dark_ritual_creeps:GetModifierHealthBonus()     
      return self.stacks * self.creeps_bonus_hp_pct * 0.01
 end 
 
-function modifier_imba_dark_ritual_creeps:GetModifierPreAttack_BonusDamage()
+function modifier_extended_dark_ritual_creeps:GetModifierPreAttack_BonusDamage()
      return self.stacks * self.creeps_bonus_dmg_pct * 0.01
 end
 
 -- Allied sacrificed creep hero bonuses
-modifier_imba_dark_ritual_allied_sacrifice = class({})
+modifier_extended_dark_ritual_allied_sacrifice = class({})
 
-function modifier_imba_dark_ritual_allied_sacrifice:OnCreated()
+function modifier_extended_dark_ritual_allied_sacrifice:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()    
@@ -951,31 +951,31 @@ function modifier_imba_dark_ritual_allied_sacrifice:OnCreated()
     self.allied_kill_dmg_red_pct = self.ability:GetSpecialValueFor("allied_kill_dmg_red_pct")
 
     -- #2 Talent: Sacrifice bonuses increase
-    self.allied_kill_dmg_red_pct = self.allied_kill_dmg_red_pct * (1 + self.caster:FindTalentValue("special_bonus_imba_lich_2") * 0.01)
+    self.allied_kill_dmg_red_pct = self.allied_kill_dmg_red_pct * (1 + self.caster:FindTalentValue("special_bonus_extended_lich_2") * 0.01)
 end
 
-function modifier_imba_dark_ritual_allied_sacrifice:IsHidden() return false end
-function modifier_imba_dark_ritual_allied_sacrifice:IsPurgable() return true end
-function modifier_imba_dark_ritual_allied_sacrifice:IsDebuff() return false end
+function modifier_extended_dark_ritual_allied_sacrifice:IsHidden() return false end
+function modifier_extended_dark_ritual_allied_sacrifice:IsPurgable() return true end
+function modifier_extended_dark_ritual_allied_sacrifice:IsDebuff() return false end
 
-function modifier_imba_dark_ritual_allied_sacrifice:GetEffectName()
+function modifier_extended_dark_ritual_allied_sacrifice:GetEffectName()
     return "particles/hero/lich/lich_dark_ritual_buff_ally.vpcf"
 end
 
-function modifier_imba_dark_ritual_allied_sacrifice:DeclareFunctions()
+function modifier_extended_dark_ritual_allied_sacrifice:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE}
 
     return decFuncs
 end
 
-function modifier_imba_dark_ritual_allied_sacrifice:GetModifierIncomingDamage_Percentage()    
+function modifier_extended_dark_ritual_allied_sacrifice:GetModifierIncomingDamage_Percentage()    
     return self.allied_kill_dmg_red_pct * (-1)
 end
 
 -- Enemy sacrificed creep hero bonuses
-modifier_imba_dark_ritual_enemy_sacrifice = class({})
+modifier_extended_dark_ritual_enemy_sacrifice = class({})
 
-function modifier_imba_dark_ritual_enemy_sacrifice:OnCreated()
+function modifier_extended_dark_ritual_enemy_sacrifice:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()    
@@ -985,30 +985,30 @@ function modifier_imba_dark_ritual_enemy_sacrifice:OnCreated()
     self.enemy_kill_bonus_spell_amp = self.ability:GetSpecialValueFor("enemy_kill_bonus_spell_amp")
 
     -- #2 Talent: Sacrifice bonuses increase
-    self.enemy_kill_bonus_dmg_pct = self.enemy_kill_bonus_dmg_pct * (1 + self.caster:FindTalentValue("special_bonus_imba_lich_2") * 0.01)
-    self.enemy_kill_bonus_spell_amp = self.enemy_kill_bonus_spell_amp * (1 + self.caster:FindTalentValue("special_bonus_imba_lich_2") * 0.01)
+    self.enemy_kill_bonus_dmg_pct = self.enemy_kill_bonus_dmg_pct * (1 + self.caster:FindTalentValue("special_bonus_extended_lich_2") * 0.01)
+    self.enemy_kill_bonus_spell_amp = self.enemy_kill_bonus_spell_amp * (1 + self.caster:FindTalentValue("special_bonus_extended_lich_2") * 0.01)
 end
 
-function modifier_imba_dark_ritual_enemy_sacrifice:IsHidden() return false end
-function modifier_imba_dark_ritual_enemy_sacrifice:IsPurgable() return true end
-function modifier_imba_dark_ritual_enemy_sacrifice:IsDebuff() return false end
+function modifier_extended_dark_ritual_enemy_sacrifice:IsHidden() return false end
+function modifier_extended_dark_ritual_enemy_sacrifice:IsPurgable() return true end
+function modifier_extended_dark_ritual_enemy_sacrifice:IsDebuff() return false end
 
-function modifier_imba_dark_ritual_enemy_sacrifice:GetEffectName()
+function modifier_extended_dark_ritual_enemy_sacrifice:GetEffectName()
     return "particles/hero/lich/lich_dark_ritual_buff_enemy.vpcf"
 end
 
-function modifier_imba_dark_ritual_enemy_sacrifice:DeclareFunctions()
+function modifier_extended_dark_ritual_enemy_sacrifice:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
                       MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE}
 
     return decFuncs
 end
 
-function modifier_imba_dark_ritual_enemy_sacrifice:GetModifierBaseDamageOutgoing_Percentage()
+function modifier_extended_dark_ritual_enemy_sacrifice:GetModifierBaseDamageOutgoing_Percentage()
     return self.enemy_kill_bonus_dmg_pct
 end
 
-function modifier_imba_dark_ritual_enemy_sacrifice:GetModifierSpellAmplify_Percentage()
+function modifier_extended_dark_ritual_enemy_sacrifice:GetModifierSpellAmplify_Percentage()
     return self.enemy_kill_bonus_spell_amp
 end
 
@@ -1018,22 +1018,22 @@ end
 --         CHAIN FROST           --
 -----------------------------------
 
-imba_lich_chain_frost = class({})
-LinkLuaModifier("modifier_imba_chain_frost_slow", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_chain_frost_ministun", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+extended_lich_chain_frost = class({})
+LinkLuaModifier("modifier_extended_chain_frost_slow", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_chain_frost_ministun", "hero/hero_lich", LUA_MODIFIER_MOTION_NONE)
 
-function imba_lich_chain_frost:IsHiddenWhenStolen()
+function extended_lich_chain_frost:IsHiddenWhenStolen()
     return false
 end
 
-function imba_lich_chain_frost:OnSpellStart()
+function extended_lich_chain_frost:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
     local target = self:GetCursorTarget()
     local particle_projectile = "particles/units/heroes/hero_lich/lich_chain_frost.vpcf"
     local sound_cast = "Hero_Lich.ChainFrost"
-    local modifier_ministun = "modifier_imba_chain_frost_ministun"
+    local modifier_ministun = "modifier_extended_chain_frost_ministun"
 
     -- Ability specials
     local ministun_duration = ability:GetSpecialValueFor("ministun_duration")
@@ -1042,7 +1042,7 @@ function imba_lich_chain_frost:OnSpellStart()
     local num_bounces = ability:GetSpecialValueFor("num_bounces")
 
     -- #7 Talent: Chain Frost bounce speed increase
-    projectile_base_speed = projectile_base_speed + caster:FindTalentValue("special_bonus_imba_lich_7")
+    projectile_base_speed = projectile_base_speed + caster:FindTalentValue("special_bonus_extended_lich_7")
 
     -- Play cast sound
     EmitSoundOn(sound_cast, caster)
@@ -1073,7 +1073,7 @@ function imba_lich_chain_frost:OnSpellStart()
     ProjectileManager:CreateTrackingProjectile(chain_frost_projectile)  
 end
 
-function imba_lich_chain_frost:OnProjectileHit_ExtraData(target, location, extradata)
+function extended_lich_chain_frost:OnProjectileHit_ExtraData(target, location, extradata)
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
@@ -1081,7 +1081,7 @@ function imba_lich_chain_frost:OnProjectileHit_ExtraData(target, location, extra
     local particle_projectile = "particles/units/heroes/hero_lich/lich_chain_frost.vpcf"
     local particle_mini_frost_projectile = "particles/hero/lich/lich_mini_frosts.vpcf"
     local scepter = caster:HasScepter()
-    local modifier_slow = "modifier_imba_chain_frost_slow"
+    local modifier_slow = "modifier_extended_chain_frost_slow"
 
     -- Ability specials    
     local slow_duration = ability:GetSpecialValueFor("slow_duration")
@@ -1100,13 +1100,13 @@ function imba_lich_chain_frost:OnProjectileHit_ExtraData(target, location, extra
     end
 
     -- #1 Talent: Chain Frost bounce delay decrease
-    projectile_delay = projectile_delay * (1-(caster:FindTalentValue("special_bonus_imba_lich_1") * 0.01))
+    projectile_delay = projectile_delay * (1-(caster:FindTalentValue("special_bonus_extended_lich_1") * 0.01))
 
     -- #3 Talent: Chain Frost bounce range increase
-    bounce_range = bounce_range + caster:FindTalentValue("special_bonus_imba_lich_3")
+    bounce_range = bounce_range + caster:FindTalentValue("special_bonus_extended_lich_3")
 
     -- #8 Talent: Cold Front gains additional stack from skills
-    cold_front_stacks = cold_front_stacks + caster:FindTalentValue("special_bonus_imba_lich_8")
+    cold_front_stacks = cold_front_stacks + caster:FindTalentValue("special_bonus_extended_lich_8")
 
     -- Check if this is a main chain frost (not scepter frosts)
     if extradata.main_chain_frost == 1 then       
@@ -1238,9 +1238,9 @@ end
 
 
 -- Slow modifier
-modifier_imba_chain_frost_slow = class({})
+modifier_extended_chain_frost_slow = class({})
 
-function modifier_imba_chain_frost_slow:OnCreated()
+function modifier_extended_chain_frost_slow:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility()
@@ -1250,34 +1250,34 @@ function modifier_imba_chain_frost_slow:OnCreated()
     self.as_slow = self.ability:GetSpecialValueFor("as_slow")
 end
 
-function modifier_imba_chain_frost_slow:IsHidden() return false end
-function modifier_imba_chain_frost_slow:IsPurgable() return true end
-function modifier_imba_chain_frost_slow:IsDebuff() return true end
+function modifier_extended_chain_frost_slow:IsHidden() return false end
+function modifier_extended_chain_frost_slow:IsPurgable() return true end
+function modifier_extended_chain_frost_slow:IsDebuff() return true end
 
-function modifier_imba_chain_frost_slow:DeclareFunctions()
+function modifier_extended_chain_frost_slow:DeclareFunctions()
     local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
                       MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
 
     return decFuncs
 end
 
-function modifier_imba_chain_frost_slow:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_chain_frost_slow:GetModifierMoveSpeedBonus_Percentage()
     return self.ms_slow_pct * (-1)
 end
 
-function modifier_imba_chain_frost_slow:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_chain_frost_slow:GetModifierAttackSpeedBonus_Constant()
     return self.as_slow * (-1)
 end
 
 
 -- Ministun modifier
-modifier_imba_chain_frost_ministun = class({})
+modifier_extended_chain_frost_ministun = class({})
 
-function modifier_imba_chain_frost_ministun:IsHidden() return false end
-function modifier_imba_chain_frost_ministun:IsStunDebuff() return true end
-function modifier_imba_chain_frost_ministun:IsDebuff() return true end
+function modifier_extended_chain_frost_ministun:IsHidden() return false end
+function modifier_extended_chain_frost_ministun:IsStunDebuff() return true end
+function modifier_extended_chain_frost_ministun:IsDebuff() return true end
 
-function modifier_imba_chain_frost_ministun:CheckState()
+function modifier_extended_chain_frost_ministun:CheckState()
     local state = {[MODIFIER_STATE_STUNNED] = true}
     return state
 end

@@ -6,21 +6,21 @@ CreateEmptyTalents("dazzle")
 ---------------------------------------------------------------------
 -------------------------	Poison Touch	-------------------------
 ---------------------------------------------------------------------
-if imba_dazzle_poison_touch == nil then imba_dazzle_poison_touch = class({}) end
-LinkLuaModifier( "modifier_imba_dazzle_poison_touch_setin", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )	-- Set in modifier (slow + attack counter)
-LinkLuaModifier( "modifier_imba_dazzle_poison_touch_debuff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )	-- Stun + damage over time
+if extended_dazzle_poison_touch == nil then extended_dazzle_poison_touch = class({}) end
+LinkLuaModifier( "modifier_extended_dazzle_poison_touch_setin", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )	-- Set in modifier (slow + attack counter)
+LinkLuaModifier( "modifier_extended_dazzle_poison_touch_debuff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )	-- Stun + damage over time
 
-function imba_dazzle_poison_touch:GetCooldown()
+function extended_dazzle_poison_touch:GetCooldown()
 	local cooldown = self:GetSpecialValueFor("cooldown")
 	local cooldownbonus = self:GetCaster():FindTalentValue("special_bonus_unique_dazzle_5")
 	
 	return cooldown + cooldownbonus
 end
 
-function imba_dazzle_poison_touch:GetBehavior()
+function extended_dazzle_poison_touch:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET end
 
-function imba_dazzle_poison_touch:OnSpellStart()
+function extended_dazzle_poison_touch:OnSpellStart()
 	local projectile = {
 		Target = self:GetCursorTarget(),
 		Source = self:GetCaster(),
@@ -35,52 +35,52 @@ function imba_dazzle_poison_touch:OnSpellStart()
 	ProjectileManager:CreateTrackingProjectile(projectile)
 end
 
-function imba_dazzle_poison_touch:OnProjectileHit(target, location)
+function extended_dazzle_poison_touch:OnProjectileHit(target, location)
 	if target:TriggerSpellAbsorb(self) then return end
 	
 	EmitSoundOn("Hero_Dazzle.Poison_Touch", target)
-	target:AddNewModifier(self:GetCaster(), self, "modifier_imba_dazzle_poison_touch_setin", {duration = self:GetSpecialValueFor("set_in_time")})
+	target:AddNewModifier(self:GetCaster(), self, "modifier_extended_dazzle_poison_touch_setin", {duration = self:GetSpecialValueFor("set_in_time")})
 end
 
 -----------------------------------------------
 -----	Poison Touch set in modifier	  -----
 -----------------------------------------------
-if modifier_imba_dazzle_poison_touch_setin == nil then modifier_imba_dazzle_poison_touch_setin = class({}) end
-function modifier_imba_dazzle_poison_touch_setin:IsPurgable() return true end
-function modifier_imba_dazzle_poison_touch_setin:IsHidden() return false end
-function modifier_imba_dazzle_poison_touch_setin:IsDebuff() return true end
-function modifier_imba_dazzle_poison_touch_setin:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_dazzle_poison_touch_setin == nil then modifier_extended_dazzle_poison_touch_setin = class({}) end
+function modifier_extended_dazzle_poison_touch_setin:IsPurgable() return true end
+function modifier_extended_dazzle_poison_touch_setin:IsHidden() return false end
+function modifier_extended_dazzle_poison_touch_setin:IsDebuff() return true end
+function modifier_extended_dazzle_poison_touch_setin:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_imba_dazzle_poison_touch_setin:GetEffectName()
+function modifier_extended_dazzle_poison_touch_setin:GetEffectName()
 	return "particles/units/heroes/hero_dazzle/dazzle_poison_debuff.vpcf" end
 	
-function modifier_imba_dazzle_poison_touch_setin:GetEffectAttachType()
+function modifier_extended_dazzle_poison_touch_setin:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW end
 
-function modifier_imba_dazzle_poison_touch_setin:OnCreated()
+function modifier_extended_dazzle_poison_touch_setin:OnCreated()
 	if IsServer() then
 		self:StartIntervalThink(1)
 	end
 end
 
-function modifier_imba_dazzle_poison_touch_setin:OnDestroy()
+function modifier_extended_dazzle_poison_touch_setin:OnDestroy()
 	if IsServer() then
 		local parent = self:GetParent()
 		if parent:IsAlive() and not parent:IsMagicImmune() then
 			local ability = self:GetAbility()
-			local mod = parent:AddNewModifier(ability:GetCaster(), ability, "modifier_imba_dazzle_poison_touch_debuff", {duration = ability:GetSpecialValueFor("poison_duration")})
+			local mod = parent:AddNewModifier(ability:GetCaster(), ability, "modifier_extended_dazzle_poison_touch_debuff", {duration = ability:GetSpecialValueFor("poison_duration")})
 			mod:SetStackCount(self:GetStackCount())
 		end
 	end
 end
 
-function modifier_imba_dazzle_poison_touch_setin:DeclareFunctions()
+function modifier_extended_dazzle_poison_touch_setin:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 					MODIFIER_EVENT_ON_ATTACK_LANDED,			}
 	return funcs
 end
 
-function modifier_imba_dazzle_poison_touch_setin:OnIntervalThink()
+function modifier_extended_dazzle_poison_touch_setin:OnIntervalThink()
 	if IsServer() then
 		EmitSoundOn("Hero_Dazzle.Poison_Tick", self:GetParent())
 		
@@ -93,7 +93,7 @@ function modifier_imba_dazzle_poison_touch_setin:OnIntervalThink()
 	end
 end
 
-function modifier_imba_dazzle_poison_touch_setin:OnAttackLanded( keys )
+function modifier_extended_dazzle_poison_touch_setin:OnAttackLanded( keys )
 	if IsServer() then
 		local ability = self:GetAbility()
 		local parent = self:GetParent()
@@ -111,7 +111,7 @@ function modifier_imba_dazzle_poison_touch_setin:OnAttackLanded( keys )
 	end
 end
 
-function modifier_imba_dazzle_poison_touch_setin:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_dazzle_poison_touch_setin:GetModifierMoveSpeedBonus_Percentage()
 	if IsServer() then
 		local ability = self:GetAbility()
 		local minSlow = ability:GetSpecialValueFor("minimum_slow")
@@ -128,33 +128,33 @@ end
 -----------------------------------------------
 -----	Poison Touch debuff modifier	  -----
 -----------------------------------------------
-if modifier_imba_dazzle_poison_touch_debuff == nil then modifier_imba_dazzle_poison_touch_debuff = class({}) end
-function modifier_imba_dazzle_poison_touch_debuff:IsPurgable() return true end
-function modifier_imba_dazzle_poison_touch_debuff:IsHidden() return false end
-function modifier_imba_dazzle_poison_touch_debuff:IsDebuff() return true end
-function modifier_imba_dazzle_poison_touch_debuff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_dazzle_poison_touch_debuff == nil then modifier_extended_dazzle_poison_touch_debuff = class({}) end
+function modifier_extended_dazzle_poison_touch_debuff:IsPurgable() return true end
+function modifier_extended_dazzle_poison_touch_debuff:IsHidden() return false end
+function modifier_extended_dazzle_poison_touch_debuff:IsDebuff() return true end
+function modifier_extended_dazzle_poison_touch_debuff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_imba_dazzle_poison_touch_debuff:GetTexture()
+function modifier_extended_dazzle_poison_touch_debuff:GetTexture()
 	return "dazzle_poison_touch" end
 
-function modifier_imba_dazzle_poison_touch_debuff:GetEffectName()
+function modifier_extended_dazzle_poison_touch_debuff:GetEffectName()
 	return "particles/units/heroes/hero_dazzle/dazzle_poison_debuff.vpcf" end
 	
-function modifier_imba_dazzle_poison_touch_debuff:GetEffectAttachType()
+function modifier_extended_dazzle_poison_touch_debuff:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW end
 
-function modifier_imba_dazzle_poison_touch_debuff:DeclareFunctions()
+function modifier_extended_dazzle_poison_touch_debuff:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,}
 	return funcs
 end
 
-function modifier_imba_dazzle_poison_touch_debuff:OnCreated()
+function modifier_extended_dazzle_poison_touch_debuff:OnCreated()
 	if IsServer() then
 		self:StartIntervalThink(1)
 	end
 end
 
-function modifier_imba_dazzle_poison_touch_debuff:OnIntervalThink()
+function modifier_extended_dazzle_poison_touch_debuff:OnIntervalThink()
 	if IsServer() then
 		local ability = self:GetAbility()
 		local stacks = self:GetStackCount()
@@ -169,7 +169,7 @@ function modifier_imba_dazzle_poison_touch_debuff:OnIntervalThink()
 	end
 end
 
-function modifier_imba_dazzle_poison_touch_debuff:GetModifierPhysicalArmorBonus()
+function modifier_extended_dazzle_poison_touch_debuff:GetModifierPhysicalArmorBonus()
 	local stacks = self:GetStackCount()
 	if stacks then return self:GetAbility():GetSpecialValueFor("stack_armor_reduction") * stacks * -1 end
 	return 0
@@ -178,67 +178,67 @@ end
 ---------------------------------------------------------------------
 -------------------------	Shallow Grave	-------------------------
 ---------------------------------------------------------------------
-if imba_dazzle_shallow_grave == nil then imba_dazzle_shallow_grave = class({}) end
-LinkLuaModifier( "modifier_imba_dazzle_shallow_grave", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )	-- Shallow Grave effect
-LinkLuaModifier( "modifier_imba_dazzle_nothl_protection", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )-- Passive self-cast
+if extended_dazzle_shallow_grave == nil then extended_dazzle_shallow_grave = class({}) end
+LinkLuaModifier( "modifier_extended_dazzle_shallow_grave", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )	-- Shallow Grave effect
+LinkLuaModifier( "modifier_extended_dazzle_nothl_protection", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )-- Passive self-cast
 
-function imba_dazzle_shallow_grave:GetManaCost()
+function extended_dazzle_shallow_grave:GetManaCost()
 	if self:GetCaster():HasTalent("special_bonus_unique_dazzle_1") then 
 		return 0 end
 	return self:GetSpecialValueFor("mana_cost")
 end
 
-function imba_dazzle_shallow_grave:GetCastAnimation()
+function extended_dazzle_shallow_grave:GetCastAnimation()
 	return ACT_DOTA_SHALLOW_GRAVE end
 	
-function imba_dazzle_shallow_grave:GetBehavior()
+function extended_dazzle_shallow_grave:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET end
 
-function imba_dazzle_shallow_grave:OnSpellStart()
+function extended_dazzle_shallow_grave:OnSpellStart()
 	if IsServer() then
 		local target = self:GetCursorTarget()
 		EmitSoundOn("Hero_Dazzle.Shallow_Grave", target)
-		target:AddNewModifier(self:GetCaster(), self, "modifier_imba_dazzle_shallow_grave", {duration = self:GetSpecialValueFor("duration")})
+		target:AddNewModifier(self:GetCaster(), self, "modifier_extended_dazzle_shallow_grave", {duration = self:GetSpecialValueFor("duration")})
 	end
 end
 
-function imba_dazzle_shallow_grave:GetIntrinsicModifierName()
+function extended_dazzle_shallow_grave:GetIntrinsicModifierName()
 	local caster = self:GetCaster()
-	if not caster:HasAbility("imba_pugna_nether_ward_aura") and not caster:IsIllusion() then
-		return "modifier_imba_dazzle_nothl_protection"
+	if not caster:HasAbility("extended_pugna_nether_ward_aura") and not caster:IsIllusion() then
+		return "modifier_extended_dazzle_nothl_protection"
 	end
 end
 
 ---------------------------------------
 -----	Shallow Grave modifier	  -----
 ---------------------------------------
-if modifier_imba_dazzle_shallow_grave == nil then modifier_imba_dazzle_shallow_grave = class({}) end
-function modifier_imba_dazzle_shallow_grave:IsPurgable() return false end
-function modifier_imba_dazzle_shallow_grave:IsHidden() return false end
-function modifier_imba_dazzle_shallow_grave:IsDebuff() return false end
+if modifier_extended_dazzle_shallow_grave == nil then modifier_extended_dazzle_shallow_grave = class({}) end
+function modifier_extended_dazzle_shallow_grave:IsPurgable() return false end
+function modifier_extended_dazzle_shallow_grave:IsHidden() return false end
+function modifier_extended_dazzle_shallow_grave:IsDebuff() return false end
 
-function modifier_imba_dazzle_shallow_grave:GetEffectName()
+function modifier_extended_dazzle_shallow_grave:GetEffectName()
 	return "particles/econ/items/dazzle/dazzle_dark_light_weapon/dazzle_dark_shallow_grave.vpcf" end
 	
-function modifier_imba_dazzle_shallow_grave:GetEffectAttachType()
+function modifier_extended_dazzle_shallow_grave:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW end
 
-function modifier_imba_dazzle_shallow_grave:DeclareFunctions()
+function modifier_extended_dazzle_shallow_grave:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_MIN_HEALTH,
 					MODIFIER_EVENT_ON_TAKEDAMAGE,}
 	return funcs
 end
 
-function modifier_imba_dazzle_shallow_grave:GetMinHealth()
+function modifier_extended_dazzle_shallow_grave:GetMinHealth()
 	return 1 end
 
-function modifier_imba_dazzle_shallow_grave:OnCreated()
+function modifier_extended_dazzle_shallow_grave:OnCreated()
 	if IsServer() then
 		self.shallowDamage = 0
 	end
 end
 
-function modifier_imba_dazzle_shallow_grave:OnDestroy()
+function modifier_extended_dazzle_shallow_grave:OnDestroy()
 	if IsServer() then
 		local parent = self:GetParent()
 		
@@ -250,7 +250,7 @@ function modifier_imba_dazzle_shallow_grave:OnDestroy()
 	end
 end
 
-function modifier_imba_dazzle_shallow_grave:OnTakeDamage( keys )
+function modifier_extended_dazzle_shallow_grave:OnTakeDamage( keys )
 	if IsServer() then
 		local parent = self:GetParent()
 		local health = parent:GetHealth()
@@ -266,25 +266,25 @@ end
 -------------------------------------------
 -----	Nothl Protection modifier	  -----
 -------------------------------------------
-if modifier_imba_dazzle_nothl_protection == nil then modifier_imba_dazzle_nothl_protection = class({}) end
-function modifier_imba_dazzle_nothl_protection:IsPurgable() return false end
-function modifier_imba_dazzle_nothl_protection:IsHidden() return false end
-function modifier_imba_dazzle_nothl_protection:DestroyOnExpire() return false end
+if modifier_extended_dazzle_nothl_protection == nil then modifier_extended_dazzle_nothl_protection = class({}) end
+function modifier_extended_dazzle_nothl_protection:IsPurgable() return false end
+function modifier_extended_dazzle_nothl_protection:IsHidden() return false end
+function modifier_extended_dazzle_nothl_protection:DestroyOnExpire() return false end
 
-function modifier_imba_dazzle_nothl_protection:IsDebuff()
+function modifier_extended_dazzle_nothl_protection:IsDebuff()
 	if self:GetStackCount() < 1 then
 		return false
 	end
 	return true
 end
 
-function modifier_imba_dazzle_nothl_protection:DeclareFunctions()
+function modifier_extended_dazzle_nothl_protection:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_MIN_HEALTH,
 					MODIFIER_EVENT_ON_TAKEDAMAGE,}
 	return funcs
 end
 
-function modifier_imba_dazzle_nothl_protection:GetTexture()
+function modifier_extended_dazzle_nothl_protection:GetTexture()
 	if self:GetStackCount() > 0 then
 		return "custom/dazzle_shallow_grave_cooldown"
 	else
@@ -292,7 +292,7 @@ function modifier_imba_dazzle_nothl_protection:GetTexture()
 	end
 end
 
-function modifier_imba_dazzle_nothl_protection:GetMinHealth()
+function modifier_extended_dazzle_nothl_protection:GetMinHealth()
 	if IsServer() then
 		if self:GetParent():PassivesDisabled() and not self.isActive then
 			return 0
@@ -304,14 +304,14 @@ function modifier_imba_dazzle_nothl_protection:GetMinHealth()
 	end
 end
 
-function modifier_imba_dazzle_nothl_protection:OnCreated()
+function modifier_extended_dazzle_nothl_protection:OnCreated()
 	if IsServer() then
 		self.isActive = false
 		self.shallowDamage = 0
 	end
 end
 
-function modifier_imba_dazzle_nothl_protection:OnTakeDamage( keys )
+function modifier_extended_dazzle_nothl_protection:OnTakeDamage( keys )
 	if IsServer() then
 		if self:GetStackCount() < 1 then
 			local parent = self:GetParent()
@@ -320,7 +320,7 @@ function modifier_imba_dazzle_nothl_protection:OnTakeDamage( keys )
 			local damage = keys.damage
 			
 			-- If the victim is the modifier holder
-			if parent == victim and math.floor(health) <= 1 and not parent:FindModifierByName("modifier_imba_dazzle_shallow_grave") then
+			if parent == victim and math.floor(health) <= 1 and not parent:FindModifierByName("modifier_extended_dazzle_shallow_grave") then
 			
 				-- If the modifier is not active, and the carrier is not broken
 				if not self.isActive and not parent:PassivesDisabled() then
@@ -364,7 +364,7 @@ function modifier_imba_dazzle_nothl_protection:OnTakeDamage( keys )
 	end
 end
 
-function modifier_imba_dazzle_nothl_protection:OnIntervalThink()
+function modifier_extended_dazzle_nothl_protection:OnIntervalThink()
 	local stacks = self:GetStackCount()
 	if stacks > 0 then
 		self:SetStackCount(stacks - 1)
@@ -373,7 +373,7 @@ function modifier_imba_dazzle_nothl_protection:OnIntervalThink()
 	end
 end
 
-function modifier_imba_dazzle_nothl_protection:OnDestroy()
+function modifier_extended_dazzle_nothl_protection:OnDestroy()
 	if IsServer() then
 		if self.isActive then
 			self:GetParent():Heal(self.shallowDamage, self:GetParent())
@@ -384,14 +384,14 @@ end
 ---------------------------------------------------------------------
 -------------------------	Shadow Wave		-------------------------
 ---------------------------------------------------------------------
-if imba_dazzle_shadow_wave == nil then imba_dazzle_shadow_wave = class({}) end
-LinkLuaModifier( "modifier_imba_dazzle_shadow_wave_buff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )		-- Allied bonus armor
-LinkLuaModifier( "modifier_imba_dazzle_shadow_wave_injured_buff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )-- Allied bonus armor
+if extended_dazzle_shadow_wave == nil then extended_dazzle_shadow_wave = class({}) end
+LinkLuaModifier( "modifier_extended_dazzle_shadow_wave_buff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )		-- Allied bonus armor
+LinkLuaModifier( "modifier_extended_dazzle_shadow_wave_injured_buff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )-- Allied bonus armor
 
-function imba_dazzle_shadow_wave:GetBehavior()
+function extended_dazzle_shadow_wave:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK end
 
-function imba_dazzle_shadow_wave:OnSpellStart()
+function extended_dazzle_shadow_wave:OnSpellStart()
 	if IsServer() then
 		local target = self:GetCursorTarget()
 		local caster = self:GetCaster()
@@ -417,7 +417,7 @@ function imba_dazzle_shadow_wave:OnSpellStart()
 end
 
 -- Unit finder
-function imba_dazzle_shadow_wave:WaveBounce(target)
+function extended_dazzle_shadow_wave:WaveBounce(target)
 	if IsServer() then
 		local caster = self:GetCaster()
 		local bounceDistance = self:GetSpecialValueFor("bounce_distance")
@@ -483,7 +483,7 @@ function imba_dazzle_shadow_wave:WaveBounce(target)
 end
 
 -- Heal + buff + damage
-function imba_dazzle_shadow_wave:WaveHit(unit)
+function extended_dazzle_shadow_wave:WaveHit(unit)
 	if IsServer() then
 		local caster = self:GetCaster()
 		
@@ -507,13 +507,13 @@ function imba_dazzle_shadow_wave:WaveHit(unit)
 		local maxHealth = unit:GetMaxHealth()
 		local totalHeal = ((maxHealth - health) * bonusHeal + damage) * (1 + spellAmp * 0.01)
 		
-		if unit:FindModifierByName("modifier_imba_dazzle_shadow_wave_injured_buff") then unit:RemoveModifierByName("modifier_imba_dazzle_shadow_wave_injured_buff") end
-		if unit:FindModifierByName("modifier_imba_dazzle_shadow_wave_buff") then unit:RemoveModifierByName("modifier_imba_dazzle_shadow_wave_buff") end
+		if unit:FindModifierByName("modifier_extended_dazzle_shadow_wave_injured_buff") then unit:RemoveModifierByName("modifier_extended_dazzle_shadow_wave_injured_buff") end
+		if unit:FindModifierByName("modifier_extended_dazzle_shadow_wave_buff") then unit:RemoveModifierByName("modifier_extended_dazzle_shadow_wave_buff") end
 		
 		if maxHealth * injuredThreshold >= health then
-			unit:AddNewModifier(caster, self, "modifier_imba_dazzle_shadow_wave_injured_buff", {duration = buffDuration})
+			unit:AddNewModifier(caster, self, "modifier_extended_dazzle_shadow_wave_injured_buff", {duration = buffDuration})
 		else
-			unit:AddNewModifier(caster, self, "modifier_imba_dazzle_shadow_wave_buff", {duration = buffDuration})
+			unit:AddNewModifier(caster, self, "modifier_extended_dazzle_shadow_wave_buff", {duration = buffDuration})
 		end
 		
 		unit:Heal(totalHeal, caster) 
@@ -534,43 +534,43 @@ end
 ---------------------------------------
 -----	Shadow Wave armor bonus	  -----
 ---------------------------------------
-if modifier_imba_dazzle_shadow_wave_buff == nil then modifier_imba_dazzle_shadow_wave_buff = class({}) end
-function modifier_imba_dazzle_shadow_wave_buff:IsPurgable() return true end
-function modifier_imba_dazzle_shadow_wave_buff:IsHidden() return false end
-function modifier_imba_dazzle_shadow_wave_buff:IsDebuff() return false end
+if modifier_extended_dazzle_shadow_wave_buff == nil then modifier_extended_dazzle_shadow_wave_buff = class({}) end
+function modifier_extended_dazzle_shadow_wave_buff:IsPurgable() return true end
+function modifier_extended_dazzle_shadow_wave_buff:IsHidden() return false end
+function modifier_extended_dazzle_shadow_wave_buff:IsDebuff() return false end
 
-function modifier_imba_dazzle_shadow_wave_buff:DeclareFunctions()
+function modifier_extended_dazzle_shadow_wave_buff:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,}
 	return funcs
 end
 
-function modifier_imba_dazzle_shadow_wave_buff:GetModifierPhysicalArmorBonus()
+function modifier_extended_dazzle_shadow_wave_buff:GetModifierPhysicalArmorBonus()
 	return self:GetAbility():GetSpecialValueFor("bonus_armor") end
 
 -----------------------------------------------
 -----	Shadow Wave injured armor bonus	  -----
 -----------------------------------------------
-if modifier_imba_dazzle_shadow_wave_injured_buff == nil then modifier_imba_dazzle_shadow_wave_injured_buff = class({}) end
-function modifier_imba_dazzle_shadow_wave_injured_buff:IsPurgable() return true end
-function modifier_imba_dazzle_shadow_wave_injured_buff:IsHidden() return false end
-function modifier_imba_dazzle_shadow_wave_injured_buff:IsDebuff() return false end
+if modifier_extended_dazzle_shadow_wave_injured_buff == nil then modifier_extended_dazzle_shadow_wave_injured_buff = class({}) end
+function modifier_extended_dazzle_shadow_wave_injured_buff:IsPurgable() return true end
+function modifier_extended_dazzle_shadow_wave_injured_buff:IsHidden() return false end
+function modifier_extended_dazzle_shadow_wave_injured_buff:IsDebuff() return false end
 
-function modifier_imba_dazzle_shadow_wave_injured_buff:DeclareFunctions()
+function modifier_extended_dazzle_shadow_wave_injured_buff:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,}
 	return funcs
 end
 
-function modifier_imba_dazzle_shadow_wave_injured_buff:GetModifierPhysicalArmorBonus()
+function modifier_extended_dazzle_shadow_wave_injured_buff:GetModifierPhysicalArmorBonus()
 	return self:GetAbility():GetSpecialValueFor("bonus_armor_injured") end
 
 -------------------------------------------------------------
 -------------------------	Weave	-------------------------
 -------------------------------------------------------------
-if imba_dazzle_weave == nil then imba_dazzle_weave = class({}) end
-LinkLuaModifier( "modifier_imba_dazzle_weave_buff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )	-- Allied bonus armor
-LinkLuaModifier( "modifier_imba_dazzle_weave_debuff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )-- Allied bonus armor
+if extended_dazzle_weave == nil then extended_dazzle_weave = class({}) end
+LinkLuaModifier( "modifier_extended_dazzle_weave_buff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )	-- Allied bonus armor
+LinkLuaModifier( "modifier_extended_dazzle_weave_debuff", "hero/hero_dazzle.lua", LUA_MODIFIER_MOTION_NONE )-- Allied bonus armor
 
-function imba_dazzle_weave:GetCooldown()
+function extended_dazzle_weave:GetCooldown()
 	local cooldown = self:GetSpecialValueFor("cooldown")
 	if self:GetCaster():HasTalent("special_bonus_unique_dazzle_8") then
 		cooldown = cooldown + self:GetCaster():FindTalentValue("special_bonus_unique_dazzle_8")
@@ -579,13 +579,13 @@ function imba_dazzle_weave:GetCooldown()
 	return cooldown
 end
 
-function imba_dazzle_weave:GetBehavior()
+function extended_dazzle_weave:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE end
 
-function imba_dazzle_weave:GetAOERadius()
+function extended_dazzle_weave:GetAOERadius()
 	return self:GetSpecialValueFor("area_of_effect") end
 
-function imba_dazzle_weave:OnSpellStart()
+function extended_dazzle_weave:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target_point = self:GetCursorPosition()
@@ -608,9 +608,9 @@ function imba_dazzle_weave:OnSpellStart()
 		local targets = FindUnitsInRadius(caster:GetTeamNumber(), target_point, nil, area_of_effect, DOTA_UNIT_TARGET_TEAM_BOTH, searchTargetType, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE , FIND_ANY_ORDER , false) 
 		for _,target in pairs(targets) do
 			if target:GetTeamNumber() == caster:GetTeamNumber() then
-				target:AddNewModifier(caster, self, "modifier_imba_dazzle_weave_buff", {duration = modifier_duration})
+				target:AddNewModifier(caster, self, "modifier_extended_dazzle_weave_buff", {duration = modifier_duration})
 			else
-				target:AddNewModifier(caster, self, "modifier_imba_dazzle_weave_debuff", {duration = modifier_duration})
+				target:AddNewModifier(caster, self, "modifier_extended_dazzle_weave_debuff", {duration = modifier_duration})
 			end
 		end
 		
@@ -627,18 +627,18 @@ end
 -----------------------------
 -----	Weave ally buff	-----
 -----------------------------
-if modifier_imba_dazzle_weave_buff == nil then modifier_imba_dazzle_weave_buff = class({}) end
-function modifier_imba_dazzle_weave_buff:IsPurgable() return false end
-function modifier_imba_dazzle_weave_buff:IsHidden() return false end
-function modifier_imba_dazzle_weave_buff:IsDebuff() return false end
-function modifier_imba_dazzle_weave_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_dazzle_weave_buff == nil then modifier_extended_dazzle_weave_buff = class({}) end
+function modifier_extended_dazzle_weave_buff:IsPurgable() return false end
+function modifier_extended_dazzle_weave_buff:IsHidden() return false end
+function modifier_extended_dazzle_weave_buff:IsDebuff() return false end
+function modifier_extended_dazzle_weave_buff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 	
-function modifier_imba_dazzle_weave_buff:DeclareFunctions()
+function modifier_extended_dazzle_weave_buff:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,}
 	return funcs
 end
 
-function modifier_imba_dazzle_weave_buff:OnCreated()
+function modifier_extended_dazzle_weave_buff:OnCreated()
 	if IsServer() then
 		local parent = self:GetParent()
 		local tick_interval = self:GetAbility():GetSpecialValueFor("tick_interval")
@@ -655,20 +655,20 @@ function modifier_imba_dazzle_weave_buff:OnCreated()
 	end
 end
 
-function modifier_imba_dazzle_weave_buff:OnDestroy()
+function modifier_extended_dazzle_weave_buff:OnDestroy()
 	if IsServer() then
 		ParticleManager:DestroyParticle(self.particle, true)
 		ParticleManager:ReleaseParticleIndex(self.particle)
 	end
 end
 
-function modifier_imba_dazzle_weave_buff:OnIntervalThink()
+function modifier_extended_dazzle_weave_buff:OnIntervalThink()
 	if IsServer() then
 		self:SetStackCount(self:GetStackCount() + 1)
 	end
 end
 
-function modifier_imba_dazzle_weave_buff:GetModifierPhysicalArmorBonus()
+function modifier_extended_dazzle_weave_buff:GetModifierPhysicalArmorBonus()
 	local base = self:GetAbility():GetSpecialValueFor("base_shift")
 	local stacked = self:GetAbility():GetSpecialValueFor("stack_shift")
 	
@@ -682,18 +682,18 @@ end
 ---------------------------------
 -----	Weave enemy debuff	-----
 ---------------------------------
-if modifier_imba_dazzle_weave_debuff == nil then modifier_imba_dazzle_weave_debuff = class({}) end
-function modifier_imba_dazzle_weave_debuff:IsPurgable() return false end
-function modifier_imba_dazzle_weave_debuff:IsHidden() return false end
-function modifier_imba_dazzle_weave_debuff:IsDebuff() return false end
-function modifier_imba_dazzle_weave_debuff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_dazzle_weave_debuff == nil then modifier_extended_dazzle_weave_debuff = class({}) end
+function modifier_extended_dazzle_weave_debuff:IsPurgable() return false end
+function modifier_extended_dazzle_weave_debuff:IsHidden() return false end
+function modifier_extended_dazzle_weave_debuff:IsDebuff() return false end
+function modifier_extended_dazzle_weave_debuff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_imba_dazzle_weave_debuff:DeclareFunctions()
+function modifier_extended_dazzle_weave_debuff:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,}
 	return funcs
 end
 
-function modifier_imba_dazzle_weave_debuff:OnCreated()
+function modifier_extended_dazzle_weave_debuff:OnCreated()
 	if IsServer() then
 		local parent = self:GetParent()
 		local tick_interval = self:GetAbility():GetSpecialValueFor("tick_interval")
@@ -710,20 +710,20 @@ function modifier_imba_dazzle_weave_debuff:OnCreated()
 	end
 end
 
-function modifier_imba_dazzle_weave_debuff:OnDestroy()
+function modifier_extended_dazzle_weave_debuff:OnDestroy()
 	if IsServer() then
 		ParticleManager:DestroyParticle(self.particle, true)
 		ParticleManager:ReleaseParticleIndex(self.particle)
 	end
 end
 
-function modifier_imba_dazzle_weave_debuff:OnIntervalThink()
+function modifier_extended_dazzle_weave_debuff:OnIntervalThink()
 	if IsServer() then
 		self:SetStackCount(self:GetStackCount() + 1)
 	end
 end
 
-function modifier_imba_dazzle_weave_debuff:GetModifierPhysicalArmorBonus()
+function modifier_extended_dazzle_weave_debuff:GetModifierPhysicalArmorBonus()
 	local base = self:GetAbility():GetSpecialValueFor("base_shift")
 	local stacked = self:GetAbility():GetSpecialValueFor("stack_shift")
 	

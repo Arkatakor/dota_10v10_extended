@@ -5,7 +5,7 @@ function AetherLensRangeThink( keys )
 	local caster = keys.caster
 
 	-- If a higher-level version of the ability is present do nothing
-	if caster:HasModifier("modifier_item_imba_elder_staff_range") or caster:HasModifier("modifier_item_imba_arcane_nexus_range") then
+	if caster:HasModifier("modifier_item_extended_elder_staff_range") or caster:HasModifier("modifier_item_extended_arcane_nexus_range") then
 		return nil
 	end
 
@@ -30,7 +30,7 @@ function ElderStaffRangeThink( keys )
 	local caster = keys.caster
 
 	-- If a higher-level version of the ability is present do nothing
-	if caster:HasModifier("modifier_item_imba_arcane_nexus_range") then
+	if caster:HasModifier("modifier_item_extended_arcane_nexus_range") then
 		return nil
 	end
 

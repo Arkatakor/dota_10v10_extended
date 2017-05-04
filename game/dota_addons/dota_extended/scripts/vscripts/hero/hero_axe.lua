@@ -193,9 +193,9 @@ function CullingBlade( keys )
 	-- prevent a units death
 	local exception_table = {}
 	table.insert(exception_table, "modifier_dazzle_shallow_grave")
-	table.insert(exception_table, "modifier_imba_dazzle_shallow_grave")
+	table.insert(exception_table, "modifier_extended_dazzle_shallow_grave")
 	table.insert(exception_table, "modifier_oracle_false_promise")
-	table.insert(exception_table, "modifier_imba_oracle_false_promise")
+	table.insert(exception_table, "modifier_extended_oracle_false_promise")
 
 	-- Initializing the damage table
 	local damage_table = {}
@@ -213,7 +213,7 @@ function CullingBlade( keys )
 	end
 	
  	-- Check if the target HP is equal or below the threshold
-	if target:GetHealth() <= kill_threshold and not target:HasModifier("modifier_imba_reincarnation_scepter_wraith") then
+	if target:GetHealth() <= kill_threshold and not target:HasModifier("modifier_extended_reincarnation_scepter_wraith") then
 		
 		-- If it is then purge it and manually remove unpurgable modifiers
 		target:Purge(true, true, false, false, true)

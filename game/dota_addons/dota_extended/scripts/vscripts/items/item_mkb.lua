@@ -6,74 +6,74 @@
 --	Javelin definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_javelin == nil then item_imba_javelin = class({}) end
-LinkLuaModifier( "modifier_item_imba_javelin", "items/item_mkb.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_javelin_unique", "items/item_mkb.lua", LUA_MODIFIER_MOTION_NONE )	-- Pierce and bonus attack range
+if item_extended_javelin == nil then item_extended_javelin = class({}) end
+LinkLuaModifier( "modifier_item_extended_javelin", "items/item_mkb.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_javelin_unique", "items/item_mkb.lua", LUA_MODIFIER_MOTION_NONE )	-- Pierce and bonus attack range
 
-function item_imba_javelin:GetIntrinsicModifierName()
-	return "modifier_item_imba_javelin" end
+function item_extended_javelin:GetIntrinsicModifierName()
+	return "modifier_item_extended_javelin" end
 
 -----------------------------------------------------------------------------------------------------------
 --	Javelin owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_javelin == nil then modifier_item_imba_javelin = class({}) end
-function modifier_item_imba_javelin:IsHidden() return true end
-function modifier_item_imba_javelin:IsDebuff() return false end
-function modifier_item_imba_javelin:IsPurgable() return false end
-function modifier_item_imba_javelin:IsPermanent() return true end
-function modifier_item_imba_javelin:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_javelin == nil then modifier_item_extended_javelin = class({}) end
+function modifier_item_extended_javelin:IsHidden() return true end
+function modifier_item_extended_javelin:IsDebuff() return false end
+function modifier_item_extended_javelin:IsPurgable() return false end
+function modifier_item_extended_javelin:IsPermanent() return true end
+function modifier_item_extended_javelin:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Adds the unique modifier to the caster when created
-function modifier_item_imba_javelin:OnCreated(keys)
+function modifier_item_extended_javelin:OnCreated(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_javelin_unique") then
-			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_imba_javelin_unique", {})
+		if not parent:HasModifier("modifier_item_extended_javelin_unique") then
+			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_extended_javelin_unique", {})
 		end
 	end
 end
 
 -- Removes the unique modifier from the caster if this is the last Javelin in its inventory
-function modifier_item_imba_javelin:OnDestroy(keys)
+function modifier_item_extended_javelin:OnDestroy(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_javelin") then
-			parent:RemoveModifierByName("modifier_item_imba_javelin_unique")
+		if not parent:HasModifier("modifier_item_extended_javelin") then
+			parent:RemoveModifierByName("modifier_item_extended_javelin_unique")
 		end
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_javelin:DeclareFunctions()
+function modifier_item_extended_javelin:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 	}
 	return funcs
 end
 
-function modifier_item_imba_javelin:GetModifierPreAttack_BonusDamage()
+function modifier_item_extended_javelin:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Javelin unique passive (Pierce + melee range increase)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_javelin_unique == nil then modifier_item_imba_javelin_unique = class({}) end
-function modifier_item_imba_javelin_unique:IsHidden() return true end
-function modifier_item_imba_javelin_unique:IsDebuff() return false end
-function modifier_item_imba_javelin_unique:IsPurgable() return false end
-function modifier_item_imba_javelin_unique:IsPermanent() return true end
+if modifier_item_extended_javelin_unique == nil then modifier_item_extended_javelin_unique = class({}) end
+function modifier_item_extended_javelin_unique:IsHidden() return true end
+function modifier_item_extended_javelin_unique:IsDebuff() return false end
+function modifier_item_extended_javelin_unique:IsPurgable() return false end
+function modifier_item_extended_javelin_unique:IsPermanent() return true end
 
 -- Store ability keys for later
-function modifier_item_imba_javelin_unique:OnCreated()
+function modifier_item_extended_javelin_unique:OnCreated()
 	self.bonus_range = self:GetAbility():GetSpecialValueFor("bonus_range")
 	self.pierce_count = self:GetAbility():GetSpecialValueFor("pierce_count")
 	self.pierce_damage = self:GetAbility():GetSpecialValueFor("pierce_damage")
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_javelin_unique:DeclareFunctions()
+function modifier_item_extended_javelin_unique:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_ATTACK_RANGE_BONUS,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
@@ -81,7 +81,7 @@ function modifier_item_imba_javelin_unique:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_javelin_unique:GetModifierAttackRangeBonus()
+function modifier_item_extended_javelin_unique:GetModifierAttackRangeBonus()
 	if self:GetParent():IsRangedAttacker() then
 		return 0
 	else
@@ -89,7 +89,7 @@ function modifier_item_imba_javelin_unique:GetModifierAttackRangeBonus()
 	end
 end
 
-function modifier_item_imba_javelin_unique:OnAttackLanded(keys)
+function modifier_item_extended_javelin_unique:OnAttackLanded(keys)
 	if IsServer() then
 		local owner = self:GetParent()
 
@@ -121,67 +121,67 @@ end
 --	Monkey King Bar definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_monkey_king_bar == nil then item_imba_monkey_king_bar = class({}) end
-LinkLuaModifier( "modifier_item_imba_monkey_king_bar", "items/item_mkb.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_monkey_king_bar_unique", "items/item_mkb.lua", LUA_MODIFIER_MOTION_NONE )	-- Pulverize and bonus attack range
+if item_extended_monkey_king_bar == nil then item_extended_monkey_king_bar = class({}) end
+LinkLuaModifier( "modifier_item_extended_monkey_king_bar", "items/item_mkb.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_monkey_king_bar_unique", "items/item_mkb.lua", LUA_MODIFIER_MOTION_NONE )	-- Pulverize and bonus attack range
 
-function item_imba_monkey_king_bar:GetIntrinsicModifierName()
-	return "modifier_item_imba_monkey_king_bar" end
+function item_extended_monkey_king_bar:GetIntrinsicModifierName()
+	return "modifier_item_extended_monkey_king_bar" end
 
 -----------------------------------------------------------------------------------------------------------
 --	Monkey King Bar owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_monkey_king_bar == nil then modifier_item_imba_monkey_king_bar = class({}) end
-function modifier_item_imba_monkey_king_bar:IsHidden() return true end
-function modifier_item_imba_monkey_king_bar:IsDebuff() return false end
-function modifier_item_imba_monkey_king_bar:IsPurgable() return false end
-function modifier_item_imba_monkey_king_bar:IsPermanent() return true end
-function modifier_item_imba_monkey_king_bar:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_monkey_king_bar == nil then modifier_item_extended_monkey_king_bar = class({}) end
+function modifier_item_extended_monkey_king_bar:IsHidden() return true end
+function modifier_item_extended_monkey_king_bar:IsDebuff() return false end
+function modifier_item_extended_monkey_king_bar:IsPurgable() return false end
+function modifier_item_extended_monkey_king_bar:IsPermanent() return true end
+function modifier_item_extended_monkey_king_bar:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Adds the unique modifier to the caster when created
-function modifier_item_imba_monkey_king_bar:OnCreated(keys)
+function modifier_item_extended_monkey_king_bar:OnCreated(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_monkey_king_bar_unique") then
-			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_imba_monkey_king_bar_unique", {})
+		if not parent:HasModifier("modifier_item_extended_monkey_king_bar_unique") then
+			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_extended_monkey_king_bar_unique", {})
 		end
 	end
 end
 
 -- Removes the unique modifier from the caster if this is the last MKB in its inventory
-function modifier_item_imba_monkey_king_bar:OnDestroy(keys)
+function modifier_item_extended_monkey_king_bar:OnDestroy(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_monkey_king_bar") then
-			parent:RemoveModifierByName("modifier_item_imba_monkey_king_bar_unique")
+		if not parent:HasModifier("modifier_item_extended_monkey_king_bar") then
+			parent:RemoveModifierByName("modifier_item_extended_monkey_king_bar_unique")
 		end
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_monkey_king_bar:DeclareFunctions()
+function modifier_item_extended_monkey_king_bar:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
 	}
 	return funcs
 end
 
-function modifier_item_imba_monkey_king_bar:GetModifierPreAttack_BonusDamage()
+function modifier_item_extended_monkey_king_bar:GetModifierPreAttack_BonusDamage()
 	return self:GetAbility():GetSpecialValueFor("bonus_damage") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Monkey King Bar unique passive (Pulverize + True Strike + melee range increase)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_monkey_king_bar_unique == nil then modifier_item_imba_monkey_king_bar_unique = class({}) end
-function modifier_item_imba_monkey_king_bar_unique:IsHidden() return true end
-function modifier_item_imba_monkey_king_bar_unique:IsDebuff() return false end
-function modifier_item_imba_monkey_king_bar_unique:IsPurgable() return false end
-function modifier_item_imba_monkey_king_bar_unique:IsPermanent() return true end
+if modifier_item_extended_monkey_king_bar_unique == nil then modifier_item_extended_monkey_king_bar_unique = class({}) end
+function modifier_item_extended_monkey_king_bar_unique:IsHidden() return true end
+function modifier_item_extended_monkey_king_bar_unique:IsDebuff() return false end
+function modifier_item_extended_monkey_king_bar_unique:IsPurgable() return false end
+function modifier_item_extended_monkey_king_bar_unique:IsPermanent() return true end
 
 -- Store ability keys for later
-function modifier_item_imba_monkey_king_bar_unique:OnCreated()
+function modifier_item_extended_monkey_king_bar_unique:OnCreated()
 	self.bonus_range = self:GetAbility():GetSpecialValueFor("bonus_range")
 	self.pulverize_count = self:GetAbility():GetSpecialValueFor("pulverize_count")
 	self.pulverize_damage = self:GetAbility():GetSpecialValueFor("pulverize_damage")
@@ -189,7 +189,7 @@ function modifier_item_imba_monkey_king_bar_unique:OnCreated()
 end
 
 -- Declare modifier states
-function modifier_item_imba_monkey_king_bar_unique:CheckState()
+function modifier_item_extended_monkey_king_bar_unique:CheckState()
 	local states = {
 		[MODIFIER_STATE_CANNOT_MISS] = true,
 	}
@@ -197,7 +197,7 @@ function modifier_item_imba_monkey_king_bar_unique:CheckState()
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_monkey_king_bar_unique:DeclareFunctions()
+function modifier_item_extended_monkey_king_bar_unique:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_ATTACK_RANGE_BONUS,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
@@ -205,7 +205,7 @@ function modifier_item_imba_monkey_king_bar_unique:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_monkey_king_bar_unique:GetModifierAttackRangeBonus()
+function modifier_item_extended_monkey_king_bar_unique:GetModifierAttackRangeBonus()
 	if self:GetParent():IsRangedAttacker() then
 		return 0
 	else
@@ -213,7 +213,7 @@ function modifier_item_imba_monkey_king_bar_unique:GetModifierAttackRangeBonus()
 	end
 end
 
-function modifier_item_imba_monkey_king_bar_unique:OnAttackLanded(keys)
+function modifier_item_extended_monkey_king_bar_unique:OnAttackLanded(keys)
 	if IsServer() then
 		local owner = self:GetParent()
 

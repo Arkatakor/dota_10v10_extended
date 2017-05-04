@@ -215,7 +215,7 @@ function NetherWard( keys )
 	caster:EmitSound(sound_cast)
 
 	-- Spawn the Nether Ward
-	local nether_ward = CreateUnitByName("npc_imba_pugna_nether_ward_"..( ability_level + 1 ), target, false, caster, caster, caster:GetTeam())
+	local nether_ward = CreateUnitByName("npc_extended_pugna_nether_ward_"..( ability_level + 1 ), target, false, caster, caster, caster:GetTeam())
 	FindClearSpaceForUnit(nether_ward, target, true)
 	nether_ward:SetControllableByPlayer(player_id, true)
 
@@ -321,66 +321,66 @@ function NetherWardZap( keys )
 	-- Ability replication
 	local cast_ability_name = cast_ability:GetName()
 	local forbidden_abilities = {
-		"imba_pugna_nether_ward",
+		"extended_pugna_nether_ward",
 		"ancient_apparition_ice_blast",
 		"furion_teleportation",
 		"furion_wrath_of_nature",
-		"imba_juggernaut_healing_ward",
-		"imba_juggernaut_omni_slash",
-		"imba_kunkka_x_marks_the_spot",		
+		"extended_juggernaut_healing_ward",
+		"extended_juggernaut_omni_slash",
+		"extended_kunkka_x_marks_the_spot",		
 		"life_stealer_infest",
 		"life_stealer_assimilate",
 		"life_stealer_assimilate_eject",
-		"imba_lina_fiery_soul",
-		"imba_night_stalker_darkness",
-		"imba_sandking_sand_storm",
-		"imba_sandking_epicenter",
+		"extended_lina_fiery_soul",
+		"extended_night_stalker_darkness",
+		"extended_sandking_sand_storm",
+		"extended_sandking_epicenter",
 		"storm_spirit_static_remnant",
 		"storm_spirit_ball_lightning",
-		"imba_tinker_rearm",
-		"imba_venomancer_plague_ward",
-		"imba_witch_doctor_paralyzing_cask",
-		"imba_witch_doctor_voodoo_restoration",
-		"imba_witch_doctor_maledict",
-		"imba_witch_doctor_death_ward",
-		"imba_queenofpain_blink",
-		"imba_jakiro_fire_breath",
-		"imba_jakiro_ice_breath",
-		"imba_jakiro_liquid_fire",
+		"extended_tinker_rearm",
+		"extended_venomancer_plague_ward",
+		"extended_witch_doctor_paralyzing_cask",
+		"extended_witch_doctor_voodoo_restoration",
+		"extended_witch_doctor_maledict",
+		"extended_witch_doctor_death_ward",
+		"extended_queenofpain_blink",
+		"extended_jakiro_fire_breath",
+		"extended_jakiro_ice_breath",
+		"extended_jakiro_liquid_fire",
 		"alchemist_unstable_concoction",
 		"alchemist_chemical_rage",
 		"ursa_overpower",
-		"imba_bounty_hunter_wind_walk",
+		"extended_bounty_hunter_wind_walk",
 		"invoker_ghost_walk",
-		"imba_clinkz_strafe",		
-		"imba_obsidian_destroyer_arcane_orb",
-		"imba_obsidian_destroyer_sanity_eclipse",
+		"extended_clinkz_strafe",		
+		"extended_obsidian_destroyer_arcane_orb",
+		"extended_obsidian_destroyer_sanity_eclipse",
 		"shadow_demon_shadow_poison",
 		"shadow_demon_demonic_purge",
 		"phantom_lancer_doppelwalk",
 		"chaos_knight_phantasm",
-		"imba_phantom_assassin_phantom_strike",
+		"extended_phantom_assassin_phantom_strike",
 		"wisp_relocate",
 		"templar_assassin_refraction",
 		"templar_assassin_meld",
 		"naga_siren_mirror_image",
-		"imba_nyx_assassin_vendetta",
-		"imba_centaur_stampede",
+		"extended_nyx_assassin_vendetta",
+		"extended_centaur_stampede",
 		"ember_spirit_activate_fire_remnant",
 		"legion_commander_duel",
 		"phoenix_fire_spirits",
 		"terrorblade_conjure_image",
-		"imba_techies_land_mines",
-		"imba_techies_stasis_trap",
+		"extended_techies_land_mines",
+		"extended_techies_stasis_trap",
 		"techies_suicide",
 		"winter_wyvern_arctic_burn",
-		"imba_wraith_king_kingdom_come",
-		"imba_faceless_void_chronosphere",
+		"extended_wraith_king_kingdom_come",
+		"extended_faceless_void_chronosphere",
 		"magnataur_skewer",
-		"imba_tinker_march_of_the_machines",
+		"extended_tinker_march_of_the_machines",
 		"riki_blink_strike",
 		"riki_tricks_of_the_trade",
-		"imba_necrolyte_death_pulse",
+		"extended_necrolyte_death_pulse",
 		"beastmaster_call_of_the_wild",
 		"beastmaster_call_of_the_wild_boar",
 		"dark_seer_ion_shell",
@@ -398,7 +398,7 @@ function NetherWardZap( keys )
 		"shredder_timber_chain",
 		"shredder_chakram",
 		"shredder_chakram_2",
-		"imba_enigma_demonic_conversion",
+		"extended_enigma_demonic_conversion",
 		"spectre_haunt",
 		"windrunner_focusfire",
 		"viper_poison_attack",
@@ -427,8 +427,8 @@ function NetherWardZap( keys )
 		"monkey_king_tree_dance",
 		"monkey_king_primal_spring",
 		"monkey_king_wukongs_command",
-		"imba_skywrath_mage_concussive_shot",
-		"imba_silencer_glaives_of_wisdom"
+		"extended_skywrath_mage_concussive_shot",
+		"extended_silencer_glaives_of_wisdom"
 	}
 
 	-- Ignore items
@@ -469,7 +469,7 @@ function NetherWardZap( keys )
 	-- Special cases
 
 	-- Dark Ritual: target a random nearby creep
-	if cast_ability_name == "imba_lich_dark_ritual" then
+	if cast_ability_name == "extended_lich_dark_ritual" then
 	 	local creeps = FindUnitsInRadius(	caster:GetTeamNumber(),
                                                	ward:GetAbsOrigin(),
                                             	nil,
@@ -499,12 +499,12 @@ function NetherWardZap( keys )
 	end
 
 	-- Purification: remove omniguard
-	if cast_ability_name == "imba_omniknight_purification" then
-		ward:RemoveModifierByName("modifier_imba_purification_passive")
+	if cast_ability_name == "extended_omniknight_purification" then
+		ward:RemoveModifierByName("modifier_extended_purification_passive")
 	end
 
 	-- Meat Hook: ignore cast range
-	if cast_ability_name == "imba_pudge_meat_hook" then
+	if cast_ability_name == "extended_pudge_meat_hook" then
 		ability_range = ability:GetLevelSpecialValueFor("base_range", ability:GetLevel() - 1)
 	end
 
@@ -514,15 +514,15 @@ function NetherWardZap( keys )
 	end
 
 	-- Shadowraze #2/#3: face the caster
-	if cast_ability_name == "imba_nevermore_shadowraze3" or cast_ability_name == "imba_nevermore_shadowraze2" then
+	if cast_ability_name == "extended_nevermore_shadowraze3" or cast_ability_name == "extended_nevermore_shadowraze2" then
 		ward:SetForwardVector((target_point - ward_position):Normalized())
 	end
 
 	-- Storm Bolt: choose another target
-	if cast_ability_name == "imba_sven_storm_bolt" then
+	if cast_ability_name == "extended_sven_storm_bolt" then
 		local enemies = FindUnitsInRadius(caster:GetTeamNumber(), ward_position, nil, ability_range, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 		if #enemies > 0 then
-			if enemies[1]:FindAbilityByName("imba_sven_storm_bolt") then
+			if enemies[1]:FindAbilityByName("extended_sven_storm_bolt") then
 				if #enemies > 1 then
 					target = enemies[2]
 				else

@@ -24,7 +24,7 @@ function HasteBoots( keys )
 	ability:ApplyDataDrivenModifier(caster, caster, modifier_ms, {})
 
 	-- Increase move speed limit
-	caster:AddNewModifier(caster, ability, "modifier_imba_haste_boots_speed_break", {duration = phase_duration})
+	caster:AddNewModifier(caster, ability, "modifier_extended_haste_boots_speed_break", {duration = phase_duration})
 end
 
 function TranquilsThink( keys )

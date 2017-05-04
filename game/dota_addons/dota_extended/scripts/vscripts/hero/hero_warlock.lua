@@ -207,7 +207,7 @@ function Upheaval( keys )
 	end
 
 	-- Spawn the Upheaval Tower
-	local upheaval_tower = CreateUnitByName("npc_imba_warlock_upheaval_tower", target, false, caster, caster, caster:GetTeam())
+	local upheaval_tower = CreateUnitByName("npc_extended_warlock_upheaval_tower", target, false, caster, caster, caster:GetTeam())
 	FindClearSpaceForUnit(upheaval_tower, target, true)
 	if player_id then
 		upheaval_tower:SetControllableByPlayer(player_id, true)
@@ -434,7 +434,7 @@ function ChaoticOffering( keys )
 		GridNav:DestroyTreesAroundPoint(target, stun_radius, false)
 
 		-- Spawn the infernal
-		local infernal = CreateUnitByName("npc_imba_warlock_golem_"..infernal_model, target, false, caster, caster, caster:GetTeam())
+		local infernal = CreateUnitByName("npc_extended_warlock_golem_"..infernal_model, target, false, caster, caster, caster:GetTeam())
 		FindClearSpaceForUnit(infernal, target, true)
 		if player_id then
 			infernal:SetControllableByPlayer(player_id, true)
@@ -459,9 +459,9 @@ function ChaoticOffering( keys )
 		ability:ApplyDataDrivenModifier(caster, infernal, modifier_golem, {})
 
 		-- Level up abilities
-		local ability_flaming_fists = infernal:FindAbilityByName("imba_warlock_flaming_fists")
+		local ability_flaming_fists = infernal:FindAbilityByName("extended_warlock_flaming_fists")
 		ability_flaming_fists:SetLevel(1)
-		local ability_permanent_immolation = infernal:FindAbilityByName("imba_warlock_permanent_immolation")
+		local ability_permanent_immolation = infernal:FindAbilityByName("extended_warlock_permanent_immolation")
 		ability_permanent_immolation:SetLevel(1)
 
 		-- Multi golem handling (for refresher orb or frantic mode)
@@ -524,7 +524,7 @@ function ChaoticOffering( keys )
 		for i = 0, 5 do 
 			local current_item = caster.chaotic_offering_golem_items[i]
 			if current_item == nil then
-				infernal:AddItem(CreateItem("item_imba_dummy", nil, nil))
+				infernal:AddItem(CreateItem("item_extended_dummy", nil, nil))
 			else
 				-- Main golem gets real items
 				if infernal:HasModifier(modifier_main_golem) then
@@ -541,7 +541,7 @@ function ChaoticOffering( keys )
 		if infernal:HasModifier(modifier_main_golem) then
 			for i = 0, 5 do
 				local current_item = infernal:GetItemInSlot(i)
-				if current_item:GetAbilityName() == "item_imba_dummy" then
+				if current_item:GetAbilityName() == "item_extended_dummy" then
 					infernal:RemoveItem(current_item)
 				end
 			end
@@ -597,7 +597,7 @@ function ChaoticOffering( keys )
 					ParticleManager:SetParticleControl(impact_small_pfx, 1, Vector(stun_radius / 2, 0, 0))
 
 					-- Spawn the infernal
-					local infernal_small = CreateUnitByName("npc_imba_warlock_golem_extra", small_target, false, caster, caster, caster:GetTeam())
+					local infernal_small = CreateUnitByName("npc_extended_warlock_golem_extra", small_target, false, caster, caster, caster:GetTeam())
 					FindClearSpaceForUnit(infernal_small, small_target, true)
 					infernal_small:SetControllableByPlayer(player_id, true)
 
@@ -616,9 +616,9 @@ function ChaoticOffering( keys )
 					infernal_small:AddNewModifier(caster, ability, "modifier_kill", {duration = duration})
 
 					-- Level up abilities
-					local ability_flaming_fists = infernal_small:FindAbilityByName("imba_warlock_flaming_fists")
+					local ability_flaming_fists = infernal_small:FindAbilityByName("extended_warlock_flaming_fists")
 					ability_flaming_fists:SetLevel(1)
-					local ability_permanent_immolation = infernal_small:FindAbilityByName("imba_warlock_permanent_immolation")
+					local ability_permanent_immolation = infernal_small:FindAbilityByName("extended_warlock_permanent_immolation")
 					ability_permanent_immolation:SetLevel(1)
 				end)
 			end

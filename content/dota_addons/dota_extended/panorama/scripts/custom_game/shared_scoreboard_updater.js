@@ -142,43 +142,43 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 					else
 					{
 						var item_image_name = itemInfo.item_name.replace( "item_", "" );
-						if ( item_image_name.indexOf( "imba" ) >= 0 )
+						if ( item_image_name.indexOf( "extended" ) >= 0 )
 						{
-							//Some imba items have same base image
+							//Some extended items have same base image
 							switch(item_image_name){
-								case "imba_dagon":
-								case "imba_dagon_2":
-								case "imba_dagon_3":
-								case "imba_dagon_4":
-								case "imba_dagon_5":
-								case "imba_force_staff":
-								case "imba_cyclone":
-								case "imba_ring_of_basilius":
-								case "imba_null_talisman":
-								case "imba_wraith_band":
-								case "imba_bracer":
-								case "imba_poor_mans_shield":
-								case "imba_pers":
-								case "imba_refresher":
-								case "imba_black_king_bar":
-								case "imba_blade_mail":
-								case "imba_hood_of_defiance":
-								case "imba_basher":
-								case "imba_manta":
-								case "imba_ethereal_blade":
-								case "imba_orb_of_venom":
-								case "imba_ring_of_aquila":
+								case "extended_dagon":
+								case "extended_dagon_2":
+								case "extended_dagon_3":
+								case "extended_dagon_4":
+								case "extended_dagon_5":
+								case "extended_force_staff":
+								case "extended_cyclone":
+								case "extended_ring_of_basilius":
+								case "extended_null_talisman":
+								case "extended_wraith_band":
+								case "extended_bracer":
+								case "extended_poor_mans_shield":
+								case "extended_pers":
+								case "extended_refresher":
+								case "extended_black_king_bar":
+								case "extended_blade_mail":
+								case "extended_hood_of_defiance":
+								case "extended_basher":
+								case "extended_manta":
+								case "extended_ethereal_blade":
+								case "extended_orb_of_venom":
+								case "extended_ring_of_aquila":
 									//Reference to base image
-									item_image_name = item_image_name.replace("imba_", "");
+									item_image_name = item_image_name.replace("extended_", "");
 									itemImagePath = "file://{images}/items/" + item_image_name + ".png";
 								break;
-								case "imba_power_treads_2":
+								case "extended_power_treads_2":
 									//Reference to image that does not match with its name
-									itemImagePath = "raw://resource/flash3/images/items/custom/imba_power_threads.png";
+									itemImagePath = "raw://resource/flash3/images/items/custom/extended_power_threads.png";
 								break;
-								case "item_imba_shadow_blade":
+								case "item_extended_shadow_blade":
 									//Reference to image that does not match with its name
-									itemImagePath = "raw://resource/flash3/images/items/custom/imba_invis_sword.png";
+									itemImagePath = "raw://resource/flash3/images/items/custom/extended_invis_sword.png";
 								break;
 								default:
 									//Reference to custom image

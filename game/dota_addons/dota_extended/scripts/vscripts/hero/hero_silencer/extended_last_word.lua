@@ -1,6 +1,6 @@
-imba_silencer_last_word = class({})
+extended_silencer_last_word = class({})
 
-function imba_silencer_last_word:OnSpellStart()
+function extended_silencer_last_word:OnSpellStart()
 	local target = self:GetCursorTarget()
 	local caster = self:GetCaster()
 
@@ -13,25 +13,25 @@ function imba_silencer_last_word:OnSpellStart()
 
 		EmitSoundOn("Hero_Silencer.LastWord.Cast", caster)
 
-		target:AddNewModifier(caster, self, "modifier_imba_silencer_last_word_debuff", {duration = self:GetDuration()})
+		target:AddNewModifier(caster, self, "modifier_extended_silencer_last_word_debuff", {duration = self:GetDuration()})
 	end
 end
 
-function imba_silencer_last_word:GetIntrinsicModifierName()
-	return "imba_silencer_last_word_aura"
+function extended_silencer_last_word:GetIntrinsicModifierName()
+	return "extended_silencer_last_word_aura"
 end
 
 ----------------------------------------------------
 -- Last Word silence talent aura
 ----------------------------------------------------
-LinkLuaModifier("imba_silencer_last_word_aura", "hero/hero_silencer/imba_last_word", LUA_MODIFIER_MOTION_NONE)
-imba_silencer_last_word_aura = class({})
+LinkLuaModifier("extended_silencer_last_word_aura", "hero/hero_silencer/extended_last_word", LUA_MODIFIER_MOTION_NONE)
+extended_silencer_last_word_aura = class({})
 
-function imba_silencer_last_word_aura:OnCreated( kv )
+function extended_silencer_last_word_aura:OnCreated( kv )
 	self.aura_radius = self:GetAbility():GetSpecialValueFor("aura_radius")
 end
 
-function imba_silencer_last_word_aura:IsAura()
+function extended_silencer_last_word_aura:IsAura()
 	--[[ SILENCER TALENT CHECK
 	if self:GetCaster():HasModifier("") then
 		return true
@@ -42,46 +42,46 @@ function imba_silencer_last_word_aura:IsAura()
 	return false
 end
 
-function imba_silencer_last_word_aura:IsHidden()
+function extended_silencer_last_word_aura:IsHidden()
 	return true
 end
 
-function imba_silencer_last_word_aura:GetModifierAura()
-	return "imba_silencer_last_word_silence_aura"
+function extended_silencer_last_word_aura:GetModifierAura()
+	return "extended_silencer_last_word_silence_aura"
 end
 
-function imba_silencer_last_word_aura:IsAuraActiveOnDeath()
+function extended_silencer_last_word_aura:IsAuraActiveOnDeath()
 	return false
 end
 
-function imba_silencer_last_word_aura:GetAuraRadius()
+function extended_silencer_last_word_aura:GetAuraRadius()
 	return self.aura_radius
 end
 
-function imba_silencer_last_word_aura:GetAuraSearchTeam()
+function extended_silencer_last_word_aura:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_ENEMY
 end
 
-function imba_silencer_last_word_aura:GetAuraSearchType()
+function extended_silencer_last_word_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 ----------------------------------------------------
 -- Last Word aura enemy silence modifier
 ----------------------------------------------------
-LinkLuaModifier("imba_silencer_last_word_silence_aura", "hero/hero_silencer/imba_last_word", LUA_MODIFIER_MOTION_NONE)
-imba_silencer_last_word_silence_aura = class({})
+LinkLuaModifier("extended_silencer_last_word_silence_aura", "hero/hero_silencer/extended_last_word", LUA_MODIFIER_MOTION_NONE)
+extended_silencer_last_word_silence_aura = class({})
 
-function imba_silencer_last_word_silence_aura:OnCreated( kv )
+function extended_silencer_last_word_silence_aura:OnCreated( kv )
 	self.stickTime = 0.5
 	self.silence_duration = self:GetAbility():GetSpecialValueFor("aura_silence")
 	self:SetDuration(self.stickTime, false)
 end
 
-function imba_silencer_last_word_silence_aura:IsDebuff()
+function extended_silencer_last_word_silence_aura:IsDebuff()
 	return true
 end
 
-function imba_silencer_last_word_silence_aura:DeclareFunctions()
+function extended_silencer_last_word_silence_aura:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_ABILITY_EXECUTED,
 	}
@@ -89,7 +89,7 @@ function imba_silencer_last_word_silence_aura:DeclareFunctions()
 	return funcs
 end
 
-function imba_silencer_last_word_silence_aura:OnAbilityExecuted( params )
+function extended_silencer_last_word_silence_aura:OnAbilityExecuted( params )
 	if IsServer() then
 		if ( not params.ability:IsItem() ) and ( params.unit == self:GetParent() ) and ( not self:GetParent():IsMagicImmune() ) then
 			if params.ability:IsToggle() and params.ability:GetToggleState() then
@@ -100,16 +100,16 @@ function imba_silencer_last_word_silence_aura:OnAbilityExecuted( params )
 	end
 end
 
-function imba_silencer_last_word_silence_aura:GetTexture()
+function extended_silencer_last_word_silence_aura:GetTexture()
 	return "silencer_last_word"
 end
 ----------------------------------------------------
 -- Last Word initial debuff
 ----------------------------------------------------
-LinkLuaModifier("modifier_imba_silencer_last_word_debuff", "hero/hero_silencer/imba_last_word", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_silencer_last_word_debuff = class({})
+LinkLuaModifier("modifier_extended_silencer_last_word_debuff", "hero/hero_silencer/extended_last_word", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_silencer_last_word_debuff = class({})
 
-function modifier_imba_silencer_last_word_debuff:OnCreated( kv )
+function modifier_extended_silencer_last_word_debuff:OnCreated( kv )
 	self.caster = self:GetCaster()
 
 	if IsServer() then
@@ -120,7 +120,7 @@ function modifier_imba_silencer_last_word_debuff:OnCreated( kv )
 	end
 end
 
-function modifier_imba_silencer_last_word_debuff:OnDestroy( kv )
+function modifier_extended_silencer_last_word_debuff:OnDestroy( kv )
 	if not self:GetParent():IsMagicImmune() then
 		if IsServer() then
 			EmitSoundOn("Hero_Silencer.LastWord.Damage", self:GetParent())
@@ -136,7 +136,7 @@ function modifier_imba_silencer_last_word_debuff:OnDestroy( kv )
 	end
 end
 
-function modifier_imba_silencer_last_word_debuff:CheckState()
+function modifier_extended_silencer_last_word_debuff:CheckState()
 	local state = {
 	[MODIFIER_STATE_DISARMED] = true,
 	[MODIFIER_STATE_PROVIDES_VISION] = true,
@@ -145,7 +145,7 @@ function modifier_imba_silencer_last_word_debuff:CheckState()
 	return state
 end
 
-function modifier_imba_silencer_last_word_debuff:DeclareFunctions()
+function modifier_extended_silencer_last_word_debuff:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_ABILITY_EXECUTED,
 	}
@@ -153,53 +153,53 @@ function modifier_imba_silencer_last_word_debuff:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_silencer_last_word_debuff:OnAbilityExecuted( params )
+function modifier_extended_silencer_last_word_debuff:OnAbilityExecuted( params )
 	if IsServer() then
 		if ( not params.ability:IsItem() ) and ( params.unit == self:GetParent() ) then
 			if params.ability:IsToggle() and params.ability:GetToggleState() then
 				return
 			end
-			self:GetParent():AddNewModifier(self.caster, self:GetAbility(), "modifier_imba_silencer_last_word_repeat_thinker", {duration = self.silence_duration})
+			self:GetParent():AddNewModifier(self.caster, self:GetAbility(), "modifier_extended_silencer_last_word_repeat_thinker", {duration = self.silence_duration})
 			self:Destroy()
 		end
 	end
 end
 
-function modifier_imba_silencer_last_word_debuff:OnIntervalThink()
+function modifier_extended_silencer_last_word_debuff:OnIntervalThink()
 	local target = self:GetParent()
 	if IsServer() then
 		target:AddNewModifier(self.caster, self:GetAbility(), "modifier_silence", {duration = self.silence_duration})
 	end
 end
 
-function modifier_imba_silencer_last_word_debuff:GetEffectName()
+function modifier_extended_silencer_last_word_debuff:GetEffectName()
 	return "particles/units/heroes/hero_silencer/silencer_last_word_status.vpcf"
 end
 
-function modifier_imba_silencer_last_word_debuff:GetEffectAttachType()
+function modifier_extended_silencer_last_word_debuff:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
 end
 ----------------------------------------------------
 -- Last Word repeat thinker
 ----------------------------------------------------
-LinkLuaModifier("modifier_imba_silencer_last_word_repeat_thinker", "hero/hero_silencer/imba_last_word", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_silencer_last_word_repeat_thinker = class({})
+LinkLuaModifier("modifier_extended_silencer_last_word_repeat_thinker", "hero/hero_silencer/extended_last_word", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_silencer_last_word_repeat_thinker = class({})
 
-function modifier_imba_silencer_last_word_repeat_thinker:OnDestroy( kv )
+function modifier_extended_silencer_last_word_repeat_thinker:OnDestroy( kv )
 	if not self:GetParent():IsMagicImmune() then
-		self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_imba_silencer_last_word_debuff", {duration = self:GetAbility():GetDuration()})
+		self:GetParent():AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_extended_silencer_last_word_debuff", {duration = self:GetAbility():GetDuration()})
 	end
 end
 
-function modifier_imba_silencer_last_word_repeat_thinker:IsDebuff()
+function modifier_extended_silencer_last_word_repeat_thinker:IsDebuff()
 	return true
 end
 
-function modifier_imba_silencer_last_word_repeat_thinker:IsPurgable()
+function modifier_extended_silencer_last_word_repeat_thinker:IsPurgable()
 	return true
 end
 
-function modifier_imba_silencer_last_word_repeat_thinker:CheckState()
+function modifier_extended_silencer_last_word_repeat_thinker:CheckState()
 	local state = {
 	[MODIFIER_STATE_SILENCED] = true,
 	}

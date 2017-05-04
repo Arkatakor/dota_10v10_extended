@@ -19,8 +19,8 @@ function Necronomicon( keys )
 	local summon_duration = ability:GetLevelSpecialValueFor("summon_duration", ability_level)
 	local caster_loc = caster:GetAbsOrigin()
 	local caster_direction = caster:GetForwardVector()
-	local melee_summon_name = "npc_imba_necronomicon_warrior_"..necro_level
-	local ranged_summon_name = "npc_imba_necronomicon_archer_"..necro_level
+	local melee_summon_name = "npc_extended_necronomicon_warrior_"..necro_level
+	local ranged_summon_name = "npc_extended_necronomicon_archer_"..necro_level
 
 	-- Play cast sound
 	caster:EmitSound(sound_cast)
@@ -39,10 +39,10 @@ function Necronomicon( keys )
 	-- Make the summons limited duration and controllable
 	melee_summon:SetControllableByPlayer(caster:GetPlayerID(), true)
 	melee_summon:AddNewModifier(caster, ability, "modifier_kill", {duration = summon_duration})
-	ability:ApplyDataDrivenModifier(caster, melee_summon, "modifier_item_imba_necronomicon_summon", {})
+	ability:ApplyDataDrivenModifier(caster, melee_summon, "modifier_item_extended_necronomicon_summon", {})
 	ranged_summon:SetControllableByPlayer(caster:GetPlayerID(), true)
 	ranged_summon:AddNewModifier(caster, ability, "modifier_kill", {duration = summon_duration})
-	ability:ApplyDataDrivenModifier(caster, ranged_summon, "modifier_item_imba_necronomicon_summon", {})
+	ability:ApplyDataDrivenModifier(caster, ranged_summon, "modifier_item_extended_necronomicon_summon", {})
 	
 	-- Find summon abilities
 	local melee_abilities = {
@@ -58,7 +58,7 @@ function Necronomicon( keys )
 		"necronomicon_archer_aoe",
 		"forest_troll_high_priest_mana_aura",
 		"big_thunder_lizard_wardrums_aura",
-		"imba_necronomicon_archer_multishot"
+		"extended_necronomicon_archer_multishot"
 	}
 
 	-- Upgrade melee minion abilities

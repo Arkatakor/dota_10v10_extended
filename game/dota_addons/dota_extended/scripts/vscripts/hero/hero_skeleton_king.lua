@@ -355,7 +355,7 @@ function ReincarnationWraithEnd( keys )
 	local ability = keys.ability
 
 	-- If this is an unit with Reincarnation off-cooldown, do nothing
-	local ability_reincarnation = target:FindAbilityByName("imba_wraith_king_reincarnation")
+	local ability_reincarnation = target:FindAbilityByName("extended_wraith_king_reincarnation")
 	if ability_reincarnation and ability_reincarnation:IsCooldownReady() and target:GetMana() >= 160 then
 		TriggerWraithKingReincarnation(target, ability_reincarnation)
 		target.reincarnation_scepter_killer_id = nil

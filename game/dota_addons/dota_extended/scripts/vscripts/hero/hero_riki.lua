@@ -13,18 +13,18 @@
 ---------------------------------------------------------------------
 -------------------------	Smoke Screen	-------------------------
 ---------------------------------------------------------------------
-if imba_riki_smoke_screen == nil then imba_riki_smoke_screen = class({}) end
-LinkLuaModifier( "modifier_imba_riki_smoke_screen_handler", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )		-- Aura that applies the debuff
-LinkLuaModifier( "modifier_imba_riki_smoke_screen_debuff", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )			-- Silence, miss, turn rate slow, slow
-LinkLuaModifier( "modifier_imba_riki_smoke_screen_vision_debuff", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )	-- Reduces vision in comparison to smoke centre
+if extended_riki_smoke_screen == nil then extended_riki_smoke_screen = class({}) end
+LinkLuaModifier( "modifier_extended_riki_smoke_screen_handler", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )		-- Aura that applies the debuff
+LinkLuaModifier( "modifier_extended_riki_smoke_screen_debuff", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )			-- Silence, miss, turn rate slow, slow
+LinkLuaModifier( "modifier_extended_riki_smoke_screen_vision_debuff", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )	-- Reduces vision in comparison to smoke centre
 
-function imba_riki_smoke_screen:GetBehavior()
+function extended_riki_smoke_screen:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR_AOE end
 
-function imba_riki_smoke_screen:GetAOERadius()
+function extended_riki_smoke_screen:GetAOERadius()
 	return self:GetSpecialValueFor("area_of_effect") end
 
-function imba_riki_smoke_screen:OnSpellStart()
+function extended_riki_smoke_screen:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target_point = self:GetCursorPosition()
@@ -32,7 +32,7 @@ function imba_riki_smoke_screen:OnSpellStart()
 		
 		local duration = self:GetSpecialValueFor("duration")
 		local aoe = self:GetSpecialValueFor("area_of_effect")
-		local smoke_handler = "modifier_imba_riki_smoke_screen_handler"
+		local smoke_handler = "modifier_extended_riki_smoke_screen_handler"
 		local smoke_sound = "Hero_Riki.Smoke_Screen"
 
 		EmitSoundOnLocationWithCaster(target_point, smoke_sound, caster)
@@ -55,34 +55,34 @@ end
 ---------------------------------
 -----	Smoke Screen Aura	-----
 ---------------------------------
-if modifier_imba_riki_smoke_screen_handler == nil then modifier_imba_riki_smoke_screen_handler = class({}) end
-function modifier_imba_riki_smoke_screen_handler:IsPurgable() return false end
-function modifier_imba_riki_smoke_screen_handler:IsHidden() return true end
-function modifier_imba_riki_smoke_screen_handler:IsAura() return true end
+if modifier_extended_riki_smoke_screen_handler == nil then modifier_extended_riki_smoke_screen_handler = class({}) end
+function modifier_extended_riki_smoke_screen_handler:IsPurgable() return false end
+function modifier_extended_riki_smoke_screen_handler:IsHidden() return true end
+function modifier_extended_riki_smoke_screen_handler:IsAura() return true end
 
-function modifier_imba_riki_smoke_screen_handler:GetAuraSearchTeam()
+function modifier_extended_riki_smoke_screen_handler:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_ENEMY end
 
-function modifier_imba_riki_smoke_screen_handler:GetAuraSearchType()
+function modifier_extended_riki_smoke_screen_handler:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_HERO end
 
-function modifier_imba_riki_smoke_screen_handler:GetModifierAura()
-	return "modifier_imba_riki_smoke_screen_debuff" end
+function modifier_extended_riki_smoke_screen_handler:GetModifierAura()
+	return "modifier_extended_riki_smoke_screen_debuff" end
 	
-function modifier_imba_riki_smoke_screen_handler:GetAuraRadius()	
+function modifier_extended_riki_smoke_screen_handler:GetAuraRadius()	
 	local ability = self:GetAbility()
 	local aoe = ability:GetSpecialValueFor("area_of_effect")
 	return aoe	
 end
 
-function modifier_imba_riki_smoke_screen_handler:OnCreated()
+function modifier_extended_riki_smoke_screen_handler:OnCreated()
 	if IsServer() then
 		self:StartIntervalThink(0.1)
 		self:GetParent().afflicted = {}
 	end
 end
 
-function modifier_imba_riki_smoke_screen_handler:OnIntervalThink()
+function modifier_extended_riki_smoke_screen_handler:OnIntervalThink()
 	local ability = self:GetAbility()
 	local caster = ability:GetCaster()
 	local parent = self:GetParent()
@@ -97,13 +97,13 @@ function modifier_imba_riki_smoke_screen_handler:OnIntervalThink()
 	
 		-- If the unit was never afflicted with a modifier instance from this handler, give it the modifier and index it along with the units ID
 		if not parent.afflicted[unit:entindex()] then
-			local mod = unit:AddNewModifier(caster, self:GetAbility(), "modifier_imba_riki_smoke_screen_vision_debuff", {})
+			local mod = unit:AddNewModifier(caster, self:GetAbility(), "modifier_extended_riki_smoke_screen_vision_debuff", {})
 			table.insert(parent.afflicted, unit:entindex(), mod)
 			
 		else
 			-- If the parent somehow (death for example) lost the modifier and got back into the smoke(glimpse, timelapse), reapply and re-index it
 			if not parent.afflicted[unit:entindex()] then
-				local mod = unit:AddNewModifier(caster, self:GetAbility(), "modifier_imba_riki_smoke_screen_vision_debuff", {})
+				local mod = unit:AddNewModifier(caster, self:GetAbility(), "modifier_extended_riki_smoke_screen_vision_debuff", {})
 				table.insert(parent.afflicted, unit:entindex(), mod)
 			end
 			
@@ -113,7 +113,7 @@ function modifier_imba_riki_smoke_screen_handler:OnIntervalThink()
 			
 			-- Check if this modifier instance is the strongest of all the other instances the unit might have
 			local isStrongest = true
-			local duplicateMods = unit:FindAllModifiersByName("modifier_imba_riki_smoke_screen_vision_debuff")
+			local duplicateMods = unit:FindAllModifiersByName("modifier_extended_riki_smoke_screen_vision_debuff")
 			for _,modifier in pairs(duplicateMods) do
 				if modifier ~= parent.afflicted[unit:entindex()] then
 					if modifier:GetStackCount() >= stacks then
@@ -137,7 +137,7 @@ function modifier_imba_riki_smoke_screen_handler:OnIntervalThink()
 	end
 end
 
-function modifier_imba_riki_smoke_screen_handler:OnDestroy()
+function modifier_extended_riki_smoke_screen_handler:OnDestroy()
 	if IsServer() then
 		for _, modifier in pairs(self:GetParent().afflicted) do
 			if modifier then modifier:Destroy() end
@@ -148,42 +148,42 @@ end
 -----------------------------------
 -----	Smoke Screen Debuff	  -----
 -----------------------------------
-if modifier_imba_riki_smoke_screen_debuff == nil then modifier_imba_riki_smoke_screen_debuff = class({}) end
-function modifier_imba_riki_smoke_screen_debuff:IsPurgable() return false end
-function modifier_imba_riki_smoke_screen_debuff:IsHidden() return false end
-function modifier_imba_riki_smoke_screen_debuff:IsDebuff() return true end
+if modifier_extended_riki_smoke_screen_debuff == nil then modifier_extended_riki_smoke_screen_debuff = class({}) end
+function modifier_extended_riki_smoke_screen_debuff:IsPurgable() return false end
+function modifier_extended_riki_smoke_screen_debuff:IsHidden() return false end
+function modifier_extended_riki_smoke_screen_debuff:IsDebuff() return true end
 
-function modifier_imba_riki_smoke_screen_debuff:GetEffectName()
+function modifier_extended_riki_smoke_screen_debuff:GetEffectName()
 	return "particles/generic_gameplay/generic_silenced.vpcf" end
 
-function modifier_imba_riki_smoke_screen_debuff:GetEffectAttachType()
+function modifier_extended_riki_smoke_screen_debuff:GetEffectAttachType()
 	return PATTACH_OVERHEAD_FOLLOW end
 
-function modifier_imba_riki_smoke_screen_debuff:CheckState()
+function modifier_extended_riki_smoke_screen_debuff:CheckState()
 	local state = { [MODIFIER_STATE_SILENCED] = true}
 	return state
 end
 
-function modifier_imba_riki_smoke_screen_debuff:DeclareFunctions()
+function modifier_extended_riki_smoke_screen_debuff:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_MISS_PERCENTAGE,
 					MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE,
 					MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE, }
 	return funcs
 end
 
-function modifier_imba_riki_smoke_screen_debuff:GetModifierMiss_Percentage()
+function modifier_extended_riki_smoke_screen_debuff:GetModifierMiss_Percentage()
 	local ability = self:GetAbility()
 	local miss_chance = ability:GetSpecialValueFor("miss_chance")
 	return miss_chance
 end
 
-function modifier_imba_riki_smoke_screen_debuff:GetModifierTurnRate_Percentage()
+function modifier_extended_riki_smoke_screen_debuff:GetModifierTurnRate_Percentage()
 	local ability = self:GetAbility()
 	local turn_slow = ability:GetSpecialValueFor("turn_rate_slow")*-1
 	return turn_slow
 end
 
-function modifier_imba_riki_smoke_screen_debuff:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_riki_smoke_screen_debuff:GetModifierMoveSpeedBonus_Percentage()
 	local ability = self:GetAbility()
 	local slow = ability:GetSpecialValueFor("slow")*-1
 	return slow
@@ -192,39 +192,39 @@ end
 -------------------------------------------
 -----	Smoke Screen Vision Debuff	  -----
 -------------------------------------------
-if modifier_imba_riki_smoke_screen_vision_debuff == nil then modifier_imba_riki_smoke_screen_vision_debuff = class({}) end
-function modifier_imba_riki_smoke_screen_vision_debuff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
-function modifier_imba_riki_smoke_screen_vision_debuff:IsPurgable() return false end
-function modifier_imba_riki_smoke_screen_vision_debuff:IsHidden() return true end
-function modifier_imba_riki_smoke_screen_vision_debuff:IsDebuff() return true end
+if modifier_extended_riki_smoke_screen_vision_debuff == nil then modifier_extended_riki_smoke_screen_vision_debuff = class({}) end
+function modifier_extended_riki_smoke_screen_vision_debuff:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+function modifier_extended_riki_smoke_screen_vision_debuff:IsPurgable() return false end
+function modifier_extended_riki_smoke_screen_vision_debuff:IsHidden() return true end
+function modifier_extended_riki_smoke_screen_vision_debuff:IsDebuff() return true end
 
-function modifier_imba_riki_smoke_screen_vision_debuff:DeclareFunctions()
+function modifier_extended_riki_smoke_screen_vision_debuff:DeclareFunctions()
 	local funcs = {	MODIFIER_PROPERTY_BONUS_VISION_PERCENTAGE, }
 	return funcs
 end
 
-function modifier_imba_riki_smoke_screen_vision_debuff:GetBonusVisionPercentage()
+function modifier_extended_riki_smoke_screen_vision_debuff:GetBonusVisionPercentage()
 	return self:GetStackCount() * -1
 end
 
 ---------------------------------------------------------------------
 -------------------------	Blink Strike	-------------------------
 ---------------------------------------------------------------------
-if imba_riki_blink_strike == nil then imba_riki_blink_strike = class({}) end
-LinkLuaModifier( "modifier_imba_riki_blink_strike_debuff", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )					-- Turn rate slow
-LinkLuaModifier( "modifier_imba_riki_blink_strike_small_range_indicator", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )	-- Small cast range indicator
+if extended_riki_blink_strike == nil then extended_riki_blink_strike = class({}) end
+LinkLuaModifier( "modifier_extended_riki_blink_strike_debuff", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )					-- Turn rate slow
+LinkLuaModifier( "modifier_extended_riki_blink_strike_small_range_indicator", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )	-- Small cast range indicator
 
-function imba_riki_blink_strike:GetCastRange()
+function extended_riki_blink_strike:GetCastRange()
 	return self:GetSpecialValueFor("full_cast_range")
 end
 
-function imba_riki_blink_strike:GetBehavior()
+function extended_riki_blink_strike:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES  end
 
-function imba_riki_blink_strike:GetIntrinsicModifierName()
-	return "modifier_imba_riki_blink_strike_small_range_indicator" end
+function extended_riki_blink_strike:GetIntrinsicModifierName()
+	return "modifier_extended_riki_blink_strike_small_range_indicator" end
 
-function imba_riki_blink_strike:OnSpellStart()
+function extended_riki_blink_strike:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target = self:GetCursorTarget()
@@ -242,7 +242,7 @@ function imba_riki_blink_strike:OnSpellStart()
 		if target:GetTeamNumber() ~= caster:GetTeamNumber() then
 			if target:TriggerSpellAbsorb(self) then return end
 			ApplyDamage({victim = target, attacker = caster, damage = damage, damage_type = self:GetAbilityDamageType()})
-			target:AddNewModifier(caster, self, "modifier_imba_riki_blink_strike_debuff", {duration = duration})
+			target:AddNewModifier(caster, self, "modifier_extended_riki_blink_strike_debuff", {duration = duration})
 		end
 		
 		-- Calculate position behind the target
@@ -255,7 +255,7 @@ function imba_riki_blink_strike:OnSpellStart()
 		for _,unit in pairs(self.jumpTargets) do
 			if unit ~= target and unit:GetTeamNumber() ~= caster:GetTeamNumber() then
 				ApplyDamage({victim = unit, attacker = caster, damage = damage, damage_type = self:GetAbilityDamageType()})
-	--pls no	unit:AddNewModifier(caster, self, "modifier_imba_riki_blink_strike_debuff", {duration = duration})			--<[ FIRE TOAD YOUR ATTENTION PLEASE ]>--
+	--pls no	unit:AddNewModifier(caster, self, "modifier_extended_riki_blink_strike_debuff", {duration = duration})			--<[ FIRE TOAD YOUR ATTENTION PLEASE ]>--
 			end
 		end
 		
@@ -299,7 +299,7 @@ function imba_riki_blink_strike:OnSpellStart()
 	end
 end
 
-function imba_riki_blink_strike:CastFilterResultTarget( target )
+function extended_riki_blink_strike:CastFilterResultTarget( target )
 	if IsServer() then
 		local caster = self:GetCaster()
 		
@@ -368,7 +368,7 @@ function imba_riki_blink_strike:CastFilterResultTarget( target )
 	end
 end
  
-function imba_riki_blink_strike:JumpCheck( main_target, jump_target, caster_target_distance, jump_range, find_filter, jumps_left )
+function extended_riki_blink_strike:JumpCheck( main_target, jump_target, caster_target_distance, jump_range, find_filter, jumps_left )
 	local caster = self:GetCaster()
 	
 	-- Find units around the unit the caster would jump off
@@ -418,7 +418,7 @@ function imba_riki_blink_strike:JumpCheck( main_target, jump_target, caster_targ
 	return false
 end
 
-function imba_riki_blink_strike:GetCustomCastErrorTarget( target )
+function extended_riki_blink_strike:GetCustomCastErrorTarget( target )
 	if self:GetCaster() == target then
 		return "#dota_hud_error_cant_cast_on_self"
 	elseif target:IsBuilding() then
@@ -433,16 +433,16 @@ end
 ---------------------------------------------------
 -----	Blink Strike Small Range modifier	  -----
 ---------------------------------------------------
-if modifier_imba_riki_blink_strike_small_range_indicator == nil then modifier_imba_riki_blink_strike_small_range_indicator = class({}) end
-function modifier_imba_riki_blink_strike_small_range_indicator:IsPurgable() return false end
-function modifier_imba_riki_blink_strike_small_range_indicator:IsHidden() return true end
-function modifier_imba_riki_blink_strike_small_range_indicator:IsDebuff() return false end
+if modifier_extended_riki_blink_strike_small_range_indicator == nil then modifier_extended_riki_blink_strike_small_range_indicator = class({}) end
+function modifier_extended_riki_blink_strike_small_range_indicator:IsPurgable() return false end
+function modifier_extended_riki_blink_strike_small_range_indicator:IsHidden() return true end
+function modifier_extended_riki_blink_strike_small_range_indicator:IsDebuff() return false end
 
-function modifier_imba_riki_blink_strike_small_range_indicator:OnCreated()
+function modifier_extended_riki_blink_strike_small_range_indicator:OnCreated()
 	self:StartIntervalThink(0.1)
 end
 
-function modifier_imba_riki_blink_strike_small_range_indicator:OnIntervalThink()
+function modifier_extended_riki_blink_strike_small_range_indicator:OnIntervalThink()
 	if IsServer() then
 		local parent = self:GetParent()
 		local range = self:GetAbility():GetSpecialValueFor("no_jump_cast_range")
@@ -462,17 +462,17 @@ end
 -----------------------------------
 -----	Blink Strike Debuff	  -----
 -----------------------------------
-if modifier_imba_riki_blink_strike_debuff == nil then modifier_imba_riki_blink_strike_debuff = class({}) end
-function modifier_imba_riki_blink_strike_debuff:IsPurgable() return true end
-function modifier_imba_riki_blink_strike_debuff:IsHidden() return false end
-function modifier_imba_riki_blink_strike_debuff:IsDebuff() return true end
+if modifier_extended_riki_blink_strike_debuff == nil then modifier_extended_riki_blink_strike_debuff = class({}) end
+function modifier_extended_riki_blink_strike_debuff:IsPurgable() return true end
+function modifier_extended_riki_blink_strike_debuff:IsHidden() return false end
+function modifier_extended_riki_blink_strike_debuff:IsDebuff() return true end
 
-function modifier_imba_riki_blink_strike_debuff:DeclareFunctions()
+function modifier_extended_riki_blink_strike_debuff:DeclareFunctions()
 	local funcs = { MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE, }
 	return funcs
 end
 
-function modifier_imba_riki_blink_strike_debuff:GetModifierTurnRate_Percentage()
+function modifier_extended_riki_blink_strike_debuff:GetModifierTurnRate_Percentage()
 	local ability = self:GetAbility()
 	local turn_slow = ability:GetSpecialValueFor("turn_rate_slow")*-1
 	return turn_slow
@@ -481,35 +481,35 @@ end
 ---------------------------------------------------------------------
 --------------------	  Cloak and Dagger		 --------------------
 ---------------------------------------------------------------------
-if imba_riki_cloak_and_dagger == nil then imba_riki_cloak_and_dagger = class({}) end
-LinkLuaModifier( "modifier_imba_riki_cloak_and_dagger", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )	-- Backstab and invisibility handler
-LinkLuaModifier( "modifier_imba_riki_invisibility", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )		-- Invisibility modifier
+if extended_riki_cloak_and_dagger == nil then extended_riki_cloak_and_dagger = class({}) end
+LinkLuaModifier( "modifier_extended_riki_cloak_and_dagger", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )	-- Backstab and invisibility handler
+LinkLuaModifier( "modifier_extended_riki_invisibility", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )		-- Invisibility modifier
 
-function imba_riki_cloak_and_dagger:GetBehavior() return DOTA_ABILITY_BEHAVIOR_PASSIVE end
-function imba_riki_cloak_and_dagger:IsRefreshable() return false end
+function extended_riki_cloak_and_dagger:GetBehavior() return DOTA_ABILITY_BEHAVIOR_PASSIVE end
+function extended_riki_cloak_and_dagger:IsRefreshable() return false end
 
-function imba_riki_cloak_and_dagger:GetIntrinsicModifierName()
-	return "modifier_imba_riki_cloak_and_dagger"
+function extended_riki_cloak_and_dagger:GetIntrinsicModifierName()
+	return "modifier_extended_riki_cloak_and_dagger"
 end
 
-function imba_riki_cloak_and_dagger:OnOwnerSpawned()
+function extended_riki_cloak_and_dagger:OnOwnerSpawned()
 	self:EndCooldown() 
 end
 
 ----------------------------------------------------------
 -----	Cloak and Dagger backstab + invis handler	  ----
 ----------------------------------------------------------
-if modifier_imba_riki_cloak_and_dagger == nil then modifier_imba_riki_cloak_and_dagger = class({}) end
-function modifier_imba_riki_cloak_and_dagger:IsPurgable() return false end
-function modifier_imba_riki_cloak_and_dagger:IsDebuff() return false end
-function modifier_imba_riki_cloak_and_dagger:IsHidden()	return true end
+if modifier_extended_riki_cloak_and_dagger == nil then modifier_extended_riki_cloak_and_dagger = class({}) end
+function modifier_extended_riki_cloak_and_dagger:IsPurgable() return false end
+function modifier_extended_riki_cloak_and_dagger:IsDebuff() return false end
+function modifier_extended_riki_cloak_and_dagger:IsHidden()	return true end
 
-function modifier_imba_riki_cloak_and_dagger:DeclareFunctions()
+function modifier_extended_riki_cloak_and_dagger:DeclareFunctions()
 	local funcs = { MODIFIER_EVENT_ON_ATTACK_LANDED,}
 	return funcs
 end
 
-function modifier_imba_riki_cloak_and_dagger:CheckState()
+function modifier_extended_riki_cloak_and_dagger:CheckState()
 	if IsServer() then
 		local ability = self:GetAbility()
 		local parent = self:GetParent()
@@ -519,8 +519,8 @@ function modifier_imba_riki_cloak_and_dagger:CheckState()
 		if parent:PassivesDisabled() then
 			
 			-- Remove the invis modifier if it exists
-			if parent:HasModifier("modifier_imba_riki_invisibility") then
-				parent:RemoveModifierByName("modifier_imba_riki_invisibility")
+			if parent:HasModifier("modifier_extended_riki_invisibility") then
+				parent:RemoveModifierByName("modifier_extended_riki_invisibility")
 			end
 			
 			-- Reset cooldown if it smaller than the fade time
@@ -530,18 +530,18 @@ function modifier_imba_riki_cloak_and_dagger:CheckState()
 		
 		-- If the passive cooldown is ready
 		elseif ability:IsCooldownReady() then
-			if not parent:HasModifier("modifier_imba_riki_invisibility") then 
-				parent:AddNewModifier(parent, ability, "modifier_imba_riki_invisibility", {})
+			if not parent:HasModifier("modifier_extended_riki_invisibility") then 
+				parent:AddNewModifier(parent, ability, "modifier_extended_riki_invisibility", {})
 			end
 		
 		-- If the passive is on cooldown, remove the invis modifier
-		elseif parent:HasModifier("modifier_imba_riki_invisibility") then
-			parent:RemoveModifierByName("modifier_imba_riki_invisibility")
+		elseif parent:HasModifier("modifier_extended_riki_invisibility") then
+			parent:RemoveModifierByName("modifier_extended_riki_invisibility")
 		end
 	end
 end
 
-function modifier_imba_riki_cloak_and_dagger:OnAttackLanded( keys )
+function modifier_extended_riki_cloak_and_dagger:OnAttackLanded( keys )
 	if IsServer() then
 		local target = keys.target		-- Unit getting hit
 		local attacker = keys.attacker	-- Unit landing the hit
@@ -564,7 +564,7 @@ function modifier_imba_riki_cloak_and_dagger:OnAttackLanded( keys )
 			
 			-- If the target is not a building, and passives are not disabled for the passive owner
 			-- Also checks if the parent is not channeling Tricks of the Trade, since backstab is handled through there.
-			if not parent:HasModifier("modifier_imba_riki_tricks_of_the_trade_primary") and not target:IsBuilding() and not parent:PassivesDisabled() then
+			if not parent:HasModifier("modifier_extended_riki_tricks_of_the_trade_primary") and not target:IsBuilding() and not parent:PassivesDisabled() then
 			
 				-- If the passive is off cooldown, apply invis break bonus to backstab damage
 				if ability:IsCooldownReady() and parent:IsInvisible() then
@@ -603,7 +603,7 @@ function modifier_imba_riki_cloak_and_dagger:OnAttackLanded( keys )
 					end
 				
 				-- If the attacker is not in backstab angle but the target has the smoke screen modifier
-				elseif target:HasModifier("modifier_imba_riki_smoke_screen_debuff") then
+				elseif target:HasModifier("modifier_extended_riki_smoke_screen_debuff") then
 				
 					-- Play sound and particle
 					local particle = ParticleManager:CreateParticle(backstab_particle, PATTACH_ABSORIGIN_FOLLOW, target) 
@@ -634,27 +634,27 @@ end
 ----------------------------------------------
 -----	Cloak and Dagger invisibility	  ----
 ----------------------------------------------
-if modifier_imba_riki_invisibility == nil then modifier_imba_riki_invisibility = class({}) end
-function modifier_imba_riki_invisibility:IsPurgable() return false end
-function modifier_imba_riki_invisibility:IsDebuff() return false end
-function modifier_imba_riki_invisibility:IsHidden()	return false end
+if modifier_extended_riki_invisibility == nil then modifier_extended_riki_invisibility = class({}) end
+function modifier_extended_riki_invisibility:IsPurgable() return false end
+function modifier_extended_riki_invisibility:IsDebuff() return false end
+function modifier_extended_riki_invisibility:IsHidden()	return false end
 
-function modifier_imba_riki_invisibility:OnCreated()
+function modifier_extended_riki_invisibility:OnCreated()
 	ParticleManager:CreateParticle("particles/generic_hero_status/status_invisibility_start.vpcf", PATTACH_ABSORIGIN, self:GetParent()) 
 end
 
-function modifier_imba_riki_invisibility:DeclareFunctions()
+function modifier_extended_riki_invisibility:DeclareFunctions()
 	local funcs = { MODIFIER_PROPERTY_INVISIBILITY_LEVEL, }
 	return funcs
 end
 
-function modifier_imba_riki_invisibility:GetModifierInvisibilityLevel()
+function modifier_extended_riki_invisibility:GetModifierInvisibilityLevel()
 	if IsClient() then
 		return 1
 	end
 end
 
-function modifier_imba_riki_invisibility:CheckState()
+function modifier_extended_riki_invisibility:CheckState()
 	if IsServer() then
 		local state = { [MODIFIER_STATE_INVISIBLE] = true}
 		return state
@@ -664,27 +664,27 @@ end
 ---------------------------------------------------------------------
 --------------------	Tricks of the Trade		---------------------
 ---------------------------------------------------------------------
-if imba_riki_tricks_of_the_trade == nil then imba_riki_tricks_of_the_trade = class({}) end
-LinkLuaModifier( "modifier_imba_riki_tricks_of_the_trade_primary", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )		-- Hides the caster and damages all enemies in the AoE
-LinkLuaModifier( "modifier_imba_riki_tricks_of_the_trade_secondary", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )	-- Attacks a single enemy based on attack speed
+if extended_riki_tricks_of_the_trade == nil then extended_riki_tricks_of_the_trade = class({}) end
+LinkLuaModifier( "modifier_extended_riki_tricks_of_the_trade_primary", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )		-- Hides the caster and damages all enemies in the AoE
+LinkLuaModifier( "modifier_extended_riki_tricks_of_the_trade_secondary", "hero/hero_riki.lua", LUA_MODIFIER_MOTION_NONE )	-- Attacks a single enemy based on attack speed
 
-function imba_riki_tricks_of_the_trade:GetBehavior()
+function extended_riki_tricks_of_the_trade:GetBehavior()
 	if self:GetCaster():HasScepter() then
 		return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_AOE + DOTA_ABILITY_BEHAVIOR_CHANNELLED + DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK + DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES end
 	return DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR_CHANNELLED + DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK + DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES
 end
 
-function imba_riki_tricks_of_the_trade:GetCastRange()
+function extended_riki_tricks_of_the_trade:GetCastRange()
 	if self:GetCaster():HasScepter() then
 		return self:GetSpecialValueFor("scepter_cast_range") end
 		
 	return self:GetSpecialValueFor("area_of_effect")
 end
 
-function imba_riki_tricks_of_the_trade:GetAOERadius()
+function extended_riki_tricks_of_the_trade:GetAOERadius()
 	return self:GetSpecialValueFor("area_of_effect") end
 	
-function imba_riki_tricks_of_the_trade:OnSpellStart()
+function extended_riki_tricks_of_the_trade:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local origin = caster:GetAbsOrigin()
@@ -694,8 +694,8 @@ function imba_riki_tricks_of_the_trade:OnSpellStart()
 		if caster:HasScepter() then
 			origin = target:GetAbsOrigin() end
 		
-		caster:AddNewModifier(caster, self, "modifier_imba_riki_tricks_of_the_trade_primary", {})
-		caster:AddNewModifier(caster, self, "modifier_imba_riki_tricks_of_the_trade_secondary", {})
+		caster:AddNewModifier(caster, self, "modifier_extended_riki_tricks_of_the_trade_primary", {})
+		caster:AddNewModifier(caster, self, "modifier_extended_riki_tricks_of_the_trade_secondary", {})
 		
 		local cast_particle = "particles/units/heroes/hero_riki/riki_tricks_cast.vpcf"
 		local tricks_particle = "particles/units/heroes/hero_riki/riki_tricks.vpcf"
@@ -704,7 +704,7 @@ function imba_riki_tricks_of_the_trade:OnSpellStart()
 		local buttsecks_sound = "Imba.RikiSurpriseButtsex"
 		
 		local heroes = FindUnitsInRadius(caster:GetTeamNumber(), origin, nil, aoe, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS, FIND_ANY_ORDER, false)
-		if #heroes >= IMBA_PLAYERS_ON_GAME * 0.35 then
+		if #heroes >= EXTENDED_PLAYERS_ON_GAME * 0.35 then
 			-- caster:EmitSound(buttsecks_sound)
 			EmitSoundOn(buttsecks_sound, caster)
 		end
@@ -729,7 +729,7 @@ function imba_riki_tricks_of_the_trade:OnSpellStart()
 	end
 end
 
-function imba_riki_tricks_of_the_trade:OnChannelThink()
+function extended_riki_tricks_of_the_trade:OnChannelThink()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local target = self:GetCursorTarget()
@@ -740,13 +740,13 @@ function imba_riki_tricks_of_the_trade:OnChannelThink()
 	end
 end
 
-function imba_riki_tricks_of_the_trade:OnChannelFinish()
+function extended_riki_tricks_of_the_trade:OnChannelFinish()
 	if IsServer() then
 		local caster = self:GetCaster()
-		local backstab_ability = caster:FindAbilityByName("imba_riki_cloak_and_dagger")
+		local backstab_ability = caster:FindAbilityByName("extended_riki_cloak_and_dagger")
 		FindClearSpaceForUnit(caster, caster:GetAbsOrigin(), true)
-		caster:RemoveModifierByName("modifier_imba_riki_tricks_of_the_trade_primary")
-		caster:RemoveModifierByName("modifier_imba_riki_tricks_of_the_trade_secondary")
+		caster:RemoveModifierByName("modifier_extended_riki_tricks_of_the_trade_primary")
+		caster:RemoveModifierByName("modifier_extended_riki_tricks_of_the_trade_secondary")
 		if backstab_ability and backstab_ability:GetLevel() > 0 then backstab_ability:EndCooldown() end
 		
 		StopSoundEvent("Hero_Riki.TricksOfTheTrade", caster)
@@ -766,23 +766,23 @@ end
 ----------------------------------------------
 -----	Tricks of the Trade modifier	  ----
 ----------------------------------------------
-if modifier_imba_riki_tricks_of_the_trade_primary == nil then modifier_imba_riki_tricks_of_the_trade_primary = class({}) end
-function modifier_imba_riki_tricks_of_the_trade_primary:IsPurgable() return false end
-function modifier_imba_riki_tricks_of_the_trade_primary:IsDebuff() return false end
-function modifier_imba_riki_tricks_of_the_trade_primary:IsHidden() return false end
+if modifier_extended_riki_tricks_of_the_trade_primary == nil then modifier_extended_riki_tricks_of_the_trade_primary = class({}) end
+function modifier_extended_riki_tricks_of_the_trade_primary:IsPurgable() return false end
+function modifier_extended_riki_tricks_of_the_trade_primary:IsDebuff() return false end
+function modifier_extended_riki_tricks_of_the_trade_primary:IsHidden() return false end
 
-function modifier_imba_riki_tricks_of_the_trade_primary:DeclareFunctions()
+function modifier_extended_riki_tricks_of_the_trade_primary:DeclareFunctions()
 	local funcs = { MODIFIER_PROPERTY_ATTACK_RANGE_BONUS, }
 	return funcs
 end
 
-function modifier_imba_riki_tricks_of_the_trade_primary:GetModifierAttackRangeBonus()
+function modifier_extended_riki_tricks_of_the_trade_primary:GetModifierAttackRangeBonus()
 	local ability = self:GetAbility()
 	local aoe = ability:GetSpecialValueFor("area_of_effect")
 	return aoe
 end
 
-function modifier_imba_riki_tricks_of_the_trade_primary:CheckState()
+function modifier_extended_riki_tricks_of_the_trade_primary:CheckState()
 	if IsServer() then
 		local state
 		
@@ -804,7 +804,7 @@ function modifier_imba_riki_tricks_of_the_trade_primary:CheckState()
 	end
 end
 
-function modifier_imba_riki_tricks_of_the_trade_primary:OnCreated()
+function modifier_extended_riki_tricks_of_the_trade_primary:OnCreated()
 	if IsServer() then
 		local ability = self:GetAbility()
 		local interval = ability:GetSpecialValueFor("attack_interval")
@@ -812,7 +812,7 @@ function modifier_imba_riki_tricks_of_the_trade_primary:OnCreated()
 	end
 end
 
-function modifier_imba_riki_tricks_of_the_trade_primary:OnIntervalThink()
+function modifier_extended_riki_tricks_of_the_trade_primary:OnIntervalThink()
 	if IsServer() then
 		local ability = self:GetAbility()
 		local caster = ability:GetCaster()
@@ -826,7 +826,7 @@ function modifier_imba_riki_tricks_of_the_trade_primary:OnIntervalThink()
 
 		local aoe = ability:GetSpecialValueFor("area_of_effect")
 		
-		local backstab_ability = caster:FindAbilityByName("imba_riki_cloak_and_dagger")
+		local backstab_ability = caster:FindAbilityByName("extended_riki_cloak_and_dagger")
 		local backstab_particle = "particles/units/heroes/hero_riki/riki_backstab.vpcf"
 		local backstab_sound = "Hero_Riki.Backstab"
 		
@@ -853,12 +853,12 @@ end
 ------------------------------------------------------
 -----	Tricks of the Trade secondary attacks	  ----
 ------------------------------------------------------
-if modifier_imba_riki_tricks_of_the_trade_secondary == nil then modifier_imba_riki_tricks_of_the_trade_secondary = class({}) end
-function modifier_imba_riki_tricks_of_the_trade_secondary:IsPurgable() return false end
-function modifier_imba_riki_tricks_of_the_trade_secondary:IsDebuff() return false end
-function modifier_imba_riki_tricks_of_the_trade_secondary:IsHidden() return true end
+if modifier_extended_riki_tricks_of_the_trade_secondary == nil then modifier_extended_riki_tricks_of_the_trade_secondary = class({}) end
+function modifier_extended_riki_tricks_of_the_trade_secondary:IsPurgable() return false end
+function modifier_extended_riki_tricks_of_the_trade_secondary:IsDebuff() return false end
+function modifier_extended_riki_tricks_of_the_trade_secondary:IsHidden() return true end
 
-function modifier_imba_riki_tricks_of_the_trade_secondary:OnCreated()
+function modifier_extended_riki_tricks_of_the_trade_secondary:OnCreated()
 	if IsServer() then
 		local parent = self:GetParent()
 		local aps = parent:GetAttacksPerSecond()
@@ -867,7 +867,7 @@ function modifier_imba_riki_tricks_of_the_trade_secondary:OnCreated()
 	end
 end
 
-function modifier_imba_riki_tricks_of_the_trade_secondary:OnIntervalThink()
+function modifier_extended_riki_tricks_of_the_trade_secondary:OnIntervalThink()
 	if IsServer() then
 		local ability = self:GetAbility()
 		local caster = ability:GetCaster()
@@ -881,7 +881,7 @@ function modifier_imba_riki_tricks_of_the_trade_secondary:OnIntervalThink()
 
 		local aoe = ability:GetSpecialValueFor("area_of_effect")
 		
-		local backstab_ability = caster:FindAbilityByName("imba_riki_cloak_and_dagger")
+		local backstab_ability = caster:FindAbilityByName("extended_riki_cloak_and_dagger")
 		local backstab_particle = "particles/units/heroes/hero_riki/riki_backstab.vpcf"
 		local backstab_sound = "Hero_Riki.Backstab"
 		

@@ -1,6 +1,6 @@
-imba_silencer_arcane_curse = class({})
+extended_silencer_arcane_curse = class({})
 
-function imba_silencer_arcane_curse:OnSpellStart()
+function extended_silencer_arcane_curse:OnSpellStart()
 	local point = self:GetCursorPosition()
 	local caster = self:GetCaster()
 	local radius = self:GetSpecialValueFor("radius")
@@ -12,22 +12,22 @@ function imba_silencer_arcane_curse:OnSpellStart()
 
 	EmitSoundOn("Hero_Silencer.Curse.Cast", caster)
 	for _, enemy in pairs(enemies) do
-		enemy:AddNewModifier(caster, self, "modifier_imba_arcane_curse_debuff", {duration = base_duration})
+		enemy:AddNewModifier(caster, self, "modifier_extended_arcane_curse_debuff", {duration = base_duration})
 		EmitSoundOn("Hero_Silencer.Curse.Impact", enemy)
 	end
 end
 
-function imba_silencer_arcane_curse:GetAOERadius()
+function extended_silencer_arcane_curse:GetAOERadius()
 	return self:GetSpecialValueFor("radius")
 end
 
 ---------------------------------
 -- Arcane Curse debuff modifier
 ---------------------------------
-LinkLuaModifier("modifier_imba_arcane_curse_debuff", "hero/hero_silencer/imba_arcane_curse", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_arcane_curse_debuff = class({})
+LinkLuaModifier("modifier_extended_arcane_curse_debuff", "hero/hero_silencer/extended_arcane_curse", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_arcane_curse_debuff = class({})
 
-function modifier_imba_arcane_curse_debuff:OnCreated( kv )
+function modifier_extended_arcane_curse_debuff:OnCreated( kv )
 	self.tick_rate = self:GetAbility():GetSpecialValueFor("tick_rate")
 	self.curse_slow = self:GetAbility():GetSpecialValueFor("curse_slow")
 	self.curse_damage = self:GetAbility():GetSpecialValueFor("damage_per_second")
@@ -56,31 +56,31 @@ function modifier_imba_arcane_curse_debuff:OnCreated( kv )
 	end
 end
 
-function modifier_imba_arcane_curse_debuff:GetAttributes()
+function modifier_extended_arcane_curse_debuff:GetAttributes()
 	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-function modifier_imba_arcane_curse_debuff:GetEffectName()
+function modifier_extended_arcane_curse_debuff:GetEffectName()
 	return "particles/units/heroes/hero_silencer/silencer_curse.vpcf"
 end
 
-function modifier_imba_arcane_curse_debuff:GetEffectAttachType()
+function modifier_extended_arcane_curse_debuff:GetEffectAttachType()
 	return PATTACH_OVERHEAD_FOLLOW
 end
 
-function modifier_imba_arcane_curse_debuff:GetTexture()
+function modifier_extended_arcane_curse_debuff:GetTexture()
 	return "silencer_curse_of_the_silent"
 end
 
-function modifier_imba_arcane_curse_debuff:IsPurgable()
+function modifier_extended_arcane_curse_debuff:IsPurgable()
 	return true
 end
 
-function modifier_imba_arcane_curse_debuff:IsDebuff()
+function modifier_extended_arcane_curse_debuff:IsDebuff()
 	return true
 end
 
-function modifier_imba_arcane_curse_debuff:OnIntervalThink()
+function modifier_extended_arcane_curse_debuff:OnIntervalThink()
 	if IsServer() then
 		local target = self.parent
 
@@ -118,7 +118,7 @@ function modifier_imba_arcane_curse_debuff:OnIntervalThink()
 	end
 end
 
-function modifier_imba_arcane_curse_debuff:DeclareFunctions()
+function modifier_extended_arcane_curse_debuff:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_ABILITY_EXECUTED,
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
@@ -127,7 +127,7 @@ function modifier_imba_arcane_curse_debuff:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_arcane_curse_debuff:OnAbilityExecuted( params )
+function modifier_extended_arcane_curse_debuff:OnAbilityExecuted( params )
 	if IsServer() then
 		local exception = {
 			["invoker_quas"] = true,
@@ -147,6 +147,6 @@ function modifier_imba_arcane_curse_debuff:OnAbilityExecuted( params )
 	end
 end
 
-function modifier_imba_arcane_curse_debuff:GetModifierMoveSpeedBonus_Percentage( params )
+function modifier_extended_arcane_curse_debuff:GetModifierMoveSpeedBonus_Percentage( params )
 	return self.curse_slow
 end

@@ -73,9 +73,9 @@ function Telekinesis(keys)
 	end
 
 	-- Swap this ability with Telekinesis Land
-	local land_ability = caster:FindAbilityByName("imba_rubick_telekinesis_land")
+	local land_ability = caster:FindAbilityByName("extended_rubick_telekinesis_land")
 	if land_ability then
-		caster:SwapAbilities(ability:GetAbilityName(), "imba_rubick_telekinesis_land", false, true)
+		caster:SwapAbilities(ability:GetAbilityName(), "extended_rubick_telekinesis_land", false, true)
 	end
 end
 
@@ -167,9 +167,9 @@ function TelekinesisLand(keys)
 	end
 
 	-- Swap this ability with Telekinesis
-	local land_ability = caster:FindAbilityByName("imba_rubick_telekinesis_land")
+	local land_ability = caster:FindAbilityByName("extended_rubick_telekinesis_land")
 	if land_ability then
-		caster:SwapAbilities(ability:GetAbilityName(), "imba_rubick_telekinesis_land", true, false)
+		caster:SwapAbilities(ability:GetAbilityName(), "extended_rubick_telekinesis_land", true, false)
 	end
 end
 

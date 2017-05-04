@@ -1,11 +1,11 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	22.06.2015	]]
 
 function Suicide( keys )
 	local caster = keys.caster
 	local item = keys.ability
 
-	if caster:HasModifier("modifier_imba_reincarnation") then
+	if caster:HasModifier("modifier_extended_reincarnation") then
 		caster:Kill(item, caster)
 	else
 		TrueKill(caster, caster, item)

@@ -31,14 +31,14 @@ GameEvents.Subscribe( "pick_abilities", OnReceiveAbilities );
 
 /* Picking phase is done, start loading heroes */
 function OnPickingDone( data ) {
-	$("#EnterGameBtnTxt").text = $.Localize( "#imba_loading_heroes_button" );
+	$("#EnterGameBtnTxt").text = $.Localize( "#extended_loading_heroes_button" );
 	$("#RepickBtn").AddClass( "disabled" );
 }
 
 /* Hero loading is done, allow the player to enter the game */
 function OnHeroLoadingDone( data ) {
 	$("#EnterGameBtn").RemoveClass( "disabled" );
-	$("#EnterGameBtnTxt").text = $.Localize( "#imba_enter_game_button" );
+	$("#EnterGameBtnTxt").text = $.Localize( "#extended_enter_game_button" );
 	canEnter = true;
 }
 
@@ -237,7 +237,7 @@ function RepickHero() {
 		$("#PickedHeroImage").heroname = null;
 
 		// Update the hero name
-		$("#PickedHeroName").text = $.Localize( "imba_hero_name_filler" );
+		$("#PickedHeroName").text = $.Localize( "extended_hero_name_filler" );
 		selectedHero = null;
 
 		// Make the abilities panel invisible
@@ -334,10 +334,10 @@ function PlayerReconnected(player_id, picked_heroes, player_picks, pick_state, r
 		var parent_panel = $.GetContextPanel().GetParent().GetParent().GetParent().GetParent()
 		var map_info = Game.GetMapInfo();
 
-		if (map_info.map_display_name == "imba_random_omg") {
-			$('#HeroSelectText').text = $.Localize( '#imba_gamemode_name_random_omg' );
-		} else if (map_info.map_display_name == "imba_arena") {
-			$('#HeroSelectText').text = $.Localize( '#imba_gamemode_name_arena_mode' );
+		if (map_info.map_display_name == "extended_random_omg") {
+			$('#HeroSelectText').text = $.Localize( '#extended_gamemode_name_random_omg' );
+		} else if (map_info.map_display_name == "extended_arena") {
+			$('#HeroSelectText').text = $.Localize( '#extended_gamemode_name_arena_mode' );
 		}
 
 		// Hide the top scoreboard during the pick phase
@@ -360,28 +360,28 @@ function PlayerReconnected(player_id, picked_heroes, player_picks, pick_state, r
 		$("#MaxLevelValue").text = max_level[1];
 
 		if (tower_power[1] == 0) {
-			$("#TowerPowerValue").text = $.Localize( '#imba_gamemode_settings_power_1' );
+			$("#TowerPowerValue").text = $.Localize( '#extended_gamemode_settings_power_1' );
 		} else if (tower_power[1] == 1) {
-			$("#TowerPowerValue").text = $.Localize( '#imba_gamemode_settings_power_2' );
+			$("#TowerPowerValue").text = $.Localize( '#extended_gamemode_settings_power_2' );
 		} else if (tower_power[1] == 2) {
-			$("#TowerPowerValue").text = $.Localize( '#imba_gamemode_settings_power_3' );
+			$("#TowerPowerValue").text = $.Localize( '#extended_gamemode_settings_power_3' );
 		}
 
-		if (map_info.map_display_name == "imba_arena") {
-			$("#CreepPowerLabel").text = $.Localize( '#imba_gamemode_settings_kills_to_end' );
+		if (map_info.map_display_name == "extended_arena") {
+			$("#CreepPowerLabel").text = $.Localize( '#extended_gamemode_settings_kills_to_end' );
 			$("#CreepPowerValue").text = kills_to_end[1];
 		} else if (creep_power[1] == 1) {
-			$("#CreepPowerValue").text = $.Localize( '#imba_gamemode_settings_power_1' );
+			$("#CreepPowerValue").text = $.Localize( '#extended_gamemode_settings_power_1' );
 		} else if (creep_power[1] == 2) {
-			$("#CreepPowerValue").text = $.Localize( '#imba_gamemode_settings_power_2' );
+			$("#CreepPowerValue").text = $.Localize( '#extended_gamemode_settings_power_2' );
 		} else if (creep_power[1] == 3) {
-			$("#CreepPowerValue").text = $.Localize( '#imba_gamemode_settings_power_3' );
+			$("#CreepPowerValue").text = $.Localize( '#extended_gamemode_settings_power_3' );
 		}
 
-		if (map_info.map_display_name == "imba_custom") {
+		if (map_info.map_display_name == "extended_custom") {
 			$("#GameOptionsLabelPanel8").style.visibility = 'visible';
 			if(frantic_mode) {
-				$("#FranticModeValue").text = $.Localize( '#imba_gamemode_game_options_frantic_enabled' );
+				$("#FranticModeValue").text = $.Localize( '#extended_gamemode_game_options_frantic_enabled' );
 			}
 		}
 
@@ -390,7 +390,7 @@ function PlayerReconnected(player_id, picked_heroes, player_picks, pick_state, r
 		if (all_random_enabled != null && all_random_enabled[1] == 1) {
 			$("#PickHeroBtn").AddClass( "disabled" );
 			$("#RepickBtn").AddClass( "disabled" );
-			$('#HeroSelectText').text = $.Localize( '#imba_gamemode_name_all_random' );
+			$('#HeroSelectText').text = $.Localize( '#extended_gamemode_name_all_random' );
 			$.Schedule(5, SelectRandomHero);
 		}
 

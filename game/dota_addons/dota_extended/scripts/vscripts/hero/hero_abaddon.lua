@@ -14,15 +14,15 @@ function DeathCoil( keys )
 	local projectile_speed = ability:GetSpecialValueFor( "projectile_speed" )
 	local particle_name = "particles/units/heroes/hero_abaddon/abaddon_death_coil.vpcf"
 	
-	local ability_frostmourne = caster:FindAbilityByName("imba_abaddon_frostmourne")
+	local ability_frostmourne = caster:FindAbilityByName("extended_abaddon_frostmourne")
 	local max_stacks = 1
 	if ability_frostmourne and ability_frostmourne:GetLevel() ~= 0 then
 		max_stacks = ability_frostmourne:GetLevelSpecialValueFor("max_stacks", ability_frostmourne:GetLevel() - 1)
 	end
-	local modifier_debuff_base = "modifier_imba_frostmourne_debuff_base"
-	local modifier_debuff = "modifier_imba_frostmourne_debuff"
-	local modifier_buff_base = "modifier_imba_frostmourne_buff_base"
-	local modifier_buff = "modifier_imba_frostmourne_buff"
+	local modifier_debuff_base = "modifier_extended_frostmourne_debuff_base"
+	local modifier_debuff = "modifier_extended_frostmourne_debuff"
+	local modifier_buff_base = "modifier_extended_frostmourne_buff_base"
+	local modifier_buff = "modifier_extended_frostmourne_buff"
 
 	-- If the target possesses a ready Linken's Sphere, do nothing
 	if target:GetTeam() ~= caster:GetTeam() then
@@ -117,7 +117,7 @@ function AphoticShieldThink( keys )
 
 	-- If this is Rubick and Aphotic Shield is no longer present, do nothing and kill the modifiers
 	if IsStolenSpell(caster) then
-		if not caster:FindAbilityByName("imba_abaddon_aphotic_shield") then
+		if not caster:FindAbilityByName("extended_abaddon_aphotic_shield") then
 			caster:RemoveModifierByName("modifier_aphotic_shield_stack_counter")
 			return nil
 		end
@@ -272,13 +272,13 @@ function EndShieldParticle( keys )
 
 	local enemies = FindUnitsInRadius(caster:GetTeam(), target:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 	
-	local ability_frostmourne = caster:FindAbilityByName("imba_abaddon_frostmourne")
+	local ability_frostmourne = caster:FindAbilityByName("extended_abaddon_frostmourne")
 	local max_stacks = 1
 	if ability_frostmourne and ability_frostmourne:GetLevel() ~= 0 then
 		max_stacks = ability_frostmourne:GetLevelSpecialValueFor("max_stacks", ability_frostmourne:GetLevel() - 1)
 	end
-	local modifier_debuff_base = "modifier_imba_frostmourne_debuff_base"
-	local modifier_debuff = "modifier_imba_frostmourne_debuff"
+	local modifier_debuff_base = "modifier_extended_frostmourne_debuff_base"
+	local modifier_debuff = "modifier_extended_frostmourne_debuff"
 
 	for _,enemy in pairs(enemies) do
 		ApplyDamage({ victim = enemy, attacker = caster, damage = base_damage_absorb, damage_type = damageType })
@@ -307,10 +307,10 @@ function FrostMourne( keys )
 	local ability = keys.ability
 	local ability_level = ability:GetLevel() - 1
 	local max_stacks = ability:GetLevelSpecialValueFor("max_stacks", ability_level)
-	local modifier_debuff_base = "modifier_imba_frostmourne_debuff_base"
-	local modifier_debuff = "modifier_imba_frostmourne_debuff"
-	local modifier_buff_base = "modifier_imba_frostmourne_buff_base"
-	local modifier_buff = "modifier_imba_frostmourne_buff"
+	local modifier_debuff_base = "modifier_extended_frostmourne_debuff_base"
+	local modifier_debuff = "modifier_extended_frostmourne_debuff"
+	local modifier_buff_base = "modifier_extended_frostmourne_buff_base"
+	local modifier_buff = "modifier_extended_frostmourne_buff"
 
 
 	if caster:HasModifier(modifier_buff_base) then
@@ -353,10 +353,10 @@ function FrostMourneAttacked( keys )
 	local caster = keys.caster
 	local target = keys.target
 	local ability = keys.ability
-	local modifier_debuff_base = "modifier_imba_frostmourne_debuff_base"
-	local modifier_debuff = "modifier_imba_frostmourne_debuff"
-	local modifier_buff_base = "modifier_imba_frostmourne_buff_base"
-	local modifier_buff = "modifier_imba_frostmourne_buff"
+	local modifier_debuff_base = "modifier_extended_frostmourne_debuff_base"
+	local modifier_debuff = "modifier_extended_frostmourne_debuff"
+	local modifier_buff_base = "modifier_extended_frostmourne_buff_base"
+	local modifier_buff = "modifier_extended_frostmourne_buff"
 
 	local stack_count = target:GetModifierStackCount(modifier_debuff, ability)
 
@@ -405,10 +405,10 @@ function BorrowedTimeHeal( keys )
 	local allies = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 	
 	-- Account for rapier damage amplification
-	if attacker:HasModifier("modifier_item_imba_rapier_stacks_magic") and not caster:HasModifier("modifier_item_imba_rapier_prevent_attack_amp") then
+	if attacker:HasModifier("modifier_item_extended_rapier_stacks_magic") and not caster:HasModifier("modifier_item_extended_rapier_prevent_attack_amp") then
 			
 		-- Calculate damage amplification
-		local amp_stacks = attacker:GetModifierStackCount("modifier_item_imba_rapier_stacks_magic", attacker)
+		local amp_stacks = attacker:GetModifierStackCount("modifier_item_extended_rapier_stacks_magic", attacker)
 		local damage_amp = 40 + 40 * amp_stacks
 
 		-- Amplify damage
@@ -463,10 +463,10 @@ function BorrowedTimeAllies( keys )
 	end
 	
 	-- Account for rapier damage amplification
-	if attacker:HasModifier("modifier_item_imba_rapier_stacks_magic") and not unit:HasModifier("modifier_item_imba_rapier_prevent_attack_amp") then
+	if attacker:HasModifier("modifier_item_extended_rapier_stacks_magic") and not unit:HasModifier("modifier_item_extended_rapier_prevent_attack_amp") then
 			
 		-- Calculate damage amplification
-		local amp_stacks = attacker:GetModifierStackCount("modifier_item_imba_rapier_stacks_magic", attacker)
+		local amp_stacks = attacker:GetModifierStackCount("modifier_item_extended_rapier_stacks_magic", attacker)
 		local damage_amp = 40 + 40 * amp_stacks
 
 		-- Amplify damage

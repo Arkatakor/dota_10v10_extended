@@ -61,7 +61,7 @@ function GaleCast( keys )
 
 	-- Launch projectiles from wards
 	for _,ward in pairs(nearby_wards) do
-		if ward:GetUnitName() == "npc_imba_venomancer_scourge_ward" then
+		if ward:GetUnitName() == "npc_extended_venomancer_scourge_ward" then
 
 			-- Calculate projectile direction
 			local ward_pos = ward:GetAbsOrigin()
@@ -262,7 +262,7 @@ function WardCast( keys )
 	end)
 
 	-- Spawn Scourge Ward
-	local scourge_ward = CreateUnitByName("npc_imba_venomancer_scourge_ward", target, true, caster, caster, caster:GetTeamNumber())
+	local scourge_ward = CreateUnitByName("npc_extended_venomancer_scourge_ward", target, true, caster, caster, caster:GetTeamNumber())
 	scourge_ward:SetControllableByPlayer(caster:GetPlayerID(), true)
 
 	-- Prevent nearby units from getting stuck
@@ -300,7 +300,7 @@ function WardCast( keys )
 	-- Spawn Plague Wards
 	for i = 1,plague_amount do
 		local spawn_point = RotatePosition(target, QAngle(0, i * 360 / plague_amount, 0), target + caster:GetForwardVector() * 125 )
-		local plague_ward = CreateUnitByName("npc_imba_venomancer_plague_ward", spawn_point, true, caster, caster, caster:GetTeamNumber())
+		local plague_ward = CreateUnitByName("npc_extended_venomancer_plague_ward", spawn_point, true, caster, caster, caster:GetTeamNumber())
 		plague_ward:SetControllableByPlayer(caster:GetPlayerID(), true)
 
 		-- Prevent nearby units from getting stuck

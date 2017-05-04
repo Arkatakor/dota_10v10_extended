@@ -15,27 +15,27 @@ function AddStacksLua(ability, caster, unit, modifier, stack_amount, refresh)
 end
 
 
-if item_imba_curseblade == nil then
-	item_imba_curseblade = class({})
+if item_extended_curseblade == nil then
+	item_extended_curseblade = class({})
 end
-LinkLuaModifier("modifier_item_imba_curseblade", "items/item_curseblade", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_item_imba_curseblade_debuff", "items/item_curseblade", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_item_extended_curseblade", "items/item_curseblade", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_item_extended_curseblade_debuff", "items/item_curseblade", LUA_MODIFIER_MOTION_NONE)
 
 
-function item_imba_curseblade:GetIntrinsicModifierName()
-	return "modifier_item_imba_curseblade"
+function item_extended_curseblade:GetIntrinsicModifierName()
+	return "modifier_item_extended_curseblade"
 end
 
 
-function item_imba_curseblade:OnSpellStart()
+function item_extended_curseblade:OnSpellStart()
 	if IsServer() then		
 		-- Ability properties
 		local caster = self:GetCaster()
 		local target = self:GetCursorTarget()
 		local sound_cast = "Imba.Curseblade"
-		local particle_curse = "particles/item/curseblade/imba_curseblade_curse.vpcf"
+		local particle_curse = "particles/item/curseblade/extended_curseblade_curse.vpcf"
 		local datadrive_baseclass = "modifier_datadriven"
-		local debuff = "modifier_item_imba_curseblade_debuff"
+		local debuff = "modifier_item_extended_curseblade_debuff"
 		
 		-- Ability specials
 		local duration = self:GetSpecialValueFor("duration")
@@ -82,15 +82,15 @@ end
 
 
 -- Passive stats modifier
-if modifier_item_imba_curseblade == nil then
-	modifier_item_imba_curseblade = class({})
+if modifier_item_extended_curseblade == nil then
+	modifier_item_extended_curseblade = class({})
 end
 
-function modifier_item_imba_curseblade:IsHidden()
+function modifier_item_extended_curseblade:IsHidden()
 	return true
 end
 
-function modifier_item_imba_curseblade:DeclareFunctions()
+function modifier_item_extended_curseblade:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 					  MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
 					  MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
@@ -99,28 +99,28 @@ function modifier_item_imba_curseblade:DeclareFunctions()
 	return decFuncs	
 end
 
-function modifier_item_imba_curseblade:GetModifierBonusStats_Agility()
+function modifier_item_extended_curseblade:GetModifierBonusStats_Agility()
 	local ability = self:GetAbility()
 	local agility_bonus = ability:GetSpecialValueFor("agility_bonus")
 	
 	return agility_bonus
 end
 
-function modifier_item_imba_curseblade:GetModifierBonusStats_Intellect()
+function modifier_item_extended_curseblade:GetModifierBonusStats_Intellect()
 	local ability = self:GetAbility()
 	local intelligence_bonus = ability:GetSpecialValueFor("intelligence_bonus")	
 
 	return intelligence_bonus
 end
 
-function modifier_item_imba_curseblade:GetModifierBonusStats_Strength()
+function modifier_item_extended_curseblade:GetModifierBonusStats_Strength()
 	local ability = self:GetAbility()
 	local strength_bonus = ability:GetSpecialValueFor("strength_bonus")
 	
 	return strength_bonus
 end
 
-function modifier_item_imba_curseblade:GetModifierBaseAttack_BonusDamage()
+function modifier_item_extended_curseblade:GetModifierBaseAttack_BonusDamage()
 	local ability = self:GetAbility()
 	local damage = ability:GetSpecialValueFor("damage")
 	
@@ -128,21 +128,21 @@ function modifier_item_imba_curseblade:GetModifierBaseAttack_BonusDamage()
 end
 
 -- Active drain/slow modifier
-modifier_item_imba_curseblade_debuff = class({})
+modifier_item_extended_curseblade_debuff = class({})
 
-function modifier_item_imba_curseblade_debuff:IsDebuff()
+function modifier_item_extended_curseblade_debuff:IsDebuff()
 	return true
 end
 
-function modifier_item_imba_curseblade_debuff:IsHidden()
+function modifier_item_extended_curseblade_debuff:IsHidden()
 	return false
 end
 
-function modifier_item_imba_curseblade_debuff:IsPurgable()
+function modifier_item_extended_curseblade_debuff:IsPurgable()
 	return true
 end
 
-function modifier_item_imba_curseblade_debuff:OnCreated()
+function modifier_item_extended_curseblade_debuff:OnCreated()
 	local caster = self:GetCaster()
 	local target = self:GetParent()
 	local ability = self:GetAbility()
@@ -152,28 +152,28 @@ function modifier_item_imba_curseblade_debuff:OnCreated()
 	self:StartIntervalThink(tick_rate)	
 end
 
-function modifier_item_imba_curseblade_debuff:DeclareFunctions()
+function modifier_item_extended_curseblade_debuff:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
 		
 	return decFuncs	
 end
 
-function modifier_item_imba_curseblade_debuff:GetModifierMoveSpeedBonus_Percentage()
+function modifier_item_extended_curseblade_debuff:GetModifierMoveSpeedBonus_Percentage()
 	local ability = self:GetAbility()
 	local slow_amount = ability:GetSpecialValueFor("slow_amount")
 	
 	return slow_amount
 end
 
-function modifier_item_imba_curseblade_debuff:GetEffectAttachType()
+function modifier_item_extended_curseblade_debuff:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
 end
 
-function modifier_item_imba_curseblade_debuff:GetEffectName()
-	return "particles/item/curseblade/imba_curseblade_curse.vpcf"
+function modifier_item_extended_curseblade_debuff:GetEffectName()
+	return "particles/item/curseblade/extended_curseblade_curse.vpcf"
 end
 
-function modifier_item_imba_curseblade_debuff:OnIntervalThink()
+function modifier_item_extended_curseblade_debuff:OnIntervalThink()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()

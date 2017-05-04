@@ -27,7 +27,7 @@ function LandMinePlant( keys )
 
 	-- Create the mines at the specified place
 	for i = 1, mine_amount do
-		local land_mine = CreateUnitByName("npc_imba_techies_land_mine", target, false, caster, caster, caster:GetTeam())
+		local land_mine = CreateUnitByName("npc_extended_techies_land_mine", target, false, caster, caster, caster:GetTeam())
 		FindClearSpaceForUnit(land_mine, target + RandomVector(10), true)
 		land_mine:SetControllableByPlayer(player_id, true)
 		land_mine:AddNewModifier(caster, ability, "modifier_kill", {duration = duration})
@@ -42,10 +42,10 @@ function LandMinePlant( keys )
 		Timers:CreateTimer(activation_time, function()
 			
 			-- Grant the mine the appropriately leveled abilities
-			local mine_passive = land_mine:FindAbilityByName("imba_techies_land_mine_passive")
+			local mine_passive = land_mine:FindAbilityByName("extended_techies_land_mine_passive")
 			mine_passive:SetLevel(ability_level + 1)
 			if scepter then
-				local mine_teleport = land_mine:FindAbilityByName("imba_techies_minefield_teleport")
+				local mine_teleport = land_mine:FindAbilityByName("extended_techies_minefield_teleport")
 				mine_teleport:SetLevel(1)
 			end
 		end)
@@ -64,8 +64,8 @@ function LandMineThrow( keys )
 
 	-- If this is Rubick and Land Mines is no longer present, do nothing and kill the modifiers
 	if IsStolenSpell(caster) then
-		if not caster:FindAbilityByName("imba_techies_land_mines") then
-			caster:RemoveModifierByName("modifier_imba_land_mines_caster")
+		if not caster:FindAbilityByName("extended_techies_land_mines") then
+			caster:RemoveModifierByName("modifier_extended_land_mines_caster")
 			return nil
 		end
 	end
@@ -109,7 +109,7 @@ function LandMineThrow( keys )
 	end
 
 	-- Create the mine at the specified place
-	local land_mine = CreateUnitByName("npc_imba_techies_land_mine", caster:GetAbsOrigin(), false, caster, caster, caster:GetTeam())
+	local land_mine = CreateUnitByName("npc_extended_techies_land_mine", caster:GetAbsOrigin(), false, caster, caster, caster:GetTeam())
 	land_mine:SetControllableByPlayer(player_id, true)
 	land_mine:AddNewModifier(caster, ability, "modifier_kill", {duration = duration})
 
@@ -140,10 +140,10 @@ function LandMineThrow( keys )
 			Timers:CreateTimer(activation_time, function()
 				
 				-- Grant the mine the appropriately leveled abilities
-				local mine_passive = land_mine:FindAbilityByName("imba_techies_land_mine_passive")
+				local mine_passive = land_mine:FindAbilityByName("extended_techies_land_mine_passive")
 				mine_passive:SetLevel(ability_level + 1)
 				if scepter then
-					local mine_teleport = land_mine:FindAbilityByName("imba_techies_minefield_teleport")
+					local mine_teleport = land_mine:FindAbilityByName("extended_techies_minefield_teleport")
 					mine_teleport:SetLevel(1)
 				end
 			end)
@@ -336,7 +336,7 @@ function StasisTrapPlant( keys )
 	Timers:CreateTimer(activation_delay, function()
 
 		-- Create the mine at the specified place
-		local stasis_trap = CreateUnitByName("npc_imba_techies_stasis_trap", target, false, caster, caster, caster:GetTeam())
+		local stasis_trap = CreateUnitByName("npc_extended_techies_stasis_trap", target, false, caster, caster, caster:GetTeam())
 		stasis_trap:SetControllableByPlayer(player_id, true)
 		stasis_trap:AddNewModifier(caster, ability, "modifier_kill", {duration = duration})
 
@@ -347,10 +347,10 @@ function StasisTrapPlant( keys )
 		ability:ApplyDataDrivenModifier(caster, stasis_trap, modifier_state, {})
 			
 		-- Grant the mine the appropriately leveled abilities
-		local trap_passive = stasis_trap:FindAbilityByName("imba_techies_stasis_trap_passive")
+		local trap_passive = stasis_trap:FindAbilityByName("extended_techies_stasis_trap_passive")
 		trap_passive:SetLevel(ability_level + 1)
 		if scepter then
-			local trap_teleport = stasis_trap:FindAbilityByName("imba_techies_minefield_teleport")
+			local trap_teleport = stasis_trap:FindAbilityByName("extended_techies_minefield_teleport")
 			trap_teleport:SetLevel(1)
 		end
 	end)
@@ -633,7 +633,7 @@ function RemoteMineAutoCreep( keys )
 	local caster = mine:GetOwnerEntity()
 	local ability = keys.ability
 	local ability_level = ability:GetLevel() - 1
-	local auto_hero_ability = mine:FindAbilityByName("imba_techies_remote_auto_hero")
+	local auto_hero_ability = mine:FindAbilityByName("extended_techies_remote_auto_hero")
 	local modifier_unselect = keys.modifier_unselect
 	local sound_cast = keys.sound_cast
 
@@ -674,7 +674,7 @@ function RemoteMineAutoHero( keys )
 	local caster = mine:GetOwnerEntity()
 	local ability = keys.ability
 	local ability_level = ability:GetLevel() - 1
-	local auto_creep_ability = mine:FindAbilityByName("imba_techies_remote_auto_creep")
+	local auto_creep_ability = mine:FindAbilityByName("extended_techies_remote_auto_creep")
 	local modifier_unselect = keys.modifier_unselect
 	local sound_cast = keys.sound_cast
 
@@ -755,7 +755,7 @@ function MinefieldTeleport( keys )
 		for _,unit in pairs(units) do
 
 			-- Check if this unit is really a mine from the same player
-			local teleport_ability = unit:FindAbilityByName("imba_techies_minefield_teleport")
+			local teleport_ability = unit:FindAbilityByName("extended_techies_minefield_teleport")
 			if teleport_ability and unit:GetOwnerEntity() == caster then
 
 				-- Original mine gets a free pass
@@ -796,7 +796,7 @@ function MinefieldSign( keys )
 	if caster.minefield_sign then
 		caster.minefield_sign:Destroy()
 	end
-	caster.minefield_sign = CreateUnitByName("npc_imba_techies_minefield_sign", target, false, caster, caster, caster:GetTeam())
+	caster.minefield_sign = CreateUnitByName("npc_extended_techies_minefield_sign", target, false, caster, caster, caster:GetTeam())
 
 	-- Make the sign invulnerable, etc.
 	ability:ApplyDataDrivenModifier(caster, caster.minefield_sign, modifier_passive, {})

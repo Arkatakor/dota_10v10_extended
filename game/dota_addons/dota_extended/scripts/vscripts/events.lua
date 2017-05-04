@@ -20,7 +20,7 @@ function GameMode:OnDisconnect(keys)
 	-- xuid: 76561198055762111
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Player disconnect/abandon logic
+	-- EXTENDED: Player disconnect/abandon logic
 	-------------------------------------------------------------------------------------------------
 
 	-- If the game hasn't started, or has already ended, do nothing
@@ -51,7 +51,7 @@ function GameMode:OnDisconnect(keys)
 				-- Abandon message
 				Notifications:BottomToAll({hero = hero_name, duration = line_duration})
 				Notifications:BottomToAll({text = player_name.." ", duration = line_duration, continue = true})
-				Notifications:BottomToAll({text = "#imba_player_abandon_message", duration = line_duration, style = {color = "DodgerBlue"}, continue = true})
+				Notifications:BottomToAll({text = "#extended_player_abandon_message", duration = line_duration, style = {color = "DodgerBlue"}, continue = true})
 				PlayerResource:SetHasAbandonedDueToLongDisconnect(player_id, true)
 				print("player "..player_id.." has abandoned the game.")
 
@@ -63,7 +63,7 @@ function GameMode:OnDisconnect(keys)
 
 				-- If this was the last player to abandon on his team, wait 15 seconds and end the game if no one came back.
 				if REMAINING_GOODGUYS <= 0 then
-					Notifications:BottomToAll({text = "#imba_team_good_abandon_message", duration = line_duration, style = {color = "DodgerBlue"} })
+					Notifications:BottomToAll({text = "#extended_team_good_abandon_message", duration = line_duration, style = {color = "DodgerBlue"} })
 					Timers:CreateTimer(FULL_ABANDON_TIME, function()
 						if REMAINING_GOODGUYS <= 0 then
 							GameRules:SetGameWinner(DOTA_TEAM_BADGUYS)
@@ -71,7 +71,7 @@ function GameMode:OnDisconnect(keys)
 						end
 					end)
 				elseif REMAINING_BADGUYS <= 0 then
-					Notifications:BottomToAll({text = "#imba_team_bad_abandon_message", duration = line_duration, style = {color = "DodgerBlue"} })
+					Notifications:BottomToAll({text = "#extended_team_bad_abandon_message", duration = line_duration, style = {color = "DodgerBlue"} })
 					Timers:CreateTimer(FULL_ABANDON_TIME, function()
 						if REMAINING_BADGUYS <= 0 then
 							GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
@@ -103,7 +103,7 @@ function GameMode:OnGameRulesStateChange(keys)
 	local new_state = GameRules:State_Get()
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Pick screen stuff
+	-- EXTENDED: Pick screen stuff
 	-------------------------------------------------------------------------------------------------
 	
 	if new_state == DOTA_GAMERULES_STATE_HERO_SELECTION then
@@ -111,19 +111,19 @@ function GameMode:OnGameRulesStateChange(keys)
     end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Start-of-pre-game stuff
+	-- EXTENDED: Start-of-pre-game stuff
 	-------------------------------------------------------------------------------------------------
 
 	if new_state == DOTA_GAMERULES_STATE_PRE_GAME then
 		Timers:CreateTimer(1.5, function()
 			for _, hero in pairs(HeroList:GetAllHeroes()) do
-				hero:AddNewModifier(hero, nil, "modifier_imba_prevent_actions_game_start", {})
+				hero:AddNewModifier(hero, nil, "modifier_extended_prevent_actions_game_start", {})
 			end
 		end)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Stat collection stuff
+	-- EXTENDED: Stat collection stuff
 	-------------------------------------------------------------------------------------------------
 
 	--if new_state == DOTA_GAMERULES_STATE_POST_GAME then
@@ -139,7 +139,7 @@ function GameMode:OnNPCSpawned(keys)
 	local npc = EntIndexToHScript(keys.entindex)
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Remove Silencers innate intelligence steal
+	-- EXTENDED: Remove Silencers innate intelligence steal
 	--
 	-- Unfortunately, needs to be done every time Silencer spawns as his modifier is permanently
 	-- embedded into his character and he'll gain it every time he spawns
@@ -153,7 +153,7 @@ function GameMode:OnNPCSpawned(keys)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Arc Warden clone handling
+	-- EXTENDED: Arc Warden clone handling
 	-------------------------------------------------------------------------------------------------
 
 	if npc:FindAbilityByName("arc_warden_tempest_double") and not npc.first_tempest_double_cast and npc:IsRealHero() then
@@ -172,12 +172,12 @@ function GameMode:OnNPCSpawned(keys)
 
 		-- List of modifiers which carry over from the main hero to the clone
 		local clone_shared_buffs = {
-			"modifier_imba_unlimited_level_powerup",
-			"modifier_imba_moon_shard_stacks_dummy",
-			"modifier_imba_moon_shard_consume_1",
-			"modifier_imba_moon_shard_consume_2",
-			"modifier_imba_moon_shard_consume_3",
-			"modifier_item_imba_soul_of_truth"
+			"modifier_extended_unlimited_level_powerup",
+			"modifier_extended_moon_shard_stacks_dummy",
+			"modifier_extended_moon_shard_consume_1",
+			"modifier_extended_moon_shard_consume_2",
+			"modifier_extended_moon_shard_consume_3",
+			"modifier_item_extended_soul_of_truth"
 		}
 		
 		-- Iterate through the main hero's potential modifiers
@@ -199,13 +199,13 @@ function GameMode:OnNPCSpawned(keys)
 					if string.find(shared_buff, "moon_shard") then
 
 						-- Create dummy item
-						local dummy_item = CreateItem("item_imba_moon_shard", npc, npc)
+						local dummy_item = CreateItem("item_extended_moon_shard", npc, npc)
 						main_hero:AddItem(dummy_item)
 
 						-- Fetch dummy item's ability handle
 						for i = 0, 11 do
 							local current_item = main_hero:GetItemInSlot(i)
-							if current_item and current_item:GetName() == "item_imba_moon_shard" then
+							if current_item and current_item:GetName() == "item_extended_moon_shard" then
 								current_item:ApplyDataDrivenModifier(main_hero, npc, shared_buff, {})
 								break
 							end
@@ -214,16 +214,16 @@ function GameMode:OnNPCSpawned(keys)
 					end
 
 					-- Soul of Truth
-					if shared_buff == "modifier_item_imba_soul_of_truth" then
+					if shared_buff == "modifier_item_extended_soul_of_truth" then
 
 						-- Create dummy item
-						local dummy_item = CreateItem("item_imba_soul_of_truth", npc, npc)
+						local dummy_item = CreateItem("item_extended_soul_of_truth", npc, npc)
 						main_hero:AddItem(dummy_item)
 
 						-- Fetch dummy item's ability handle
 						for i = 0, 11 do
 							local current_item = main_hero:GetItemInSlot(i)
-							if current_item and current_item:GetName() == "item_imba_soul_of_truth" then
+							if current_item and current_item:GetName() == "item_extended_soul_of_truth" then
 								current_item:ApplyDataDrivenModifier(main_hero, npc, shared_buff, {})
 								break
 							end
@@ -241,7 +241,7 @@ function GameMode:OnNPCSpawned(keys)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Remote Mine ability setup
+	-- EXTENDED: Remote Mine ability setup
 	-------------------------------------------------------------------------------------------------
 
 	if string.find(npc:GetUnitName(), "npc_dota_techies_remote_mine") then
@@ -249,10 +249,10 @@ function GameMode:OnNPCSpawned(keys)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Random OMG on-respawn skill randomization
+	-- EXTENDED: Random OMG on-respawn skill randomization
 	-------------------------------------------------------------------------------------------------
 
-	if IMBA_ABILITY_MODE_RANDOM_OMG then
+	if EXTENDED_ABILITY_MODE_RANDOM_OMG then
 		if npc:IsRealHero() then
 			
 			-- Randomize abilities
@@ -280,7 +280,7 @@ function GameMode:OnNPCSpawned(keys)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Buyback penalty removal
+	-- EXTENDED: Buyback penalty removal
 	-------------------------------------------------------------------------------------------------
 
 	Timers:CreateTimer(0.1, function()
@@ -290,24 +290,24 @@ function GameMode:OnNPCSpawned(keys)
 	end)
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Negative Vengeance Aura removal
+	-- EXTENDED: Negative Vengeance Aura removal
 	-------------------------------------------------------------------------------------------------
 
 	if npc.vengeance_aura_target then
-		npc.vengeance_aura_target:RemoveModifierByName("modifier_imba_command_aura_negative_aura")
+		npc.vengeance_aura_target:RemoveModifierByName("modifier_extended_command_aura_negative_aura")
 		npc.vengeance_aura_target = nil
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Creep stats adjustment
+	-- EXTENDED: Creep stats adjustment
 	-------------------------------------------------------------------------------------------------
 
 	if not npc:IsHero() and not npc:IsOwnedByAnyPlayer() then
 
 		-- Add passive buff to lane creeps
 		if string.find(npc:GetUnitName(), "dota_creep") then
-			npc:AddAbility("imba_creep_buffs")
-			local creep_ability = npc:FindAbilityByName("imba_creep_buffs")
+			npc:AddAbility("extended_creep_buffs")
+			local creep_ability = npc:FindAbilityByName("extended_creep_buffs")
 			creep_ability:SetLevel(1)
 		end
 	end
@@ -346,7 +346,7 @@ function GameMode:OnPlayerReconnect(keys)
 	local player_id = keys.PlayerID
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Player reconnect logic
+	-- EXTENDED: Player reconnect logic
 	-------------------------------------------------------------------------------------------------
 
 	-- Reinitialize the player's pick screen panorama, if necessary
@@ -376,7 +376,7 @@ function GameMode:OnPlayerReconnect(keys)
 		local line_duration = 7
 		Notifications:BottomToAll({hero = hero_name, duration = line_duration})
 		Notifications:BottomToAll({text = player_name.." ", duration = line_duration, continue = true})
-		Notifications:BottomToAll({text = "#imba_player_reconnect_message", duration = line_duration, style = {color = "DodgerBlue"}, continue = true})
+		Notifications:BottomToAll({text = "#extended_player_reconnect_message", duration = line_duration, style = {color = "DodgerBlue"}, continue = true})
 		PlayerResource:IncrementTeamPlayerCount(player_id)
 
 		-- Stop redistributing gold to allies, if applicable
@@ -411,7 +411,7 @@ function GameMode:OnAbilityUsed(keys)
 	local abilityname = keys.abilityname
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Remote Mines adjustment
+	-- EXTENDED: Remote Mines adjustment
 	-------------------------------------------------------------------------------------------------
 
 	-- if abilityname == "techies_remote_mines" then
@@ -425,12 +425,12 @@ function GameMode:OnAbilityUsed(keys)
 	-- 			if unit.needs_remote_mine_setup then
 					
 	-- 				-- Add extra abilities
-	-- 				unit:AddAbility("imba_techies_minefield_teleport")
-	-- 				unit:AddAbility("imba_techies_remote_auto_creep")
-	-- 				unit:AddAbility("imba_techies_remote_auto_hero")
-	-- 				local minefield_teleport = unit:FindAbilityByName("imba_techies_minefield_teleport")
-	-- 				local auto_creep = unit:FindAbilityByName("imba_techies_remote_auto_creep")
-	-- 				local auto_hero = unit:FindAbilityByName("imba_techies_remote_auto_hero")
+	-- 				unit:AddAbility("extended_techies_minefield_teleport")
+	-- 				unit:AddAbility("extended_techies_remote_auto_creep")
+	-- 				unit:AddAbility("extended_techies_remote_auto_hero")
+	-- 				local minefield_teleport = unit:FindAbilityByName("extended_techies_minefield_teleport")
+	-- 				local auto_creep = unit:FindAbilityByName("extended_techies_remote_auto_creep")
+	-- 				local auto_hero = unit:FindAbilityByName("extended_techies_remote_auto_hero")
 	-- 				auto_creep:SetLevel(1)
 	-- 				auto_hero:SetLevel(1)
 
@@ -499,12 +499,12 @@ function GameMode:OnPlayerLevelUp(keys)
 	local hero_level = hero:GetLevel()
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Unlimited level logic
+	-- EXTENDED: Unlimited level logic
 	-------------------------------------------------------------------------------------------------
 
 	-- If the generic powerup isn't present, apply it
 	if hero_level > 25 then
-		local ability_powerup = hero:FindAbilityByName("imba_unlimited_level_powerup")
+		local ability_powerup = hero:FindAbilityByName("extended_unlimited_level_powerup")
 		local is_this_hero_fucked_by_valve = false
 		local heroes_fucked_by_valve = {
 			"npc_dota_hero_rubick",
@@ -521,14 +521,14 @@ function GameMode:OnPlayerLevelUp(keys)
 			end
 		end
 		if (not ability_powerup) and (not is_this_hero_fucked_by_valve) then
-			hero:AddAbility("imba_unlimited_level_powerup")
-			ability_powerup = hero:FindAbilityByName("imba_unlimited_level_powerup")
+			hero:AddAbility("extended_unlimited_level_powerup")
+			ability_powerup = hero:FindAbilityByName("extended_unlimited_level_powerup")
 			ability_powerup:SetLevel(1)
 		end
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Hero experience bounty adjustment
+	-- EXTENDED: Hero experience bounty adjustment
 	-------------------------------------------------------------------------------------------------
 
 	hero:SetCustomDeathXP(HERO_XP_BOUNTY_PER_LEVEL[hero_level])
@@ -610,16 +610,16 @@ function GameMode:OnTeamKillCredit(keys)
 	local killer_team = keys.teamnumber
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Comeback gold logic
+	-- EXTENDED: Comeback gold logic
 	-------------------------------------------------------------------------------------------------
 
 	UpdateComebackBonus(1, killer_team)
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Arena mode scoreboard updater
+	-- EXTENDED: Arena mode scoreboard updater
 	-------------------------------------------------------------------------------------------------
 	
-	if GetMapName() == "imba_arena" then
+	if GetMapName() == "extended_arena" then
 		if killer_team == DOTA_TEAM_GOODGUYS then
 			local radiant_score = CustomNetTables:GetTableValue("arena_capture", "radiant_score")
 			CustomNetTables:SetTableValue("arena_capture", "radiant_score", {radiant_score["1"] + 1})
@@ -640,7 +640,7 @@ function GameMode:OnTeamKillCredit(keys)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Deathstreak logic
+	-- EXTENDED: Deathstreak logic
 	-------------------------------------------------------------------------------------------------
 
 	if PlayerResource:IsImbaPlayer(killer_id) and PlayerResource:IsImbaPlayer(victim_id) then
@@ -663,36 +663,36 @@ function GameMode:OnTeamKillCredit(keys)
 		end
 
 		if victim_death_streak == 3 then
-			Notifications:BottomToAll({text = "#imba_deathstreak_3", duration = line_duration, continue = true})
+			Notifications:BottomToAll({text = "#extended_deathstreak_3", duration = line_duration, continue = true})
 		elseif victim_death_streak == 4 then
-			Notifications:BottomToAll({text = "#imba_deathstreak_4", duration = line_duration, continue = true})
+			Notifications:BottomToAll({text = "#extended_deathstreak_4", duration = line_duration, continue = true})
 		elseif victim_death_streak == 5 then
-			Notifications:BottomToAll({text = "#imba_deathstreak_5", duration = line_duration, continue = true})
+			Notifications:BottomToAll({text = "#extended_deathstreak_5", duration = line_duration, continue = true})
 		elseif victim_death_streak == 6 then
-			Notifications:BottomToAll({text = "#imba_deathstreak_6", duration = line_duration, continue = true})
+			Notifications:BottomToAll({text = "#extended_deathstreak_6", duration = line_duration, continue = true})
 		elseif victim_death_streak == 7 then
-			Notifications:BottomToAll({text = "#imba_deathstreak_7", duration = line_duration, continue = true})
+			Notifications:BottomToAll({text = "#extended_deathstreak_7", duration = line_duration, continue = true})
 		elseif victim_death_streak == 8 then
-			Notifications:BottomToAll({text = "#imba_deathstreak_8", duration = line_duration, continue = true})
+			Notifications:BottomToAll({text = "#extended_deathstreak_8", duration = line_duration, continue = true})
 		elseif victim_death_streak == 9 then
-			Notifications:BottomToAll({text = "#imba_deathstreak_9", duration = line_duration, continue = true})
+			Notifications:BottomToAll({text = "#extended_deathstreak_9", duration = line_duration, continue = true})
 		elseif victim_death_streak >= 10 then
-			Notifications:BottomToAll({text = "#imba_deathstreak_10", duration = line_duration, continue = true})
+			Notifications:BottomToAll({text = "#extended_deathstreak_10", duration = line_duration, continue = true})
 		end
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Rancor logic
+	-- EXTENDED: Rancor logic
 	-------------------------------------------------------------------------------------------------
 
 	-- Victim stack loss
 	local victim_hero = PlayerResource:GetPickedHero(victim_id)
-	if victim_hero and victim_hero:HasModifier("modifier_imba_rancor") then
-		local current_stacks = victim_hero:GetModifierStackCount("modifier_imba_rancor", VENGEFUL_RANCOR_CASTER)
+	if victim_hero and victim_hero:HasModifier("modifier_extended_rancor") then
+		local current_stacks = victim_hero:GetModifierStackCount("modifier_extended_rancor", VENGEFUL_RANCOR_CASTER)
 		if current_stacks <= 2 then
-			victim_hero:RemoveModifierByName("modifier_imba_rancor")
+			victim_hero:RemoveModifierByName("modifier_extended_rancor")
 		else
-			victim_hero:SetModifierStackCount("modifier_imba_rancor", VENGEFUL_RANCOR_CASTER, current_stacks - math.floor(current_stacks / 2) - 1)
+			victim_hero:SetModifierStackCount("modifier_extended_rancor", VENGEFUL_RANCOR_CASTER, current_stacks - math.floor(current_stacks / 2) - 1)
 		end
 	end
 	
@@ -708,7 +708,7 @@ function GameMode:OnTeamKillCredit(keys)
 			end
 
 			-- Add stacks and play particle effect
-			AddStacks(VENGEFUL_RANCOR_ABILITY, VENGEFUL_RANCOR_CASTER, eligible_rancor_targets[1], "modifier_imba_rancor", rancor_stacks, true)
+			AddStacks(VENGEFUL_RANCOR_ABILITY, VENGEFUL_RANCOR_CASTER, eligible_rancor_targets[1], "modifier_extended_rancor", rancor_stacks, true)
 			local rancor_pfx = ParticleManager:CreateParticle("particles/units/heroes/hero_vengeful/vengeful_negative_aura.vpcf", PATTACH_ABSORIGIN, eligible_rancor_targets[1])
 			ParticleManager:SetParticleControl(rancor_pfx, 0, eligible_rancor_targets[1]:GetAbsOrigin())
 			ParticleManager:SetParticleControl(rancor_pfx, 1, VENGEFUL_RANCOR_CASTER:GetAbsOrigin())
@@ -716,14 +716,14 @@ function GameMode:OnTeamKillCredit(keys)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Vengeance Aura logic
+	-- EXTENDED: Vengeance Aura logic
 	-------------------------------------------------------------------------------------------------
 
 	if victim_hero and PlayerResource:IsImbaPlayer(killer_id) then
-		local vengeance_aura_ability = victim_hero:FindAbilityByName("imba_vengeful_command_aura")
+		local vengeance_aura_ability = victim_hero:FindAbilityByName("extended_vengeful_command_aura")
 		local killer_hero = PlayerResource:GetPickedHero(killer_id)
 		if vengeance_aura_ability and vengeance_aura_ability:GetLevel() > 0 then
-			vengeance_aura_ability:ApplyDataDrivenModifier(victim_hero, killer_hero, "modifier_imba_command_aura_negative_aura", {})
+			vengeance_aura_ability:ApplyDataDrivenModifier(victim_hero, killer_hero, "modifier_extended_command_aura_negative_aura", {})
 			victim_hero.vengeance_aura_target = killer_hero
 		end
 	end
@@ -748,7 +748,7 @@ function GameMode:OnEntityKilled( keys )
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Ancient destruction detection
+	-- EXTENDED: Ancient destruction detection
 	-------------------------------------------------------------------------------------------------
 
 	if killed_unit:GetUnitName() == "npc_dota_badguys_fort" then
@@ -758,14 +758,14 @@ function GameMode:OnEntityKilled( keys )
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Meepo redirect to Meepo Prime
+	-- EXTENDED: Meepo redirect to Meepo Prime
 	-------------------------------------------------------------------------------------------------
 	if killed_unit:GetUnitName() == "npc_dota_hero_meepo" then
 		killed_unit = killed_unit:GetCloneSource()
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Respawn timer setup
+	-- EXTENDED: Respawn timer setup
 	-------------------------------------------------------------------------------------------------
 	
 	if killed_unit:IsRealHero() and killed_unit:GetPlayerID() and PlayerResource:IsImbaPlayer(killed_unit:GetPlayerID()) then
@@ -805,7 +805,7 @@ function GameMode:OnEntityKilled( keys )
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Buyback setup
+	-- EXTENDED: Buyback setup
 	-------------------------------------------------------------------------------------------------
 
 	-- Check if the dying unit was a player-controlled hero
@@ -858,7 +858,7 @@ function GameMode:OnConnectFull(keys)
 	local player_id = ply:GetPlayerID()
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Player data initialization
+	-- EXTENDED: Player data initialization
 	-------------------------------------------------------------------------------------------------
 
 	PlayerResource:InitPlayerData(player_id)
@@ -873,10 +873,10 @@ function GameMode:OnIllusionsCreated(keys)
 	local originalEntity = EntIndexToHScript(keys.original_entindex)
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Random OMG illusion ability adjustment
+	-- EXTENDED: Random OMG illusion ability adjustment
 	-------------------------------------------------------------------------------------------------
 
-	if IMBA_ABILITY_MODE_RANDOM_OMG then
+	if EXTENDED_ABILITY_MODE_RANDOM_OMG then
 
 		-- Find all Illusions
 		local illusions_on_world = Entities:FindAllByName(originalEntity:GetName())
@@ -947,7 +947,7 @@ function GameMode:OnTowerKill(keys)
 	PrintTable(keys)
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Attack of the Ancients tower upgrade logic
+	-- EXTENDED: Attack of the Ancients tower upgrade logic
 	-------------------------------------------------------------------------------------------------
 
 	if TOWER_UPGRADE_MODE then
@@ -973,7 +973,7 @@ function GameMode:OnTowerKill(keys)
 	end
 
 	-------------------------------------------------------------------------------------------------
-	-- IMBA: Update comeback gold logic
+	-- EXTENDED: Update comeback gold logic
 	-------------------------------------------------------------------------------------------------
 
 	local team = PlayerResource:GetTeam(keys.killer_userid)

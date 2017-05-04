@@ -2,14 +2,14 @@
 		Author: Firetoad
 		Date:	13.03.2017	]]
 
-if modifier_imba_generic_talents_handler == nil then modifier_imba_generic_talents_handler = class({}) end
-function modifier_imba_generic_talents_handler:IsHidden() return true end
-function modifier_imba_generic_talents_handler:IsDebuff() return false end
-function modifier_imba_generic_talents_handler:IsPurgable() return false end
-function modifier_imba_generic_talents_handler:IsHidden() return true end
-function modifier_imba_generic_talents_handler:IsPermanent() return true end
+if modifier_extended_generic_talents_handler == nil then modifier_extended_generic_talents_handler = class({}) end
+function modifier_extended_generic_talents_handler:IsHidden() return true end
+function modifier_extended_generic_talents_handler:IsDebuff() return false end
+function modifier_extended_generic_talents_handler:IsPurgable() return false end
+function modifier_extended_generic_talents_handler:IsHidden() return true end
+function modifier_extended_generic_talents_handler:IsPermanent() return true end
 
-function modifier_imba_generic_talents_handler:DeclareFunctions()
+function modifier_extended_generic_talents_handler:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_TAKEDAMAGE,
 		MODIFIER_EVENT_ON_ATTACK_LANDED,
@@ -20,21 +20,21 @@ function modifier_imba_generic_talents_handler:DeclareFunctions()
 end
 
 -- Damage block handler
-function modifier_imba_generic_talents_handler:GetModifierPhysical_ConstantBlock()
+function modifier_extended_generic_talents_handler:GetModifierPhysical_ConstantBlock()
 	if IsServer() then
 		return self:GetParent():GetDamageBlock()
 	end
 end
 
 -- Damage amp/reduction handler
-function modifier_imba_generic_talents_handler:GetModifierIncomingDamage_Percentage()
+function modifier_extended_generic_talents_handler:GetModifierIncomingDamage_Percentage()
 	if IsServer() then
 		return self:GetParent():GetIncomingDamagePct()
 	end
 end
 
 -- Spell lifesteal handler
-function modifier_imba_generic_talents_handler:OnTakeDamage( keys )
+function modifier_extended_generic_talents_handler:OnTakeDamage( keys )
 	if IsServer() then
 		local parent = self:GetParent()
 		local caster = keys.attacker
@@ -78,7 +78,7 @@ function modifier_imba_generic_talents_handler:OnTakeDamage( keys )
 end
 
 -- Regular lifesteal handler
-function modifier_imba_generic_talents_handler:OnAttackLanded( keys )
+function modifier_extended_generic_talents_handler:OnAttackLanded( keys )
 	if IsServer() then
 		local parent = self:GetParent()
 		local attacker = keys.attacker
@@ -102,7 +102,7 @@ function modifier_imba_generic_talents_handler:OnAttackLanded( keys )
 
 		-- Choose the particle to draw
 		local lifesteal_particle = "particles/generic_gameplay/generic_lifesteal.vpcf"
-		if parent:HasModifier("modifier_item_imba_vladmir_blood_aura") then
+		if parent:HasModifier("modifier_item_extended_vladmir_blood_aura") then
 			lifesteal_particle = "particles/item/vladmir/vladmir_blood_lifesteal.vpcf"
 		end
 

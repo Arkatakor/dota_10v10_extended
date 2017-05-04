@@ -1,4 +1,4 @@
---[[	Authors: D2imba and Pizzalol
+--[[	Authors: D2extended and Pizzalol
 		Date: 23.05.2015				]]
 
 function StiflingDaggerHit( keys )

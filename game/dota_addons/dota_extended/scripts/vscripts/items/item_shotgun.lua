@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	20.09.2015	]]
 
 function Shotgun( keys )

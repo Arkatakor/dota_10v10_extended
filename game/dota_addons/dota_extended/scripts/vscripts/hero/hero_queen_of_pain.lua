@@ -143,7 +143,7 @@ function Blink(keys)
 	local casterPos = caster:GetAbsOrigin()
 	local difference = point - casterPos
 	local ability = keys.ability
-	local ability_scream = caster:FindAbilityByName("imba_queenofpain_scream_of_pain")
+	local ability_scream = caster:FindAbilityByName("extended_queenofpain_scream_of_pain")
 	
 	local projectile_speed = 0.0
 	local radius = 0.0
@@ -219,7 +219,7 @@ function BlinkScream(keys)
 	local caster = keys.caster
 	local ability = keys.ability
 	local ability_level = ability:GetLevel() - 1
-	local ability_scream = caster:FindAbilityByName("imba_queenofpain_scream_of_pain")
+	local ability_scream = caster:FindAbilityByName("extended_queenofpain_scream_of_pain")
 	local modifier_confusion = keys.modifier_confusion
 	local target = keys.target
 
@@ -301,7 +301,7 @@ function SonicWave( keys )
 	local unit = keys.target
 	local ability = keys.ability
 	local ability_level = ability:GetLevel() - 1
-	local ability_scream = caster:FindAbilityByName("imba_queenofpain_scream_of_pain")
+	local ability_scream = caster:FindAbilityByName("extended_queenofpain_scream_of_pain")
 
 	-- Parameters
 	local damage = ability:GetLevelSpecialValueFor("damage", ability_level)

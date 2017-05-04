@@ -9,7 +9,7 @@ function EchoSabreStart( keys )
 	local modifier_double = keys.modifier_double
 
 	-- If a higher-level echo sabre version is present, or the item is in cooldown, do nothing
-	if caster:HasModifier("modifier_item_imba_reverb_rapier_unique") or not ability:IsCooldownReady() or caster:HasModifier(modifier_double) then
+	if caster:HasModifier("modifier_item_extended_reverb_rapier_unique") or not ability:IsCooldownReady() or caster:HasModifier(modifier_double) then
 		return nil
 	end
 
@@ -19,7 +19,7 @@ function EchoSabreStart( keys )
 
 	-- Trigger ability cooldown (longer for ranged units)
 	local cooldown = ability:GetCooldown(0)
-	if caster:IsRangedAttacker() and ( not caster:HasModifier("modifier_imba_berserkers_rage") ) then
+	if caster:IsRangedAttacker() and ( not caster:HasModifier("modifier_extended_berserkers_rage") ) then
 		cooldown = ability:GetSpecialValueFor("ranged_cooldown")
 	end
 	ability:StartCooldown(cooldown * GetCooldownReduction(caster))
@@ -55,7 +55,7 @@ function ReverbRapierStart( keys )
 
 	-- Trigger ability cooldown (longer for ranged units)
 	local cooldown = ability:GetCooldown(0)
-	if caster:IsRangedAttacker() and ( not caster:HasModifier("modifier_imba_berserkers_rage") ) then
+	if caster:IsRangedAttacker() and ( not caster:HasModifier("modifier_extended_berserkers_rage") ) then
 		cooldown = ability:GetSpecialValueFor("ranged_cooldown")
 	end
 	ability:StartCooldown(cooldown * GetCooldownReduction(caster))

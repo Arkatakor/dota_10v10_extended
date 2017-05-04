@@ -1,10 +1,10 @@
 ---------------------------------
 -- Glaives of Wisdom hit counter dummy modifier
 ---------------------------------
--- LinkLuaModifier("imba_silencer_glaives_hit_counter", "hero/hero_silencer/imba_glaives_of_wisdom", LUA_MODIFIER_MOTION_NONE)
-modifier_imba_silencer_glaives_hit_counter = class({})
+-- LinkLuaModifier("extended_silencer_glaives_hit_counter", "hero/hero_silencer/extended_glaives_of_wisdom", LUA_MODIFIER_MOTION_NONE)
+modifier_extended_silencer_glaives_hit_counter = class({})
 
-function modifier_imba_silencer_glaives_hit_counter:OnCreated( kv )
+function modifier_extended_silencer_glaives_hit_counter:OnCreated( kv )
 	if IsServer() then
 		self.target = self:GetParent()
 		self.caster = self:GetAbility():GetCaster()
@@ -13,7 +13,7 @@ function modifier_imba_silencer_glaives_hit_counter:OnCreated( kv )
 	end
 end
 
-function modifier_imba_silencer_glaives_hit_counter:OnStackCountChanged(old_stack_count)
+function modifier_extended_silencer_glaives_hit_counter:OnStackCountChanged(old_stack_count)
 	if IsServer() then
 		if self:GetStackCount() >= self.hits_to_silence then
 			self:GetParent():AddNewModifier(self.caster, self:GetAbility(), "modifier_silence", {duration = self.silence_duration})
@@ -22,20 +22,20 @@ function modifier_imba_silencer_glaives_hit_counter:OnStackCountChanged(old_stac
 	end
 end
 
-function modifier_imba_silencer_glaives_hit_counter:IsDebuff()
+function modifier_extended_silencer_glaives_hit_counter:IsDebuff()
 	return true
 end
 
-function modifier_imba_silencer_glaives_hit_counter:IsHidden()
+function modifier_extended_silencer_glaives_hit_counter:IsHidden()
 	return true
 end
 
 ---------------------------------
 -- Glaives of Wisdom int reduction modifier
 ---------------------------------
-modifier_imba_silencer_glaives_int_damage = class({})
+modifier_extended_silencer_glaives_int_damage = class({})
 
-function modifier_imba_silencer_glaives_int_damage:OnCreated( kv )
+function modifier_extended_silencer_glaives_int_damage:OnCreated( kv )
 	if IsServer() then
 		self.caster = self:GetCaster()
 		self.int_reduction_pct = kv.int_reduction
@@ -43,11 +43,11 @@ function modifier_imba_silencer_glaives_int_damage:OnCreated( kv )
 	end
 end
 
-function modifier_imba_silencer_glaives_int_damage:IsDebuff()
+function modifier_extended_silencer_glaives_int_damage:IsDebuff()
 	return true
 end
 
-function modifier_imba_silencer_glaives_int_damage:OnStackCountChanged(old_stack_count)
+function modifier_extended_silencer_glaives_int_damage:OnStackCountChanged(old_stack_count)
 	if IsServer() then
 		local target = self:GetParent()
 		local target_intelligence = target:GetIntellect()
@@ -68,11 +68,11 @@ function modifier_imba_silencer_glaives_int_damage:OnStackCountChanged(old_stack
 	end
 end
 
-function modifier_imba_silencer_glaives_int_damage:GetTexture()
+function modifier_extended_silencer_glaives_int_damage:GetTexture()
 	return "silencer_glaives_of_wisdom"
 end
 
-function modifier_imba_silencer_glaives_int_damage:DeclareFunctions()
+function modifier_extended_silencer_glaives_int_damage:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
 	}
@@ -80,6 +80,6 @@ function modifier_imba_silencer_glaives_int_damage:DeclareFunctions()
 	return funcs
 end
 
-function modifier_imba_silencer_glaives_int_damage:GetModifierBonusStats_Intellect()
+function modifier_extended_silencer_glaives_int_damage:GetModifierBonusStats_Intellect()
 	return -self.total_int_reduced
 end

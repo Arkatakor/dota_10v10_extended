@@ -1,10 +1,10 @@
 --[[	Author: D2Imba, rework by Shush
 		Date:	05.03.2017	]]
 
-item_imba_hand_of_midas = class({})
-LinkLuaModifier("modifier_item_imba_hand_of_midas", "items/item_midas", LUA_MODIFIER_MOTION_NONE)
+item_extended_hand_of_midas = class({})
+LinkLuaModifier("modifier_item_extended_hand_of_midas", "items/item_midas", LUA_MODIFIER_MOTION_NONE)
 
-function item_imba_hand_of_midas:CastFilterResultTarget(target)
+function item_extended_hand_of_midas:CastFilterResultTarget(target)
 	if IsServer() then
 		local caster = self:GetCaster()
 
@@ -42,7 +42,7 @@ function item_imba_hand_of_midas:CastFilterResultTarget(target)
 	end
 end
 
-function item_imba_hand_of_midas:GetCustomCastErrorTarget(target)
+function item_extended_hand_of_midas:GetCustomCastErrorTarget(target)
 	if IsServer() then
 		local caster = self:GetCaster()
 		
@@ -63,7 +63,7 @@ function item_imba_hand_of_midas:GetCustomCastErrorTarget(target)
 	end
 end
 
-function item_imba_hand_of_midas:GetAbilityTextureName()
+function item_extended_hand_of_midas:GetAbilityTextureName()
 	local caster = self:GetCaster()
 	local caster_name = caster:GetUnitName()
 
@@ -82,10 +82,10 @@ function item_imba_hand_of_midas:GetAbilityTextureName()
 		end
 	end
 
-	return "custom/imba_hand_of_midas"
+	return "custom/extended_hand_of_midas"
 end
 
-function item_imba_hand_of_midas:OnSpellStart()
+function item_extended_hand_of_midas:OnSpellStart()
 	local caster = self:GetCaster()
 	local target = self:GetCursorTarget()
 	local ability = self
@@ -118,29 +118,29 @@ function item_imba_hand_of_midas:OnSpellStart()
 	caster:ModifyGold(bonus_gold, true, 0)
 end
 
-function item_imba_hand_of_midas:GetIntrinsicModifierName()
-	return "modifier_item_imba_hand_of_midas"
+function item_extended_hand_of_midas:GetIntrinsicModifierName()
+	return "modifier_item_extended_hand_of_midas"
 end
 
-modifier_item_imba_hand_of_midas = class({})
+modifier_item_extended_hand_of_midas = class({})
 
-function modifier_item_imba_hand_of_midas:DeclareFunctions()
+function modifier_item_extended_hand_of_midas:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT}
 
 	return decFuncs
 end
 
-function modifier_item_imba_hand_of_midas:GetModifierAttackSpeedBonus_Constant()
+function modifier_item_extended_hand_of_midas:GetModifierAttackSpeedBonus_Constant()
 	local ability = self:GetAbility()	
 	local bonus_attack_speed = ability:GetSpecialValueFor("bonus_attack_speed")
 
 	return bonus_attack_speed
 end
 
-function modifier_item_imba_hand_of_midas:IsHidden()
+function modifier_item_extended_hand_of_midas:IsHidden()
 	return true
 end
 
-function modifier_item_imba_hand_of_midas:IsPermanent()
+function modifier_item_extended_hand_of_midas:IsPermanent()
 	return true
 end

@@ -5,21 +5,21 @@
 --  MASK OF MADNESS  --
 -----------------------
 
-item_imba_mask_of_madness = class({})
-LinkLuaModifier("modifier_imba_mask_of_madness", "items/item_mask_of_madness.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_mask_of_madness_berserk", "items/item_mask_of_madness.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_mask_of_madness_rage", "items/item_mask_of_madness.lua", LUA_MODIFIER_MOTION_NONE)
+item_extended_mask_of_madness = class({})
+LinkLuaModifier("modifier_extended_mask_of_madness", "items/item_mask_of_madness.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_mask_of_madness_berserk", "items/item_mask_of_madness.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_mask_of_madness_rage", "items/item_mask_of_madness.lua", LUA_MODIFIER_MOTION_NONE)
 
 
-function item_imba_mask_of_madness:GetIntrinsicModifierName()
-    return "modifier_imba_mask_of_madness"
+function item_extended_mask_of_madness:GetIntrinsicModifierName()
+    return "modifier_extended_mask_of_madness"
 end
 
-function item_imba_mask_of_madness:OnSpellStart()
+function item_extended_mask_of_madness:OnSpellStart()
     -- Ability properties
     local caster = self:GetCaster()
     local ability = self
-    local modifier_berserk = "modifier_imba_mask_of_madness_berserk"
+    local modifier_berserk = "modifier_extended_mask_of_madness_berserk"
 
     -- Ability specials
     local berserk_duration = ability:GetSpecialValueFor("berserk_duration")
@@ -29,14 +29,14 @@ function item_imba_mask_of_madness:OnSpellStart()
 end
 
 -- Passive MoM modifier
-modifier_imba_mask_of_madness = class({})
+modifier_extended_mask_of_madness = class({})
 
-function modifier_imba_mask_of_madness:OnCreated()        
+function modifier_extended_mask_of_madness:OnCreated()        
         -- Ability properties
         self.caster = self:GetCaster()
         self.ability = self:GetAbility()    
         self.particle_lifesteal = "particles/generic_gameplay/generic_lifesteal.vpcf"
-        self.modifier_rage = "modifier_imba_mask_of_madness_rage"   
+        self.modifier_rage = "modifier_extended_mask_of_madness_rage"   
 
         -- Ability specials
         self.damage_bonus = self.ability:GetSpecialValueFor("damage_bonus")
@@ -50,14 +50,14 @@ function modifier_imba_mask_of_madness:OnCreated()
     end
 end
 
-function modifier_imba_mask_of_madness:DeclareFunctions()
+function modifier_extended_mask_of_madness:DeclareFunctions()
     local decFunc = {MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE,
                      MODIFIER_EVENT_ON_ATTACK_LANDED}
 
     return decFunc
 end
 
-function modifier_imba_mask_of_madness:GetModifierPreAttack_BonusDamage()    
+function modifier_extended_mask_of_madness:GetModifierPreAttack_BonusDamage()    
     local damage_bonus = self.damage_bonus
 
     -- Check for rage!!
@@ -68,7 +68,7 @@ function modifier_imba_mask_of_madness:GetModifierPreAttack_BonusDamage()
     return damage_bonus
 end
 
-function modifier_imba_mask_of_madness:OnAttackLanded(keys)
+function modifier_extended_mask_of_madness:OnAttackLanded(keys)
     if IsServer() then
         local attacker = keys.attacker
         local target = keys.target
@@ -107,34 +107,34 @@ function modifier_imba_mask_of_madness:OnAttackLanded(keys)
     end
 end
 
-function modifier_imba_mask_of_madness:OnDestroy()
+function modifier_extended_mask_of_madness:OnDestroy()
     if IsServer() then
         -- Remove lifesteal projectile
         ChangeAttackProjectileImba(self.caster) 
     end
 end
 
-function modifier_imba_mask_of_madness:IsHidden()
+function modifier_extended_mask_of_madness:IsHidden()
     return true
 end
 
-function modifier_imba_mask_of_madness:IsPurgable()
+function modifier_extended_mask_of_madness:IsPurgable()
     return false
 end
 
-function modifier_imba_mask_of_madness:IsDebuff()
+function modifier_extended_mask_of_madness:IsDebuff()
     return false
 end
 
 
 -- Berserk modifier
-modifier_imba_mask_of_madness_berserk = class({})
+modifier_extended_mask_of_madness_berserk = class({})
 
-function modifier_imba_mask_of_madness_berserk:OnCreated()
+function modifier_extended_mask_of_madness_berserk:OnCreated()
     -- Ability properties
     self.caster = self:GetCaster()
     self.ability = self:GetAbility() 
-    self.modifier_rage = "modifier_imba_mask_of_madness_rage"   
+    self.modifier_rage = "modifier_extended_mask_of_madness_rage"   
     self.sound_rage = "Hero_Clinkz.Strafe"
 
     -- Ability specials
@@ -149,7 +149,7 @@ function modifier_imba_mask_of_madness_berserk:OnCreated()
     end
 end
 
-function modifier_imba_mask_of_madness_berserk:OnIntervalThink()
+function modifier_extended_mask_of_madness_berserk:OnIntervalThink()
     if IsServer() then
         -- If caster isn't raging, do nothing
         if not self.caster:HasModifier(self.modifier_rage) then
@@ -178,15 +178,15 @@ function modifier_imba_mask_of_madness_berserk:OnIntervalThink()
     end
 end
 
-function modifier_imba_mask_of_madness_berserk:GetEffectName()
+function modifier_extended_mask_of_madness_berserk:GetEffectName()
          return "particles/items2_fx/mask_of_madness.vpcf"          
 end
 
-function modifier_imba_mask_of_madness_berserk:GetEffectAttachType()
+function modifier_extended_mask_of_madness_berserk:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
 end
 
-function modifier_imba_mask_of_madness_berserk:DeclareFunctions()
+function modifier_extended_mask_of_madness_berserk:DeclareFunctions()
     local decFunc = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
                     MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
                     MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
@@ -195,7 +195,7 @@ function modifier_imba_mask_of_madness_berserk:DeclareFunctions()
     return decFunc
 end
 
-function modifier_imba_mask_of_madness_berserk:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_mask_of_madness_berserk:GetModifierMoveSpeedBonus_Percentage()
     local ms_bonus = self.berserk_ms_bonus_pct
 
     -- In a rage!! Get move speed bonus
@@ -206,20 +206,20 @@ function modifier_imba_mask_of_madness_berserk:GetModifierMoveSpeedBonus_Percent
     return ms_bonus
 end
 
-function modifier_imba_mask_of_madness_berserk:GetModifierAttackSpeedBonus_Constant()
+function modifier_extended_mask_of_madness_berserk:GetModifierAttackSpeedBonus_Constant()
     return self.berserk_attack_speed
 end
 
-function modifier_imba_mask_of_madness_berserk:GetModifierPhysicalArmorBonus()
+function modifier_extended_mask_of_madness_berserk:GetModifierPhysicalArmorBonus()
     return self.berserk_armor_reduction * (-1)
 end
 
-function modifier_imba_mask_of_madness_berserk:CheckState()
+function modifier_extended_mask_of_madness_berserk:CheckState()
     local state = {[MODIFIER_STATE_SILENCED] = true}
     return state
 end
 
-function modifier_imba_mask_of_madness_berserk:OnAttackLanded(keys)
+function modifier_extended_mask_of_madness_berserk:OnAttackLanded(keys)
     if IsServer() then
         local target = keys.target
         local attacker = keys.attacker
@@ -244,7 +244,7 @@ function modifier_imba_mask_of_madness_berserk:OnAttackLanded(keys)
     end
 end
 
-function modifier_imba_mask_of_madness_berserk:OnDestroy()
+function modifier_extended_mask_of_madness_berserk:OnDestroy()
     if IsServer() then
         -- Remove rage
         if self.caster:HasModifier(self.modifier_rage) then
@@ -253,43 +253,43 @@ function modifier_imba_mask_of_madness_berserk:OnDestroy()
     end
 end
 
-function modifier_imba_mask_of_madness_berserk:IsHidden()
+function modifier_extended_mask_of_madness_berserk:IsHidden()
     return false
 end
 
-function modifier_imba_mask_of_madness_berserk:IsPurgable()
+function modifier_extended_mask_of_madness_berserk:IsPurgable()
     return false
 end
 
-function modifier_imba_mask_of_madness_berserk:IsDebuff()
+function modifier_extended_mask_of_madness_berserk:IsDebuff()
     return false
 end
 
 
 -- Rage modifier
-modifier_imba_mask_of_madness_rage = class({})
+modifier_extended_mask_of_madness_rage = class({})
 
-function modifier_imba_mask_of_madness_rage:CheckState()
+function modifier_extended_mask_of_madness_rage:CheckState()
     local state = {[MODIFIER_STATE_COMMAND_RESTRICTED] = true}
     return state
 end
 
-function modifier_imba_mask_of_madness_rage:IsHidden()
+function modifier_extended_mask_of_madness_rage:IsHidden()
     return false
 end
 
-function modifier_imba_mask_of_madness_rage:IsPurgable()
+function modifier_extended_mask_of_madness_rage:IsPurgable()
     return false
 end
 
-function modifier_imba_mask_of_madness_rage:IsDebuff()
+function modifier_extended_mask_of_madness_rage:IsDebuff()
     return false
 end
 
-function modifier_imba_mask_of_madness_rage:GetEffectName()
+function modifier_extended_mask_of_madness_rage:GetEffectName()
     return "particles/econ/items/drow/drow_head_mania/mask_of_madness_active_mania.vpcf"
 end
 
-function modifier_imba_mask_of_madness_rage:GetEffectAttachType()
+function modifier_extended_mask_of_madness_rage:GetEffectAttachType()
     return PATTACH_OVERHEAD_FOLLOW
 end

@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------------------------
--- IMBA: Game settings
+-- EXTENDED: Game settings
 -------------------------------------------------------------------------------------------------
 
-IMBA_VERSION = "6.88"						-- Tracks game version
+EXTENDED_VERSION = "6.88"						-- Tracks game version
 
 -------------------------------------------------------------------------------------------------
 -- Barebones basics
@@ -68,7 +68,7 @@ MINIMUM_ATTACK_SPEED = 10					-- What should we use for the minimum attack speed
 DOTA_MAX_PLAYERS = 20						-- Maximum amount of players allowed in a game
 
 -------------------------------------------------------------------------------------------------
--- IMBA: gameplay globals
+-- EXTENDED: gameplay globals
 -------------------------------------------------------------------------------------------------
 
 BUYBACK_COOLDOWN_ENABLED = true												-- Is the buyback cooldown enabled?
@@ -88,7 +88,7 @@ FULL_ABANDON_TIME = 15														-- Time for a team to be considered as havin
 ROSHAN_RESPAWN_TIME = 30													-- Roshan respawn timer (in seconds)
 AEGIS_DURATION = 300														-- Aegis expiration timer (in seconds)
 
-IMBA_DAMAGE_EFFECTS_DISTANCE_CUTOFF = 2500									-- Range at which most on-damage effects no longer trigger
+EXTENDED_DAMAGE_EFFECTS_DISTANCE_CUTOFF = 2500									-- Range at which most on-damage effects no longer trigger
 
 COMEBACK_BOUNTY_SCORE = {}													-- Extra comeback gold based on hero and tower kills
 COMEBACK_BOUNTY_SCORE[DOTA_TEAM_GOODGUYS] = 0
@@ -137,18 +137,18 @@ SPELL_POWER_TALENTS["special_bonus_spell_amplify_20"] = 50
 SPELL_POWER_TALENTS["special_bonus_spell_amplify_25"] = 60
 
 ITEM_SPELL_POWER = {}														-- Spell power item values
-ITEM_SPELL_POWER["item_imba_aether_lens"] = 10
-ITEM_SPELL_POWER["item_imba_nether_wand"] = 10
-ITEM_SPELL_POWER["item_imba_elder_staff"] = 20
-ITEM_SPELL_POWER["item_imba_orchid"] = 25
-ITEM_SPELL_POWER["item_imba_bloodthorn"] = 30
-ITEM_SPELL_POWER["item_imba_rapier_magic"] = 70
-ITEM_SPELL_POWER["item_imba_rapier_magic_2"] = 200
-ITEM_SPELL_POWER["item_imba_rapier_cursed"] = 200
+ITEM_SPELL_POWER["item_extended_aether_lens"] = 10
+ITEM_SPELL_POWER["item_extended_nether_wand"] = 10
+ITEM_SPELL_POWER["item_extended_elder_staff"] = 20
+ITEM_SPELL_POWER["item_extended_orchid"] = 25
+ITEM_SPELL_POWER["item_extended_bloodthorn"] = 30
+ITEM_SPELL_POWER["item_extended_rapier_magic"] = 70
+ITEM_SPELL_POWER["item_extended_rapier_magic_2"] = 200
+ITEM_SPELL_POWER["item_extended_rapier_cursed"] = 200
 
 MODIFIER_SPELL_POWER = {}													-- Spell power modifier values
-MODIFIER_SPELL_POWER["modifier_imba_rune_double_damage_owner"] = 50
-MODIFIER_SPELL_POWER["modifier_imba_rune_double_damage_aura"] = 20
+MODIFIER_SPELL_POWER["modifier_extended_rune_double_damage_owner"] = 50
+MODIFIER_SPELL_POWER["modifier_extended_rune_double_damage_aura"] = 20
 
 CAST_RANGE_TALENTS = {}														-- Cast range talent values
 CAST_RANGE_TALENTS["special_bonus_cast_range_50"] = 100
@@ -163,11 +163,11 @@ CAST_RANGE_TALENTS["special_bonus_cast_range_250"] = 450
 CAST_RANGE_TALENTS["special_bonus_cast_range_300"] = 500
 
 -------------------------------------------------------------------------------------------------
--- IMBA: map-based settings
+-- EXTENDED: map-based settings
 -------------------------------------------------------------------------------------------------
 
 MAX_NUMBER_OF_TEAMS = 2														-- How many potential teams can be in this game mode?
-IMBA_PLAYERS_ON_GAME = 10													-- Number of players in the game
+EXTENDED_PLAYERS_ON_GAME = 10													-- Number of players in the game
 USE_CUSTOM_TEAM_COLORS = false												-- Should we use custom team colors?
 USE_CUSTOM_TEAM_COLORS_FOR_PLAYERS = false									-- Should we use custom team colors to color the players/minimap?
 
@@ -220,26 +220,26 @@ CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_CUSTOM_6] = 0
 CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_CUSTOM_7] = 0
 CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_CUSTOM_8] = 0
 
-if GetMapName() == "imba_standard" then
-	IMBA_PICK_MODE_ALL_PICK = true
-elseif GetMapName() == "imba_random_omg" then
-	IMBA_ABILITY_MODE_RANDOM_OMG = true
-elseif GetMapName() == "imba_custom" then
-	IMBA_PICK_MODE_ALL_PICK = true
-elseif GetMapName() == "imba_10v10" then
-	IMBA_PICK_MODE_ALL_PICK = true
-	IMBA_PLAYERS_ON_GAME = 20
+if GetMapName() == "extended_standard" then
+	EXTENDED_PICK_MODE_ALL_PICK = true
+elseif GetMapName() == "extended_random_omg" then
+	EXTENDED_ABILITY_MODE_RANDOM_OMG = true
+elseif GetMapName() == "extended_custom" then
+	EXTENDED_PICK_MODE_ALL_PICK = true
+elseif GetMapName() == "extended_10v10" then
+	EXTENDED_PICK_MODE_ALL_PICK = true
+	EXTENDED_PLAYERS_ON_GAME = 20
 	CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_GOODGUYS] = 10
 	CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_BADGUYS]  = 10
-elseif GetMapName() == "imba_arena" then
-	IMBA_PICK_MODE_ALL_PICK = true
-	IMBA_PLAYERS_ON_GAME = 16
+elseif GetMapName() == "extended_arena" then
+	EXTENDED_PICK_MODE_ALL_PICK = true
+	EXTENDED_PLAYERS_ON_GAME = 16
 	CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_GOODGUYS] = 8
 	CUSTOM_TEAM_PLAYER_COUNT[DOTA_TEAM_BADGUYS]  = 8
 end
 
 -------------------------------------------------------------------------------------------------
--- IMBA: game mode globals
+-- EXTENDED: game mode globals
 -------------------------------------------------------------------------------------------------
 
 GAME_WINNER_TEAM = "none"													-- Tracks game winner
@@ -250,14 +250,14 @@ KILLS_TO_END_GAME_FOR_TEAM = 70												-- How many kills for a team should s
 			
 ALLOW_SAME_HERO_SELECTION = true											-- Allows people to select the same hero as each other if true
 
-IMBA_HYPER_MODE_ON = false													-- Is Hyper mode activated?
-IMBA_FRANTIC_MODE_ON = false												-- Is Frantic mode activated?
+EXTENDED_HYPER_MODE_ON = false													-- Is Hyper mode activated?
+EXTENDED_FRANTIC_MODE_ON = false												-- Is Frantic mode activated?
 
-IMBA_PICK_MODE_ALL_RANDOM = false											-- Activates All Random mode when true
-IMBA_ALL_RANDOM_HERO_SELECTION_TIME = 5.0									-- Time we need to wait before the game starts when all heroes are randomed
+EXTENDED_PICK_MODE_ALL_RANDOM = false											-- Activates All Random mode when true
+EXTENDED_ALL_RANDOM_HERO_SELECTION_TIME = 5.0									-- Time we need to wait before the game starts when all heroes are randomed
 
-IMBA_RANDOM_OMG_NORMAL_ABILITY_COUNT = 5									-- Number of regular abilities in Random OMG mode
-IMBA_RANDOM_OMG_ULTIMATE_ABILITY_COUNT = 1									-- Number of ultimate abilities in Random OMG mode
+EXTENDED_RANDOM_OMG_NORMAL_ABILITY_COUNT = 5									-- Number of regular abilities in Random OMG mode
+EXTENDED_RANDOM_OMG_ULTIMATE_ABILITY_COUNT = 1									-- Number of ultimate abilities in Random OMG mode
 
 CUSTOM_GOLD_BONUS = 30														-- Amount of bonus gold gained (in %)
 CUSTOM_XP_BONUS = 30														-- Amount of bonus XP gained (in %)
@@ -303,7 +303,7 @@ USE_CUSTOM_HERO_LEVELS = true												-- Should we allow heroes to have custo
 MAX_LEVEL = 40																-- What level should we let heroes get to?
 
 -- Changes settings according to the current map
-if GetMapName() == "imba_standard" then										-- Standard map defaults
+if GetMapName() == "extended_standard" then										-- Standard map defaults
 	END_GAME_ON_KILLS = false
 	CUSTOM_GOLD_BONUS = 35
 	CUSTOM_XP_BONUS = 35
@@ -316,7 +316,7 @@ if GetMapName() == "imba_standard" then										-- Standard map defaults
 	HERO_RANDOM_GOLD = 825
 	HERO_STARTING_LEVEL = 1
 	MAX_LEVEL = 40
-elseif GetMapName() == "imba_random_omg" then								-- ROMG map defaults
+elseif GetMapName() == "extended_random_omg" then								-- ROMG map defaults
 	END_GAME_ON_KILLS = false
 	CUSTOM_GOLD_BONUS = 35
 	CUSTOM_XP_BONUS = 35
@@ -329,8 +329,8 @@ elseif GetMapName() == "imba_random_omg" then								-- ROMG map defaults
 	HERO_RANDOM_GOLD = 825
 	HERO_STARTING_LEVEL = 1
 	MAX_LEVEL = 40
-	IMBA_PICK_MODE_ALL_RANDOM = true
-elseif GetMapName() == "imba_custom" then									-- Custom map defaults
+	EXTENDED_PICK_MODE_ALL_RANDOM = true
+elseif GetMapName() == "extended_custom" then									-- Custom map defaults
 	END_GAME_ON_KILLS = false
 	CUSTOM_GOLD_BONUS = 150
 	CUSTOM_XP_BONUS = 150
@@ -343,7 +343,7 @@ elseif GetMapName() == "imba_custom" then									-- Custom map defaults
 	HERO_RANDOM_GOLD = 2400
 	HERO_STARTING_LEVEL = 5
 	MAX_LEVEL = 50
-elseif GetMapName() == "imba_10v10" then									-- 10v10 map defaults
+elseif GetMapName() == "extended_10v10" then									-- 10v10 map defaults
 	END_GAME_ON_KILLS = false
 	CUSTOM_GOLD_BONUS = 60
 	CUSTOM_XP_BONUS = 60
@@ -356,7 +356,7 @@ elseif GetMapName() == "imba_10v10" then									-- 10v10 map defaults
 	HERO_RANDOM_GOLD = 2400
 	HERO_STARTING_LEVEL = 5
 	MAX_LEVEL = 40
-elseif GetMapName() == "imba_arena" then									-- Arena map defaults
+elseif GetMapName() == "extended_arena" then									-- Arena map defaults
 	END_GAME_ON_KILLS = true
 	TOWER_ABILITY_MODE = false
 	TOWER_UPGRADE_MODE = false
@@ -381,7 +381,7 @@ elseif GetMapName() == "imba_arena" then									-- Arena map defaults
 end
 
 -- Update game mode net tables
-CustomNetTables:SetTableValue("game_options", "all_random", {IMBA_PICK_MODE_ALL_RANDOM})
+CustomNetTables:SetTableValue("game_options", "all_random", {EXTENDED_PICK_MODE_ALL_RANDOM})
 CustomNetTables:SetTableValue("game_options", "tower_upgrades", {TOWER_UPGRADE_MODE})
 CustomNetTables:SetTableValue("game_options", "kills_to_end", {KILLS_TO_END_GAME_FOR_TEAM})
 CustomNetTables:SetTableValue("game_options", "bounty_multiplier", {100 + CUSTOM_GOLD_BONUS})
@@ -447,7 +447,7 @@ USE_MEME_SOUNDS = true														-- Should we use meme/fun sounds on abilitie
 IS_BANNED_PLAYER = false													-- Is this player banned from playing the game?
 
 -------------------------------------------------------------------------------------------------
--- IMBA: Keyvalue tables
+-- EXTENDED: Keyvalue tables
 -------------------------------------------------------------------------------------------------
 
 HERO_ABILITY_LIST = LoadKeyValues("scripts/npc//KV/nonhidden_ability_list.kv")

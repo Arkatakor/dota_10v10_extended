@@ -1,4 +1,4 @@
---[[	Author: d2imba
+--[[	Author: d2extended
 		Date:	24.06.2015	]]
 
 function HalberdCast( keys )		
@@ -50,13 +50,13 @@ function Maim( keys )
 	end
 
 	-- If a higher-priority maim debuff is present, do nothing
-	if target:HasModifier("modifier_item_imba_sange_and_yasha_maim_stacks") or target:HasModifier("modifier_item_imba_sange_and_azura_stack") or target:HasModifier("modifier_item_imba_sange_and_azura_and_yasha_maim_stack") then
+	if target:HasModifier("modifier_item_extended_sange_and_yasha_maim_stacks") or target:HasModifier("modifier_item_extended_sange_and_azura_stack") or target:HasModifier("modifier_item_extended_sange_and_azura_and_yasha_maim_stack") then
 		return nil
 	end
 
 	-- If a lower-priority maim debuff is present, remove it
-	target:RemoveModifierByName("modifier_item_imba_sange_maim")
-	target:RemoveModifierByName("modifier_item_imba_silver_edge_maim")
+	target:RemoveModifierByName("modifier_item_extended_sange_maim")
+	target:RemoveModifierByName("modifier_item_extended_silver_edge_maim")
 
 	-- Parameters
 	local maim_base = ability:GetLevelSpecialValueFor("maim_base", ability_level)

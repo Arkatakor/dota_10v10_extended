@@ -7,29 +7,29 @@ CreateEmptyTalents("centaur")
 -- 		   Thick Hide          --
 ---------------------------------
 
-imba_centaur_thick_hide = class({})
-LinkLuaModifier("modifier_imba_thick_hide", "hero/hero_centaur.lua", LUA_MODIFIER_MOTION_NONE)
+extended_centaur_thick_hide = class({})
+LinkLuaModifier("modifier_extended_thick_hide", "hero/hero_centaur.lua", LUA_MODIFIER_MOTION_NONE)
 
-function imba_centaur_thick_hide:GetIntrinsicModifierName()
-	return "modifier_imba_thick_hide"
+function extended_centaur_thick_hide:GetIntrinsicModifierName()
+	return "modifier_extended_thick_hide"
 end
 
 -- Thick hide modifier
-modifier_imba_thick_hide = class({})
+modifier_extended_thick_hide = class({})
 
-function modifier_imba_thick_hide:OnCreated()
+function modifier_extended_thick_hide:OnCreated()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	self.damage_reduction_pct = self.ability:GetSpecialValueFor("damage_reduction_pct")
 end
 
-function modifier_imba_thick_hide:DeclareFunctions()	
+function modifier_extended_thick_hide:DeclareFunctions()	
 		local decFuncs = {MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE}
 		
 		return decFuncs	
 end
 
-function modifier_imba_thick_hide:GetModifierIncomingDamage_Percentage()
+function modifier_extended_thick_hide:GetModifierIncomingDamage_Percentage()
 	-- Does nothing if hero has break
 	if self.caster:PassivesDisabled() then
 		return nil
@@ -44,17 +44,17 @@ end
 ---------------------------------
 
 
-imba_centaur_hoof_stomp = class({})
-LinkLuaModifier("modifier_imba_hoof_stomp_stun", "hero/hero_centaur.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_hoof_stomp_arena_debuff", "hero/hero_centaur.lua", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_hoof_stomp_arena_buff", "hero/hero_centaur.lua", LUA_MODIFIER_MOTION_NONE)
+extended_centaur_hoof_stomp = class({})
+LinkLuaModifier("modifier_extended_hoof_stomp_stun", "hero/hero_centaur.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_hoof_stomp_arena_debuff", "hero/hero_centaur.lua", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_hoof_stomp_arena_buff", "hero/hero_centaur.lua", LUA_MODIFIER_MOTION_NONE)
 
 
-function imba_centaur_hoof_stomp:IsHiddenWhenStolen()
+function extended_centaur_hoof_stomp:IsHiddenWhenStolen()
 	return false
 end
 
-function imba_centaur_hoof_stomp:OnSpellStart()
+function extended_centaur_hoof_stomp:OnSpellStart()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -64,9 +64,9 @@ function imba_centaur_hoof_stomp:OnSpellStart()
 		local sound_cast = "Hero_Centaur.HoofStomp"	
 		local cast_response = "centaur_cent_hoof_stomp_0"..RandomInt(1, 2)
 		local kill_response = "centaur_cent_hoof_stomp_0"..RandomInt(4, 5)
-		local modifier_arena_debuff = "modifier_imba_hoof_stomp_arena_debuff"
-		local modifier_arena_buff = "modifier_imba_hoof_stomp_arena_buff"
-		local modifier_stun = "modifier_imba_hoof_stomp_stun"
+		local modifier_arena_debuff = "modifier_extended_hoof_stomp_arena_debuff"
+		local modifier_arena_buff = "modifier_extended_hoof_stomp_arena_buff"
+		local modifier_stun = "modifier_extended_hoof_stomp_stun"
 		local arena_center = caster:GetAbsOrigin()
 
 		-- Ability specials
@@ -76,11 +76,11 @@ function imba_centaur_hoof_stomp:OnSpellStart()
 		local pit_duration = ability:GetSpecialValueFor("pit_duration")	
 
 		-- #4 Talent: Radius increase for Hoof Stomp		
-		radius = radius + caster:FindTalentValue("special_bonus_imba_centaur_4")		
+		radius = radius + caster:FindTalentValue("special_bonus_extended_centaur_4")		
 
 		-- #5 Talent: Arena/stun duration increase		
-		stun_duration = stun_duration + caster:FindTalentValue("special_bonus_imba_centaur_5")
-		pit_duration = pit_duration + caster:FindTalentValue("special_bonus_imba_centaur_5")		
+		stun_duration = stun_duration + caster:FindTalentValue("special_bonus_extended_centaur_5")
+		pit_duration = pit_duration + caster:FindTalentValue("special_bonus_extended_centaur_5")		
 
 		-- Roll for cast response
 		local cast_response_chance = 50
@@ -157,7 +157,7 @@ function imba_centaur_hoof_stomp:OnSpellStart()
 		end
 
 		-- #2 Talent: Arena buff to allies as well
-		if caster:HasTalent("special_bonus_imba_centaur_2") then
+		if caster:HasTalent("special_bonus_extended_centaur_2") then
 			-- Mark caster
 			caster.has_arena_talent2 = true
 
@@ -268,39 +268,39 @@ function imba_centaur_hoof_stomp:OnSpellStart()
 end
 
 -- Stun modifier
-modifier_imba_hoof_stomp_stun = class({})
+modifier_extended_hoof_stomp_stun = class({})
 
-function modifier_imba_hoof_stomp_stun:GetEffectName()
+function modifier_extended_hoof_stomp_stun:GetEffectName()
 	return "particles/generic_gameplay/generic_stunned.vpcf"
 end
 
-function modifier_imba_hoof_stomp_stun:GetEffectAttachType()
+function modifier_extended_hoof_stomp_stun:GetEffectAttachType()
 	return PATTACH_OVERHEAD_FOLLOW
 end
 
-function modifier_imba_hoof_stomp_stun:CheckState()	
+function modifier_extended_hoof_stomp_stun:CheckState()	
 			local state = {[MODIFIER_STATE_STUNNED] = true}
 			return state	
 end
 
-function modifier_imba_hoof_stomp_stun:IsDebuff()
+function modifier_extended_hoof_stomp_stun:IsDebuff()
 	return true
 end
 
-function modifier_imba_hoof_stomp_stun:IsStunDebuff()
+function modifier_extended_hoof_stomp_stun:IsStunDebuff()
 	return true
 end
 
-function modifier_imba_hoof_stomp_stun:IsHidden()
+function modifier_extended_hoof_stomp_stun:IsHidden()
 	return false
 end
 
 
 
 -- Arena debuff (enemies)
-modifier_imba_hoof_stomp_arena_debuff = class({})
+modifier_extended_hoof_stomp_arena_debuff = class({})
 
-function modifier_imba_hoof_stomp_arena_debuff:OnCreated()			
+function modifier_extended_hoof_stomp_arena_debuff:OnCreated()			
 	-- Ability properties
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
@@ -322,7 +322,7 @@ function modifier_imba_hoof_stomp_arena_debuff:OnCreated()
 	end	
 end
 
-function modifier_imba_hoof_stomp_arena_debuff:OnIntervalThink()
+function modifier_extended_hoof_stomp_arena_debuff:OnIntervalThink()
 	if IsServer() then
 		-- Calculate distance				
 		local distance = (self.parent:GetAbsOrigin() - self.arena_center):Length2D()		
@@ -339,18 +339,18 @@ function modifier_imba_hoof_stomp_arena_debuff:OnIntervalThink()
 	end
 end
 
-function modifier_imba_hoof_stomp_arena_debuff:IsPurgable()
+function modifier_extended_hoof_stomp_arena_debuff:IsPurgable()
 	return false
 end
 
-function modifier_imba_hoof_stomp_arena_debuff:IsDebuff()
+function modifier_extended_hoof_stomp_arena_debuff:IsDebuff()
 	return true
 end
 
 -- Arena buff
-modifier_imba_hoof_stomp_arena_buff = class({})
+modifier_extended_hoof_stomp_arena_buff = class({})
 
-function modifier_imba_hoof_stomp_arena_buff:OnCreated()			
+function modifier_extended_hoof_stomp_arena_buff:OnCreated()			
 	-- Ability properties
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
@@ -372,7 +372,7 @@ function modifier_imba_hoof_stomp_arena_buff:OnCreated()
 	
 end
 
-function modifier_imba_hoof_stomp_arena_buff:OnIntervalThink()
+function modifier_extended_hoof_stomp_arena_buff:OnIntervalThink()
 	if IsServer() then
 		-- Calculate distance				
 		local distance = (self.parent:GetAbsOrigin() - self.arena_center):Length2D()		
@@ -384,21 +384,21 @@ function modifier_imba_hoof_stomp_arena_buff:OnIntervalThink()
 	end
 end
 
-function modifier_imba_hoof_stomp_arena_buff:DeclareFunctions()	
+function modifier_extended_hoof_stomp_arena_buff:DeclareFunctions()	
 		local decFuncs = {MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE}
 		
 		return decFuncs	
 end
 
-function modifier_imba_hoof_stomp_arena_buff:GetModifierIncomingDamage_Percentage()	
+function modifier_extended_hoof_stomp_arena_buff:GetModifierIncomingDamage_Percentage()	
 	return self.pit_dmg_reduction * (-1)	
 end
 
-function modifier_imba_hoof_stomp_arena_buff:IsPurgable()
+function modifier_extended_hoof_stomp_arena_buff:IsPurgable()
 	return false
 end
 
-function modifier_imba_hoof_stomp_arena_buff:IsDebuff()
+function modifier_extended_hoof_stomp_arena_buff:IsDebuff()
 	return false
 end
 
@@ -409,14 +409,14 @@ end
 ---------------------------------
 
 
-imba_centaur_double_edge = class({})
-LinkLuaModifier("modifier_imba_double_edge_death_prevent", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
+extended_centaur_double_edge = class({})
+LinkLuaModifier("modifier_extended_double_edge_death_prevent", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
 
-function imba_centaur_double_edge:IsHiddenWhenStolen()
+function extended_centaur_double_edge:IsHiddenWhenStolen()
 	return false
 end
 
-function imba_centaur_double_edge:OnSpellStart()
+function extended_centaur_double_edge:OnSpellStart()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -426,7 +426,7 @@ function imba_centaur_double_edge:OnSpellStart()
 		local cast_response
 		local kill_response = "centaur_cent_doub_edge_0"..RandomInt(5, 6)
 		local particle_edge = "particles/units/heroes/hero_centaur/centaur_double_edge.vpcf"		
-		local modifier_prevent = "modifier_imba_double_edge_death_prevent"
+		local modifier_prevent = "modifier_extended_double_edge_death_prevent"
 
 		-- Ability specials
 		local damage = ability:GetSpecialValueFor("damage")
@@ -434,7 +434,7 @@ function imba_centaur_double_edge:OnSpellStart()
 		local str_damage_reduction = ability:GetSpecialValueFor("str_damage_reduction")
 
 		-- #3 Talent: Radius increase for Double Edge		
-		radius = radius + caster:FindTalentValue("special_bonus_imba_centaur_3")		
+		radius = radius + caster:FindTalentValue("special_bonus_extended_centaur_3")		
 
 		-- Cast responses are troublesome for this spell so they get their own section
 		-- Roll for a cast response
@@ -538,27 +538,27 @@ end
 
 
 -- Death prevention modifier for the caster
-modifier_imba_double_edge_death_prevent = class({})
+modifier_extended_double_edge_death_prevent = class({})
 
-function modifier_imba_double_edge_death_prevent:IsHidden()
+function modifier_extended_double_edge_death_prevent:IsHidden()
 	return true
 end
 
-function modifier_imba_double_edge_death_prevent:IsPurgable()
+function modifier_extended_double_edge_death_prevent:IsPurgable()
 	return false
 end
 
-function modifier_imba_double_edge_death_prevent:IsDebuff()
+function modifier_extended_double_edge_death_prevent:IsDebuff()
 	return false
 end
 
-function modifier_imba_double_edge_death_prevent:DeclareFunctions()
+function modifier_extended_double_edge_death_prevent:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_MIN_HEALTH}
 
 	return decFuncs
 end
 
-function modifier_imba_double_edge_death_prevent:GetMinHealth()
+function modifier_extended_double_edge_death_prevent:GetMinHealth()
 	return 1
 end
 
@@ -568,19 +568,19 @@ end
 -- 		   Return 		       --
 ---------------------------------
 
-imba_centaur_return = class({})
-LinkLuaModifier("modifier_imba_return_aura", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_return_passive", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_return_damage_block", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
+extended_centaur_return = class({})
+LinkLuaModifier("modifier_extended_return_aura", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_return_passive", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_return_damage_block", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
 
-function imba_centaur_return:GetIntrinsicModifierName()
-	return "modifier_imba_return_aura"
+function extended_centaur_return:GetIntrinsicModifierName()
+	return "modifier_extended_return_aura"
 end
 
 -- Return Aura
-modifier_imba_return_aura = class({})
+modifier_extended_return_aura = class({})
 
-function modifier_imba_return_aura:OnCreated()
+function modifier_extended_return_aura:OnCreated()
 	-- Ability properties
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
@@ -589,13 +589,13 @@ function modifier_imba_return_aura:OnCreated()
 	self.aura_radius = self.ability:GetSpecialValueFor("aura_radius")
 end
 
-function modifier_imba_return_aura:GetAuraEntityReject(target)	
+function modifier_extended_return_aura:GetAuraEntityReject(target)	
 	-- Check the target for aura validity
 	if self.caster == target then
 		return false -- allow aura on caster
 	else 
 		-- #6 Talent: Return becomes an aura
-		if self.caster:HasTalent("special_bonus_imba_centaur_6") then
+		if self.caster:HasTalent("special_bonus_extended_centaur_6") then
 			return false		
 		end
 	end
@@ -603,56 +603,56 @@ function modifier_imba_return_aura:GetAuraEntityReject(target)
 	return true
 end
 
-function modifier_imba_return_aura:GetAuraRadius()
+function modifier_extended_return_aura:GetAuraRadius()
 	return self.aura_radius
 end
 
-function modifier_imba_return_aura:GetAuraSearchFlags()
+function modifier_extended_return_aura:GetAuraSearchFlags()
 	return DOTA_UNIT_TARGET_FLAG_NONE
 end
 
-function modifier_imba_return_aura:GetAuraSearchTeam()
+function modifier_extended_return_aura:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_FRIENDLY
 end
 
-function modifier_imba_return_aura:GetAuraSearchType()
+function modifier_extended_return_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
-function modifier_imba_return_aura:GetModifierAura()
-	return "modifier_imba_return_passive"
+function modifier_extended_return_aura:GetModifierAura()
+	return "modifier_extended_return_passive"
 end
 
-function modifier_imba_return_aura:IsAura()
+function modifier_extended_return_aura:IsAura()
 	return true
 end
 
-function modifier_imba_return_aura:IsDebuff()
+function modifier_extended_return_aura:IsDebuff()
 	return false
 end
 
-function modifier_imba_return_aura:IsHidden()
+function modifier_extended_return_aura:IsHidden()
 	return true
 end
 
-function modifier_imba_return_aura:IsPurgable()
+function modifier_extended_return_aura:IsPurgable()
 	return false
 end
 
-function modifier_imba_return_aura:IsPermanent()
+function modifier_extended_return_aura:IsPermanent()
 	return true
 end
 
 -- Return modifier
-modifier_imba_return_passive = class({})
+modifier_extended_return_passive = class({})
 
-function modifier_imba_return_passive:DeclareFunctions()
+function modifier_extended_return_passive:DeclareFunctions()
 	local decFuncs = {MODIFIER_EVENT_ON_ATTACKED}
 
 	return decFuncs
 end
 
-function modifier_imba_return_passive:OnAttacked(keys)
+function modifier_extended_return_passive:OnAttacked(keys)
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -661,7 +661,7 @@ function modifier_imba_return_passive:OnAttacked(keys)
 		local attacker = keys.attacker
 		local target = keys.target
 		local particle_return = "particles/units/heroes/hero_centaur/centaur_return.vpcf"
-		local modifier_damage_block = "modifier_imba_return_damage_block"		
+		local modifier_damage_block = "modifier_extended_return_damage_block"		
 		local particle_block_msg = "particles/msg_fx/msg_block.vpcf"
 
 		-- Ability specials
@@ -671,10 +671,10 @@ function modifier_imba_return_passive:OnAttacked(keys)
 		local block_duration = ability:GetSpecialValueFor("block_duration")	
 
 		-- #1 Talent: Double Edge self-damage reduction		
-		str_pct_as_damage = str_pct_as_damage + caster:FindTalentValue("special_bonus_imba_centaur_1")		
+		str_pct_as_damage = str_pct_as_damage + caster:FindTalentValue("special_bonus_extended_centaur_1")		
 
 		-- #7 Talent: Increased return damage block		
-		damage_block = damage_block + caster:FindTalentValue("special_bonus_imba_centaur_7")		
+		damage_block = damage_block + caster:FindTalentValue("special_bonus_extended_centaur_7")		
 
 		-- Not inherited by illusions
 		if not target:IsRealHero() then
@@ -732,30 +732,30 @@ function modifier_imba_return_passive:OnAttacked(keys)
 	end
 end
 
-function modifier_imba_return_passive:IsHidden()
+function modifier_extended_return_passive:IsHidden()
 	return false
 end
 
-function modifier_imba_return_passive:IsPurgable()
+function modifier_extended_return_passive:IsPurgable()
 	return false
 end
 
-function modifier_imba_return_passive:IsDebuff()
+function modifier_extended_return_passive:IsDebuff()
 	return false
 end
 
 -- Damage block modifier
-modifier_imba_return_damage_block = class({})
+modifier_extended_return_damage_block = class({})
 
-function modifier_imba_return_damage_block:IsHidden()
+function modifier_extended_return_damage_block:IsHidden()
 	return false
 end
 
-function modifier_imba_return_damage_block:IsPurgable()
+function modifier_extended_return_damage_block:IsPurgable()
 	return false
 end
 
-function modifier_imba_return_damage_block:IsDebuff()
+function modifier_extended_return_damage_block:IsDebuff()
 	return false
 end
 
@@ -765,23 +765,23 @@ end
 ---------------------------------	
 
 
-imba_centaur_stampede = class({})
-LinkLuaModifier("modifier_imba_stampede_haste", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_stampede_trample_stun", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_stampede_trample_slow", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
+extended_centaur_stampede = class({})
+LinkLuaModifier("modifier_extended_stampede_haste", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_stampede_trample_stun", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_stampede_trample_slow", "hero/hero_centaur", LUA_MODIFIER_MOTION_NONE)
 
-function imba_centaur_stampede:IsHiddenWhenStolen()
+function extended_centaur_stampede:IsHiddenWhenStolen()
 	return false
 end
 
-function imba_centaur_stampede:OnSpellStart()
+function extended_centaur_stampede:OnSpellStart()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
 		local ability = self
 		local sound_cast = "Hero_Centaur.Stampede.Cast" 
 		local cast_animation = ACT_DOTA_CENTAUR_STAMPEDE		
-		local modifier_haste = "modifier_imba_stampede_haste"
+		local modifier_haste = "modifier_extended_stampede_haste"
 
 		-- Ability specials
 		local duration = ability:GetSpecialValueFor("duration")
@@ -826,17 +826,17 @@ function imba_centaur_stampede:OnSpellStart()
 end
 
 -- Haste modifier
-modifier_imba_stampede_haste = class({})
+modifier_extended_stampede_haste = class({})
 
-function modifier_imba_stampede_haste:OnCreated()	
+function modifier_extended_stampede_haste:OnCreated()	
 	-- Ability properties
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	self.parent = self:GetParent()
 	self.particle_stampede = "particles/units/heroes/hero_centaur/centaur_stampede.vpcf"
 	self.scepter = self.caster:HasScepter()
-	self.modifier_trample_stun = "modifier_imba_stampede_trample_stun"
-	self.modifier_trample_slow = "modifier_imba_stampede_trample_slow"
+	self.modifier_trample_stun = "modifier_extended_stampede_trample_stun"
+	self.modifier_trample_slow = "modifier_extended_stampede_trample_slow"
 
 	-- Ability specials
 	self.strength_damage = self.ability:GetSpecialValueFor("strength_damage")
@@ -867,7 +867,7 @@ function modifier_imba_stampede_haste:OnCreated()
 	end
 end
 
-function modifier_imba_stampede_haste:OnIntervalThink()
+function modifier_extended_stampede_haste:OnIntervalThink()
 	if IsServer() then
 		-- Look for nearby enemies
 		local enemies = FindUnitsInRadius(self.caster:GetTeamNumber(),
@@ -900,9 +900,9 @@ function modifier_imba_stampede_haste:OnIntervalThink()
 				enemy:AddNewModifier(self.caster, self.ability, self.modifier_trample_slow, {duration = self.stun_duration + self.slow_duration})
 
 				-- #8 Talent: Stampede duration increase per trampled enemy
-				if self.caster:HasTalent("special_bonus_imba_centaur_8") and enemy:IsRealHero() then
+				if self.caster:HasTalent("special_bonus_extended_centaur_8") and enemy:IsRealHero() then
 					-- Get bonus duration per trample
-					local bonus_stampede_duration = self.caster:FindTalentValue("special_bonus_imba_centaur_8")
+					local bonus_stampede_duration = self.caster:FindTalentValue("special_bonus_extended_centaur_8")
 
 					-- Find all allies
 					local allies = FindUnitsInRadius(self.caster:GetTeamNumber(),
@@ -917,8 +917,8 @@ function modifier_imba_stampede_haste:OnIntervalThink()
 
 					-- Find their Stampede modifier and increase its duration
 					for _,ally in pairs(allies) do
-						if ally:HasModifier("modifier_imba_stampede_haste") then
-							local modifier_haste_handler = ally:FindModifierByName("modifier_imba_stampede_haste")
+						if ally:HasModifier("modifier_extended_stampede_haste") then
+							local modifier_haste_handler = ally:FindModifierByName("modifier_extended_stampede_haste")
 							modifier_haste_handler:SetDuration(modifier_haste_handler:GetRemainingTime() + bonus_stampede_duration, true)
 						end
 					end
@@ -933,18 +933,18 @@ function modifier_imba_stampede_haste:OnIntervalThink()
 	end
 end
 
-function modifier_imba_stampede_haste:DeclareFunctions()
+function modifier_extended_stampede_haste:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
 					  MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE}
 
 	return decFuncs
 end
 
-function modifier_imba_stampede_haste:GetModifierMoveSpeed_Absolute()
+function modifier_extended_stampede_haste:GetModifierMoveSpeed_Absolute()
 	return self.absolute_move_speed
 end
 
-function modifier_imba_stampede_haste:GetModifierIncomingDamage_Percentage()
+function modifier_extended_stampede_haste:GetModifierIncomingDamage_Percentage()
 	-- Reduce incoming damage if caster has scepter
 	if self.scepter then
 		return self.damage_reduction_scepter * (-1)
@@ -953,7 +953,7 @@ function modifier_imba_stampede_haste:GetModifierIncomingDamage_Percentage()
 	return nil
 end
 
-function modifier_imba_stampede_haste:CheckState()
+function modifier_extended_stampede_haste:CheckState()
 	local state
 
 	-- Gain cliffwalk if the caster has scepter
@@ -967,39 +967,39 @@ function modifier_imba_stampede_haste:CheckState()
 	return state
 end
 
-function modifier_imba_stampede_haste:GetEffectName()
+function modifier_extended_stampede_haste:GetEffectName()
  	return "particles/units/heroes/hero_centaur/centaur_stampede_overhead.vpcf"
 end 
 
-function modifier_imba_stampede_haste:GetEffectAttachType()
+function modifier_extended_stampede_haste:GetEffectAttachType()
 	return PATTACH_OVERHEAD_FOLLOW
 end
 
-function modifier_imba_stampede_haste:IsPurgable()
+function modifier_extended_stampede_haste:IsPurgable()
 	return false
 end
 
-function modifier_imba_stampede_haste:IsHidden()
+function modifier_extended_stampede_haste:IsHidden()
 	return false
 end
 
-function modifier_imba_stampede_haste:IsDebuff()
+function modifier_extended_stampede_haste:IsDebuff()
 	return false
 end
 
 -- Trample stun modifier
-modifier_imba_stampede_trample_stun = class({})
+modifier_extended_stampede_trample_stun = class({})
 
-function modifier_imba_stampede_trample_stun:CheckState()
+function modifier_extended_stampede_trample_stun:CheckState()
 	local state = {[MODIFIER_STATE_STUNNED] = true}
 
 	return state
 end
 
 -- After-trample slow modifier
-modifier_imba_stampede_trample_slow = class({})
+modifier_extended_stampede_trample_slow = class({})
 
-function modifier_imba_stampede_trample_slow:OnCreated()
+function modifier_extended_stampede_trample_slow:OnCreated()
 	-- Ability properties	
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
@@ -1008,12 +1008,12 @@ function modifier_imba_stampede_trample_slow:OnCreated()
 	self.ms_slow_pct = self.ability:GetSpecialValueFor("ms_slow_pct")
 end
 
-function modifier_imba_stampede_trample_slow:DeclareFunctions()
+function modifier_extended_stampede_trample_slow:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
 
 	return decFuncs
 end
 
-function modifier_imba_stampede_trample_slow:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_stampede_trample_slow:GetModifierMoveSpeedBonus_Percentage()
 	return self.ms_slow_pct * (-1)
 end

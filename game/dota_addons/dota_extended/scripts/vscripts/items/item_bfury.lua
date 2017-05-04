@@ -43,7 +43,7 @@ function BattleFuryHit( keys )
 	local target_loc = target:GetAbsOrigin()
 
 	-- If the wielder is melee, increase cleave damage
-	if not caster:IsRangedAttacker() or caster:HasModifier("modifier_imba_berserkers_rage") then
+	if not caster:IsRangedAttacker() or caster:HasModifier("modifier_extended_berserkers_rage") then
 		cleave_damage = ability:GetLevelSpecialValueFor("melee_cleave_damage", ability_level)
 	end
 

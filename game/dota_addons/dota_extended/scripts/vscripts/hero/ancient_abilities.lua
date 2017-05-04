@@ -50,7 +50,7 @@ function AncientThink( keys )
 	local tier_3_ability = caster:GetAbilityByIndex(6 + behemoth_adjustment)
 
 	-- If health < 40%, refresh abilities once
-	if (( ancient_health < 0.40 and IMBA_PLAYERS_ON_GAME == 20 ) and not caster.abilities_refreshed ) then
+	if (( ancient_health < 0.40 and EXTENDED_PLAYERS_ON_GAME == 20 ) and not caster.abilities_refreshed ) then
 		caster.tier_1_cast = false
 		caster.tier_3_cast = false
 		tier_1_ability:SetActivated(true)
@@ -112,7 +112,7 @@ function AncientAttacked( keys )
 	local tier_3_ability = caster:GetAbilityByIndex(6 + behemoth_adjustment)
 
 	-- If health < 40%, refresh abilities once
-	if (( ancient_health < 0.40 and IMBA_PLAYERS_ON_GAME == 20 ) and not caster.abilities_refreshed ) then
+	if (( ancient_health < 0.40 and EXTENDED_PLAYERS_ON_GAME == 20 ) and not caster.abilities_refreshed ) then
 		caster.tier_1_cast = false
 		caster.tier_3_cast = false
 		tier_1_ability:SetActivated(true)
@@ -186,7 +186,7 @@ function SpawnRadiantBehemoth( keys )
 			
 			-- Spawn the Behemoth
 			local spawn_loc = Entities:FindByName(nil, "radiant_reinforcement_spawn_mid"):GetAbsOrigin()
-			local behemoth = CreateUnitByName("npc_imba_goodguys_mega_hulk", spawn_loc, true, caster, caster, caster:GetTeam())
+			local behemoth = CreateUnitByName("npc_extended_goodguys_mega_hulk", spawn_loc, true, caster, caster, caster:GetTeam())
 			FindClearSpaceForUnit(behemoth, spawn_loc, true)
 
 			-- Adjust health
@@ -196,11 +196,11 @@ function SpawnRadiantBehemoth( keys )
 			AddStacks(ability, caster, behemoth, modifier_stack, game_time, true)
 
 			-- Grant extra abilities
-			behemoth:AddAbility("imba_behemoth_aura_goodguys")
-			local aura_ability = behemoth:FindAbilityByName("imba_behemoth_aura_goodguys")
+			behemoth:AddAbility("extended_behemoth_aura_goodguys")
+			local aura_ability = behemoth:FindAbilityByName("extended_behemoth_aura_goodguys")
 			aura_ability:SetLevel(math.min(this_call_body_count, 5))
-			behemoth:AddAbility("imba_behemoth_dearmor")
-			local dearmor_ability = behemoth:FindAbilityByName("imba_behemoth_dearmor")
+			behemoth:AddAbility("extended_behemoth_dearmor")
+			local dearmor_ability = behemoth:FindAbilityByName("extended_behemoth_dearmor")
 			dearmor_ability:SetLevel(1)
 
 			-- Increase Behemoth size according to its power
@@ -257,7 +257,7 @@ function SpawnDireBehemoth( keys )
 			
 			-- Spawn the Behemoth
 			local spawn_loc = Entities:FindByName(nil, "dire_reinforcement_spawn_mid"):GetAbsOrigin()
-			local behemoth = CreateUnitByName("npc_imba_badguys_mega_hulk", spawn_loc, true, nil, nil, caster:GetTeam())
+			local behemoth = CreateUnitByName("npc_extended_badguys_mega_hulk", spawn_loc, true, nil, nil, caster:GetTeam())
 			FindClearSpaceForUnit(behemoth, spawn_loc, true)
 
 			-- Adjust health
@@ -267,11 +267,11 @@ function SpawnDireBehemoth( keys )
 			AddStacks(ability, caster, behemoth, modifier_stack, game_time, true)
 
 			-- Grant extra abilities
-			behemoth:AddAbility("imba_behemoth_aura_badguys")
-			local aura_ability = behemoth:FindAbilityByName("imba_behemoth_aura_badguys")
+			behemoth:AddAbility("extended_behemoth_aura_badguys")
+			local aura_ability = behemoth:FindAbilityByName("extended_behemoth_aura_badguys")
 			aura_ability:SetLevel(math.min(this_call_body_count, 5))
-			behemoth:AddAbility("imba_behemoth_dearmor")
-			local dearmor_ability = behemoth:FindAbilityByName("imba_behemoth_dearmor")
+			behemoth:AddAbility("extended_behemoth_dearmor")
+			local dearmor_ability = behemoth:FindAbilityByName("extended_behemoth_dearmor")
 			dearmor_ability:SetLevel(1)
 
 			-- Increase Behemoth size according to its power

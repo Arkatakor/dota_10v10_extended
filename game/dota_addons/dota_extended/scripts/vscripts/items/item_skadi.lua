@@ -7,22 +7,22 @@
 --	Skadi definition
 -----------------------------------------------------------------------------------------------------------
 
-if item_imba_skadi == nil then item_imba_skadi = class({}) end
-LinkLuaModifier( "modifier_item_imba_skadi", "items/item_skadi.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
-LinkLuaModifier( "modifier_item_imba_skadi_unique", "items/item_skadi.lua", LUA_MODIFIER_MOTION_NONE )	-- On-damage slow applier
-LinkLuaModifier( "modifier_item_imba_skadi_slow", "items/item_skadi.lua", LUA_MODIFIER_MOTION_NONE )	-- Slow debuff
-LinkLuaModifier( "modifier_item_imba_skadi_freeze", "items/item_skadi.lua", LUA_MODIFIER_MOTION_NONE )	-- Root debuff
+if item_extended_skadi == nil then item_extended_skadi = class({}) end
+LinkLuaModifier( "modifier_item_extended_skadi", "items/item_skadi.lua", LUA_MODIFIER_MOTION_NONE )			-- Owner's bonus attributes, stackable
+LinkLuaModifier( "modifier_item_extended_skadi_unique", "items/item_skadi.lua", LUA_MODIFIER_MOTION_NONE )	-- On-damage slow applier
+LinkLuaModifier( "modifier_item_extended_skadi_slow", "items/item_skadi.lua", LUA_MODIFIER_MOTION_NONE )	-- Slow debuff
+LinkLuaModifier( "modifier_item_extended_skadi_freeze", "items/item_skadi.lua", LUA_MODIFIER_MOTION_NONE )	-- Root debuff
 
 -- Passive modifier
-function item_imba_skadi:GetIntrinsicModifierName()
-	return "modifier_item_imba_skadi" end
+function item_extended_skadi:GetIntrinsicModifierName()
+	return "modifier_item_extended_skadi" end
 
 -- Dynamic cast range
-function item_imba_skadi:GetCastRange()
-	return self:GetCaster():GetModifierStackCount("modifier_item_imba_skadi", nil) end
+function item_extended_skadi:GetCastRange()
+	return self:GetCaster():GetModifierStackCount("modifier_item_extended_skadi", nil) end
 
 -- Root active
-function item_imba_skadi:OnSpellStart()
+function item_extended_skadi:OnSpellStart()
 	if IsServer() then
 		local caster = self:GetCaster()
 
@@ -69,7 +69,7 @@ function item_imba_skadi:OnSpellStart()
 			ApplyDamage({attacker = caster, victim = enemy, ability = self, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL})
 
 			-- Apply freeze modifier
-			enemy:AddNewModifier(caster, self, "modifier_item_imba_skadi_freeze", {duration = duration})
+			enemy:AddNewModifier(caster, self, "modifier_item_extended_skadi_freeze", {duration = duration})
 
 			-- Apply ministun
 			enemy:AddNewModifier(caster, self, "modifier_stunned", {duration = 0.01})
@@ -81,19 +81,19 @@ end
 --	Skadi owner bonus attributes (stackable)
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_skadi == nil then modifier_item_imba_skadi = class({}) end
-function modifier_item_imba_skadi:IsHidden() return true end
-function modifier_item_imba_skadi:IsDebuff() return false end
-function modifier_item_imba_skadi:IsPurgable() return false end
-function modifier_item_imba_skadi:IsPermanent() return true end
-function modifier_item_imba_skadi:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_item_extended_skadi == nil then modifier_item_extended_skadi = class({}) end
+function modifier_item_extended_skadi:IsHidden() return true end
+function modifier_item_extended_skadi:IsDebuff() return false end
+function modifier_item_extended_skadi:IsPurgable() return false end
+function modifier_item_extended_skadi:IsPermanent() return true end
+function modifier_item_extended_skadi:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
 -- Adds the unique modifier to the caster when created
-function modifier_item_imba_skadi:OnCreated(keys)
+function modifier_item_extended_skadi:OnCreated(keys)
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_skadi_unique") then
-			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_imba_skadi_unique", {})
+		if not parent:HasModifier("modifier_item_extended_skadi_unique") then
+			parent:AddNewModifier(parent, self:GetAbility(), "modifier_item_extended_skadi_unique", {})
 		end
 
 		-- Cast range update thinker
@@ -102,17 +102,17 @@ function modifier_item_imba_skadi:OnCreated(keys)
 end
 
 -- Removes the unique modifier from the caster if this is the last skadi in its inventory
-function modifier_item_imba_skadi:OnDestroy()
+function modifier_item_extended_skadi:OnDestroy()
 	if IsServer() then
 		local parent = self:GetParent()
-		if not parent:HasModifier("modifier_item_imba_skadi") then
-			parent:RemoveModifierByName("modifier_item_imba_skadi_unique")
+		if not parent:HasModifier("modifier_item_extended_skadi") then
+			parent:RemoveModifierByName("modifier_item_extended_skadi_unique")
 		end
 	end
 end
 
 -- Cast range update thinker
-function modifier_item_imba_skadi:OnIntervalThink()
+function modifier_item_extended_skadi:OnIntervalThink()
 	if IsServer() then
 		local owner = self:GetParent()
 		local radius = self:GetAbility():GetSpecialValueFor("base_radius")
@@ -124,7 +124,7 @@ function modifier_item_imba_skadi:OnIntervalThink()
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_skadi:DeclareFunctions()
+function modifier_item_extended_skadi:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
 		MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
@@ -133,27 +133,27 @@ function modifier_item_imba_skadi:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_skadi:GetModifierBonusStats_Strength()
+function modifier_item_extended_skadi:GetModifierBonusStats_Strength()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
-function modifier_item_imba_skadi:GetModifierBonusStats_Agility()
+function modifier_item_extended_skadi:GetModifierBonusStats_Agility()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
-function modifier_item_imba_skadi:GetModifierBonusStats_Intellect()
+function modifier_item_extended_skadi:GetModifierBonusStats_Intellect()
 	return self:GetAbility():GetSpecialValueFor("bonus_all_stats") end
 
 -----------------------------------------------------------------------------------------------------------
 --	Skadi slow applier
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_skadi_unique == nil then modifier_item_imba_skadi_unique = class({}) end
-function modifier_item_imba_skadi_unique:IsHidden() return true end
-function modifier_item_imba_skadi_unique:IsDebuff() return false end
-function modifier_item_imba_skadi_unique:IsPurgable() return false end
-function modifier_item_imba_skadi_unique:IsPermanent() return true end
+if modifier_item_extended_skadi_unique == nil then modifier_item_extended_skadi_unique = class({}) end
+function modifier_item_extended_skadi_unique:IsHidden() return true end
+function modifier_item_extended_skadi_unique:IsDebuff() return false end
+function modifier_item_extended_skadi_unique:IsPurgable() return false end
+function modifier_item_extended_skadi_unique:IsPermanent() return true end
 
 -- Changes the caster's attack projectile, if applicable
-function modifier_item_imba_skadi_unique:OnCreated(keys)
+function modifier_item_extended_skadi_unique:OnCreated(keys)
 	if IsServer() then
 		ChangeAttackProjectileImba(self:GetParent())
 
@@ -166,14 +166,14 @@ function modifier_item_imba_skadi_unique:OnCreated(keys)
 end
 
 -- Changes the caster's attack projectile, if applicable
-function modifier_item_imba_skadi_unique:OnDestroy()
+function modifier_item_extended_skadi_unique:OnDestroy()
 	if IsServer() then
 		ChangeAttackProjectileImba(self:GetParent())
 	end
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_skadi_unique:DeclareFunctions()
+function modifier_item_extended_skadi_unique:DeclareFunctions()
 	local funcs = {
 		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
@@ -181,7 +181,7 @@ function modifier_item_imba_skadi_unique:DeclareFunctions()
 end
 
 -- On-damage slow effect
-function modifier_item_imba_skadi_unique:OnTakeDamage( keys )
+function modifier_item_extended_skadi_unique:OnTakeDamage( keys )
 	if IsServer() then
 		local attacker = self:GetParent()
 
@@ -203,7 +203,7 @@ function modifier_item_imba_skadi_unique:OnTakeDamage( keys )
 		local slow_duration = self.min_duration + (self.max_duration - self.min_duration) * math.max( self.slow_range_cap - target_distance, 0) / self.slow_range_cap
 
 		-- Apply the slow
-		target:AddNewModifier(attacker, self:GetAbility(), "modifier_item_imba_skadi_slow", {duration = slow_duration})
+		target:AddNewModifier(attacker, self:GetAbility(), "modifier_item_extended_skadi_slow", {duration = slow_duration})
 	end
 end
 
@@ -211,26 +211,26 @@ end
 --	Skadi slow
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_skadi_slow == nil then modifier_item_imba_skadi_slow = class({}) end
-function modifier_item_imba_skadi_slow:IsHidden() return false end
-function modifier_item_imba_skadi_slow:IsDebuff() return true end
-function modifier_item_imba_skadi_slow:IsPurgable() return false end
+if modifier_item_extended_skadi_slow == nil then modifier_item_extended_skadi_slow = class({}) end
+function modifier_item_extended_skadi_slow:IsHidden() return false end
+function modifier_item_extended_skadi_slow:IsDebuff() return true end
+function modifier_item_extended_skadi_slow:IsPurgable() return false end
 
 -- Modifier status effect
-function modifier_item_imba_skadi_slow:GetStatusEffectName()
+function modifier_item_extended_skadi_slow:GetStatusEffectName()
 	return "particles/status_fx/status_effect_frost_lich.vpcf" end
 
-function modifier_item_imba_skadi_slow:StatusEffectPriority()
+function modifier_item_extended_skadi_slow:StatusEffectPriority()
 	return 10 end
 
 -- Ability KV storage
-function modifier_item_imba_skadi_slow:OnCreated(keys)
+function modifier_item_extended_skadi_slow:OnCreated(keys)
 	self.slow_as = self:GetAbility():GetSpecialValueFor("slow_as")
 	self.slow_ms = self:GetAbility():GetSpecialValueFor("slow_ms")
 end
 
 -- Declare modifier events/properties
-function modifier_item_imba_skadi_slow:DeclareFunctions()
+function modifier_item_extended_skadi_slow:DeclareFunctions()
 	local funcs = {
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
@@ -238,39 +238,39 @@ function modifier_item_imba_skadi_slow:DeclareFunctions()
 	return funcs
 end
 
-function modifier_item_imba_skadi_slow:GetModifierAttackSpeedBonus_Constant()
+function modifier_item_extended_skadi_slow:GetModifierAttackSpeedBonus_Constant()
 	return self.slow_as end
 
-function modifier_item_imba_skadi_slow:GetModifierMoveSpeedBonus_Percentage()
+function modifier_item_extended_skadi_slow:GetModifierMoveSpeedBonus_Percentage()
 	return self.slow_ms end
 
 -----------------------------------------------------------------------------------------------------------
 --	Skadi freeze
 -----------------------------------------------------------------------------------------------------------
 
-if modifier_item_imba_skadi_freeze == nil then modifier_item_imba_skadi_freeze = class({}) end
-function modifier_item_imba_skadi_freeze:IsHidden() return true end
-function modifier_item_imba_skadi_freeze:IsDebuff() return true end
-function modifier_item_imba_skadi_freeze:IsPurgable() return false end
+if modifier_item_extended_skadi_freeze == nil then modifier_item_extended_skadi_freeze = class({}) end
+function modifier_item_extended_skadi_freeze:IsHidden() return true end
+function modifier_item_extended_skadi_freeze:IsDebuff() return true end
+function modifier_item_extended_skadi_freeze:IsPurgable() return false end
 
 -- Modifier particle
-function modifier_item_imba_skadi_freeze:GetEffectName()
+function modifier_item_extended_skadi_freeze:GetEffectName()
 	return "particles/units/heroes/hero_crystalmaiden/maiden_frostbite_buff.vpcf"
 end
 
-function modifier_item_imba_skadi_freeze:GetEffectAttachType()
+function modifier_item_extended_skadi_freeze:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
 end
 
 -- Modifier status effect
-function modifier_item_imba_skadi_freeze:GetStatusEffectName()
+function modifier_item_extended_skadi_freeze:GetStatusEffectName()
 	return "particles/status_fx/status_effect_frost.vpcf" end
 
-function modifier_item_imba_skadi_freeze:StatusEffectPriority()
+function modifier_item_extended_skadi_freeze:StatusEffectPriority()
 	return 11 end
 
 -- Declare modifier states
-function modifier_item_imba_skadi_freeze:CheckState()
+function modifier_item_extended_skadi_freeze:CheckState()
 	local states = {
 		[MODIFIER_STATE_ROOTED] = true,
 	}

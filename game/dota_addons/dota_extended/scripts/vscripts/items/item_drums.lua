@@ -31,26 +31,26 @@ function Drums( keys )
 
 		-- Check for existing hero-based buffs and apply/extend them
 		local current_hero_stacks = 0
-		if ally:HasModifier("modifier_item_imba_siege_cuirass_buff_hero") then
-			current_hero_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_imba_siege_cuirass_buff_hero", nil))
-			ally:RemoveModifierByName("modifier_item_imba_siege_cuirass_buff_hero")
+		if ally:HasModifier("modifier_item_extended_siege_cuirass_buff_hero") then
+			current_hero_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_extended_siege_cuirass_buff_hero", nil))
+			ally:RemoveModifierByName("modifier_item_extended_siege_cuirass_buff_hero")
 		end
-		if ally:HasModifier("modifier_item_imba_drums_buff_hero") then
-			current_hero_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_imba_drums_buff_hero", nil))
-			ally:RemoveModifierByName("modifier_item_imba_drums_buff_hero")
+		if ally:HasModifier("modifier_item_extended_drums_buff_hero") then
+			current_hero_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_extended_drums_buff_hero", nil))
+			ally:RemoveModifierByName("modifier_item_extended_drums_buff_hero")
 		end
 		AddStacks(ability, caster, ally, modifier_buff_hero, max(total_heroes, current_hero_stacks), true)
 
 		-- Check for existing creep-based buffs and apply/extend them
 		if total_creeps > 0 then
 			local current_creep_stacks = 0
-			if ally:HasModifier("modifier_item_imba_siege_cuirass_buff_creep") then
-				current_creep_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_imba_siege_cuirass_buff_creep", nil))
-				ally:RemoveModifierByName("modifier_item_imba_siege_cuirass_buff_creep")
+			if ally:HasModifier("modifier_item_extended_siege_cuirass_buff_creep") then
+				current_creep_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_extended_siege_cuirass_buff_creep", nil))
+				ally:RemoveModifierByName("modifier_item_extended_siege_cuirass_buff_creep")
 			end
-			if ally:HasModifier("modifier_item_imba_drums_buff_creep") then
-				current_creep_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_imba_drums_buff_creep", nil))
-				ally:RemoveModifierByName("modifier_item_imba_drums_buff_creep")
+			if ally:HasModifier("modifier_item_extended_drums_buff_creep") then
+				current_creep_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_extended_drums_buff_creep", nil))
+				ally:RemoveModifierByName("modifier_item_extended_drums_buff_creep")
 			end
 			AddStacks(ability, caster, ally, modifier_buff_creep, max(total_creeps, current_creep_stacks), true)
 		end
@@ -64,26 +64,26 @@ function Drums( keys )
 
 		-- Check for existing hero-based buffs and apply/extend them
 		local current_hero_stacks = 0
-		if ally:HasModifier("modifier_item_imba_siege_cuirass_buff_hero") then
-			current_hero_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_imba_siege_cuirass_buff_hero", nil))
-			ally:RemoveModifierByName("modifier_item_imba_siege_cuirass_buff_hero")
+		if ally:HasModifier("modifier_item_extended_siege_cuirass_buff_hero") then
+			current_hero_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_extended_siege_cuirass_buff_hero", nil))
+			ally:RemoveModifierByName("modifier_item_extended_siege_cuirass_buff_hero")
 		end
-		if ally:HasModifier("modifier_item_imba_drums_buff_hero") then
-			current_hero_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_imba_drums_buff_hero", nil))
-			ally:RemoveModifierByName("modifier_item_imba_drums_buff_hero")
+		if ally:HasModifier("modifier_item_extended_drums_buff_hero") then
+			current_hero_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_extended_drums_buff_hero", nil))
+			ally:RemoveModifierByName("modifier_item_extended_drums_buff_hero")
 		end
 		AddStacks(ability, caster, ally, modifier_buff_hero, max(total_heroes, current_hero_stacks), true)
 
 		-- Check for existing creep-based buffs and apply/extend them
 		if total_creeps > 0 then
 			local current_creep_stacks = 0
-			if ally:HasModifier("modifier_item_imba_siege_cuirass_buff_creep") then
-				current_creep_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_imba_siege_cuirass_buff_creep", nil))
-				ally:RemoveModifierByName("modifier_item_imba_siege_cuirass_buff_creep")
+			if ally:HasModifier("modifier_item_extended_siege_cuirass_buff_creep") then
+				current_creep_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_extended_siege_cuirass_buff_creep", nil))
+				ally:RemoveModifierByName("modifier_item_extended_siege_cuirass_buff_creep")
 			end
-			if ally:HasModifier("modifier_item_imba_drums_buff_creep") then
-				current_creep_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_imba_drums_buff_creep", nil))
-				ally:RemoveModifierByName("modifier_item_imba_drums_buff_creep")
+			if ally:HasModifier("modifier_item_extended_drums_buff_creep") then
+				current_creep_stacks = max(current_hero_stacks, ally:GetModifierStackCount("modifier_item_extended_drums_buff_creep", nil))
+				ally:RemoveModifierByName("modifier_item_extended_drums_buff_creep")
 			end
 			AddStacks(ability, caster, ally, modifier_buff_creep, max(total_creeps, current_creep_stacks), true)
 		end
@@ -97,7 +97,7 @@ function DrumsAuraThink( keys )
 	local modifier_aura = keys.modifier_aura
 
 	-- If a higher-level aura is present, remove this one
-	if target:HasModifier("modifier_item_imba_siege_cuirass_positive_aura") then
+	if target:HasModifier("modifier_item_extended_siege_cuirass_positive_aura") then
 		if target:HasModifier(modifier_aura) then
 			target:RemoveModifierByName(modifier_aura)
 		end
@@ -121,7 +121,7 @@ function AssaultAllyAuraThink( keys )
 	local modifier_aura = keys.modifier_aura
 
 	-- If a higher-level aura is present, remove this one
-	if target:HasModifier("modifier_item_imba_siege_cuirass_positive_aura") then
+	if target:HasModifier("modifier_item_extended_siege_cuirass_positive_aura") then
 		if target:HasModifier(modifier_aura) then
 			target:RemoveModifierByName(modifier_aura)
 		end
@@ -145,7 +145,7 @@ function AssaultEnemyAuraThink( keys )
 	local modifier_aura = keys.modifier_aura
 
 	-- If a higher-level aura is present, remove this one
-	if target:HasModifier("modifier_item_imba_siege_cuirass_negative_aura") then
+	if target:HasModifier("modifier_item_extended_siege_cuirass_negative_aura") then
 		if target:HasModifier(modifier_aura) then
 			target:RemoveModifierByName(modifier_aura)
 		end

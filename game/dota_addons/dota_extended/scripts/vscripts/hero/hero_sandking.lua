@@ -273,7 +273,7 @@ function SandsOn( keys )
 	ability:ApplyDataDrivenModifier(caster, caster, modifier_sands, {})
 
 	-- Re-apply invisibility if channeling sandstorm
-	if caster:HasModifier("modifier_imba_sandstorm_caster") then
+	if caster:HasModifier("modifier_extended_sandstorm_caster") then
 		local duration = caster:FindModifierByName("modifier_phased"):GetRemainingTime()
 		if duration > 0 then
 			caster:AddNewModifier(caster, ability, "modifier_invisible", {duration = duration})
@@ -292,7 +292,7 @@ function SandsOff( keys )
 	end
 
 	-- Re-apply invisibility if channeling sandstorm
-	if caster:HasModifier("modifier_imba_sandstorm_caster") then
+	if caster:HasModifier("modifier_extended_sandstorm_caster") then
 		local duration = caster:FindModifierByName("modifier_phased"):GetRemainingTime()
 		if duration > 0 then
 			caster:AddNewModifier(caster, ability, "modifier_invisible", {duration = duration})

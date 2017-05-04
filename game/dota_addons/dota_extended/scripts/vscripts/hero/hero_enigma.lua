@@ -129,7 +129,7 @@ function DemonicConversion( keys )
 	local duration = ability:GetLevelSpecialValueFor("duration", ability_level)
 	local base_health = ability:GetLevelSpecialValueFor("base_health", ability_level)
 	local health_per_level = ability:GetLevelSpecialValueFor("health_per_level", ability_level)
-	local eidolon_name = "npc_imba_enigma_eidolon_"..(ability_level + 1)
+	local eidolon_name = "npc_extended_enigma_eidolon_"..(ability_level + 1)
 	local caster_level = caster:GetLevel()
 	local target_loc = target:GetAbsOrigin()
 
@@ -188,7 +188,7 @@ function EidolonAttack( keys )
 	local child_duration = ability:GetLevelSpecialValueFor("child_duration", ability_level)
 	local base_health = ability:GetLevelSpecialValueFor("base_health", ability_level)
 	local health_per_level = ability:GetLevelSpecialValueFor("health_per_level", ability_level)
-	local eidolon_name = "npc_imba_enigma_eidolon_"..(ability_level + 1)
+	local eidolon_name = "npc_extended_enigma_eidolon_"..(ability_level + 1)
 	local caster_level = caster:GetLevel()
 
 	-- Count attacks
@@ -490,11 +490,11 @@ function BlackHoleDebuffStart( keys )
 
 	-- Deal max health-based damage if the caster has a scepter
 	if scepter then
-		if caster:HasModifier("modifier_item_imba_rapier_damage") then
-			local rapier_ability = caster:FindModifierByName("modifier_item_imba_rapier_damage"):GetAbility()
-			caster:RemoveModifierByName("modifier_item_imba_rapier_damage")
+		if caster:HasModifier("modifier_item_extended_rapier_damage") then
+			local rapier_ability = caster:FindModifierByName("modifier_item_extended_rapier_damage"):GetAbility()
+			caster:RemoveModifierByName("modifier_item_extended_rapier_damage")
 			ApplyDamage({attacker = caster, victim = target, ability = ability, damage = target:GetMaxHealth() * damage_scepter / 100, damage_type = DAMAGE_TYPE_PURE})
-			rapier_ability:ApplyDataDrivenModifier(caster, caster, "modifier_item_imba_rapier_damage", {})
+			rapier_ability:ApplyDataDrivenModifier(caster, caster, "modifier_item_extended_rapier_damage", {})
 		else
 			ApplyDamage({attacker = caster, victim = target, ability = ability, damage = target:GetMaxHealth() * damage_scepter / 100, damage_type = DAMAGE_TYPE_PURE})
 		end
@@ -517,11 +517,11 @@ function BlackHoleDebuffTick( keys )
 
 	-- Deal max health-based damage if the caster has a scepter
 	if scepter then
-		if caster:HasModifier("modifier_item_imba_rapier_damage") then
-			local rapier_ability = caster:FindModifierByName("modifier_item_imba_rapier_damage"):GetAbility()
-			caster:RemoveModifierByName("modifier_item_imba_rapier_damage")
+		if caster:HasModifier("modifier_item_extended_rapier_damage") then
+			local rapier_ability = caster:FindModifierByName("modifier_item_extended_rapier_damage"):GetAbility()
+			caster:RemoveModifierByName("modifier_item_extended_rapier_damage")
 			ApplyDamage({attacker = caster, victim = target, ability = ability, damage = target:GetMaxHealth() * damage_scepter / 100, damage_type = DAMAGE_TYPE_PURE})
-			rapier_ability:ApplyDataDrivenModifier(caster, caster, "modifier_item_imba_rapier_damage", {})
+			rapier_ability:ApplyDataDrivenModifier(caster, caster, "modifier_item_extended_rapier_damage", {})
 		else
 			ApplyDamage({attacker = caster, victim = target, ability = ability, damage = target:GetMaxHealth() * damage_scepter / 100, damage_type = DAMAGE_TYPE_PURE})
 		end

@@ -13,17 +13,17 @@ CreateEmptyTalents("disruptor")
 ---------------------------------------------------
 ---------------------------------------------------
 
-imba_disruptor_stormbearer = class({})
-LinkLuaModifier("modifier_imba_stormbearer", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+extended_disruptor_stormbearer = class({})
+LinkLuaModifier("modifier_extended_stormbearer", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
 
-function imba_disruptor_stormbearer:GetIntrinsicModifierName()
-	return "modifier_imba_stormbearer"
+function extended_disruptor_stormbearer:GetIntrinsicModifierName()
+	return "modifier_extended_stormbearer"
 end
 
 -- Stormbearer's stacks buffs
-modifier_imba_stormbearer = class({})
+modifier_extended_stormbearer = class({})
 
-function modifier_imba_stormbearer:OnCreated()
+function modifier_extended_stormbearer:OnCreated()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()	
 	self.ms_per_stack = self.ability:GetSpecialValueFor("ms_per_stack") 
@@ -31,37 +31,37 @@ function modifier_imba_stormbearer:OnCreated()
 
 end
 
-function modifier_imba_stormbearer:AllowIllusionDuplicate()	
+function modifier_extended_stormbearer:AllowIllusionDuplicate()	
 		return true	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_stormbearer:GetAttributes()	
+function modifier_extended_stormbearer:GetAttributes()	
 		return MODIFIER_ATTRIBUTE_PERMANENT	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_stormbearer:IsDebuff()	
+function modifier_extended_stormbearer:IsDebuff()	
 		return false	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_stormbearer:IsHidden()	
+function modifier_extended_stormbearer:IsHidden()	
 		return false	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_stormbearer:IsPurgable()	
+function modifier_extended_stormbearer:IsPurgable()	
 		return false	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_stormbearer:DeclareFunctions()	
+function modifier_extended_stormbearer:DeclareFunctions()	
 		local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT}
 		
 		return decFuncs	
@@ -69,16 +69,16 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_stormbearer:GetModifierMoveSpeedBonus_Constant()		
+function modifier_extended_stormbearer:GetModifierMoveSpeedBonus_Constant()		
 	self.scepter = self.caster:HasScepter()
 
 	local stacks = self:GetStackCount()		
 	local move_speed_increase
 
 	if self.scepter then
-		move_speed_increase = (self.scepter_ms_per_stack + self.caster:FindTalentValue("special_bonus_imba_disruptor_3")) * stacks				
+		move_speed_increase = (self.scepter_ms_per_stack + self.caster:FindTalentValue("special_bonus_extended_disruptor_3")) * stacks				
 	else
-		move_speed_increase = (self.ms_per_stack + self.caster:FindTalentValue("special_bonus_imba_disruptor_3")) * stacks					
+		move_speed_increase = (self.ms_per_stack + self.caster:FindTalentValue("special_bonus_extended_disruptor_3")) * stacks					
 	end
 	
 	return move_speed_increase			
@@ -95,48 +95,48 @@ end
 
 
 
-imba_disruptor_thunder_strike = class ({})
-LinkLuaModifier("modifier_imba_thunder_strike_debuff", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_thunder_strike_talent_slow", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+extended_disruptor_thunder_strike = class ({})
+LinkLuaModifier("modifier_extended_thunder_strike_debuff", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_thunder_strike_talent_slow", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
 
-function imba_disruptor_thunder_strike:GetAOERadius()
+function extended_disruptor_thunder_strike:GetAOERadius()
 	return self:GetSpecialValueFor("radius")
 end
 
 ---------------------------------------------------
 
-function imba_disruptor_thunder_strike:GetBehavior()
+function extended_disruptor_thunder_strike:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_AOE
 end
 
 ---------------------------------------------------
 
-function imba_disruptor_thunder_strike:GetAbilityTargetType()
+function extended_disruptor_thunder_strike:GetAbilityTargetType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
 
 ---------------------------------------------------
 
-function imba_disruptor_thunder_strike:GetAbilityDamageType()
+function extended_disruptor_thunder_strike:GetAbilityDamageType()
 	return DAMAGE_TYPE_MAGICAL
 end
 
 ---------------------------------------------------
 
-function imba_disruptor_thunder_strike:GetAbilityTargetTeam()	
+function extended_disruptor_thunder_strike:GetAbilityTargetTeam()	
 	return DOTA_UNIT_TARGET_TEAM_ENEMY
 end
 
 ---------------------------------------------------
 
-function imba_disruptor_thunder_strike:GetAbilityTargetFlags()
+function extended_disruptor_thunder_strike:GetAbilityTargetFlags()
 	return DOTA_UNIT_TARGET_FLAG_NONE
 end
 
 ---------------------------------------------------
 
-function imba_disruptor_thunder_strike:OnSpellStart()
+function extended_disruptor_thunder_strike:OnSpellStart()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()	
@@ -144,7 +144,7 @@ function imba_disruptor_thunder_strike:OnSpellStart()
 		local target = self:GetCursorTarget()		
 		local cast_response = "disruptor_dis_thunderstrike_0"..RandomInt(1, 4)
 		local sound_cast = "Hero_Disruptor.ThunderStrike.Cast"
-		local debuff = "modifier_imba_thunder_strike_debuff"
+		local debuff = "modifier_extended_thunder_strike_debuff"
 		
 		-- Ability specials
 		local duration = ability:GetSpecialValueFor("duration")	
@@ -165,7 +165,7 @@ function imba_disruptor_thunder_strike:OnSpellStart()
 		EmitSoundOn(sound_cast, caster)	
 
 		-- #8 Talent: Thunder Strike duration increase
-		duration = duration + caster:FindSpecificTalentValue("special_bonus_imba_disruptor_8", "value")
+		duration = duration + caster:FindSpecificTalentValue("special_bonus_extended_disruptor_8", "value")
 
 		-- Apply Thunder Strike on target
 		target:AddNewModifier(caster, ability, debuff, {duration = duration})	
@@ -174,15 +174,15 @@ end
 
 
 -- ThunderStrike debuff modifier
-modifier_imba_thunder_strike_debuff = class ({})
+modifier_extended_thunder_strike_debuff = class ({})
 
-function modifier_imba_thunder_strike_debuff:OnCreated()	
+function modifier_extended_thunder_strike_debuff:OnCreated()	
 	if IsServer() then
 		-- Ability properties
 		self.caster = self:GetCaster()
 		self.ability = self:GetAbility()
 		self.target = self:GetParent()	
-		self.modifier_slow = "modifier_imba_thunder_strike_talent_slow"
+		self.modifier_slow = "modifier_extended_thunder_strike_talent_slow"
 			
 		-- Ability specials
 		self.radius = self.ability:GetSpecialValueFor("radius")	
@@ -194,7 +194,7 @@ function modifier_imba_thunder_strike_debuff:OnCreated()
 		self.talent_4_slow_duration = self.ability:GetSpecialValueFor("talent_4_slow_duration")	
 
 		-- #8 Talent: Thunder Strike interval reduction
-		self.strike_interval = self.strike_interval - self.caster:FindSpecificTalentValue("special_bonus_imba_disruptor_8", "value2")
+		self.strike_interval = self.strike_interval - self.caster:FindSpecificTalentValue("special_bonus_extended_disruptor_8", "value2")
 			
 		-- Strike immediately upon creation, depending on amount of enemies
 		ThunderStrikeBoltStart(self)			
@@ -206,50 +206,50 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_thunder_strike_debuff:DestroyOnExpire()
+function modifier_extended_thunder_strike_debuff:DestroyOnExpire()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_thunder_strike_debuff:RemoveOnDeath()
+function modifier_extended_thunder_strike_debuff:RemoveOnDeath()
 	return false
 end
 
 ---------------------------------------------------
 
-function modifier_imba_thunder_strike_debuff:CheckState()
+function modifier_extended_thunder_strike_debuff:CheckState()
 	local state = {[MODIFIER_STATE_PROVIDES_VISION] = true}
 	return state
 end
 
 ---------------------------------------------------
 
-function modifier_imba_thunder_strike_debuff:GetEffectName()
+function modifier_extended_thunder_strike_debuff:GetEffectName()
 	return "particles/units/heroes/hero_disruptor/disruptor_thunder_strike_buff.vpcf"
 end
 
 ---------------------------------------------------
 
-function modifier_imba_thunder_strike_debuff:GetEffectAttachType()
+function modifier_extended_thunder_strike_debuff:GetEffectAttachType()
 	return PATTACH_OVERHEAD_FOLLOW
 end
 
 ---------------------------------------------------
 
-function modifier_imba_thunder_strike_debuff:IsDebuff()
+function modifier_extended_thunder_strike_debuff:IsDebuff()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_thunder_strike_debuff:IsPurgable()
+function modifier_extended_thunder_strike_debuff:IsPurgable()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_thunder_strike_debuff:OnIntervalThink()	
+function modifier_extended_thunder_strike_debuff:OnIntervalThink()	
 	if IsServer() then	
 		ThunderStrikeBoltStart(self)
 	end
@@ -290,14 +290,14 @@ function ThunderStrikeBoltStrike(self)
 	local sound_impact = "Hero_Disruptor.ThunderStrike.Target"
 	local strike_particle = "particles/hero/disruptor/disruptor_thunder_strike_bolt.vpcf"
 	local aoe_particle = "particles/hero/disruptor/disruptor_thuderstrike_aoe_area.vpcf"
-	local stormbearer_buff = "modifier_imba_stormbearer"
+	local stormbearer_buff = "modifier_extended_stormbearer"
 	local scepter = self.caster:HasScepter()
 	
 	-- Play strike sound
 	EmitSoundOn(sound_impact, self.target)
 
 	-- #4 Talent: Thunder Strikes slow the main target
-	if self.caster:HasTalent("special_bonus_imba_disruptor_4") then
+	if self.caster:HasTalent("special_bonus_extended_disruptor_4") then
 		self.target:AddNewModifier(self.caster, self.ability, self.modifier_slow, {duration = self.talent_4_slow_duration})
 	end
 			
@@ -343,32 +343,32 @@ end
 
 
 -- Thunderstrike slow debuff
-modifier_imba_thunder_strike_talent_slow = class({})
+modifier_extended_thunder_strike_talent_slow = class({})
 
-function modifier_imba_thunder_strike_talent_slow:OnCreated()
+function modifier_extended_thunder_strike_talent_slow:OnCreated()
 	self.ability = self:GetAbility()	
 	self.talent_4_slow_pct = self.ability:GetSpecialValueFor("talent_4_slow_pct")
 end
 
-function modifier_imba_thunder_strike_talent_slow:DeclareFunctions()
+function modifier_extended_thunder_strike_talent_slow:DeclareFunctions()
 	local decFuncs = {MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE}
 
 	return decFuncs
 end
 
-function modifier_imba_thunder_strike_talent_slow:GetModifierMoveSpeedBonus_Percentage()
+function modifier_extended_thunder_strike_talent_slow:GetModifierMoveSpeedBonus_Percentage()
 	return self.talent_4_slow_pct * (-1)
 end
 
-function modifier_imba_thunder_strike_talent_slow:IsHidden()
+function modifier_extended_thunder_strike_talent_slow:IsHidden()
 	return true
 end
 
-function modifier_imba_thunder_strike_talent_slow:IsPurgable()
+function modifier_extended_thunder_strike_talent_slow:IsPurgable()
 	return true
 end
 
-function modifier_imba_thunder_strike_talent_slow:IsDebuff()
+function modifier_extended_thunder_strike_talent_slow:IsDebuff()
 	return true
 end
 
@@ -381,38 +381,38 @@ end
 ---------------------------------------------------
 ---------------------------------------------------
 
-imba_disruptor_glimpse = class({})
-LinkLuaModifier("modifier_imba_glimpse_location_aura", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_glimpse_location_store", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_glimpse_dummy", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_glimpse_storm_aura", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_glimpse_storm_debuff", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+extended_disruptor_glimpse = class({})
+LinkLuaModifier("modifier_extended_glimpse_location_aura", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_glimpse_location_store", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_glimpse_dummy", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_glimpse_storm_aura", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_glimpse_storm_debuff", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
 
-function imba_disruptor_glimpse:GetAbilityTargetTeam()	
+function extended_disruptor_glimpse:GetAbilityTargetTeam()	
 	return DOTA_UNIT_TARGET_TEAM_ENEMY
 end
 
 ---------------------------------------------------
 
-function imba_disruptor_glimpse:GetAbilityTargetFlags()
+function extended_disruptor_glimpse:GetAbilityTargetFlags()
 	return DOTA_UNIT_TARGET_FLAG_NONE
 end
 
 ---------------------------------------------------
 
-function imba_disruptor_glimpse:OnUpgrade()
+function extended_disruptor_glimpse:OnUpgrade()
 	local caster = self:GetCaster()
 	local ability = self
 	
 	-- Give caster the glimpse move check aura
-	if not caster:HasModifier("modifier_imba_glimpse_location_aura") then		
-		caster:AddNewModifier(caster, ability, "modifier_imba_glimpse_location_aura", {})		
+	if not caster:HasModifier("modifier_extended_glimpse_location_aura") then		
+		caster:AddNewModifier(caster, ability, "modifier_extended_glimpse_location_aura", {})		
 	end
 end
 
 ---------------------------------------------------
 
-function imba_disruptor_glimpse:OnSpellStart()
+function extended_disruptor_glimpse:OnSpellStart()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -457,7 +457,7 @@ function imba_disruptor_glimpse:OnSpellStart()
 		-- Create dummy at glimpse location
 		local dummy = CreateUnitByName("npc_dummy_unit", ability.glimpse_location, false, caster, caster, caster:GetTeamNumber())
 		-- Apply dummy state to dummy
-		dummy:AddNewModifier(caster, ability, "modifier_imba_glimpse_dummy", {})	
+		dummy:AddNewModifier(caster, ability, "modifier_extended_glimpse_dummy", {})	
 		
 		-- Add start particle
 		ability.particle_start = ParticleManager:CreateParticle(particle_start, PATTACH_ABSORIGIN, target)
@@ -491,7 +491,7 @@ end
 
 ---------------------------------------------------
 
-function imba_disruptor_glimpse:OnProjectileHit(dummyTarget, location)
+function extended_disruptor_glimpse:OnProjectileHit(dummyTarget, location)
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -516,7 +516,7 @@ function GlimpseFinalized(caster, target, ability, dummy)
 	if IsServer() then
 		local sound_end = "Hero_Disruptor.Glimpse.End"
 		local particle_end = "particles/units/heroes/hero_disruptor/disruptor_glimpse_targetend.vpcf"
-		local storm_aura = "modifier_imba_glimpse_storm_aura"
+		local storm_aura = "modifier_extended_glimpse_storm_aura"
 		local storm_duration = ability:GetSpecialValueFor("storm_duration")
 		local storm_particle = "particles/hero/disruptor/disruptor_static_storm.vpcf"
 		local sound_storm = "Hero_Disruptor.StaticStorm"
@@ -576,65 +576,65 @@ end
 
 
 -- Glimpse checker modifier aura
-modifier_imba_glimpse_location_aura = class({})
+modifier_extended_glimpse_location_aura = class({})
 
-function modifier_imba_glimpse_location_aura:GetAuraRadius()
+function modifier_extended_glimpse_location_aura:GetAuraRadius()
 	return 100000 --global radius
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_aura:GetAuraSearchFlags()
+function modifier_extended_glimpse_location_aura:GetAuraSearchFlags()
 	return DOTA_UNIT_TARGET_FLAG_NONE
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_aura:GetAuraSearchTeam()
+function modifier_extended_glimpse_location_aura:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_ENEMY
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_aura:GetAuraSearchType()
+function modifier_extended_glimpse_location_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_aura:GetModifierAura()
-	return "modifier_imba_glimpse_location_store"
+function modifier_extended_glimpse_location_aura:GetModifierAura()
+	return "modifier_extended_glimpse_location_store"
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_aura:IsAura()
+function modifier_extended_glimpse_location_aura:IsAura()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_aura:IsHidden()
+function modifier_extended_glimpse_location_aura:IsHidden()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_aura:IsPurgable()
+function modifier_extended_glimpse_location_aura:IsPurgable()
 	return false
 end
 
 
 -- Glimpse checker modifier storer
-modifier_imba_glimpse_location_store = class({})
+modifier_extended_glimpse_location_store = class({})
 
-function modifier_imba_glimpse_location_store:IsHidden()
+function modifier_extended_glimpse_location_store:IsHidden()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_store:DeclareFunctions()	
+function modifier_extended_glimpse_location_store:DeclareFunctions()	
 	if IsServer() then
 		local decFuncs = {MODIFIER_EVENT_ON_TELEPORTED,
 						  MODIFIER_EVENT_ON_UNIT_MOVED}
@@ -645,7 +645,7 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_store:OnTeleported( keys )	
+function modifier_extended_glimpse_location_store:OnTeleported( keys )	
 	if IsServer() then
 		local ability = self:GetAbility()	
 		MovementCheck(keys, ability)
@@ -654,7 +654,7 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_location_store:OnUnitMoved( keys )	
+function modifier_extended_glimpse_location_store:OnUnitMoved( keys )	
 	if IsServer() then
 		local ability = self:GetAbility()
 		MovementCheck(keys, ability)
@@ -701,9 +701,9 @@ function MovementCheck(keys, ability)
 end
 
 -- Glimpse dummy modifier
-modifier_imba_glimpse_dummy = class({})
+modifier_extended_glimpse_dummy = class({})
 
-function modifier_imba_glimpse_dummy:CheckState()
+function modifier_extended_glimpse_dummy:CheckState()
 	local state = {[MODIFIER_STATE_NO_HEALTH_BAR] = true} 
 	return state
 end
@@ -711,9 +711,9 @@ end
 
 
 -- Glimpse storm aura modifier
-modifier_imba_glimpse_storm_aura = class({})
+modifier_extended_glimpse_storm_aura = class({})
 
-function modifier_imba_glimpse_storm_aura:OnCreated()
+function modifier_extended_glimpse_storm_aura:OnCreated()
 	if IsServer() then
 		self.caster = self:GetCaster()
 		self.ability = self:GetAbility()
@@ -724,67 +724,67 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:GetAuraRadius()
+function modifier_extended_glimpse_storm_aura:GetAuraRadius()
 	return self.storm_radius - 50
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:GetAuraDuration()
-	return self.storm_linger + self.caster:FindTalentValue("special_bonus_imba_disruptor_2")
+function modifier_extended_glimpse_storm_aura:GetAuraDuration()
+	return self.storm_linger + self.caster:FindTalentValue("special_bonus_extended_disruptor_2")
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:GetAuraSearchFlags()
+function modifier_extended_glimpse_storm_aura:GetAuraSearchFlags()
 	return DOTA_UNIT_TARGET_FLAG_NONE
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:GetAuraSearchTeam()
+function modifier_extended_glimpse_storm_aura:GetAuraSearchTeam()
 	return DOTA_UNIT_TARGET_TEAM_ENEMY
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:GetAuraSearchType()
+function modifier_extended_glimpse_storm_aura:GetAuraSearchType()
 	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:GetModifierAura()
-	return "modifier_imba_glimpse_storm_debuff"
+function modifier_extended_glimpse_storm_aura:GetModifierAura()
+	return "modifier_extended_glimpse_storm_debuff"
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:IsAura()
+function modifier_extended_glimpse_storm_aura:IsAura()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:IsHidden()
+function modifier_extended_glimpse_storm_aura:IsHidden()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:IsPurgable()
+function modifier_extended_glimpse_storm_aura:IsPurgable()
 	return false
 end
 
 
-modifier_imba_glimpse_storm_debuff = class({})
+modifier_extended_glimpse_storm_debuff = class({})
 
-function modifier_imba_glimpse_storm_debuff:OnCreated()	
+function modifier_extended_glimpse_storm_debuff:OnCreated()	
 	-- Ability properties
 	self.target = self:GetParent()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
-	self.stormbearer_buff = "modifier_imba_stormbearer"
+	self.stormbearer_buff = "modifier_extended_stormbearer"
 	self.scepter = self.caster:HasScepter()
 
 	-- Ability specials
@@ -795,43 +795,43 @@ function modifier_imba_glimpse_storm_debuff:OnCreated()
 	self:StartIntervalThink(self.storm_interval)	
 end
 
-function modifier_imba_glimpse_storm_debuff:IsDebuff()
+function modifier_extended_glimpse_storm_debuff:IsDebuff()
 	return true
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_debuff:IsHidden()
+function modifier_extended_glimpse_storm_debuff:IsHidden()
 	return false
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_debuff:IsPurgable()
+function modifier_extended_glimpse_storm_debuff:IsPurgable()
 	return false
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_debuff:OnDestroy()
+function modifier_extended_glimpse_storm_debuff:OnDestroy()
 	self:StartIntervalThink(-1)
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_debuff:GetEffectName()
+function modifier_extended_glimpse_storm_debuff:GetEffectName()
 	return "particles/generic_gameplay/generic_silenced.vpcf"
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_debuff:GetEffectAttachType()
+function modifier_extended_glimpse_storm_debuff:GetEffectAttachType()
 	return PATTACH_OVERHEAD_FOLLOW
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_debuff:OnIntervalThink()
+function modifier_extended_glimpse_storm_debuff:OnIntervalThink()
 	if IsServer() then		
 		if not self.target:IsMagicImmune() or not self.target:IsInvulnerable() then			
 			local damageTable = {
@@ -855,7 +855,7 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_debuff:CheckState()			
+function modifier_extended_glimpse_storm_debuff:CheckState()			
 	local state	
 	if self.scepter then
 		
@@ -878,15 +878,15 @@ end
 ---------------------------------------------------
 ---------------------------------------------------
 
-imba_disruptor_kinetic_field = class ({})
-LinkLuaModifier("modifier_imba_kinetic_field_dummy_guard", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+extended_disruptor_kinetic_field = class ({})
+LinkLuaModifier("modifier_extended_kinetic_field_dummy_guard", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
 
-function imba_disruptor_kinetic_field:GetAOERadius()	
+function extended_disruptor_kinetic_field:GetAOERadius()	
 		local radius = self:GetSpecialValueFor("field_radius")	
 		return radius	
 end
 
-function imba_disruptor_kinetic_field:OnSpellStart()
+function extended_disruptor_kinetic_field:OnSpellStart()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -898,7 +898,7 @@ function imba_disruptor_kinetic_field:OnSpellStart()
 		local sound_end = "Hero_Disruptor.KineticField.End"			
 		local particle_formation = "particles/units/heroes/hero_disruptor/disruptor_kineticfield_formation.vpcf" -- rods that 'set up' the field
 		local particle_field = "particles/units/heroes/hero_disruptor/disruptor_kineticfield.vpcf" -- the field itself
-		local guard_buff = "modifier_imba_kinetic_field_dummy_guard"
+		local guard_buff = "modifier_extended_kinetic_field_dummy_guard"
 		
 		-- Ability specials
 		local formation_delay = ability:GetSpecialValueFor("formation_delay")
@@ -907,7 +907,7 @@ function imba_disruptor_kinetic_field:OnSpellStart()
 		local vision_aoe = ability:GetSpecialValueFor("vision_aoe")
 
 		-- #6 Talent: Kinetic Field duration increase
-		duration = duration + caster:FindTalentValue("special_bonus_imba_disruptor_6")
+		duration = duration + caster:FindTalentValue("special_bonus_extended_disruptor_6")
 
 		-- Roll for a cast response
 		if RollPercentage(75) then
@@ -972,10 +972,10 @@ function imba_disruptor_kinetic_field:OnSpellStart()
 end
 
 
-modifier_imba_kinetic_field_dummy_guard = class ({})
+modifier_extended_kinetic_field_dummy_guard = class ({})
 
 
-function modifier_imba_kinetic_field_dummy_guard:OnCreated()	
+function modifier_extended_kinetic_field_dummy_guard:OnCreated()	
 	if IsServer() then
 		-- Ability properties
 		self.ability = self:GetAbility()
@@ -983,7 +983,7 @@ function modifier_imba_kinetic_field_dummy_guard:OnCreated()
 		self.dummy = self:GetParent()
 		
 		self.particle_attack = "particles/hero/disruptor/disruptor_kinetic_field_attack.vpcf"
-		self.stormbearer_buff = "modifier_imba_stormbearer"
+		self.stormbearer_buff = "modifier_extended_stormbearer"
 		self.scepter = self.caster:HasScepter()		
 
 		-- Ability specials
@@ -1000,7 +1000,7 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_kinetic_field_dummy_guard:OnIntervalThink()
+function modifier_extended_kinetic_field_dummy_guard:OnIntervalThink()
 	if IsServer() then
 		local should_reduce_cd = false
 
@@ -1025,7 +1025,7 @@ function modifier_imba_kinetic_field_dummy_guard:OnIntervalThink()
 			
 			-- units inside the field that touch the wall
 			-- #1 Talent: units outside the field that touch the wall are pulled inside
-			if (distance >= in_edge_radius and distance <= self.field_radius) or (distance <= out_edge_radius and distance >= self.field_radius and self.caster:HasTalent("special_bonus_imba_disruptor_1")) then
+			if (distance >= in_edge_radius and distance <= self.field_radius) or (distance <= out_edge_radius and distance >= self.field_radius and self.caster:HasTalent("special_bonus_extended_disruptor_1")) then
 				if not enemy:IsMagicImmune() then
 				
 					-- Damage enemy depending on whether it is a creep or a hero
@@ -1178,16 +1178,16 @@ end
 ---------------------------------------------------
 ---------------------------------------------------
 ---------------------------------------------------
-imba_disruptor_static_storm = class ({})
-LinkLuaModifier("modifier_imba_static_storm_debuff_aura", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_static_storm_debuff", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("modifier_imba_static_storm_debuff_linger", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+extended_disruptor_static_storm = class ({})
+LinkLuaModifier("modifier_extended_static_storm_debuff_aura", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_static_storm_debuff", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_extended_static_storm_debuff_linger", "hero/hero_disruptor", LUA_MODIFIER_MOTION_NONE)
 
-function imba_disruptor_static_storm:GetAOERadius()	
+function extended_disruptor_static_storm:GetAOERadius()	
 		return self:GetSpecialValueFor("radius")	
 end
 
-function imba_disruptor_static_storm:OnSpellStart()
+function extended_disruptor_static_storm:OnSpellStart()
 	if IsServer() then
 		-- Ability properties
 		local caster = self:GetCaster()
@@ -1198,8 +1198,8 @@ function imba_disruptor_static_storm:OnSpellStart()
 		local sound_end = "Hero_Disruptor.StaticStorm.End"
 		local particle_storm = "particles/units/heroes/hero_disruptor/disruptor_static_storm.vpcf"	
 		local scepter = caster:HasScepter()
-		local stormbearer_buff = "modifier_imba_stormbearer"
-		local storm_aura = "modifier_imba_static_storm_debuff_aura"
+		local stormbearer_buff = "modifier_extended_stormbearer"
+		local storm_aura = "modifier_extended_static_storm_debuff_aura"
 			
 		-- Ability specials
 		local radius = ability:GetSpecialValueFor("radius")
@@ -1215,11 +1215,11 @@ function imba_disruptor_static_storm:OnSpellStart()
 		local scepter_stormbearer_stack_damage = ability:GetSpecialValueFor("scepter_stormbearer_stack_damage")
 
 		-- #5 Talent: Max damage increase
-		max_damage = max_damage + caster:FindTalentValue("special_bonus_imba_disruptor_5")
-		scepter_max_damage = scepter_max_damage + caster:FindTalentValue("special_bonus_imba_disruptor_5")
+		max_damage = max_damage + caster:FindTalentValue("special_bonus_extended_disruptor_5")
+		scepter_max_damage = scepter_max_damage + caster:FindTalentValue("special_bonus_extended_disruptor_5")
 
 		-- #7 Talent: Damage per pulse increase
-		damage_increase_pulse = damage_increase_pulse + caster:FindTalentValue("special_bonus_imba_disruptor_7")
+		damage_increase_pulse = damage_increase_pulse + caster:FindTalentValue("special_bonus_extended_disruptor_7")
 			
 		-- if has scepter, assign appropriate values	
 		if scepter then
@@ -1324,99 +1324,99 @@ end
 
 
 -- Static storm silence/mute aura
-modifier_imba_static_storm_debuff_aura = class({})
+modifier_extended_static_storm_debuff_aura = class({})
 
-function modifier_imba_static_storm_debuff_aura:OnCreated()
+function modifier_extended_static_storm_debuff_aura:OnCreated()
 	self.ability = self:GetAbility()
 	self.radius = self.ability:GetSpecialValueFor("radius")
 end
 
-function modifier_imba_static_storm_debuff_aura:GetAuraRadius()			
+function modifier_extended_static_storm_debuff_aura:GetAuraRadius()			
 		return self.radius	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_aura:GetAuraSearchFlags()	
+function modifier_extended_static_storm_debuff_aura:GetAuraSearchFlags()	
 		return DOTA_UNIT_TARGET_FLAG_INVULNERABLE	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_aura:GetAuraSearchTeam()	
+function modifier_extended_static_storm_debuff_aura:GetAuraSearchTeam()	
 		return DOTA_UNIT_TARGET_TEAM_ENEMY 	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_aura:GetAuraSearchType()	
+function modifier_extended_static_storm_debuff_aura:GetAuraSearchType()	
 		return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_aura:GetModifierAura()	
-		return "modifier_imba_static_storm_debuff"	
+function modifier_extended_static_storm_debuff_aura:GetModifierAura()	
+		return "modifier_extended_static_storm_debuff"	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_aura:IsAura()	
+function modifier_extended_static_storm_debuff_aura:IsAura()	
 		return true	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_glimpse_storm_aura:IsHidden()	
+function modifier_extended_glimpse_storm_aura:IsHidden()	
 		return true		
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_aura:IsPurgable()	
+function modifier_extended_static_storm_debuff_aura:IsPurgable()	
 		return false	
 end	
 
 
 
 -- Static Storm silence/mute debuff
-modifier_imba_static_storm_debuff = class ({})
+modifier_extended_static_storm_debuff = class ({})
 
-function modifier_imba_static_storm_debuff:OnCreated()
+function modifier_extended_static_storm_debuff:OnCreated()
 	self.caster = self:GetCaster()
 	self.ability = self:GetAbility()
 	self.target = self:GetParent()	
 	self.scepter = self.caster:HasScepter()		
 	
-	self.debuff = "modifier_imba_static_storm_debuff_linger"		
+	self.debuff = "modifier_extended_static_storm_debuff_linger"		
 	self.linger_time = self.ability:GetSpecialValueFor("linger_time")
 end
 
-function modifier_imba_static_storm_debuff:GetEffectName()	
+function modifier_extended_static_storm_debuff:GetEffectName()	
 		return "particles/generic_gameplay/generic_silenced.vpcf"	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff:GetEffectAttachType()
+function modifier_extended_static_storm_debuff:GetEffectAttachType()
 		return PATTACH_OVERHEAD_FOLLOW
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff:IsDebuff()	
+function modifier_extended_static_storm_debuff:IsDebuff()	
 		return true	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff:IsHidden()	
+function modifier_extended_static_storm_debuff:IsHidden()	
 		return false	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff:IsPurgable()	
+function modifier_extended_static_storm_debuff:IsPurgable()	
 		return false	
 end
 
@@ -1425,7 +1425,7 @@ end
 -- Those commented functions counted how much time an enemy was inside the storm.
 -- I'll keep it here in case you decide to bring it back instead of the current flat amount.
 
--- function modifier_imba_static_storm_debuff:OnCreated()
+-- function modifier_extended_static_storm_debuff:OnCreated()
 	-- if IsServer() then
 		-- Reset linger variable, start counting time
 		-- local target = self:GetParent()
@@ -1437,7 +1437,7 @@ end
 	-- end
 -- end
 
--- function modifier_imba_static_storm_debuff:OnIntervalThink()
+-- function modifier_extended_static_storm_debuff:OnIntervalThink()
 	-- if IsServer() then
 		-- Add 0.25 to linger variable
 		-- local target = self:GetParent()
@@ -1449,7 +1449,7 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff:OnDestroy()
+function modifier_extended_static_storm_debuff:OnDestroy()
 	if IsServer() then
 		-- Apply linger debuff for linger duration		
 		self.target:AddNewModifier(self.caster, self.ability, self.debuff, {duration = self.linger_time})
@@ -1458,7 +1458,7 @@ end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff:CheckState()	
+function modifier_extended_static_storm_debuff:CheckState()	
 	if self.scepter then
 		state = { [MODIFIER_STATE_SILENCED] = true,
 				  [MODIFIER_STATE_MUTED] = true,}
@@ -1470,44 +1470,44 @@ function modifier_imba_static_storm_debuff:CheckState()
 end
 
 -- Static Storm silence/mute linger debuff 
-modifier_imba_static_storm_debuff_linger = class ({})
+modifier_extended_static_storm_debuff_linger = class ({})
 
-function modifier_imba_static_storm_debuff_linger:OnCreated()
+function modifier_extended_static_storm_debuff_linger:OnCreated()
 	self.caster = self:GetCaster()
 	self.scepter = self.caster:HasScepter()
 end
 
-function modifier_imba_static_storm_debuff_linger:GetEffectName()	
+function modifier_extended_static_storm_debuff_linger:GetEffectName()	
 	return "particles/generic_gameplay/generic_silenced.vpcf"	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_linger:GetEffectAttachType()	
+function modifier_extended_static_storm_debuff_linger:GetEffectAttachType()	
 		return PATTACH_OVERHEAD_FOLLOW	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_linger:IsDebuff()	
+function modifier_extended_static_storm_debuff_linger:IsDebuff()	
 		return true	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_linger:IsHidden()	
+function modifier_extended_static_storm_debuff_linger:IsHidden()	
 		return false	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_linger:IsPurgable()	
+function modifier_extended_static_storm_debuff_linger:IsPurgable()	
 		return false	
 end
 
 ---------------------------------------------------
 
-function modifier_imba_static_storm_debuff_linger:CheckState()			
+function modifier_extended_static_storm_debuff_linger:CheckState()			
 		local state = nil
 		
 		if self.scepter then

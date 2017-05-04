@@ -32,19 +32,19 @@ function InitializeUI() {
 
 		// Update other elements according to the current map
 		var map_info = Game.GetMapInfo();
-		if (map_info.map_display_name == "imba_standard") {
+		if (map_info.map_display_name == "extended_standard") {
 			
-		} else if (map_info.map_display_name == "imba_random_omg") {
-			$('#game_options_game_mode_title').text = $.Localize( "#imba_gamemode_name_random_omg" );
+		} else if (map_info.map_display_name == "extended_random_omg") {
+			$('#game_options_game_mode_title').text = $.Localize( "#extended_gamemode_name_random_omg" );
 			$('#AllRandomToggle').SetSelected(true);
-		} else if (map_info.map_display_name == "imba_10v10") {
-			$('#game_options_game_mode_title').text = $.Localize( "#imba_gamemode_name_10v10" );
+		} else if (map_info.map_display_name == "extended_10v10") {
+			$('#game_options_game_mode_title').text = $.Localize( "#extended_gamemode_name_10v10" );
 			$('#TowerUpgradesToggle').SetSelected(true);
-		} else if (map_info.map_display_name == "imba_custom") {
+		} else if (map_info.map_display_name == "extended_custom") {
 			$('#TowerUpgradesToggle').SetSelected(true);
 			$('#FranticToggle').style.visibility = 'visible';
-		} else if (map_info.map_display_name == "imba_arena") {
-			$('#game_options_game_mode_title').text = $.Localize( "#imba_gamemode_name_arena_mode" );
+		} else if (map_info.map_display_name == "extended_arena") {
+			$('#game_options_game_mode_title').text = $.Localize( "#extended_gamemode_name_arena_mode" );
 			$('#KillsToEndOptionsPanel').style.visibility = 'visible';
 			$('#QuickOptionsPanel').style.visibility = 'collapse';
 			$('#CreepPowerOptionsPanel').style.visibility = 'collapse';
@@ -70,7 +70,7 @@ function SetQuickOptionsNormal() {
 
 	// Disables upgradable towers in standard and random_omg
 	var map_info = Game.GetMapInfo();
-	if (map_info.map_display_name == "imba_standard" || map_info.map_display_name == "imba_random_omg") {
+	if (map_info.map_display_name == "extended_standard" || map_info.map_display_name == "extended_random_omg") {
 		$('#TowerUpgradesToggle').SetSelected(false);
 	} 
 
@@ -87,7 +87,7 @@ function SetQuickOptionsHigh() {
 
 	// Enables upgradable towers in standard and random_omg
 	var map_info = Game.GetMapInfo();
-	if (map_info.map_display_name == "imba_standard" || map_info.map_display_name == "imba_random_omg") {
+	if (map_info.map_display_name == "extended_standard" || map_info.map_display_name == "extended_random_omg") {
 		$('#TowerUpgradesToggle').SetSelected(true);
 	} 
 

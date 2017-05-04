@@ -6,16 +6,16 @@
 -----------------------------------------------------------------------------------------------------------
 --	Blink Dagger definition
 -----------------------------------------------------------------------------------------------------------
-if item_imba_blink == nil then item_imba_blink = class({}) end
-LinkLuaModifier( "modifier_imba_blink_dagger_handler", "items/item_blink.lua", LUA_MODIFIER_MOTION_NONE ) -- Check if the target was damaged and set cooldown
+if item_extended_blink == nil then item_extended_blink = class({}) end
+LinkLuaModifier( "modifier_extended_blink_dagger_handler", "items/item_blink.lua", LUA_MODIFIER_MOTION_NONE ) -- Check if the target was damaged and set cooldown
 
-function item_imba_blink:GetBehavior()
+function item_extended_blink:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_OPTIONAL_POINT + DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_DIRECTIONAL + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING end
 
-function item_imba_blink:GetIntrinsicModifierName()
-	return "modifier_imba_blink_dagger_handler" end
+function item_extended_blink:GetIntrinsicModifierName()
+	return "modifier_extended_blink_dagger_handler" end
 
-function item_imba_blink:OnSpellStart()
+function item_extended_blink:OnSpellStart()
 	local caster = self:GetCaster()
 	local origin_point = caster:GetAbsOrigin()
 	
@@ -71,8 +71,8 @@ function item_imba_blink:OnSpellStart()
 	local distance = (target_point - origin_point):Length2D()
 	local max_blink_range = self:GetSpecialValueFor("max_blink_range")
 	
-	local blink_effect = "particles/item/blink/blink_dagger_start_imba.vpcf"
-	local blink_effect_end = "particles/item/blink/blink_dagger_imbaend.vpcf"
+	local blink_effect = "particles/item/blink/blink_dagger_start_extended.vpcf"
+	local blink_effect_end = "particles/item/blink/blink_dagger_extendedend.vpcf"
 	
 	-- Disjointing everything
 	ProjectileManager:ProjectileDodge(caster)
@@ -126,10 +126,10 @@ function item_imba_blink:OnSpellStart()
 	end)
 end
 
-function item_imba_blink:GetAbilityTextureName()
+function item_extended_blink:GetAbilityTextureName()
 	if IsClient() then
 		local caster = self:GetCaster()
-		if not caster:IsHero() then return "custom/imba_blink" end
+		if not caster:IsHero() then return "custom/extended_blink" end
 		
 		local carrier_name = caster:GetName()
 		local uniqueBlink = {
@@ -150,23 +150,23 @@ function item_imba_blink:GetAbilityTextureName()
 		}
 		
 		if uniqueBlink[carrier_name] then
-			return "custom/imba_blink_"..uniqueBlink[carrier_name]
+			return "custom/extended_blink_"..uniqueBlink[carrier_name]
 		end
 		
-		return "custom/imba_blink"
+		return "custom/extended_blink"
 	end
 end
 
 -----------------------------------------------------------------------------------------------------------
 --	Blink Dagger Handler 
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_blink_dagger_handler == nil then modifier_imba_blink_dagger_handler = class({}) end
-function modifier_imba_blink_dagger_handler:IsHidden() return true end
-function modifier_imba_blink_dagger_handler:IsDebuff() return false end
-function modifier_imba_blink_dagger_handler:IsPurgable() return false end
-function modifier_imba_blink_dagger_handler:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_blink_dagger_handler == nil then modifier_extended_blink_dagger_handler = class({}) end
+function modifier_extended_blink_dagger_handler:IsHidden() return true end
+function modifier_extended_blink_dagger_handler:IsDebuff() return false end
+function modifier_extended_blink_dagger_handler:IsPurgable() return false end
+function modifier_extended_blink_dagger_handler:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_imba_blink_dagger_handler:OnCreated()
+function modifier_extended_blink_dagger_handler:OnCreated()
 	if IsServer() then
 		local caster = self:GetCaster()
 		if caster:IsRealHero() then
@@ -200,12 +200,12 @@ function modifier_imba_blink_dagger_handler:OnCreated()
 	end
 end
 
-function modifier_imba_blink_dagger_handler:DeclareFunctions()
+function modifier_extended_blink_dagger_handler:DeclareFunctions()
 	local funcs = {	MODIFIER_EVENT_ON_TAKEDAMAGE,}
 	return funcs
 end
 
-function modifier_imba_blink_dagger_handler:OnTakeDamage( keys )
+function modifier_extended_blink_dagger_handler:OnTakeDamage( keys )
 	local ability = self:GetAbility()
 	local blink_damage_cooldown = ability:GetSpecialValueFor("blink_damage_cooldown")
 	
@@ -224,16 +224,16 @@ end
 -----------------------------------------------------------------------------------------------------------
 --	Blink Boots definition
 -----------------------------------------------------------------------------------------------------------
-if item_imba_blink_boots == nil then item_imba_blink_boots = class({}) end
-LinkLuaModifier( "modifier_imba_blink_boots_handler", "items/item_blink.lua", LUA_MODIFIER_MOTION_NONE ) -- Check if the target was damaged and set cooldown + item bonuses
+if item_extended_blink_boots == nil then item_extended_blink_boots = class({}) end
+LinkLuaModifier( "modifier_extended_blink_boots_handler", "items/item_blink.lua", LUA_MODIFIER_MOTION_NONE ) -- Check if the target was damaged and set cooldown + item bonuses
 
-function item_imba_blink_boots:GetBehavior()
+function item_extended_blink_boots:GetBehavior()
 	return DOTA_ABILITY_BEHAVIOR_OPTIONAL_POINT + DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR_DIRECTIONAL + DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES + DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING end
 	
-function item_imba_blink_boots:GetIntrinsicModifierName()
-	return "modifier_imba_blink_boots_handler" end
+function item_extended_blink_boots:GetIntrinsicModifierName()
+	return "modifier_extended_blink_boots_handler" end
 
-function item_imba_blink_boots:OnSpellStart()
+function item_extended_blink_boots:OnSpellStart()
 	local caster = self:GetCaster()
 	local origin_point = caster:GetAbsOrigin()
 	
@@ -290,8 +290,8 @@ function item_imba_blink_boots:OnSpellStart()
 	local distance = (target_point - origin_point):Length2D()
 	local max_blink_range = self:GetSpecialValueFor("max_blink_range")
 	
-	local blink_effect = "particles/item/blink/blink_dagger_start_imba.vpcf"
-	local blink_effect_end = "particles/item/blink/blink_dagger_imbaend.vpcf"
+	local blink_effect = "particles/item/blink/blink_dagger_start_extended.vpcf"
+	local blink_effect_end = "particles/item/blink/blink_dagger_extendedend.vpcf"
 	
 	-- Disjointing everything
 	ProjectileManager:ProjectileDodge(caster)
@@ -348,25 +348,25 @@ end
 -----------------------------------------------------------------------------------------------------------
 --	Blink Boots Handler 
 -----------------------------------------------------------------------------------------------------------
-if modifier_imba_blink_boots_handler == nil then modifier_imba_blink_boots_handler = class({}) end
-function modifier_imba_blink_boots_handler:IsHidden() return true end
-function modifier_imba_blink_boots_handler:IsDebuff() return false end
-function modifier_imba_blink_boots_handler:IsPurgable() return false end
-function modifier_imba_blink_boots_handler:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
+if modifier_extended_blink_boots_handler == nil then modifier_extended_blink_boots_handler = class({}) end
+function modifier_extended_blink_boots_handler:IsHidden() return true end
+function modifier_extended_blink_boots_handler:IsDebuff() return false end
+function modifier_extended_blink_boots_handler:IsPurgable() return false end
+function modifier_extended_blink_boots_handler:GetAttributes() return MODIFIER_ATTRIBUTE_MULTIPLE end
 
-function modifier_imba_blink_boots_handler:DeclareFunctions()
+function modifier_extended_blink_boots_handler:DeclareFunctions()
 	local funcs = {	MODIFIER_EVENT_ON_TAKEDAMAGE,
 					MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE, }
 	return funcs
 end
 
-function modifier_imba_blink_boots_handler:GetModifierMoveSpeedBonus_Special_Boots()
+function modifier_extended_blink_boots_handler:GetModifierMoveSpeedBonus_Special_Boots()
 	local ability = self:GetAbility()
 	local speed_bonus = ability:GetSpecialValueFor("bonus_movement_speed")
 	return speed_bonus
 end
 
-function modifier_imba_blink_boots_handler:OnTakeDamage( keys )
+function modifier_extended_blink_boots_handler:OnTakeDamage( keys )
 	local ability = self:GetAbility()
 	local blink_damage_cooldown = ability:GetSpecialValueFor("blink_damage_cooldown")
 	
