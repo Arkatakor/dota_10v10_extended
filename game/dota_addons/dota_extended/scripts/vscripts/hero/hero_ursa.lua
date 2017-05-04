@@ -202,7 +202,7 @@ function modifier_extended_trembling_steps_buff:OnUnitMoved()
 		-- Ability properties
 		local caster = self:GetCaster()
 		local ability = self:GetAbility()
-		local sound_step = "Imba.UrsaTremblingSteps"
+		local sound_step = "Extended.UrsaTremblingSteps"
 		local particle_step = "particles/hero/ursa/ursa_trembling_steps_elixir.vpcf"
 		local trembling_steps_prevent = "modifier_extended_trembling_steps_prevent"
 		local trembling_steps_debuff = "modifier_extended_trembling_steps_debuff"
@@ -602,7 +602,7 @@ function modifier_extended_fury_swipes:OnAttackLanded( keys )
 		local swipes_particle = "particles/units/heroes/hero_ursa/ursa_fury_swipes.vpcf"
 		local fury_swipes_debuff = "modifier_extended_fury_swipes_debuff"	
 		local deep_strike_particle = "particles/units/heroes/hero_bloodseeker/bloodseeker_bloodritual_impact.vpcf"		
-		local sound_deep_strike = "Imba.UrsaDeepStrike"
+		local sound_deep_strike = "Extended.UrsaDeepStrike"
 		local enrage_ability = caster:FindAbilityByName("extended_ursa_enrage")		
 		local enrage_buff = "modifier_extended_enrage_buff"
 		

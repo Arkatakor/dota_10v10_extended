@@ -19,7 +19,7 @@ function HeroSelection:Start()
 
 	-- Play pick music
 	HeroSelection.pick_sound_dummy = CreateUnitByName("npc_dummy_unit", Vector(0, 0, 0), false, nil, nil, DOTA_TEAM_GOODGUYS)
-	HeroSelection.pick_sound_dummy:EmitSound("Imba.PickPhaseDrums")
+	HeroSelection.pick_sound_dummy:EmitSound("Extended.PickPhaseDrums")
 
 	-- Figure out which players have to pick
 	HeroSelection.HorriblyImplementedReconnectDetection = {}
@@ -401,7 +401,7 @@ function HeroSelection:EndPicking()
 	CustomGameEventManager:Send_ServerToAllClients("hero_loading_done", {} )
 
 	-- Stop picking phase music
-	StopSoundOn("Imba.PickPhaseDrums", HeroSelection.pick_sound_dummy)
+	StopSoundOn("Extended.PickPhaseDrums", HeroSelection.pick_sound_dummy)
 end
 
 --[[

@@ -99,7 +99,7 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/item/blink/blink_dagger_imbaend_glow_inner.vpcf"
+			m_ChildRef = resource:"particles/item/blink/blink_dagger_extendedend_glow_inner.vpcf"
 		},
 	]
 }

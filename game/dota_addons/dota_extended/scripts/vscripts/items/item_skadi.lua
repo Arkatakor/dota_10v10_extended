@@ -41,9 +41,9 @@ function item_extended_skadi:OnSpellStart()
 
 		-- Play sound
 		if USE_MEME_SOUNDS and RollPercentage(5) then
-			caster:EmitSound("Imba.SkadiDeadWinter")
+			caster:EmitSound("Extended.SkadiDeadWinter")
 		else
-			caster:EmitSound("Imba.SkadiCast")
+			caster:EmitSound("Extended.SkadiCast")
 		end
 
 		-- Play particle
@@ -60,7 +60,7 @@ function item_extended_skadi:OnSpellStart()
 		local nearby_enemies = FindUnitsInRadius(caster:GetTeamNumber(), caster_loc, nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 
 		-- Play target sound if at least one enemy was hit
-		if #nearby_enemies > 0 then caster:EmitSound("Imba.SkadiHit") end
+		if #nearby_enemies > 0 then caster:EmitSound("Extended.SkadiHit") end
 
 		-- Damage and freeze enemies
 		for _,enemy in pairs(nearby_enemies) do
@@ -155,7 +155,7 @@ function modifier_item_extended_skadi_unique:IsPermanent() return true end
 -- Changes the caster's attack projectile, if applicable
 function modifier_item_extended_skadi_unique:OnCreated(keys)
 	if IsServer() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 
 		-- Store ability KVs for later usage
 		local ability = self:GetAbility()
@@ -168,7 +168,7 @@ end
 -- Changes the caster's attack projectile, if applicable
 function modifier_item_extended_skadi_unique:OnDestroy()
 	if IsServer() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 

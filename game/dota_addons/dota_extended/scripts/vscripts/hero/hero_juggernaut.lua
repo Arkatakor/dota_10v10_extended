@@ -29,7 +29,7 @@ function extended_juggernaut_blade_fury:OnSpellStart()
 	if (rand >= 2 and rand <= 3) or (rand >= 5 and rand <= 9) then
 		caster:EmitSound("juggernaut_jug_ability_bladefury_0"..rand)
 	elseif rand >= 10 and rand <= 18 then
-		caster:EmitSound("Imba.JuggernautBladeFury"..rand)
+		caster:EmitSound("Extended.JuggernautBladeFury"..rand)
 	end
 end
 

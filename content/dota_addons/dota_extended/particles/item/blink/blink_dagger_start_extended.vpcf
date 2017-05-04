@@ -86,7 +86,7 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/item/blink/blink_dagger_start_imba_smoke.vpcf"
+			m_ChildRef = resource:"particles/item/blink/blink_dagger_start_extended_smoke.vpcf"
 		},
 	]
 }

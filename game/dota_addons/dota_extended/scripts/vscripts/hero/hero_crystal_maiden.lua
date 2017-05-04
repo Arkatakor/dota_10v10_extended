@@ -165,7 +165,7 @@ function FreezingFieldCast( keys )
 
 	-- Plays ult ambient sound
 	if RandomInt(1, 100) <= 20 then
-		caster.freezing_field_center:EmitSound("Imba.CrystalMaidenLetItGo0"..RandomInt(1, 3))
+		caster.freezing_field_center:EmitSound("Extended.CrystalMaidenLetItGo0"..RandomInt(1, 3))
 	else
 		caster.freezing_field_center:EmitSound("hero_Crystal.freezingField.wind")
 	end
@@ -261,9 +261,9 @@ function FreezingFieldStopSound( keys )
 
 	-- Stop playing sounds
 	caster.freezing_field_center:StopSound("hero_Crystal.freezingField.wind")
-	caster.freezing_field_center:StopSound("Imba.CrystalMaidenLetItGo01")
-	caster.freezing_field_center:StopSound("Imba.CrystalMaidenLetItGo02")
-	caster.freezing_field_center:StopSound("Imba.CrystalMaidenLetItGo03")
+	caster.freezing_field_center:StopSound("Extended.CrystalMaidenLetItGo01")
+	caster.freezing_field_center:StopSound("Extended.CrystalMaidenLetItGo02")
+	caster.freezing_field_center:StopSound("Extended.CrystalMaidenLetItGo03")
 
 	-- Stop animation
 	EndAnimation(caster)

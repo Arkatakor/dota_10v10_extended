@@ -225,7 +225,7 @@
 	wash-color: #00000000;
 }
 
-.ClassImbaOption {
+.ClassExtendedOption {
 	width: 4.5%;
 	height: 95%;
 	horizontal-align: left;
@@ -237,14 +237,14 @@
 	border-radius: 6px;
 }
 
-.ClassImbaOption:hover {
+.ClassExtendedOption:hover {
 	saturation: 1.0;
 	pre-transform-scale2d: 1.05;
 	wash-color: #00000000;
 	border-radius: 6px;
 }
 
-.ClassImbaOption.taken {
+.ClassExtendedOption.taken {
 	saturation: 0.0;
 	transform: none;
 	opacity: 0.2;

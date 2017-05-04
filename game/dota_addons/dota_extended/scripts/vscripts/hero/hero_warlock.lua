@@ -401,9 +401,9 @@ function ChaoticOffering( keys )
 		infernal_model = 5
 		Timers:CreateTimer(effect_delay, function()
 			if scepter then
-				dummy_unit:EmitSound("Imba.WarlockYouFaceJaraxxusLong")
+				dummy_unit:EmitSound("Extended.WarlockYouFaceJaraxxusLong")
 			else
-				dummy_unit:EmitSound("Imba.WarlockYouFaceJaraxxus")
+				dummy_unit:EmitSound("Extended.WarlockYouFaceJaraxxus")
 			end
 		end)
 

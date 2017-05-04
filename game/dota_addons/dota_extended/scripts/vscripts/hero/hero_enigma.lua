@@ -364,7 +364,7 @@ function BlackHole( keys )
 
 	-- Decide voice responses
 	if #enemies_caught >= 4 then
-		caster:EmitSound("Imba.EnigmaBlackHoleTobi0"..RandomInt(1, 5))
+		caster:EmitSound("Extended.EnigmaBlackHoleTobi0"..RandomInt(1, 5))
 	elseif #enemies_caught > 0 then
 		if RandomInt(1, 100) <= 50 then
 			caster:EmitSound("enigma_enig_ability_black_0"..RandomInt(1, 3))
@@ -445,7 +445,7 @@ function BlackHoleEnd( keys )
 
 	-- Stop all sounds from playing
 	caster.black_hole_dummy:StopSound("Hero_Enigma.Black_Hole")
-	caster.black_hole_dummy:StopSound("Imba.EnigmaBlackHoleTi5")
+	caster.black_hole_dummy:StopSound("Extended.EnigmaBlackHoleTi5")
 
 	-- Play the end sound
 	caster:EmitSound(sound_stop)

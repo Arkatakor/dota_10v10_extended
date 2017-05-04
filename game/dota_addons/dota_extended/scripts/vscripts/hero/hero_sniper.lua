@@ -50,8 +50,8 @@ function Headshot( keys )
 		end
 
 		if #units > 0 then
-			caster:EmitSound("Imba.SniperLongRangeHeadshot")
-			caster:EmitSound("Imba.SniperLongRangeHeadshotProjectile")
+			caster:EmitSound("Extended.SniperLongRangeHeadshot")
+			caster:EmitSound("Extended.SniperLongRangeHeadshotProjectile")
 		end
 
 	-- Normal mode headshot, deals damage + slows target
@@ -80,7 +80,7 @@ function HeadshotKnockback( keys )
 	local caster_pos = caster:GetAbsOrigin()
 
 	-- Play sound
-	target:EmitSound("Imba.SniperLongRangeHeadshot0"..RandomInt(1, 2))
+	target:EmitSound("Extended.SniperLongRangeHeadshot0"..RandomInt(1, 2))
 
 	-- Knockback
 	local headshot_knockback =	{

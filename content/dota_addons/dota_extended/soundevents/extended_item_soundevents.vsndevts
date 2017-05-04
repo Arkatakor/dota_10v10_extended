@@ -1,4 +1,4 @@
-"Imba.VanguardBlock"
+"Extended.VanguardBlock"
 {
 	"operator_stacks"
 	{
@@ -27,7 +27,7 @@
 	}
 }
 
-"Imba.AegisStinger"
+"Extended.AegisStinger"
 {
 	"operator_stacks"
 	{
@@ -56,7 +56,7 @@
 	}
 }
 
-"Imba.SkadiCast"
+"Extended.SkadiCast"
 {
 	"operator_stacks"
 	{
@@ -85,7 +85,7 @@
 	}
 }
 
-"Imba.SkadiHit"
+"Extended.SkadiHit"
 {
 	"operator_stacks"
 	{
@@ -114,7 +114,7 @@
 	}
 }
 
-"Imba.SkadiDeadWinter"
+"Extended.SkadiDeadWinter"
 {
 	"operator_stacks"
 	{
@@ -143,7 +143,7 @@
 	}
 }
 
-"Imba.DesolatorCast"
+"Extended.DesolatorCast"
 {
 	"operator_stacks"
 	{
@@ -172,7 +172,7 @@
 	}
 }
 
-"Imba.DustMGS"
+"Extended.DustMGS"
 {
 	"operator_stacks"
 	{
@@ -201,7 +201,7 @@
 	}
 }
 
-"Imba.AngelicAllianceCast"
+"Extended.AngelicAllianceCast"
 {
 	"operator_stacks"
 	{
@@ -230,7 +230,7 @@
 	}
 }
 
-"Imba.Curseblade"
+"Extended.Curseblade"
 {
 	"operator_stacks"
 	{
@@ -262,7 +262,7 @@
 	}
 }
 
-"Imba.SangeStack"
+"Extended.SangeStack"
 {
 	"operator_stacks"
 	{
@@ -294,7 +294,7 @@
 	}
 }
 
-"Imba.SangeProc"
+"Extended.SangeProc"
 {
 	"operator_stacks"
 	{
@@ -326,7 +326,7 @@
 	}
 }
 
-"Imba.YashaStack"
+"Extended.YashaStack"
 {
 	"operator_stacks"
 	{
@@ -358,7 +358,7 @@
 	}
 }
 
-"Imba.YashaProc"
+"Extended.YashaProc"
 {
 	"operator_stacks"
 	{
@@ -390,7 +390,7 @@
 	}
 }
 
-"Imba.AzuraStack"
+"Extended.AzuraStack"
 {
 	"operator_stacks"
 	{
@@ -422,7 +422,7 @@
 	}
 }
 
-"Imba.AzuraProc"
+"Extended.AzuraProc"
 {
 	"operator_stacks"
 	{

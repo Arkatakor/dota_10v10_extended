@@ -28,13 +28,13 @@ function modifier_item_extended_blight_stone:GetAttributes() return MODIFIER_ATT
 -- Possible projectile changes
 function modifier_item_extended_blight_stone:OnCreated()
 	if IsServer() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 
 function modifier_item_extended_blight_stone:OnDestroy()
 	if IsServer() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 
@@ -130,7 +130,7 @@ function item_extended_desolator:OnSpellStart()
 		local projectile_speed = self:GetSpecialValueFor("projectile_speed")
 
 		-- Play cast sound
-		caster:EmitSound("Imba.DesolatorCast")
+		caster:EmitSound("Extended.DesolatorCast")
 
 		-- Launch projectile
 		local projectile_direction = (target_loc - caster_loc):Normalized()
@@ -209,13 +209,13 @@ function modifier_item_extended_desolator:GetAttributes() return MODIFIER_ATTRIB
 -- Possible projectile changes
 function modifier_item_extended_desolator:OnCreated()
 	if IsServer() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 
 function modifier_item_extended_desolator:OnDestroy()
 	if IsServer() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 
@@ -352,7 +352,7 @@ function item_extended_desolator_2:OnSpellStart()
 		-- Launch projectiles
 		local projectiles_launched = 0
 		Timers:CreateTimer(0.00, function()
-			caster:EmitSound("Imba.DesolatorCast")
+			caster:EmitSound("Extended.DesolatorCast")
 			desolator_projectile.vSpawnOrigin = projectile_directions[projectiles_launched + 1] + Vector(0, 0, 100)
 			desolator_projectile.vVelocity = (projectile_directions[projectiles_launched + 1] - caster_loc):Normalized() * projectile_speed
 			desolator_projectile.vVelocity.z = 0
@@ -416,13 +416,13 @@ function modifier_item_extended_desolator_2:GetAttributes() return MODIFIER_ATTR
 -- Possible projectile changes
 function modifier_item_extended_desolator_2:OnCreated()
 	if IsServer() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 
 function modifier_item_extended_desolator_2:OnDestroy()
 	if IsServer() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 

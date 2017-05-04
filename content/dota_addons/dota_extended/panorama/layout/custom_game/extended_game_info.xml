@@ -7,7 +7,7 @@
 	<Panel class="OverthrowGameInfo">
 
 		<Panel id="Title">
-			<Image id="ImbaTitle" class="SeqImg" src="file://{images}/custom_game/tutorial/extended.png" />
+			<Image id="ExtendedTitle" class="SeqImg" src="file://{images}/custom_game/tutorial/extended.png" />
 		</Panel>
 
 		<Label id="Intro01" class="Header" html="true" text="#extended_tutorial_intro_01" />

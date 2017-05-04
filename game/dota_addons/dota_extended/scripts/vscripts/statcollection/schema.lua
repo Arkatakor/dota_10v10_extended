@@ -84,12 +84,12 @@ function BuildPlayersArray()
 					pd = hero:GetDeaths(),		-- Number of deaths of this players hero
 
 					-- Item list
-					i1 = GetItemSlotImba(hero, 0),
-					i2 = GetItemSlotImba(hero, 1),
-					i3 = GetItemSlotImba(hero, 2),
-					i4 = GetItemSlotImba(hero, 3),
-					i5 = GetItemSlotImba(hero, 4),
-					i6 = GetItemSlotImba(hero, 5)
+					i1 = GetItemSlotExtended(hero, 0),
+					i2 = GetItemSlotExtended(hero, 1),
+					i3 = GetItemSlotExtended(hero, 2),
+					i4 = GetItemSlotExtended(hero, 3),
+					i5 = GetItemSlotExtended(hero, 4),
+					i6 = GetItemSlotExtended(hero, 5)
 				})
 			end
 		end
@@ -148,7 +148,7 @@ end
 -------------------------------------
 
 -- String of item name, without the item_extended_ prefix
-function GetItemSlotImba(hero, slot)
+function GetItemSlotExtended(hero, slot)
 	local item = hero:GetItemInSlot(slot)
 	local itemName = "empty"
 

@@ -87,10 +87,10 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/item/curseblade/imba_hellblade_curse_rope_rig.vpcf"
+			m_ChildRef = resource:"particles/item/curseblade/extended_hellblade_curse_rope_rig.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/item/curseblade/imba_hellblade_curse_rope_rig.vpcf"
+			m_ChildRef = resource:"particles/item/curseblade/extended_hellblade_curse_rope_rig.vpcf"
 			m_flDelay = 0.2
 		},
 	]

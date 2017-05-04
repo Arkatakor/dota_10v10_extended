@@ -26,7 +26,7 @@ function modifier_extended_morbid_mask:OnCreated()
         self.lifesteal_pct = self.ability:GetSpecialValueFor("lifesteal_pct")
     if IsServer() then
         -- Change to lifesteal projectile, if there's nothing "stronger"    
-        ChangeAttackProjectileImba(self.caster)
+        ChangeAttackProjectileExtended(self.caster)
     end
 end
 
@@ -76,7 +76,7 @@ end
 function modifier_extended_morbid_mask:OnDestroy()
     if IsServer() then
         -- Remove lifesteal projectile
-        ChangeAttackProjectileImba(self.caster) 
+        ChangeAttackProjectileExtended(self.caster) 
     end
 end
 

@@ -40,13 +40,13 @@ function item_extended_angelic_alliance:OnSpellStart()
 	end
 
 	if target:GetTeamNumber() == caster:GetTeamNumber() then
-		target:EmitSound("Imba.AngelicAllianceCast")
+		target:EmitSound("Extended.AngelicAllianceCast")
 		target:AddNewModifier(caster, self, "modifier_extended_angelic_alliance_buff", {duration = duration})
 		target:RemoveModifierByName("modifier_extended_angelic_alliance_haste_decaying")
 		AddStacksLua(self, caster, target, "modifier_extended_angelic_alliance_haste_decaying", duration*2)
 	else
 		if target:TriggerSpellAbsorb(self) then return nil end 
-		target:EmitSound("Imba.AngelicAllianceCast")
+		target:EmitSound("Extended.AngelicAllianceCast")
 		target:AddNewModifier(caster, self, "modifier_extended_angelic_alliance_debuff", {duration = duration})
 		target:RemoveModifierByName("modifier_extended_angelic_alliance_slow_decaying")
 		AddStacksLua(self, caster, target, "modifier_extended_angelic_alliance_slow_decaying", duration*2)

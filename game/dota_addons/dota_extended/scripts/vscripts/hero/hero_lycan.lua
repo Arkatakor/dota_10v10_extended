@@ -1414,7 +1414,7 @@ function modifier_extended_wolfsbane_lycan:OnHeroKilled( keys )
 		local killed_hero = keys.target
 		local aura = "modifier_extended_wolfsbane_aura"
 		local prevent_modifier = "modifier_extended_wolfsbane_lycan_prevent"
-		local sound_howl = "Imba.LycanWolfsbane" 
+		local sound_howl = "Extended.LycanWolfsbane" 
 		local scepter = caster:HasScepter()
 		
 		-- Ability specials

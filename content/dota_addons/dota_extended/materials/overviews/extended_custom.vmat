@@ -3,5 +3,5 @@
 	"Shader"	"ui.vfx"
 	"F_STENCIL_MASKING"	"1"
 	"F_TRANSLUCENT"	"0"
-	"Texture"	"materials/overviews/imba_custom.tga"
+	"Texture"	"materials/overviews/extended_custom.tga"
 }

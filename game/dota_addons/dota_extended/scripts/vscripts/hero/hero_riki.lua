@@ -555,7 +555,7 @@ function modifier_extended_riki_cloak_and_dagger:OnAttackLanded( keys )
 		local agility_multiplier_invis_break = ability:GetSpecialValueFor("invis_break_agility_multiplier")
 		
 		local backstab_sound = "Hero_Riki.Backstab"
-		local backstab_invisbreak_sound = "Imba.RikiCritStab"
+		local backstab_invisbreak_sound = "Extended.RikiCritStab"
 		local backstab_particle = "particles/units/heroes/hero_riki/riki_backstab.vpcf"
 		
 		-- Check if the parent is the attacker
@@ -701,7 +701,7 @@ function extended_riki_tricks_of_the_trade:OnSpellStart()
 		local tricks_particle = "particles/units/heroes/hero_riki/riki_tricks.vpcf"
 		local cast_sound = "Hero_Riki.TricksOfTheTrade.Cast"
 		local continuos_sound = "Hero_Riki.TricksOfTheTrade"
-		local buttsecks_sound = "Imba.RikiSurpriseButtsex"
+		local buttsecks_sound = "Extended.RikiSurpriseButtsex"
 		
 		local heroes = FindUnitsInRadius(caster:GetTeamNumber(), origin, nil, aoe, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS, FIND_ANY_ORDER, false)
 		if #heroes >= EXTENDED_PLAYERS_ON_GAME * 0.35 then
@@ -750,7 +750,7 @@ function extended_riki_tricks_of_the_trade:OnChannelFinish()
 		if backstab_ability and backstab_ability:GetLevel() > 0 then backstab_ability:EndCooldown() end
 		
 		StopSoundEvent("Hero_Riki.TricksOfTheTrade", caster)
-		StopSoundEvent("Imba.RikiSurpriseButtsex", caster)
+		StopSoundEvent("Extended.RikiSurpriseButtsex", caster)
 		ParticleManager:DestroyParticle(self.TricksParticle, false)
 		ParticleManager:ReleaseParticleIndex(self.TricksParticle)
 		self.TricksDummy:Destroy()

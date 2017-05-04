@@ -117,7 +117,7 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/item/curseblade/imba_hellblade_curse_rope_core.vpcf"
+			m_ChildRef = resource:"particles/item/curseblade/extended_hellblade_curse_rope_core.vpcf"
 		},
 	]
 	m_ForceGenerators = 

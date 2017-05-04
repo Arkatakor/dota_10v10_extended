@@ -9531,7 +9531,7 @@
 				"Target"					"POINT"
 
 				"sound_cast"				"Hero_Enigma.Black_Hole"
-				"sound_ti5"					"Imba.EnigmaBlackHoleTi5"
+				"sound_ti5"					"Extended.EnigmaBlackHoleTi5"
 				"particle_hole_ti5"			"particles/econ/items/enigma/enigma_world_chasm/enigma_blackhole_ti5.vpcf"
 				"particle_hole"				"particles/units/heroes/hero_enigma/enigma_blackhole.vpcf"
 				"modifier_debuff"			"extended_enigma_black_hole"
@@ -10292,7 +10292,7 @@
 				"Target"				"POINT"
 
 				"sound_cast"			"Hero_FacelessVoid.Chronosphere"
-				"sound_za_warudo"		"Imba.FacelessZaWarudo"
+				"sound_za_warudo"		"Extended.FacelessZaWarudo"
 				"particle_chrono"		"particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf"
 				"modifier_caster"		"modifier_extended_chronosphere_caster"
 				"modifier_enemy"		"modifier_extended_chronosphere_enemy"
@@ -15549,7 +15549,7 @@
 						"Function"				"DeathPulseThink"
 
 						"ability_aux"			"extended_necrolyte_death_pulse_aux"
-						"sound_cast"			"Imba.NecroDeathPulseRepeat"
+						"sound_cast"			"Extended.NecroDeathPulseRepeat"
 						"particle_ally"			"particles/units/heroes/hero_necrolyte/necrolyte_pulse_friend.vpcf"
 						"particle_enemy"		"particles/units/heroes/hero_necrolyte/necrolyte_pulse_enemy.vpcf"
 						"modifier_caster"		"modifier_extended_death_pulse_caster"
@@ -21674,7 +21674,7 @@
 				"Function"					"LifeDrain"
 
 				"sound_cast"				"Hero_Pugna.LifeDrain.Cast"
-				"sound_target"				"Imba.PugnaLifeDrainTarget"
+				"sound_target"				"Extended.PugnaLifeDrainTarget"
 				"modifier_enemy"			"modifier_extended_life_drain_enemy"
 				"modifier_ally"				"modifier_extended_life_drain_ally"
 			}
@@ -21712,7 +21712,7 @@
 						"Function"			"LifeDrainEnemyStart"
 
 						"particle_drain"	"particles/units/heroes/hero_pugna/pugna_life_drain.vpcf"
-						"sound_loop"		"Imba.PugnaLifeDrainLoop"
+						"sound_loop"		"Extended.PugnaLifeDrainLoop"
 					}
 				}
 
@@ -21723,7 +21723,7 @@
 						"ScriptFile"		"hero/hero_pugna.lua"
 						"Function"			"LifeDrainEnemyEnd"
 
-						"sound_loop"		"Imba.PugnaLifeDrainLoop"
+						"sound_loop"		"Extended.PugnaLifeDrainLoop"
 						"sound_target"		"Hero_Pugna.LifeDrain.Target"
 					}
 				}
@@ -21759,7 +21759,7 @@
 						"Function"			"LifeDrainAllyStart"
 
 						"particle_drain"	"particles/units/heroes/hero_pugna/pugna_life_give.vpcf"
-						"sound_loop"		"Imba.PugnaLifeDrainLoop"
+						"sound_loop"		"Extended.PugnaLifeDrainLoop"
 					}
 				}
 
@@ -21770,7 +21770,7 @@
 						"ScriptFile"		"hero/hero_pugna.lua"
 						"Function"			"LifeDrainAllyEnd"
 
-						"sound_loop"		"Imba.PugnaLifeDrainLoop"
+						"sound_loop"		"Extended.PugnaLifeDrainLoop"
 						"sound_target"		"Hero_Pugna.LifeDrain.Target"
 					}
 				}
@@ -21898,7 +21898,7 @@
 						"ScriptFile"			"hero/hero_queen_of_pain.lua"
 						"Function"				"ShadowStrikeAttack"
 
-						"sound_hit"				"Imba.QopShadowStrikeCreep"
+						"sound_hit"				"Extended.QopShadowStrikeCreep"
 						"particle_caster"		"particles/units/heroes/hero_queenofpain/queen_shadow_strike_body.vpcf"
 						"particle_projectile"	"particles/units/heroes/hero_queenofpain/queen_shadow_strike.vpcf"
 						"modifier_debuff"		"modifier_extended_shadow_strike_base_slow"
@@ -24241,7 +24241,7 @@
 				"Function"					"GreatCleave"
 
 				"particle_great_cleave"		"particles/units/heroes/hero_sven/sven_spell_warcry.vpcf"
-				"sound_cast"				"Imba.SvenGreatCleave"
+				"sound_cast"				"Extended.SvenGreatCleave"
 				"modifier_active"			"modifier_extended_great_cleave_active"
 				"modifier_passive"			"modifier_extended_great_cleave_passive"
 			}
@@ -24546,7 +24546,7 @@
 				"Function"						"GodStrength"
 
 				"sound_cast"					"Hero_Sven.GodsStrength"
-				"sound_be_a_man"				"Imba.SvenBeAMan"
+				"sound_be_a_man"				"Extended.SvenBeAMan"
 				"particle_caster"				"particles/units/heroes/hero_sven/sven_spell_gods_strength.vpcf"
 				"modifier_caster"				"modifier_extended_god_strength"
 				"modifier_aura"					"modifier_extended_god_strength_aura"
@@ -25819,7 +25819,7 @@
 
 				"sound_cast"			"Ability.SandKing_SandStorm.start"
 				"sound_loop"			"Ability.SandKing_SandStorm.loop"
-				"sound_darude"			"Imba.SandKingSandStorm"
+				"sound_darude"			"Extended.SandKingSandStorm"
 				"particle_sandstorm"	"particles/units/heroes/hero_sandking/sandking_sandstorm.vpcf"
 				"modifier_caster"		"modifier_extended_sandstorm_caster"
 			}
@@ -25833,7 +25833,7 @@
 				"Function"				"SandStormChannelEnd"
 
 				"sound_loop"			"Ability.SandKing_SandStorm.loop"
-				"sound_darude"			"Imba.SandKingSandStorm"
+				"sound_darude"			"Extended.SandKingSandStorm"
 				"modifier_caster"		"modifier_extended_sandstorm_caster"
 			}
 		}
@@ -26192,7 +26192,7 @@
 
 				"modifier_caster"		"modifier_extended_epicenter_caster"
 				"sound_cast"			"Ability.SandKing_Epicenter.spell"
-				"sound_darude"			"Imba.SandKingEpicenter"
+				"sound_darude"			"Extended.SandKingEpicenter"
 			}
 		}
 			
@@ -26207,7 +26207,7 @@
 				"modifier_slow"			"modifier_extended_epicenter_slow"
 				"modifier_sands"		"modifier_extended_sandking_treacherous_sands"
 				"sound_epicenter"		"Ability.SandKing_Epicenter"
-				"sound_darude"			"Imba.SandKingEpicenter"
+				"sound_darude"			"Extended.SandKingEpicenter"
 				"particle_epicenter"	"particles/units/heroes/hero_sandking/sandking_epicenter.vpcf"
 			}
 		}
@@ -30493,7 +30493,7 @@
 						"Function"				"ShadowWordExplode"
 
 						"particle_explode"		"particles/hero/warlock/shadow_word_explosion_good.vpcf"
-						"sound_explode"			"Imba.WarlockShadowWordExplosion"
+						"sound_explode"			"Extended.WarlockShadowWordExplosion"
 						"sound_cast_good"		"Hero_Warlock.ShadowWordCastGood"
 						"sound_cast_bad"		"Hero_Warlock.ShadowWordCastBad"
 						"sound_target"			"Hero_Warlock.ShadowWord"
@@ -30537,7 +30537,7 @@
 						"Function"				"ShadowWordExplode"
 
 						"particle_explode"		"particles/hero/warlock/shadow_word_explosion_bad.vpcf"
-						"sound_explode"			"Imba.WarlockShadowWordExplosion"
+						"sound_explode"			"Extended.WarlockShadowWordExplosion"
 						"sound_cast_good"		"Hero_Warlock.ShadowWordCastGood"
 						"sound_cast_bad"		"Hero_Warlock.ShadowWordCastBad"
 						"sound_target"			"Hero_Warlock.ShadowWord"

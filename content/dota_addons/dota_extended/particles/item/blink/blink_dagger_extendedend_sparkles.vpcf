@@ -102,16 +102,16 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/item/blink/blink_dagger_imbaend_smoke.vpcf"
+			m_ChildRef = resource:"particles/item/blink/blink_dagger_extendedend_smoke.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/item/blink/blink_dagger_imbablur.vpcf"
+			m_ChildRef = resource:"particles/item/blink/blink_dagger_extendedblur.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/item/blink/blink_dagger_imbaend_glow.vpcf"
+			m_ChildRef = resource:"particles/item/blink/blink_dagger_extendedend_glow.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/item/blink/blink_dagger_imbastart_sparkles_inner.vpcf"
+			m_ChildRef = resource:"particles/item/blink/blink_dagger_extendedstart_sparkles_inner.vpcf"
 		},
 	]
 }

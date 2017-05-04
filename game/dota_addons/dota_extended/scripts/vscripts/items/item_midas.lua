@@ -1,4 +1,4 @@
---[[	Author: D2Imba, rework by Shush
+--[[	Author: D2Extended, rework by Shush
 		Date:	05.03.2017	]]
 
 item_extended_hand_of_midas = class({})

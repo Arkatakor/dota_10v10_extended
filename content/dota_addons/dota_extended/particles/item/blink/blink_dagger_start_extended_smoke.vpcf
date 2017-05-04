@@ -94,7 +94,7 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/item/blink/blink_dagger_start_imba_sparkles.vpcf"
+			m_ChildRef = resource:"particles/item/blink/blink_dagger_start_extended_sparkles.vpcf"
 		},
 	]
 }

@@ -107,7 +107,7 @@ function Darkness( keys )
 	-- Play meme sounds if appropriate
 	local rand = RandomInt
 	if USE_MEME_SOUNDS and rand(1, 100) <= 10 then
-		caster:EmitSound("Imba.NightStalkerDarknessAlt0"..rand(1, 2))
+		caster:EmitSound("Extended.NightStalkerDarknessAlt0"..rand(1, 2))
 
 	-- Else, use normal sound
 	else

@@ -97,7 +97,7 @@ function modifier_item_extended_spell_fencer:OnAttackLanded( keys )
 		local modifier_amp = target:AddNewModifier(owner, ability, "modifier_item_extended_azura_amp", {duration = ability:GetSpecialValueFor("stack_duration")})
 		if modifier_amp and modifier_amp:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 			modifier_amp:SetStackCount(modifier_amp:GetStackCount() + 1)
-			target:EmitSound("Imba.AzuraStack")
+			target:EmitSound("Extended.AzuraStack")
 		end
 
 		-- If the ability is not on cooldown, roll for a proc
@@ -105,7 +105,7 @@ function modifier_item_extended_spell_fencer:OnAttackLanded( keys )
 
 			-- Proc! Apply the silence modifier and put the ability on cooldown
 			target:AddNewModifier(owner, ability, "modifier_item_extended_azura_silence", {duration = ability:GetSpecialValueFor("proc_duration")})
-			target:EmitSound("Imba.AzuraProc")
+			target:EmitSound("Extended.AzuraProc")
 			ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(owner))
 		end
 	end

@@ -26,7 +26,7 @@ function item_extended_dust_of_appearance:OnSpellStart()
 	end
 	
 	local chance = self:GetSpecialValueFor("meme_chance") * foundInvis
-	if RollPercentage(chance) then caster:EmitSound("Imba.DustMGS") end
+	if RollPercentage(chance) then caster:EmitSound("Extended.DustMGS") end
 end
 
 -----------------------------------------------------------------------------------------------------------

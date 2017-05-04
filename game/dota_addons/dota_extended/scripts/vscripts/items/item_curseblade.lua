@@ -32,7 +32,7 @@ function item_extended_curseblade:OnSpellStart()
 		-- Ability properties
 		local caster = self:GetCaster()
 		local target = self:GetCursorTarget()
-		local sound_cast = "Imba.Curseblade"
+		local sound_cast = "Extended.Curseblade"
 		local particle_curse = "particles/item/curseblade/extended_curseblade_curse.vpcf"
 		local datadrive_baseclass = "modifier_datadriven"
 		local debuff = "modifier_item_extended_curseblade_debuff"

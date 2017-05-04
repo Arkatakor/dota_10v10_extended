@@ -50,7 +50,7 @@ function modifier_extended_satanic:OnCreated()
 
     if IsServer() then
         -- Change to lifesteal projectile, if there's nothing "stronger"    
-        ChangeAttackProjectileImba(self.caster)       
+        ChangeAttackProjectileExtended(self.caster)       
     end
 end
 
@@ -159,7 +159,7 @@ end
 function modifier_extended_satanic:OnDestroy()
     if IsServer() then
         -- Remove lifesteal projectile
-        ChangeAttackProjectileImba(self.caster) 
+        ChangeAttackProjectileExtended(self.caster) 
     end
 end
 

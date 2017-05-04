@@ -126,7 +126,7 @@ function modifier_item_extended_vladmir_aura:OnCreated(keys)
 	self.hp_regen_aura = self:GetAbility():GetSpecialValueFor("hp_regen_aura")
 	self.mana_regen_aura = self:GetAbility():GetSpecialValueFor("mana_regen_aura")
 	if IsServer() and self:GetParent():IsHero() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 
@@ -134,7 +134,7 @@ end
 function modifier_item_extended_vladmir_aura:OnDestroy()
 	if IsServer() and self:GetParent():IsHero() then
 		local parent = self:GetParent()
-		ChangeAttackProjectileImba(parent)
+		ChangeAttackProjectileExtended(parent)
 	end
 end
 
@@ -338,7 +338,7 @@ function modifier_item_extended_vladmir_blood_aura:OnCreated(keys)
 	self.hp_regen_aura = self:GetAbility():GetSpecialValueFor("hp_regen_aura")
 	self.mana_regen_aura = self:GetAbility():GetSpecialValueFor("mana_regen_aura")
 	if IsServer() and self:GetParent():IsHero() then
-		ChangeAttackProjectileImba(self:GetParent())
+		ChangeAttackProjectileExtended(self:GetParent())
 	end
 end
 
@@ -346,7 +346,7 @@ end
 function modifier_item_extended_vladmir_blood_aura:OnDestroy()
 	if IsServer() and self:GetParent():IsHero() then
 		local parent = self:GetParent()
-		ChangeAttackProjectileImba(parent)
+		ChangeAttackProjectileExtended(parent)
 	end
 end
 

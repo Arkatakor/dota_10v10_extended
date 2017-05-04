@@ -17,7 +17,7 @@ function PlayerResource:InitPlayerData(player_id)
 end
 
 -- Verifies if this player ID already has player data assigned to it
-function PlayerResource:IsImbaPlayer(player_id)
+function PlayerResource:IsExtendedPlayer(player_id)
 	if self.PlayerData[player_id] then
 		return true
 	else
@@ -27,7 +27,7 @@ end
 
 -- Assigns a hero to a player
 function PlayerResource:SetPickedHero(player_id, hero_entity)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		self.PlayerData[player_id].hero = hero_entity
 		self.PlayerData[player_id].hero_name = hero_entity:GetUnitName()
 		print("assigned "..self.PlayerData[player_id].hero_name.." to player with ID "..player_id)
@@ -36,7 +36,7 @@ end
 
 -- Fetches a player's hero
 function PlayerResource:GetPickedHero(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		return self.PlayerData[player_id].hero
 	end
 	return nil
@@ -44,7 +44,7 @@ end
 
 -- Fetches a player's hero name
 function PlayerResource:GetPickedHeroName(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		return self.PlayerData[player_id].hero_name
 	end
 	return nil
@@ -52,14 +52,14 @@ end
 
 -- Set a player's repick status
 function PlayerResource:CustomSetHasRepicked(player_id, state)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		self.PlayerData[player_id]["has_repicked"] = state
 	end
 end
 
 -- Fetch a player's repick state
 function PlayerResource:CustomGetHasRepicked(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		return self.PlayerData[player_id]["has_repicked"]
 	else
 		return false
@@ -68,7 +68,7 @@ end
 
 -- Set a player's abandonment due to long disconnect status
 function PlayerResource:SetHasAbandonedDueToLongDisconnect(player_id, state)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		self.PlayerData[player_id]["has_abandoned_due_to_long_disconnect"] = state
 		print("Set player "..player_id.." 's abandon due to long disconnect state as "..tostring(state))
 	end
@@ -76,7 +76,7 @@ end
 
 -- Fetch a player's abandonment due to long disconnect status
 function PlayerResource:GetHasAbandonedDueToLongDisconnect(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		return self.PlayerData[player_id]["has_abandoned_due_to_long_disconnect"]
 	else
 		return false
@@ -85,7 +85,7 @@ end
 
 -- Increase a player's team's player count
 function PlayerResource:IncrementTeamPlayerCount(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		if self:GetTeam(player_id) == DOTA_TEAM_GOODGUYS then
 			REMAINING_GOODGUYS = REMAINING_GOODGUYS + 1
 			print("Radiant now has "..REMAINING_GOODGUYS.." players remaining")
@@ -98,7 +98,7 @@ end
 
 -- Decrease a player's team's player count
 function PlayerResource:DecrementTeamPlayerCount(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		if self:GetTeam(player_id) == DOTA_TEAM_GOODGUYS then
 			REMAINING_GOODGUYS = REMAINING_GOODGUYS - 1
 			print("Radiant now has "..REMAINING_GOODGUYS.." players remaining")
@@ -111,7 +111,7 @@ end
 
 -- Increase a player's current deathstreak count
 function PlayerResource:IncrementDeathstreak(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		self.PlayerData[player_id]["current_deathstreak"] = self.PlayerData[player_id]["current_deathstreak"] + 1
 		print("Current deathstreak for player "..player_id..": "..self.PlayerData[player_id]["current_deathstreak"])
 	end
@@ -119,7 +119,7 @@ end
 
 -- Reset a player's current deathstreak count
 function PlayerResource:ResetDeathstreak(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		self.PlayerData[player_id]["current_deathstreak"] = 0
 		print("Current deathstreak for player "..player_id.." reset to zero.")
 	end
@@ -127,7 +127,7 @@ end
 
 -- Fetch a player's current deathstreak count
 function PlayerResource:GetDeathstreak(player_id)
-	if self:IsImbaPlayer(player_id) then
+	if self:IsExtendedPlayer(player_id) then
 		return self.PlayerData[player_id]["current_deathstreak"]
 	end
 	return nil
@@ -149,7 +149,7 @@ function PlayerResource:StartAbandonGoldRedistribution(player_id)
 
 	-- Distribute initial gold
 	for id = 0, 19 do
-		if self:IsImbaPlayer(id) and (not self.PlayerData[id]["distribute_gold_to_allies"]) and self:GetTeam(id) == player_team then
+		if self:IsExtendedPlayer(id) and (not self.PlayerData[id]["distribute_gold_to_allies"]) and self:GetTeam(id) == player_team then
 			current_allies[#current_allies + 1] = id
 		end
 	end
@@ -178,7 +178,7 @@ function PlayerResource:StartAbandonGoldRedistribution(player_id)
 
 		-- Update active ally amount
 		for id = 0, 19 do
-			if self:IsImbaPlayer(id) and (not self.PlayerData[id]["distribute_gold_to_allies"]) and self:GetTeam(id) == player_team then
+			if self:IsExtendedPlayer(id) and (not self.PlayerData[id]["distribute_gold_to_allies"]) and self:GetTeam(id) == player_team then
 				current_allies[#current_allies + 1] = id
 			end
 		end

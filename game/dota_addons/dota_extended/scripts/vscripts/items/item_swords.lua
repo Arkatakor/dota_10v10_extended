@@ -245,7 +245,7 @@ function modifier_item_extended_heavens_halberd:OnAttackLanded( keys )
 		local modifier_maim = target:AddNewModifier(owner, ability, "modifier_item_extended_sange_maim", {duration = ability:GetSpecialValueFor("maim_duration")})
 		if modifier_maim:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 			modifier_maim:SetStackCount(modifier_maim:GetStackCount() + 1)
-			target:EmitSound("Imba.SangeStack")
+			target:EmitSound("Extended.SangeStack")
 		end
 
 		-- If the target does not have the disarm cooldown modifier, roll for a proc
@@ -254,7 +254,7 @@ function modifier_item_extended_heavens_halberd:OnAttackLanded( keys )
 			-- Proc! Apply the disarm and cooldown modifiers
 			target:AddNewModifier(owner, ability, "modifier_item_extended_sange_disarm", {duration = ability:GetSpecialValueFor("passive_disarm_duration")})
 			target:AddNewModifier(owner, ability, "modifier_item_extended_heavens_halberd_disarm_cooldown", {duration = ability:GetSpecialValueFor("disarm_cooldown")})
-			target:EmitSound("Imba.SangeProc")
+			target:EmitSound("Extended.SangeProc")
 		end
 	end
 end
@@ -1631,7 +1631,7 @@ function SangeAttack(attacker, target, ability, modifier_stacks, modifier_proc)
 	local modifier_maim = target:AddNewModifier(attacker, ability, modifier_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_maim and modifier_maim:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_maim:SetStackCount(modifier_maim:GetStackCount() + 1)
-		target:EmitSound("Imba.SangeStack")
+		target:EmitSound("Extended.SangeStack")
 	end
 
 	-- If the ability is not on cooldown, roll for a proc
@@ -1639,7 +1639,7 @@ function SangeAttack(attacker, target, ability, modifier_stacks, modifier_proc)
 
 		-- Proc! Apply the disarm modifier and put the ability on cooldown
 		target:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy")})
-		target:EmitSound("Imba.SangeProc")
+		target:EmitSound("Extended.SangeProc")
 		ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(attacker))
 	end
 end
@@ -1650,7 +1650,7 @@ function YashaAttack(attacker, ability, modifier_stacks, modifier_proc)
 	local modifier_as = attacker:AddNewModifier(attacker, ability, modifier_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_as and modifier_as:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_as:SetStackCount(modifier_as:GetStackCount() + 1)
-		attacker:EmitSound("Imba.YashaStack")
+		attacker:EmitSound("Extended.YashaStack")
 	end
 
 	-- If this is an illusion, do nothing else
@@ -1662,7 +1662,7 @@ function YashaAttack(attacker, ability, modifier_stacks, modifier_proc)
 
 		-- Proc! Apply the move speed modifier and put the ability on cooldown
 		attacker:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_self")})
-		attacker:EmitSound("Imba.YashaProc")
+		attacker:EmitSound("Extended.YashaProc")
 		ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(attacker))
 	end
 end
@@ -1681,7 +1681,7 @@ function AzuraAttack(attacker, target, ability, modifier_stacks, modifier_proc)
 	local modifier_amp = target:AddNewModifier(attacker, ability, modifier_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_amp and modifier_amp:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_amp:SetStackCount(modifier_amp:GetStackCount() + 1)
-		target:EmitSound("Imba.AzuraStack")
+		target:EmitSound("Extended.AzuraStack")
 	end
 
 	-- If the ability is not on cooldown, roll for a proc
@@ -1689,7 +1689,7 @@ function AzuraAttack(attacker, target, ability, modifier_stacks, modifier_proc)
 
 		-- Proc! Apply the silence modifier and put the ability on cooldown
 		target:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy")})
-		target:EmitSound("Imba.AzuraProc")
+		target:EmitSound("Extended.AzuraProc")
 		ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(attacker))
 	end
 end
@@ -1700,7 +1700,7 @@ function SangeYashaAttack(attacker, target, ability, modifier_enemy_stacks, modi
 	local modifier_as = attacker:AddNewModifier(attacker, ability, modifier_self_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_as and modifier_as:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_as:SetStackCount(modifier_as:GetStackCount() + 1)
-		attacker:EmitSound("Imba.YashaStack")
+		attacker:EmitSound("Extended.YashaStack")
 	end
 
 	-- If this is an illusion, do nothing else
@@ -1716,11 +1716,11 @@ function SangeYashaAttack(attacker, target, ability, modifier_enemy_stacks, modi
 
 		-- Proc! Apply the move speed modifier
 		attacker:AddNewModifier(attacker, ability, modifier_self_proc, {duration = ability:GetSpecialValueFor("proc_duration_self")})
-		attacker:EmitSound("Imba.YashaProc")
+		attacker:EmitSound("Extended.YashaProc")
 
 		-- Apply the disarm modifier and put the ability on cooldown
 		target:AddNewModifier(attacker, ability, modifier_enemy_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy")})
-		target:EmitSound("Imba.SangeProc")
+		target:EmitSound("Extended.SangeProc")
 		ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(attacker))
 	end
 
@@ -1728,7 +1728,7 @@ function SangeYashaAttack(attacker, target, ability, modifier_enemy_stacks, modi
 	local modifier_maim = target:AddNewModifier(attacker, ability, modifier_enemy_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_maim and modifier_maim:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_maim:SetStackCount(modifier_maim:GetStackCount() + 1)
-		target:EmitSound("Imba.SangeStack")
+		target:EmitSound("Extended.SangeStack")
 	end
 end
 
@@ -1746,8 +1746,8 @@ function SangeAzuraAttack(attacker, target, ability, modifier_stacks, modifier_p
 	local modifier_debuff = target:AddNewModifier(attacker, ability, modifier_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_debuff and modifier_debuff:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_debuff:SetStackCount(modifier_debuff:GetStackCount() + 1)
-		target:EmitSound("Imba.SangeStack")
-		target:EmitSound("Imba.AzuraStack")
+		target:EmitSound("Extended.SangeStack")
+		target:EmitSound("Extended.AzuraStack")
 	end
 
 	-- If the ability is not on cooldown, roll for a proc
@@ -1755,8 +1755,8 @@ function SangeAzuraAttack(attacker, target, ability, modifier_stacks, modifier_p
 
 		-- Proc! Apply the disarm/silence modifier
 		target:AddNewModifier(attacker, ability, modifier_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy")})
-		target:EmitSound("Imba.SangeProc")
-		target:EmitSound("Imba.AzuraProc")
+		target:EmitSound("Extended.SangeProc")
+		target:EmitSound("Extended.AzuraProc")
 		ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(attacker))
 	end
 end
@@ -1767,7 +1767,7 @@ function AzuraYashaAttack(attacker, target, ability, modifier_enemy_stacks, modi
 	local modifier_as = attacker:AddNewModifier(attacker, ability, modifier_self_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_as and modifier_as:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_as:SetStackCount(modifier_as:GetStackCount() + 1)
-		attacker:EmitSound("Imba.YashaStack")
+		attacker:EmitSound("Extended.YashaStack")
 	end
 
 	-- If this is an illusion, do nothing else
@@ -1783,11 +1783,11 @@ function AzuraYashaAttack(attacker, target, ability, modifier_enemy_stacks, modi
 
 		-- Proc! Apply the move speed modifier
 		attacker:AddNewModifier(attacker, ability, modifier_self_proc, {duration = ability:GetSpecialValueFor("proc_duration_self")})
-		attacker:EmitSound("Imba.YashaProc")
+		attacker:EmitSound("Extended.YashaProc")
 
 		-- Apply the silence modifier and put the ability on cooldown
 		target:AddNewModifier(attacker, ability, modifier_enemy_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy")})
-		target:EmitSound("Imba.AzuraProc")
+		target:EmitSound("Extended.AzuraProc")
 		ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(attacker))
 	end
 
@@ -1795,7 +1795,7 @@ function AzuraYashaAttack(attacker, target, ability, modifier_enemy_stacks, modi
 	local modifier_amp = target:AddNewModifier(attacker, ability, modifier_enemy_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_amp and modifier_amp:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_amp:SetStackCount(modifier_amp:GetStackCount() + 1)
-		target:EmitSound("Imba.AzuraStack")
+		target:EmitSound("Extended.AzuraStack")
 	end
 end
 
@@ -1805,7 +1805,7 @@ function TriumAttack(attacker, target, ability, modifier_enemy_stacks, modifier_
 	local modifier_as = attacker:AddNewModifier(attacker, ability, modifier_self_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_as and modifier_as:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_as:SetStackCount(modifier_as:GetStackCount() + 1)
-		attacker:EmitSound("Imba.YashaStack")
+		attacker:EmitSound("Extended.YashaStack")
 	end
 
 	-- If this is an illusion, do nothing
@@ -1821,12 +1821,12 @@ function TriumAttack(attacker, target, ability, modifier_enemy_stacks, modifier_
 
 		-- Proc! Apply the move speed modifier
 		attacker:AddNewModifier(attacker, ability, modifier_self_proc, {duration = ability:GetSpecialValueFor("proc_duration_self")})
-		attacker:EmitSound("Imba.YashaProc")
+		attacker:EmitSound("Extended.YashaProc")
 
 		-- Apply the silence/disarm modifier and put the ability on cooldown
 		target:AddNewModifier(attacker, ability, modifier_enemy_proc, {duration = ability:GetSpecialValueFor("proc_duration_enemy")})
-		target:EmitSound("Imba.SangeProc")
-		target:EmitSound("Imba.AzuraProc")
+		target:EmitSound("Extended.SangeProc")
+		target:EmitSound("Extended.AzuraProc")
 		ability:StartCooldown(ability:GetCooldown(1) * GetCooldownReduction(attacker))
 	end
 
@@ -1834,7 +1834,7 @@ function TriumAttack(attacker, target, ability, modifier_enemy_stacks, modifier_
 	local modifier_maim = target:AddNewModifier(attacker, ability, modifier_enemy_stacks, {duration = ability:GetSpecialValueFor("stack_duration")})
 	if modifier_maim and modifier_maim:GetStackCount() < ability:GetSpecialValueFor("max_stacks") then
 		modifier_maim:SetStackCount(modifier_maim:GetStackCount() + 1)
-		target:EmitSound("Imba.SangeStack")
-		target:EmitSound("Imba.AzuraStack")
+		target:EmitSound("Extended.SangeStack")
+		target:EmitSound("Extended.AzuraStack")
 	end
 end

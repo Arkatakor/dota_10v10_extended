@@ -415,7 +415,7 @@ function GameMode:ItemAddedFilter( keys )
 	if item_name == "item_extended_aegis" then
 		
 		-- If this is a player, do Aegis stuff
-		if unit:GetPlayerOwnerID() and PlayerResource:IsImbaPlayer(unit:GetPlayerOwnerID()) then
+		if unit:GetPlayerOwnerID() and PlayerResource:IsExtendedPlayer(unit:GetPlayerOwnerID()) then
 			
 			-- Apply.refresh the Aegis reincarnation modifier
 			item:ApplyDataDrivenModifier(unit, unit, "modifier_item_extended_aegis", {})
@@ -1136,7 +1136,7 @@ function GameMode:OnGameInProgress()
 		if GetMapName() == "extended_arena" then
 			SpawnArenaRunes()
 		else
-			SpawnImbaRunes()
+			SpawnExtendedRunes()
 		end
 		return RUNE_SPAWN_TIME
 	end)

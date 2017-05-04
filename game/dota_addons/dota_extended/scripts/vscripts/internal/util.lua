@@ -1076,7 +1076,7 @@ function GetBaseRangedProjectileName( unit )
 	return unit_table and unit_table["ProjectileModel"] or ""
 end
 
-function ChangeAttackProjectileImba( unit )
+function ChangeAttackProjectileExtended( unit )
 
 	-- Check for lifesteal modifiers
 	local has_lifesteal = false
@@ -1585,7 +1585,7 @@ function TriggerAegisReincarnation(caster)
 	local modifier_death = "modifier_item_extended_aegis_death"
 	local particle_wait = "particles/items_fx/aegis_timer.vpcf"
 	local particle_respawn = "particles/items_fx/aegis_respawn_timer.vpcf"
-	local sound_aegis = "Imba.AegisStinger"
+	local sound_aegis = "Extended.AegisStinger"
 	local caster_loc = caster:GetAbsOrigin()
 
 	-- Parameters
@@ -1693,7 +1693,7 @@ function ApplyHealthReductionDamage(unit, damage)
 end
 
 -- Spawns runes on the map
-function SpawnImbaRunes()
+function SpawnExtendedRunes()
 
 	-- Locate the rune spots on the map
 	local bounty_rune_spawner_a = Entities:FindAllByName("bounty_rune_location_dire_bot")
@@ -2030,7 +2030,7 @@ function UpdateComebackBonus(points, team)
 	team_networth[DOTA_TEAM_GOODGUYS] = 0
 	team_networth[DOTA_TEAM_BADGUYS] = 0
 	for player_id = 0, 19 do
-		if PlayerResource:IsImbaPlayer(player_id) and PlayerResource:GetConnectionState(player_id) <= 2 and (not PlayerResource:GetHasAbandonedDueToLongDisconnect(player_id)) then
+		if PlayerResource:IsExtendedPlayer(player_id) and PlayerResource:GetConnectionState(player_id) <= 2 and (not PlayerResource:GetHasAbandonedDueToLongDisconnect(player_id)) then
 			team_networth[PlayerResource:GetTeam(player_id)] = team_networth[PlayerResource:GetTeam(player_id)] + PlayerResource:GetTotalEarnedGold(player_id)
 		end
 	end
@@ -2070,13 +2070,13 @@ function ArenaControlPointThinkRadiant(control_point)
 		ParticleManager:DestroyParticle(control_point.particle, true)
 		control_point.particle = ParticleManager:CreateParticle("particles/customgames/capturepoints/cp_wind_captured.vpcf", PATTACH_CUSTOMORIGIN, nil)
 		ParticleManager:SetParticleControl(control_point.particle, 0, control_point:GetAbsOrigin())
-		control_point:EmitSound("Imba.ControlPointTaken")
+		control_point:EmitSound("Extended.ControlPointTaken")
 	elseif old_score < 0 and control_point.score >= 0 then
 		CustomGameEventManager:Send_ServerToAllClients("radiant_point_to_radiant", {})
 		ParticleManager:DestroyParticle(control_point.particle, true)
 		control_point.particle = ParticleManager:CreateParticle("particles/customgames/capturepoints/cp_allied_wind.vpcf", PATTACH_CUSTOMORIGIN, nil)
 		ParticleManager:SetParticleControl(control_point.particle, 0, control_point:GetAbsOrigin())
-		control_point:EmitSound("Imba.ControlPointTaken")
+		control_point:EmitSound("Extended.ControlPointTaken")
 	end
 
 	-- Update the progress bar
@@ -2112,13 +2112,13 @@ function ArenaControlPointThinkDire(control_point)
 		ParticleManager:DestroyParticle(control_point.particle, true)
 		control_point.particle = ParticleManager:CreateParticle("particles/customgames/capturepoints/cp_allied_metal.vpcf", PATTACH_CUSTOMORIGIN, nil)
 		ParticleManager:SetParticleControl(control_point.particle, 0, control_point:GetAbsOrigin())
-		control_point:EmitSound("Imba.ControlPointTaken")
+		control_point:EmitSound("Extended.ControlPointTaken")
 	elseif old_score < 0 and control_point.score >= 0 then
 		CustomGameEventManager:Send_ServerToAllClients("dire_point_to_dire", {})
 		ParticleManager:DestroyParticle(control_point.particle, true)
 		control_point.particle = ParticleManager:CreateParticle("particles/customgames/capturepoints/cp_metal_captured.vpcf", PATTACH_CUSTOMORIGIN, nil)
 		ParticleManager:SetParticleControl(control_point.particle, 0, control_point:GetAbsOrigin())
-		control_point:EmitSound("Imba.ControlPointTaken")
+		control_point:EmitSound("Extended.ControlPointTaken")
 	end
 
 	-- Update the progress bar

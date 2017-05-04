@@ -46,7 +46,7 @@ function modifier_extended_mask_of_madness:OnCreated()
 
     if IsServer() then
         -- Change to lifesteal projectile, if there's nothing "stronger"    
-        ChangeAttackProjectileImba(self.caster)
+        ChangeAttackProjectileExtended(self.caster)
     end
 end
 
@@ -110,7 +110,7 @@ end
 function modifier_extended_mask_of_madness:OnDestroy()
     if IsServer() then
         -- Remove lifesteal projectile
-        ChangeAttackProjectileImba(self.caster) 
+        ChangeAttackProjectileExtended(self.caster) 
     end
 end
 

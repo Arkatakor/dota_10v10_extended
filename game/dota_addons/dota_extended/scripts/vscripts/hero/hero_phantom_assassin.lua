@@ -197,7 +197,7 @@ function PhantomStrikeHit( keys )
 
 				-- Play global sounds
 				EmitGlobalSound(sound_kill)
-				EmitGlobalSound("Imba.PhantomAssassinFatality")
+				EmitGlobalSound("Extended.PhantomAssassinFatality")
 				return nil
 			end
 		end
@@ -306,6 +306,6 @@ function CoupDeGraceKill( keys )
 
 		-- Play global sounds
 		EmitGlobalSound(sound_kill)
-		EmitGlobalSound("Imba.PhantomAssassinFatality")
+		EmitGlobalSound("Extended.PhantomAssassinFatality")
 	end
 end

@@ -643,7 +643,7 @@ function GameMode:OnTeamKillCredit(keys)
 	-- EXTENDED: Deathstreak logic
 	-------------------------------------------------------------------------------------------------
 
-	if PlayerResource:IsImbaPlayer(killer_id) and PlayerResource:IsImbaPlayer(victim_id) then
+	if PlayerResource:IsExtendedPlayer(killer_id) and PlayerResource:IsExtendedPlayer(victim_id) then
 		
 		-- Reset the killer's deathstreak
 		PlayerResource:ResetDeathstreak(killer_id)
@@ -697,7 +697,7 @@ function GameMode:OnTeamKillCredit(keys)
 	end
 	
 	-- Killer stack gain
-	if victim_hero and VENGEFUL_RANCOR and PlayerResource:IsImbaPlayer(killer_id) and killer_team ~= VENGEFUL_RANCOR_TEAM then
+	if victim_hero and VENGEFUL_RANCOR and PlayerResource:IsExtendedPlayer(killer_id) and killer_team ~= VENGEFUL_RANCOR_TEAM then
 		local eligible_rancor_targets = FindUnitsInRadius(victim_hero:GetTeamNumber(), victim_hero:GetAbsOrigin(), nil, 1500, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD + DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false)
 		if eligible_rancor_targets[1] then
 			local rancor_stacks = 1
@@ -719,7 +719,7 @@ function GameMode:OnTeamKillCredit(keys)
 	-- EXTENDED: Vengeance Aura logic
 	-------------------------------------------------------------------------------------------------
 
-	if victim_hero and PlayerResource:IsImbaPlayer(killer_id) then
+	if victim_hero and PlayerResource:IsExtendedPlayer(killer_id) then
 		local vengeance_aura_ability = victim_hero:FindAbilityByName("extended_vengeful_command_aura")
 		local killer_hero = PlayerResource:GetPickedHero(killer_id)
 		if vengeance_aura_ability and vengeance_aura_ability:GetLevel() > 0 then
@@ -768,7 +768,7 @@ function GameMode:OnEntityKilled( keys )
 	-- EXTENDED: Respawn timer setup
 	-------------------------------------------------------------------------------------------------
 	
-	if killed_unit:IsRealHero() and killed_unit:GetPlayerID() and PlayerResource:IsImbaPlayer(killed_unit:GetPlayerID()) then
+	if killed_unit:IsRealHero() and killed_unit:GetPlayerID() and PlayerResource:IsExtendedPlayer(killed_unit:GetPlayerID()) then
 		
 		-- Calculate base respawn timer, capped at 60 seconds
 		local hero_level = math.min(killed_unit:GetLevel(), 25)
@@ -809,7 +809,7 @@ function GameMode:OnEntityKilled( keys )
 	-------------------------------------------------------------------------------------------------
 
 	-- Check if the dying unit was a player-controlled hero
-	if killed_unit:IsRealHero() and killed_unit:GetPlayerID() and PlayerResource:IsImbaPlayer(killed_unit:GetPlayerID()) then
+	if killed_unit:IsRealHero() and killed_unit:GetPlayerID() and PlayerResource:IsExtendedPlayer(killed_unit:GetPlayerID()) then
 
 		-- Buyback parameters
 		local player_id = killed_unit:GetPlayerID()
