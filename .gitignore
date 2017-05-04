@@ -1,20 +1,38 @@
-#############
-#  DOTA 2
-#############
+# Ignore everything
+/*
 
-*.vpk
-*.vpcf_c
-*.vsnd_c
-*.vsndevts_c
-*.vmat_c
-#*.vtex_c
+# Except the relevant folders
+!content/
+content/*
+!content/dota_addons/
+content/dota_addons/*
+!content/dota_addons/dota_extended/
+
+!game/
+game/*
+!game/dota_addons/
+game/dota_addons/*
+!game/dota_addons/dota_extended/
+
+# Cache crap that Valve autogenerates
 *.bin
+*.cfg
+
+# Compiled formats
+*.vpcf_c
+*.vtex_c
+*.vsndevts_c
+*.vsnd_c
+*.vmat_c
+*.vjs_c
 *.vxml_c
 *.vcss_c
-*.vjs_c
-*.vmesh_c
-*.vanim
-*.vagrp_c
-*.vmdl_c
-*.bin
-*.psd
+
+# Map files
+*.vpk
+
+# Map overviews
+resource/overviews/*
+
+#Github dump
+*.stackdump
