@@ -1,0 +1,10 @@
+"CDOTARichPresence persistent data"
+{
+	"76561198084754180"
+	{
+		"event_18"
+		{
+			"trophy_level"		"1"
+		}
+	}
+}
