@@ -36,3 +36,5 @@ resource/overviews/*
 
 #Github dump
 *.stackdump
+game/dota_addons/dota_extended/server_log.txt
+game/dota_addons/dota_extended/demoheader.tmp
