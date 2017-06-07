@@ -1,0 +1,28 @@
+"addon"
+{
+	"Unassigned"      								"Unassigned Team"
+	"Spectator"       								"Spectators"
+	"Neutrals"        								"Neutrals"
+	"NoTeam"          								"No Team"
+
+	"DOTA_GoodGuys"   								"Radiant"
+	"DOTA_BadGuys"    								"Dire"
+	"DOTA_Custom1"    								"Pink Dragon"
+	"DOTA_Custom2"    								"Orange Dog"
+	"DOTA_Custom3"    								"Blue Rooster"
+	"DOTA_Custom4"    								"Green Ram"
+	"DOTA_Custom5"    								"Brown Rat"
+	"DOTA_Custom6"    								"Cyan Boar"
+	"DOTA_Custom7"    								"Olive Snake"
+	"DOTA_Custom8"    								"Purple Horse"
+	
+	"addonname"										"Dota IMBA"
+
+	"scoreboard_tool_tip_mute_player"				"Mute Player"
+	"scoreboard_tool_tip_active_mute_player"		"(MUTED)"
+	"scoreboard_tool_tip_share_unit"				"Share Unit"
+	"scoreboard_tool_tip_share_hero"				"Share Hero"
+	"scoreboard_tool_tip_active_share_unit_hero"	"(SHARED)"
+	"scoreboard_tool_tip_disable_help"				"Disable Help"
+	"scoreboard_tool_tip_active_disable_help"		"(DISABLED)"
+}

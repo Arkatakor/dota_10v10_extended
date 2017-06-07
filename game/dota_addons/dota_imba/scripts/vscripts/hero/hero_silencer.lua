@@ -1,0 +1,1 @@
+-- File left empty for CreateEmptyTalents function to use this
