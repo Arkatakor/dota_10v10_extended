@@ -33,9 +33,6 @@ game/dota_addons/*
 # Map files
 *.vpk
 
-# Map overviews
-# resource/overviews/*
-
 #Github dump
 *.stackdump
 
