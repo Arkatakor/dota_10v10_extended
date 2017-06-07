@@ -17,6 +17,8 @@ game/dota_addons/*
 # Cache crap that Valve autogenerates
 *.bin
 *.cfg
+*.soc
+*.tmp
 
 # Compiled formats
 *.vpcf_c
@@ -32,7 +34,11 @@ game/dota_addons/*
 *.vpk
 
 # Map overviews
-resource/overviews/*
+# resource/overviews/*
 
 #Github dump
 *.stackdump
+
+game/dota_addons/dota_extended/rich_presence_persistent_data\.txt
+
+game/dota_addons/dota_extended/server_log\.txt
