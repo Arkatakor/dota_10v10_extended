@@ -60,9 +60,9 @@ StoreCurrentDayCycle()
 
 	This function should generally only be used if the Precache() function in addon_game_mode.lua is not working.
 ]]
-function GameMode:PostLoadPrecache()
+-- function GameMode:PostLoadPrecache()
 
-end
+-- end
 
 --[[
 	This function is called once and only once as soon as the first player (almost certain to be the server in local lobbies) loads in.
