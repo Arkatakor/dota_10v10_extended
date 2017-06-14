@@ -36,6 +36,10 @@ require('events')
 -- clientside KV loading
 require('addon_init')
 
+-- Arkatakor 
+require('modifier/modifier_fountain_aura_effect_lua')
+require('modifier/modifier_fountain_aura_lua')
+
 ApplyAllTalentModifiers()
 StoreCurrentDayCycle()
 
@@ -60,9 +64,9 @@ StoreCurrentDayCycle()
 
 	This function should generally only be used if the Precache() function in addon_game_mode.lua is not working.
 ]]
--- function GameMode:PostLoadPrecache()
+function GameMode:PostLoadPrecache()
 
--- end
+end
 
 --[[
 	This function is called once and only once as soon as the first player (almost certain to be the server in local lobbies) loads in.
@@ -1458,4 +1462,17 @@ function GameMode:ExampleConsoleCommand()
 	end
 
 	print( '*********************************************' )
+end
+
+--	Arkatakor Insert
+function GameMode:SetUpFountains()
+
+	LinkLuaModifier( "modifier_fountain_aura_lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier( "modifier_fountain_aura_effect_lua", LUA_MODIFIER_MOTION_NONE )
+
+	local fountainEntities = Entities:FindAllByClassname( "ent_dota_fountain")
+	for _,fountainEnt in pairs( fountainEntities ) do
+		--print("fountain unit " .. tostring( fountainEnt ) )
+		fountainEnt:AddNewModifier( fountainEnt, fountainEnt, "modifier_fountain_aura_lua", {} )
+	end
 end
