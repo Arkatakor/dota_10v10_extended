@@ -36,10 +36,6 @@ require('events')
 -- clientside KV loading
 require('addon_init')
 
--- Arkatakor 
-require('modifier/modifier_fountain_aura_effect_lua')
-require('modifier/modifier_fountain_aura_lua')
-
 ApplyAllTalentModifiers()
 StoreCurrentDayCycle()
 
