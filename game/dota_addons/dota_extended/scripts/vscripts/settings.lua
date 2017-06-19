@@ -60,9 +60,9 @@ DISABLE_ANNOUNCER = false					-- Should we disable the announcer from working in
 FORCE_PICKED_HERO = nil						-- What hero should we force all players to spawn as? (e.g. "npc_dota_hero_axe").  Use nil to allow players to pick their own hero.
 
 FIXED_RESPAWN_TIME = -1						-- What time should we use for a fixed respawn timer?  Use -1 to keep the default dota behavior.
-FOUNTAIN_CONSTANT_MANA_REGEN = 14			-- What should we use for the constant fountain mana regen?  Use -1 to keep the default dota behavior.
-FOUNTAIN_PERCENTAGE_MANA_REGEN = 6			-- What should we use for the percentage fountain mana regen?  Use -1 to keep the default dota behavior.
-FOUNTAIN_PERCENTAGE_HEALTH_REGEN = 6		-- What should we use for the percentage fountain health regen?  Use -1 to keep the default dota behavior.
+FOUNTAIN_CONSTANT_MANA_REGEN = 21			-- What should we use for the constant fountain mana regen?  Use -1 to keep the default dota behavior.
+FOUNTAIN_PERCENTAGE_MANA_REGEN = 9			-- What should we use for the percentage fountain mana regen?  Use -1 to keep the default dota behavior.
+FOUNTAIN_PERCENTAGE_HEALTH_REGEN = 9		-- What should we use for the percentage fountain health regen?  Use -1 to keep the default dota behavior.
 MAXIMUM_ATTACK_SPEED = 10000				-- What should we use for the maximum attack speed?
 MINIMUM_ATTACK_SPEED = 10					-- What should we use for the minimum attack speed?
 DOTA_MAX_PLAYERS = 20						-- Maximum amount of players allowed in a game
@@ -345,17 +345,17 @@ elseif GetMapName() == "extended_custom" then									-- Custom map defaults
 	MAX_LEVEL = 50
 elseif GetMapName() == "extended_10v10" then									-- 10v10 map defaults
 	END_GAME_ON_KILLS = false
-	CUSTOM_GOLD_BONUS = 60
-	CUSTOM_XP_BONUS = 60
+	CUSTOM_GOLD_BONUS = 35
+	CUSTOM_XP_BONUS = 35
 	CREEP_POWER_FACTOR = 1
-	TOWER_UPGRADE_MODE = true
+	TOWER_UPGRADE_MODE = false
 	TOWER_POWER_FACTOR = 1
-	HERO_RESPAWN_TIME_MULTIPLIER = 75
-	HERO_INITIAL_GOLD = 2000
-	HERO_REPICK_GOLD = 1600
-	HERO_RANDOM_GOLD = 2400
-	HERO_STARTING_LEVEL = 5
-	MAX_LEVEL = 40
+	HERO_RESPAWN_TIME_MULTIPLIER = 100
+	HERO_INITIAL_GOLD = 625
+	HERO_REPICK_GOLD = 525
+	HERO_RANDOM_GOLD = 825
+	HERO_STARTING_LEVEL = 1
+	MAX_LEVEL = 25
 elseif GetMapName() == "extended_arena" then									-- Arena map defaults
 	END_GAME_ON_KILLS = true
 	TOWER_ABILITY_MODE = false
