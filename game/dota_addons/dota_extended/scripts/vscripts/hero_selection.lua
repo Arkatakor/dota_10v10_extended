@@ -244,7 +244,12 @@ function HeroSelection:RandomHero(event)
 		"npc_dota_hero_winter_wyvern",
 		"npc_dota_hero_arc_warden",
 		"npc_dota_hero_abyssal_underlord",
-		"npc_dota_hero_monkey_king"
+		"npc_dota_hero_monkey_king",
+		"npc_dota_hero_shadow_shaman",
+		"npc_dota_hero_spectre",
+		"npc_dota_hero_lone_druid",
+		"npc_dota_hero_brewmaster",
+		"npc_dota_hero_meepo"
 	}
 
 	-- Roll a random hero
